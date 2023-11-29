@@ -13,6 +13,7 @@
   <name xml:lang="de">JuK</name>
   <name xml:lang="el">JuK</name>
   <name xml:lang="en-GB">JuK</name>
+  <name xml:lang="eo">JuK</name>
   <name xml:lang="es">JuK</name>
   <name xml:lang="et">JuK</name>
   <name xml:lang="eu">JuK</name>
@@ -57,6 +58,7 @@
   <summary xml:lang="de">Audio-Wiedergabe</summary>
   <summary xml:lang="el">Αναπαραγωγέας μουσικής</summary>
   <summary xml:lang="en-GB">Music Player</summary>
+  <summary xml:lang="eo">Muzikludanto</summary>
   <summary xml:lang="es">Music Player</summary>
   <summary xml:lang="et">Muusikamängija</summary>
   <summary xml:lang="eu">Musika jotzailea</summary>
@@ -142,6 +144,7 @@
     <p xml:lang="de">Funktionen:</p>
     <p xml:lang="el">Χαρακτηριστικά:</p>
     <p xml:lang="en-GB">Features:</p>
+    <p xml:lang="eo">Trajtoj:</p>
     <p xml:lang="es">Características:</p>
     <p xml:lang="et">Omadused:</p>
     <p xml:lang="eu">Eginbideak:</p>
@@ -186,6 +189,7 @@
       <li xml:lang="de">Sammlungslisten und mehrere benutzerdefinierte Wiedergabelisten</li>
       <li xml:lang="el">Λίστα συλλογών και λίστες αναπαραγωγής πολλών χρηστών</li>
       <li xml:lang="en-GB">Collection list and multiple user defined playlists</li>
+      <li xml:lang="eo">Kolektlisto kaj pluraj uzant-difinitaj ludlistoj</li>
       <li xml:lang="es">Listas de colecciones y listas de reproducción definidas por múltiples usuarios</li>
       <li xml:lang="et">Muusikakogu nimekiri ja paljud kasutaja loodud esitusnimekirjad</li>
       <li xml:lang="eu">Bilduma zerrenda eta erabiltzaileak zehaztutako askotariko jo-zerrendak</li>
@@ -346,6 +350,7 @@
       <li xml:lang="de">Wiedergabelisten-Verlauf zur Anzeige, welche Dateien wann abgespielt wurden</li>
       <li xml:lang="el">Ιστορικό λιστών αναπαραγωγής με ένδειξη για το ποια αρχεία έχουν προηγηθεί και πότε</li>
       <li xml:lang="en-GB">Playlist history to indicate which files have been played and when</li>
+      <li xml:lang="eo">Ludlisthistorio por indiki kiuj dosieroj estis luditaj kaj kiam</li>
       <li xml:lang="es">Un historial de reproducción que le indica qué archivos han sido reproducidos y cuándo</li>
       <li xml:lang="et">Esitusnimekirja ajalugu, mis näitab, milliseid faile ja millal on esitatud</li>
       <li xml:lang="eu">Jo-zerrendaren historia zein fitxategi eta noiz jo diren adierazteko</li>
@@ -386,6 +391,7 @@
       <li xml:lang="de">Inline-Suche zum Filtern der angezeigten Elemente</li>
       <li xml:lang="el">Αναζήτηση για φιλτράρισμα της λίστας με τα ορατά αντικείμενα</li>
       <li xml:lang="en-GB">Inline search for filtering the list of visible items</li>
+      <li xml:lang="eo">Enlinia serĉo por filtri la liston de videblaj eroj</li>
       <li xml:lang="es">Búsqueda bajo control para filtrar la lista de los elementos visibles</li>
       <li xml:lang="et">Reasisene otsing nähtavate elementide nimekirja filtreerimiseks</li>
       <li xml:lang="eu">Lerro barruko bilaketa, elementu ikusgaien zerrenda iragazteko</li>
@@ -426,6 +432,7 @@
       <li xml:lang="de">Metadaten können anhand des Dateinamens eines Stücks geraten werden</li>
       <li xml:lang="el">Η ικανότητα πρόγνωσης της ετικέτας πληροφοριών με βάση το όνομα του μουσικού αρχείου</li>
       <li xml:lang="en-GB">The ability to guess tag information based on the track's file name</li>
+      <li xml:lang="eo">La kapablo diveni etikedinformojn surbaze de la dosiernomo de la trako</li>
       <li xml:lang="es">La habilidad de adivinar metadatos basada en los nombres de los archivos</li>
       <li xml:lang="et">Oskus oletada silditeavet pala failinime põhjal</li>
       <li xml:lang="eu">Aztarnaren fitxategi izenean oinarrituta etiketa informazioa igartzeko gaitasuna</li>
@@ -466,6 +473,7 @@
       <li xml:lang="de">Dateien können basierend auf dem Inhalt der Metadaten umbenannt werden.</li>
       <li xml:lang="el">Πρόγραμμα μετονομασίας που λειτουργεί με βάση το περιεχόμενο της ετικέτας</li>
       <li xml:lang="en-GB">File renamer that can rename files based on the tag content</li>
+      <li xml:lang="eo">Dosiera renomisto kiu povas renomi dosierojn surbaze de la etikedo enhavo</li>
       <li xml:lang="es">Un cambiador de nombres de archivo que puede renombrar archivos basándose en el contenido de sus metadatos</li>
       <li xml:lang="et">Failide nime muutmise tööriist, mis võib failinimesid muuta sildi sisu põhjal</li>
       <li xml:lang="eu">Fitxategi berrizendatzailea, etiketaren edukian oinarrituz fitxategiak berrizendatu ditzakeena</li>
