@@ -24,9 +24,9 @@
 #include <ktoggleaction.h>
 #include <KLocalizedString>
 
-#include <Phonon/AudioOutput>
-#include <Phonon/MediaObject>
-#include <Phonon/MediaSource>
+#include <phonon/AudioOutput>
+#include <phonon/MediaObject>
+#include <phonon/MediaSource>
 
 #include <QPixmap>
 #include <QUrl>
