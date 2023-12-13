@@ -52,7 +52,7 @@ FileNameScheme::FileNameScheme(const QString &s)
         }
         i = s.indexOf('%', i + 1);
     }
-    m_regExp.setPattern(u'^' + composeRegExp(s) + u'$');
+    m_regExp.setPattern(composeRegExp(s));
 }
 
 bool FileNameScheme::matches(const QString &fileName) const
@@ -114,12 +114,16 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     substitutions[ 'T' ] = config.readEntry("Track regexp", "(\\d+)");
     substitutions[ 'c' ] = config.readEntry("Comment regexp", "([\\w\\s_]+)");
 
-    QString regExp = QRegularExpression::escape(s.simplified());
+    QString regExp = s.simplified()
+        .replace("(", "\\(")
+        .replace(")", "\\)")
+        .replace("[", "\\[")
+        .replace("]", "\\]");
     regExp = ".*" + regExp;
     regExp.replace(' ', "\\s+");
     regExp = KMacroExpander::expandMacros(regExp, substitutions);
-    regExp += "[^/]*$";
-    return regExp;
+    regExp += "[^\\/]*$";
+    return regExp.replace("\\\\", "\\");
 }
 
 QStringList TagGuesser::schemeStrings()
