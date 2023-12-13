@@ -35,6 +35,8 @@
 // DeleteWidget implementation
 //////////////////////////////////////////////////////////////////////////////
 
+using namespace Qt::Literals::StringLiterals;
+
 DeleteWidget::DeleteWidget(QWidget *parent)
   : QWidget(parent)
   , m_ui(new Ui::DeleteDialogBase)
@@ -43,16 +45,17 @@ DeleteWidget::DeleteWidget(QWidget *parent)
 
     setObjectName(QLatin1String("delete_dialog_widget"));
 
-    KConfigGroup messageGroup(KSharedConfig::openConfig(), "FileRemover");
+    KConfigGroup messageGroup(KSharedConfig::openConfig(), u"FileRemover"_s);
 
     bool deleteInstead = messageGroup.readEntry("deleteInsteadOfTrash", false);
     slotShouldDelete(deleteInstead);
     m_ui->ddShouldDelete->setChecked(deleteInstead);
 
     // Forward on signals
-    connect(m_ui->ddShouldDelete, SIGNAL(toggled(bool)), SIGNAL(signalShouldDelete(bool)));
-    connect(m_ui->ddButtonBox,    SIGNAL(accepted()),    SIGNAL(accepted()));
-    connect(m_ui->ddButtonBox,    SIGNAL(rejected()),    SIGNAL(rejected()));
+    connect(m_ui->ddShouldDelete, &QCheckBox::toggled, this, &DeleteWidget::slotShouldDelete);
+    connect(m_ui->ddButtonBox, &QDialogButtonBox::accepted, this, &DeleteWidget::accepted);
+    connect(m_ui->ddButtonBox, &QDialogButtonBox::rejected, this, &DeleteWidget::rejected);
+
 }
 
 void DeleteWidget::setFiles(const QStringList &files)
@@ -128,7 +131,7 @@ void DeleteDialog::setFiles(const QStringList &files)
 
 void DeleteDialog::accept()
 {
-    KConfigGroup messageGroup(KSharedConfig::openConfig(), "FileRemover");
+    KConfigGroup messageGroup(KSharedConfig::openConfig(), u"FileRemover"_s);
 
     // Save user's preference
 

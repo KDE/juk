@@ -29,6 +29,15 @@ ExampleOptions::ExampleOptions(QWidget *parent) :
     setupUi(this);
 
     setObjectName(QLatin1String("example options widget"));
+
+    connect(m_fileTagsButton, &QRadioButton::toggled, m_exampleFile, &KUrlRequester::setEnabled);
+    connect(m_fileTagsButton, &QRadioButton::toggled, this, &ExampleOptions::exampleSelectionChanged);
+    connect(m_manualTagsButton, &QRadioButton::toggled, this, &ExampleOptions::exampleSelectionChanged);
+    connect(m_exampleArtist, &QLineEdit::textChanged, this, &ExampleOptions::exampleDataChanged);
+    connect(m_exampleAlbum, &QLineEdit::textChanged, this, &ExampleOptions::exampleDataChanged);
+    connect(m_exampleGenre, &QLineEdit::textChanged, this, &ExampleOptions::exampleDataChanged);
+    connect(m_exampleTrack, &QSpinBox::valueChanged, this, &ExampleOptions::exampleDataChanged);
+    connect(m_exampleYear, &QSpinBox::valueChanged, this, &ExampleOptions::exampleDataChanged);
 }
 
 void ExampleOptions::exampleSelectionChanged()
