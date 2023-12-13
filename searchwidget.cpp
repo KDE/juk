@@ -32,6 +32,7 @@
 #include <QKeyEvent>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QRegularExpression>
 
 using namespace ActionCollection;
 
@@ -100,7 +101,7 @@ PlaylistSearch::Component SearchLine::searchComponent() const
         searchedColumns.append(m_columnList[m_searchFieldsBox->currentIndex() - 1]);
 
     if(m_caseSensitive && m_caseSensitive->currentIndex() == Pattern)
-        return PlaylistSearch::Component(QRegExp(query), searchedColumns);
+        return PlaylistSearch::Component(QRegularExpression(query), searchedColumns);
     else
         return PlaylistSearch::Component(query, caseSensitive, searchedColumns);
 }

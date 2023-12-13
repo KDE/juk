@@ -799,7 +799,7 @@ QString PlaylistCollection::uniquePlaylistName(const QString &suggest) const
         return suggest;
 
     QString base = suggest;
-    base.remove(QRegExp("\\s\\([0-9]+\\)$"));
+    base.remove(QRegularExpression("\\s\\([0-9]+\\)$"));
 
     int count = 1;
     QString s = QString("%1 (%2)").arg(base).arg(count);

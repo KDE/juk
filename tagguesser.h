@@ -17,8 +17,8 @@
 #ifndef TAGGUESSER_H
 #define TAGGUESSER_H
 
+#include <QRegularExpression>
 #include <QString>
-#include <QRegExp>
 #include <QList>
 
 class FileNameScheme
@@ -40,7 +40,8 @@ class FileNameScheme
     private:
         QString composeRegExp(const QString &s) const;
 
-        mutable QRegExp m_regExp;
+        mutable QRegularExpression m_regExp;
+        mutable QRegularExpressionMatch m_regExpMatch;
         int m_titleField;
         int m_artistField;
         int m_albumField;

@@ -17,7 +17,7 @@
 #ifndef PLAYLISTSEARCH_H
 #define PLAYLISTSEARCH_H
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QVector>
 #include <QSortFilterProxyModel>
 
@@ -104,10 +104,10 @@ public:
     /**
      * Create a query component.  This defaults to searching all visible coulumns.
      */
-    Component(const QRegExp &query, const ColumnList &columns = ColumnList());
+    Component(const QRegularExpression &query, const ColumnList &columns = ColumnList());
 
     QString query() const { return m_query; }
-    QRegExp pattern() const { return m_queryRe; }
+    QRegularExpression pattern() const { return m_queryRe; }
     ColumnList columns() const { return m_columns; }
 
     bool matches(int row, QModelIndex parent, QAbstractItemModel* model) const;
@@ -119,7 +119,7 @@ public:
 
 private:
     QString m_query;
-    QRegExp m_queryRe;
+    QRegularExpression m_queryRe;
     mutable ColumnList m_columns;
     MatchMode m_mode;
     bool m_searchAllVisible;
