@@ -37,6 +37,8 @@
 #include <QString>
 #include <QVBoxLayout>
 
+using namespace Qt::Literals::StringLiterals;
+
 // Table of shortcut keys for each action, key group and three or four button modifier
 
 struct KeyDialog::KeyInfo {
@@ -47,43 +49,43 @@ struct KeyDialog::KeyInfo {
 const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
     { "playPause",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_P),
+        QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_P),
         QKeySequence(Qt::Key_MediaPlay) } },
     { "stop",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_S),
+        QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_S),
         QKeySequence(Qt::Key_MediaStop) } },
     { "back",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_Left),
+        QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Left),
         QKeySequence(Qt::Key_MediaPrevious) } },
     { "forward",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_Right),
+        QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Right),
         QKeySequence(Qt::Key_MediaNext) } },
     { "forwardAlbum",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_Up),
-        QKeySequence(Qt::CTRL+Qt::Key_MediaNext) } },
+        QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Up),
+        QKeySequence(Qt::CTRL | Qt::Key_MediaNext) } },
     { "seekBack",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Left),
-        QKeySequence(Qt::SHIFT+Qt::Key_MediaPrevious) } },
+        QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::ALT | Qt::Key_Left),
+        QKeySequence(Qt::SHIFT | Qt::Key_MediaPrevious) } },
     { "seekForward",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Right),
-        QKeySequence(Qt::SHIFT+Qt::Key_MediaNext) } },
+        QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::ALT | Qt::Key_Right),
+        QKeySequence(Qt::SHIFT | Qt::Key_MediaNext) } },
     { "volumeUp",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Up),
+        QKeySequence(Qt::CTRL | Qt::ALT | Qt::SHIFT | Qt::Key_Up),
         QKeySequence(Qt::Key_VolumeUp) } },
     { "volumeDown",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Down),
+        QKeySequence(Qt::CTRL | Qt::ALT | Qt::SHIFT | Qt::Key_Down),
         QKeySequence(Qt::Key_VolumeDown) } },
     { "mute",
       { QKeySequence(),
-        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_M),
+        QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_M),
         QKeySequence(Qt::Key_VolumeMute) } },
     { "showHide",
       { QKeySequence(),
@@ -101,7 +103,7 @@ KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
 
     // Read key group from configuration
 
-    KConfigGroup config(KSharedConfig::openConfig(), "Shortcuts");
+    KConfigGroup config(KSharedConfig::openConfig(), u"Shortcuts"_s);
     int selectedButton = config.readEntry("GlobalKeys", int(StandardKeys));
 
     // Create widgets for key chooser
@@ -156,7 +158,7 @@ int KeyDialog::configure()
 
     int retcode = exec();
     if(retcode == Accepted) {
-        KConfigGroup config(KSharedConfig::openConfig(), "Shortcuts");
+        KConfigGroup config(KSharedConfig::openConfig(), u"Shortcuts"_s);
 
         config.writeEntry("GlobalKeys", m_group->checkedId());
         KSharedConfig::openConfig()->sync();
@@ -211,7 +213,7 @@ void KeyDialog::setupActionShortcut(const QString &actionName)
     QKeySequence shortcut = QKeySequence();
 
     // Find out what type is selected so we know what keys to setup.
-    KConfigGroup config(KSharedConfig::openConfig(), "Shortcuts");
+    KConfigGroup config(KSharedConfig::openConfig(), u"Shortcuts"_s);
     int selectedKeys = config.readEntry("GlobalKeys", int(StandardKeys));
 
     for(uint i = 0; i < keyInfoCount; i++) {

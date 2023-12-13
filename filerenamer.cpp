@@ -54,6 +54,8 @@
 #include "playlist.h" // processEvents()
 #include "playlistitem.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 class ConfirmationDialog : public QDialog
 {
 public:
@@ -128,7 +130,7 @@ public:
 ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
     m_currentItem(0)
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), u"FileRenamer"_s);
 
     QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
     int categoryCount[NumTypes] = { 0 }; // Keep track of each category encountered.
@@ -293,7 +295,7 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
 void FileRenamerWidget::loadConfig()
 {
     QList<int> checkedSeparators;
-    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), u"FileRenamer"_s);
 
     for(int i = 0; i < m_rows.count(); ++i)
         m_rows[i].options = TagRenamerOptions(m_rows[i].category);
@@ -316,7 +318,7 @@ void FileRenamerWidget::loadConfig()
 
 void FileRenamerWidget::saveConfig()
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), u"FileRenamer"_s);
     QList<int> checkedSeparators;
     QList<int> categoryOrder;
 
@@ -464,7 +466,7 @@ bool FileRenamerWidget::removeRow(int id)
     // The checkbox is contained within a layout widget, so the layout
     // widget is the one the needs to die.
     delete m_folderSwitches[checkboxPosition]->parent();
-    m_folderSwitches.erase(&m_folderSwitches[checkboxPosition]);
+    m_folderSwitches.removeAll(m_folderSwitches[checkboxPosition]);
 
     // Go through all the rows and if they have the same category and a
     // higher categoryNumber, decrement the number.  Also update the
@@ -490,7 +492,7 @@ bool FileRenamerWidget::removeRow(int id)
     for(int i = id + 1; i < m_rows.count(); ++i)
         assignPositionHandlerForRow(m_rows[i]);
 
-    m_rows.erase(&m_rows[id]);
+    m_rows.remove(id);
 
     // Make sure we update the buttons of affected rows.
     m_rows[idOfPosition(0)].upButton->setEnabled(false);
@@ -522,7 +524,7 @@ void FileRenamerWidget::addFolderSeparatorCheckbox()
 
 void FileRenamerWidget::createTagRows()
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), u"FileRenamer"_s);
     QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
 
     if(categoryOrder.isEmpty())

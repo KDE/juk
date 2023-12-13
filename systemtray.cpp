@@ -130,7 +130,7 @@ void PassiveInfo::positionSelf()
     // Now make our rect hit that anchor.
     r.moveBottomRight(anchor);
 
-    KWindowSystem::setType(winId(), KWindowSystem::NET::Notification);
+    //KWindowSystem::setType(winId(), KWindowSystem::NET::Notification);
 
     move(r.topLeft());
 }

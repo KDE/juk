@@ -64,6 +64,8 @@
 // static methods
 ////////////////////////////////////////////////////////////////////////////////
 
+using namespace Qt::Literals::StringLiterals;
+
 PlaylistCollection *PlaylistCollection::m_instance = nullptr;
 
 // Returns all folders in input list with their canonical path, if available, or
@@ -889,7 +891,7 @@ void PlaylistCollection::newItems(const KFileItemList &list) const
 
 void PlaylistCollection::readConfig()
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
+    KConfigGroup config(KSharedConfig::openConfig(), u"Playlists"_s);
 
     m_importPlaylists    = config.readEntry("ImportPlaylists", true);
     m_folderList         = config.readEntry("DirectoryList", QStringList());
@@ -903,7 +905,7 @@ void PlaylistCollection::readConfig()
 
 void PlaylistCollection::saveConfig()
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
+    KConfigGroup config(KSharedConfig::openConfig(), u"Playlists"_s);
     config.writeEntry("ImportPlaylists", m_importPlaylists);
     config.writeEntry("showUpcoming", ActionCollection::action("showUpcoming")->isChecked());
     config.writePathEntry("DirectoryList", m_folderList);
@@ -935,15 +937,15 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu->addAction(createAction(i18n("&Empty Playlist..."),
                 qOverload<>(&PlaylistCollection::createPlaylist),
                 "newPlaylist", "window-new",
-                QKeySequence(Qt::CTRL + Qt::Key_N)));
+                QKeySequence(Qt::CTRL | Qt::Key_N)));
     menu->addAction(createAction(i18n("&Search Playlist..."),
                 &PlaylistCollection::createSearchPlaylist,
                 "newSearchPlaylist", "edit-find",
-                QKeySequence(Qt::CTRL + Qt::Key_F)));
+                QKeySequence(Qt::CTRL | Qt::Key_F)));
     menu->addAction(createAction(i18n("Playlist From &Folder..."),
                 &PlaylistCollection::createFolderPlaylist,
                 "newDirectoryPlaylist", "document-open",
-                QKeySequence(Qt::CTRL + Qt::Key_D)));
+                QKeySequence(Qt::CTRL | Qt::Key_D)));
 
     // Guess tag info menu
 
@@ -956,16 +958,16 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu->addAction(createAction(i18n("From &File Name"),
                 &PlaylistCollection::guessTagFromFile,
                 "guessTagFile", "document-import",
-                QKeySequence(Qt::CTRL + Qt::Key_G)));
+                QKeySequence(Qt::CTRL | Qt::Key_G)));
     menu->addAction(createAction(i18n("From &Internet"),
                 &PlaylistCollection::guessTagFromInternet,
                 "guessTagInternet", "network-server",
-                QKeySequence(Qt::CTRL + Qt::Key_I)));
+                QKeySequence(Qt::CTRL | Qt::Key_I)));
 #else
     createAction(i18n("Guess Tag Information From &File Name"),
                 &PlaylistCollection::guessTagFromFile,
                 "guessTag", "document-import",
-                QKeySequence(Qt::CTRL + Qt::Key_G));
+                QKeySequence(Qt::CTRL | Qt::Key_G));
 #endif
 
 
@@ -1000,7 +1002,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
             "openItemDir", "stock_folder");
     createAction(i18n("&Rename File"), &PlaylistCollection::renameItems,
             "renameFile", "document-save-as",
-            QKeySequence(Qt::CTRL + Qt::Key_R));
+            QKeySequence(Qt::CTRL | Qt::Key_R));
 
     menu = new KActionMenu(i18n("Cover Manager"), actionCollection);
     actionCollection->addAction("coverManager", menu);
@@ -1009,11 +1011,11 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
         &PlaylistCollection::viewCovers, "viewCover", "document-preview"));
     menu->addAction(createAction(i18n("Get Cover From &File..."),
         &PlaylistCollection::addLocalCover, "addCover", "document-import",
-        QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
+        QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_F)));
     menu->addAction(createAction(i18n("Get Cover From &Internet..."),
         &PlaylistCollection::addInternetCover,
         "webImageCover", "network-server",
-        QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
+        QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_G)));
     menu->addAction(createAction(i18n("&Delete Cover"),
         &PlaylistCollection::removeCovers, "removeCover", "edit-delete"));
     menu->addAction(createAction(i18n("Show Cover &Manager"),

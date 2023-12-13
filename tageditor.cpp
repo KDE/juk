@@ -459,7 +459,7 @@ void TagEditor::saveConfig()
 {
     // combo box completion modes
 
-    KConfigGroup config(KSharedConfig::openConfig(), "TagEditor");
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("TagEditor"));
 
     if(artistNameBox && albumNameBox) {
         config.writeEntry("ArtistNameBoxMode", (int)artistNameBox->completionMode());
@@ -481,7 +481,7 @@ void TagEditor::setupActions()
     QAction *act = new QAction("document-save"_icon, i18n("&Save"), this);
     ActionCollection::actions()->addAction("saveItem", act);
     ActionCollection::actions()->setDefaultShortcut(act,
-            QKeySequence(Qt::CTRL + Qt::Key_T));
+            QKeySequence(Qt::CTRL | Qt::Key_T));
     connect(act, &QAction::triggered, this, &TagEditor::slotSave);
 }
 
