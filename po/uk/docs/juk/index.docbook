@@ -2416,7 +2416,7 @@ action="simul"
 ><para
 >Matthias Kretz <email
 >kretz@kde.org</email
-> за те, що він доброзичливий гуру з &arts;, який живе неподалік.</para>
+> за те, що він доброзичливий гуру з aRts, який живе неподалік.</para>
 </listitem>
 
 <listitem
@@ -2430,7 +2430,7 @@ action="simul"
 ><para
 >Antonio Larrosa Jimenez <email
 >larrosa@kde.org</email
-> за інтерфейс &DCOP;.</para>
+> за інтерфейс DCOP.</para>
 </listitem>
 
 <listitem
@@ -2495,8 +2495,7 @@ action="simul"
 >Переклад українською: Юрій Чорноіван <email
 >yurchor@ukr.net</email
 ></para
-> 
-&underFDL; &underGPL; </chapter>
+> &underFDL; &underGPL; </chapter>
 
 &documentation.index;
 
