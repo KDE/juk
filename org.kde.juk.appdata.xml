@@ -103,6 +103,7 @@
     <p xml:lang="de">JuK ist eine Jukebox-Anwendung für Musikstücke und unterstützt Sammlungen von MP3-, Ogg-, Vorbis-, und FLAC-Audiodateien. Sie können Stichwörter Ihrer Audiodateien bearbeiten und Ihre Musiksammlungen und Wiedergabelisten verwalten. Die wichtigste Funktion ist die Musikverwaltung.</p>
     <p xml:lang="el">Το JuK είναι μια εφαρμογή μουσικού κουτιού, που υποστηρίζει συλλογές MP3, Ogg Vorbis, και FLAC αρχεία ήχου. Σας επιτρέπει να επεξεργαστείτε τις "ετικέτες" των αρχείων ήχου σας, και να διαχειριστείτε τις συλλογές και τις λίστες αναπαραγωγής. Εστιάζει κυρίως στη διαχείριση μουσικής.</p>
     <p xml:lang="en-GB">JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
+    <p xml:lang="eo">JuK estas sona jukebox-apliko, subtenanta kolektojn de sondosieroj MP3, Ogg Vorbis kaj FLAC. Ĝi permesas vin redakti la "etikedojn" de viaj sondosieroj, kaj administri viajn kolektojn kaj ludlistojn. Ĝi estas ĉefa fokuso, fakte, estas sur muzika administrado.</p>
     <p xml:lang="es">JuK es una aplicación jukebox de audio, que soporta colecciones de archivos MP3, Ogg Vorbis y FLAC. Le permite editar los "tags" de sus archivos de audio, y administrar sus colecciones y listas de reproducción. Su principal cometido, de hecho, es administrar la música.</p>
     <p xml:lang="et">JuK on helifailide muusikamängija, mis toetab MP3, Ogg Vorbise ja FLAC-i vormingut. See võimaldab muuta helifailide "silte" ning hallata muusikakogusid ja esitusnimekirju. Õigupoolest ongi rakenduse rõhk eelkõige muusika haldamisel.</p>
     <p xml:lang="eu">JuK audio jukebox aplikazio bat da, MP3, Ogg Vorbis, eta FLAC audio fitxategiak onartzen dituena. Zure audio fitxategien "etiketak" editatzen uzten dizu, eta zure bilduma eta jo-zerrendak kudeatzea. Bere helburu nagusia, izatez, musika kudeatzean datza.Jukebox bat musika jotzeko gailu automatizatu bat da, tabernatan, joko-aretoetan eta abarretan egon ohi zena. Txanponak sartuz jo nahi den abestia aukeratzen da.</p>
@@ -230,6 +231,7 @@
       <li xml:lang="de">Ordner können durchsucht werden, um beim Start automatisch Wiedergabelisten und Musikdateien zu importieren</li>
       <li xml:lang="el">Ικανότητα σάρωσης καταλόγων για την αυτόματη εισαγωγή λιστών αναπαραγωγής και μουσικών αρχείων κατά την εκκίνηση</li>
       <li xml:lang="en-GB">Ability to scan directories to automatically import playlists and music files on start up</li>
+      <li xml:lang="eo">Kapablo skani dosierujojn por aŭtomate importi ludlistojn kaj muzikdosierojn dum ekfunkciigo</li>
       <li xml:lang="es">Capacidad de escanear directorios para importar listas de reproducción y archivos de música automáticamente al iniciar el programa</li>
       <li xml:lang="et">Oskus uurida kohe käivitamisel läbi katalooge ja importida sealt esitusnimekirju ja muusikafaile</li>
       <li xml:lang="eu">Direktorioak aztertzeko gaitasuna, abiatzean jo-zerrendak eta musika fitxategiak automatikoki inportatzeko</li>
@@ -270,6 +272,7 @@
       <li xml:lang="de">Dynamische Wiedergabelisten, die automatisch aktualisiert werden, wenn sich Felder in der Sammlung ändern</li>
       <li xml:lang="el">Λίστες αναπαραγωγής δυναμικής αναζήτησης που ενημερώνονται αυτόματα ως πεδία στην αλλαγή της συλλογής</li>
       <li xml:lang="en-GB">Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
+      <li xml:lang="eo">Dinamikaj Serĉaj Ludlistoj aŭtomate ĝisdatigitaj kiel kampoj en la kolekto ŝanĝiĝas</li>
       <li xml:lang="es">Búsqueda dinámica de listas de reproducción que se actualiza automáticamente con los cambios de los campos de su colección</li>
       <li xml:lang="et">Dünaamilised esitusnimekirjad, mis uuenevad automaatselt kogu väljade muutumisel</li>
       <li xml:lang="eu">Jo-zerrenda bilaketa dinamikoa bildumako eremuak aldatu ahala automatikoki eguneratzen direnak</li>
@@ -310,6 +313,7 @@
       <li xml:lang="de">Ein Baumansichtsmodus, in dem Wiedergabelisten automatisch für Gruppen von Alben, Interpreten und Genres generiert werden</li>
       <li xml:lang="el">Δενδρική άποψη όπου οι λίστες αναπαραγωγής παράγονται αυτόματα για σύνολα άλμπουμ, καλλιτεχνών και μουσικών ειδών</li>
       <li xml:lang="en-GB">A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
+      <li xml:lang="eo">Arba Vida reĝimo kie ludlistoj estas aŭtomate generitaj por aroj de albumoj, artistoj kaj ĝenroj</li>
       <li xml:lang="es">Una vista de árbol donde las listas de reproducción se generan automáticamente por conjuntos de álbumes, artistas y géneros</li>
       <li xml:lang="et">Puuvaade, kus albumitele, esitajatele ja žanritele luuakse automaatselt esitusnimekirjad</li>
       <li xml:lang="eu">Zuhaitz ikuspegi modu bat non jo-zerrendak automatikoki sortzen diren album multzo, artista eta generoetarako</li>
@@ -514,6 +518,7 @@
       <li xml:lang="de">Lesen und Bearbeiten von Metadaten für viele Formate einschließlich ID3v1, ID3v2 und Ogg Vorbis</li>
       <li xml:lang="el">Ανάγνωση και εγγραφή ετικέτας με υποστήριξη για πολλούς τύπους αποθήκευσης, για παράδειγμα ID3v1, ID3v2 και Ogg Vorbis</li>
       <li xml:lang="en-GB">Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
+      <li xml:lang="eo">Subteno por legado kaj redaktado de etikedoj por multaj formatoj inkluzive de ID3v1, ID3v2 kaj Ogg Vorbis</li>
       <li xml:lang="es">Leer y editar metadatos en varios formatos incluyendo ID3v1, ID3v2 y Ogg Vorbis</li>
       <li xml:lang="et">Siltide lugemise ja muutmise toetus paljude vormingute jaoks, sealhulgas ID3v1, ID3v2 ja Ogg Vorbis</li>
       <li xml:lang="eu">Etiketak irakurri eta editatzeko euskarria formatu ugarirekin, tartean ID3v1, ID3v2 eta Ogg Vorbis</li>
