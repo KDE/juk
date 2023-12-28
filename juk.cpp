@@ -464,16 +464,9 @@ void JuK::readConfig()
 
     KConfigGroup playerConfig(KSharedConfig::openConfig(), u"Player"_s);
 
-    if(m_player)
-    {
-        const int maxVolume = 100;
-        const int volume = playerConfig.readEntry("Volume", maxVolume);
-        m_player->setVolume(volume * 0.01);
-
-        //bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
-        //m_player->setCrossfadeEnabled(enableCrossfade);
-        //ActionCollection::action<QAction>("crossfadeTracks")->setChecked(enableCrossfade);
-    }
+    const int maxVolume = 100;
+    const int volume = playerConfig.readEntry("Volume", maxVolume);
+    m_player->setVolume(volume * 0.01);
 
     // Default to no random play
 
