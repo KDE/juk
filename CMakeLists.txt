@@ -9,8 +9,8 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 
 project(juk VERSION ${RELEASE_SERVICE_VERSION})
 
-set(QT_MIN_VERSION "5.15.2")
-set(KF6_MIN_VERSION "5.90.0")
+set(KF6_MIN_VERSION "5.240.0")
+# Any higher and many Qt keywords get disabled
 set(KDE_COMPILERSETTINGS_LEVEL "5.84.0")
 
 find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
@@ -26,7 +26,7 @@ include(ECMInstallIcons)
 include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 
-find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Concurrent Gui Svg Network Test Widgets)
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Gui Svg Network Test Widgets)
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     CoreAddons
     Completion
