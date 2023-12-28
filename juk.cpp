@@ -298,10 +298,10 @@ void JuK::setupActions()
     act->setText(i18n("&Stop"));
     act->setIcon("media-playback-stop"_icon);
 
-    act = new KToolBarPopupAction("media-skip-backward"_icon, i18nc("previous track", "Previous" ), collection);
-    act->setEnabled(false);
-    collection->addAction("back", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(back()));
+    auto *popup = new KToolBarPopupAction("media-skip-backward"_icon, i18nc("previous track", "Previous" ), collection);
+    popup->setEnabled(false);
+    collection->addAction("back", popup);
+    connect(popup, SIGNAL(triggered(bool)), m_player, SLOT(back()));
 
     act = collection->addAction("forward", m_player, SLOT(forward()));
     act->setEnabled(false);

@@ -1531,7 +1531,7 @@ void Playlist::slotPopulateBackMenu() const
     if(!playingItem())
         return;
 
-    QMenu *menu = action<KToolBarPopupAction>("back")->menu();
+    QMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
     menu->clear();
     m_backMenuItems.clear();
     m_backMenuItems.reserve(10);
@@ -1666,7 +1666,7 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
         m_history.append(wasPlayingItem->collectionItem());
 
         const bool enableBack = !m_history.isEmpty();
-        const auto menu = action<KToolBarPopupAction>("back")->menu();
+        const auto menu = action<KToolBarPopupAction>("back")->popupMenu();
         menu->setEnabled(enableBack);
     }
 

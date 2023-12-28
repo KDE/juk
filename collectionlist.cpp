@@ -336,9 +336,9 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
     spaction->setText(i18n("Show Playing"));
     connect(spaction, SIGNAL(triggered(bool)), SLOT(slotShowPlaying()));
 
-    connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(aboutToShow()),
+    connect(action<KToolBarPopupAction>("back")->popupMenu(), SIGNAL(aboutToShow()),
             this, SLOT(slotPopulateBackMenu()));
-    connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(triggered(QAction*)),
+    connect(action<KToolBarPopupAction>("back")->popupMenu(), SIGNAL(triggered(QAction*)),
             this, SLOT(slotPlayFromBackMenu(QAction*)));
     setSortingEnabled(false); // Temporarily disable sorting to add items faster.
 
