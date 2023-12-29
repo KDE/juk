@@ -23,8 +23,8 @@
 
 #include "filehandle.h"
 
-#include <Phonon/Global>
-#include <Phonon/Path>
+#include <phonon/Global>
+#include <phonon/Path>
 
 class PlaylistInterface;
 class QPixmap;

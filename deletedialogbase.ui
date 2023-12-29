@@ -157,24 +157,6 @@
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>ddShouldDelete</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>DeleteDialogBase</receiver>
-   <slot>slotShouldDelete(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>31</x>
-     <y>672</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
  <slots>
   <signal>accepted()</signal>
   <signal>rejected()</signal>

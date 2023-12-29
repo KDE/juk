@@ -24,9 +24,9 @@
 #include <ktoggleaction.h>
 #include <KLocalizedString>
 
-#include <Phonon/AudioOutput>
-#include <Phonon/MediaObject>
-#include <Phonon/MediaSource>
+#include <phonon/AudioOutput>
+#include <phonon/MediaObject>
+#include <phonon/MediaSource>
 
 #include <QPixmap>
 #include <QUrl>
@@ -425,8 +425,7 @@ void PlayerManager::slotMutedChanged(bool muted)
 
 void PlayerManager::setVolume(qreal volume)
 {
-    if(qFuzzyCompare(m_output->volume(), volume))
-    {
+    if(!qIsFinite(volume) || qFuzzyCompare(m_output->volume(), volume)) {
         return;
     }
 
@@ -441,6 +440,8 @@ void PlayerManager::setVolume(qreal volume)
 void PlayerManager::setupAudio()
 {
     using namespace Phonon;
+    m_output->setVolume(1.0); // sometimes Phonon loads it as NaN?
+
     connect(m_output, &AudioOutput::mutedChanged,
             this, &PlayerManager::slotMutedChanged);
     connect(m_output, &AudioOutput::volumeChanged,

@@ -18,8 +18,8 @@
 #include "juk.h"
 
 #include <KSharedConfig>
-#include <kaboutdata.h>
-#include <kactioncollection.h>
+#include <KAboutData>
+#include <KActionCollection>
 #include <kactionmenu.h>
 #include <kconfiggroup.h>
 #include <kglobalaccel.h>
@@ -30,6 +30,7 @@
 #include <ktoolbarpopupaction.h>
 
 #include <QAction>
+#include <QActionGroup>
 #include <QCoreApplication>
 #include <QDBusInterface>
 #include <QDBusMessage>
@@ -64,6 +65,7 @@
 
 using namespace ActionCollection; // ""_act and others
 using namespace IconSupport;      // ""_icon
+using namespace Qt::Literals::StringLiterals;
 
 JuK* JuK::m_instance;
 
@@ -96,11 +98,11 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent)
     setupActions();
     setupLayout(); // Creates PlaylistSplitter and therefore CollectionList
 
-    bool firstRun = !KSharedConfig::openConfig()->hasGroup("MainWindow");
+    bool firstRun = !KSharedConfig::openConfig()->hasGroup(u"MainWindow"_s);
 
     if(firstRun) {
-        KConfigGroup mainWindowConfig(KSharedConfig::openConfig(), "MainWindow");
-        KConfigGroup playToolBarConfig(&mainWindowConfig, "Toolbar playToolBar");
+        KConfigGroup mainWindowConfig(KSharedConfig::openConfig(), u"MainWindow"_s);
+        KConfigGroup playToolBarConfig(&mainWindowConfig, u"Toolbar playToolBar"_s);
         playToolBarConfig.writeEntry("ToolButtonStyle", "IconOnly");
     }
 
@@ -201,7 +203,7 @@ void JuK::coverDownloaded(const QPixmap &cover)
 {
     QString event(cover.isNull() ? "coverFailed" : "coverDownloaded");
     KNotification *notification = new KNotification(event);
-    notification->setWidget(this);
+    notification->setWindow(windowHandle());
     notification->setPixmap(cover);
     notification->setFlags(KNotification::CloseOnTimeout);
 
@@ -296,10 +298,10 @@ void JuK::setupActions()
     act->setText(i18n("&Stop"));
     act->setIcon("media-playback-stop"_icon);
 
-    act = new KToolBarPopupAction("media-skip-backward"_icon, i18nc("previous track", "Previous" ), collection);
-    act->setEnabled(false);
-    collection->addAction("back", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(back()));
+    auto *popup = new KToolBarPopupAction("media-skip-backward"_icon, i18nc("previous track", "Previous" ), collection);
+    popup->setEnabled(false);
+    collection->addAction("back", popup);
+    connect(popup, SIGNAL(triggered(bool)), m_player, SLOT(back()));
 
     act = collection->addAction("forward", m_player, SLOT(forward()));
     act->setEnabled(false);
@@ -460,18 +462,11 @@ void JuK::readConfig()
 {
     // player settings
 
-    KConfigGroup playerConfig(KSharedConfig::openConfig(), "Player");
+    KConfigGroup playerConfig(KSharedConfig::openConfig(), u"Player"_s);
 
-    if(m_player)
-    {
-        const int maxVolume = 100;
-        const int volume = playerConfig.readEntry("Volume", maxVolume);
-        m_player->setVolume(volume * 0.01);
-
-        //bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
-        //m_player->setCrossfadeEnabled(enableCrossfade);
-        //ActionCollection::action<QAction>("crossfadeTracks")->setChecked(enableCrossfade);
-    }
+    const int maxVolume = 100;
+    const int volume = playerConfig.readEntry("Volume", maxVolume);
+    m_player->setVolume(volume * 0.01);
 
     // Default to no random play
 
@@ -488,7 +483,7 @@ void JuK::readConfig()
 
     // general settings
 
-    KConfigGroup settingsConfig(KSharedConfig::openConfig(), "Settings");
+    KConfigGroup settingsConfig(KSharedConfig::openConfig(), u"Settings"_s);
 
     bool dockInSystemTray = settingsConfig.readEntry("DockInSystemTray", true);
     m_toggleSystemTrayAction->setChecked(dockInSystemTray);
@@ -504,7 +499,7 @@ void JuK::saveConfig()
 {
     // player settings
 
-    KConfigGroup playerConfig(KSharedConfig::openConfig(), "Player");
+    KConfigGroup playerConfig(KSharedConfig::openConfig(), u"Player"_s);
 
     if (m_player)
     {
@@ -528,7 +523,7 @@ void JuK::saveConfig()
 
     // general settings
 
-    KConfigGroup settingsConfig(KSharedConfig::openConfig(), "Settings");
+    KConfigGroup settingsConfig(KSharedConfig::openConfig(), u"Settings"_s);
     settingsConfig.writeEntry("StartDocked", !isVisible() && m_toggleDockOnCloseAction->isChecked());
     settingsConfig.writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
     settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
@@ -650,7 +645,7 @@ void JuK::slotUndo()
 
 void JuK::slotCheckAlbumNextAction(bool albumRandomEnabled)
 {
-    action("forwardAlbum")->setEnabled(m_player->playing() && albumRandomEnabled);
+    action(u"forwardAlbum"_s)->setEnabled(m_player->playing() && albumRandomEnabled);
 }
 
 // vim: set et sw=4 tw=0 sta:

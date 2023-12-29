@@ -22,6 +22,7 @@
 
 #include <QTimer>
 #include <QMenu>
+#include <QRegularExpression>
 
 #include "covericonview.h"
 #include "covermanager.h"
@@ -164,7 +165,8 @@ void CoverDialog::slotSearchPatternChanged(const QString& pattern)
     }
 
     else {
-        QRegExp filter(pattern, Qt::CaseInsensitive, QRegExp::Wildcard);
+        QRegularExpression filter = QRegularExpression::fromWildcard(pattern);
+        filter.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
         QString artist = item->text().toLower();
 
               CoverDataMapIterator it  = CoverManager::begin();
@@ -173,7 +175,7 @@ void CoverDialog::slotSearchPatternChanged(const QString& pattern)
         // Here, only show cover that match the search pattern.
         if (dynamic_cast<AllArtistsListViewItem *>(item)) {
             for(; it != end; ++it) {
-                if (filter.indexIn(it->second.artist) != -1) {
+                if (it->second.artist.indexOf(filter) != -1) {
                     (void) new CoverIconViewItem(it->first, m_covers);
                 }
             }
@@ -183,8 +185,8 @@ void CoverDialog::slotSearchPatternChanged(const QString& pattern)
         else {
             for(; it != end; ++it) {
                 if (it->second.artist == artist
-                        && ((filter.indexIn(it->second.artist) != -1)
-                        || (filter.indexIn(it->second.album) != -1)))
+                        && ((it->second.artist.indexOf(filter) != -1)
+                        || (it->second.album.indexOf(filter) != -1)))
                 {
                     (void) new CoverIconViewItem(it->first, m_covers);
                 }

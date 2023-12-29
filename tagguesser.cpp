@@ -15,13 +15,15 @@
  */
 
 #include "tagguesser.h"
-#include "juk_debug.h"
 
-#include <kconfig.h>
-#include <kmacroexpander.h>
-#include <qhash.h>
-#include <kconfiggroup.h>
+#include <KConfig>
+#include <KConfigGroup>
 #include <KSharedConfig>
+#include <KMacroExpander>
+
+#include <QHash>
+
+using namespace Qt::Literals::StringLiterals;
 
 FileNameScheme::FileNameScheme(const QString &s)
     : m_regExp(),
@@ -60,49 +62,51 @@ bool FileNameScheme::matches(const QString &fileName) const
      */
     QString stripped = fileName;
     stripped.truncate(stripped.lastIndexOf('.'));
-    return m_regExp.exactMatch(stripped);
+
+    m_regExpMatch = m_regExp.match(stripped);
+    return m_regExpMatch.hasMatch();
 }
 
 QString FileNameScheme::title() const
 {
     if(m_titleField == -1)
         return QString();
-    return m_regExp.capturedTexts().at(m_titleField);
+    return m_regExpMatch.capturedTexts().at(m_titleField);
 }
 
 QString FileNameScheme::artist() const
 {
     if(m_artistField == -1)
         return QString();
-    return m_regExp.capturedTexts().at(m_artistField);
+    return m_regExpMatch.capturedTexts().at(m_artistField);
 }
 
 QString FileNameScheme::album() const
 {
     if(m_albumField == -1)
         return QString();
-    return m_regExp.capturedTexts().at(m_albumField);
+    return m_regExpMatch.capturedTexts().at(m_albumField);
 }
 
 QString FileNameScheme::track() const
 {
     if(m_trackField == -1)
         return QString();
-    return m_regExp.capturedTexts().at(m_trackField);
+    return m_regExpMatch.capturedTexts().at(m_trackField);
 }
 
 QString FileNameScheme::comment() const
 {
     if(m_commentField == -1)
         return QString();
-    return m_regExp.capturedTexts().at(m_commentField);
+    return m_regExpMatch.capturedTexts().at(m_commentField);
 }
 
 QString FileNameScheme::composeRegExp(const QString &s) const
 {
     QHash<QChar, QString> substitutions;
 
-    KConfigGroup config(KSharedConfig::openConfig(), "TagGuesser");
+    KConfigGroup config(KSharedConfig::openConfig(), u"TagGuesser"_s);
 
     substitutions[ 't' ] = config.readEntry("Title regexp", "([\\w\\s'&_,\\.]+)");
     substitutions[ 'a' ] = config.readEntry("Artist regexp", "([\\w\\s'&_,\\.]+)");
@@ -110,19 +114,23 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     substitutions[ 'T' ] = config.readEntry("Track regexp", "(\\d+)");
     substitutions[ 'c' ] = config.readEntry("Comment regexp", "([\\w\\s_]+)");
 
-    QString regExp = QRegExp::escape(s.simplified());
+    QString regExp = s.simplified()
+        .replace("(", "\\(")
+        .replace(")", "\\)")
+        .replace("[", "\\[")
+        .replace("]", "\\]");
     regExp = ".*" + regExp;
     regExp.replace(' ', "\\s+");
     regExp = KMacroExpander::expandMacros(regExp, substitutions);
-    regExp += "[^/]*$";
-    return regExp;
+    regExp += "[^\\/]*$";
+    return regExp.replace("\\\\", "\\");
 }
 
 QStringList TagGuesser::schemeStrings()
 {
     QStringList schemes;
 
-    KConfigGroup config(KSharedConfig::openConfig(), "TagGuesser");
+    KConfigGroup config(KSharedConfig::openConfig(), u"TagGuesser"_s);
     schemes = config.readEntry("Filename schemes", QStringList());
 
     if ( schemes.isEmpty() ) {
@@ -160,7 +168,7 @@ QStringList TagGuesser::schemeStrings()
 void TagGuesser::setSchemeStrings(const QStringList &schemes)
 {
     KSharedConfig::Ptr cfg = KSharedConfig::openConfig();
-    KConfigGroup group(cfg, "TagGuesser");
+    KConfigGroup group(cfg, u"TagGuesser"_s);
     group.writeEntry("Filename schemes", schemes);
     cfg->sync();
 }
@@ -216,7 +224,7 @@ QString TagGuesser::capitalizeWords(const QString &s)
     QString result = s;
     result[ 0 ] = result[ 0 ].toUpper();
 
-    const QRegExp wordRegExp("\\s\\w");
+    static const QRegularExpression wordRegExp("\\s\\w");
     int i = result.indexOf( wordRegExp );
     while ( i > -1 ) {
         result[ i + 1 ] = result[ i + 1 ].toUpper();

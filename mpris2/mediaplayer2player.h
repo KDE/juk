@@ -25,7 +25,7 @@
 #include <QDBusObjectPath>
 #include <QPointer>
 
-#include <Phonon/MediaSource>
+#include <phonon/MediaSource>
 
 #include "playermanager.h"
 

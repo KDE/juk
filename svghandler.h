@@ -26,6 +26,7 @@ class QStyleOptionSlider;
 
 #include <QPixmap>
 #include <QString>
+#include <QObject>
 
 class SvgHandler;
 class QSvgRenderer;

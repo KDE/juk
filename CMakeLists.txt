@@ -9,11 +9,11 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 
 project(juk VERSION ${RELEASE_SERVICE_VERSION})
 
-set(QT_MIN_VERSION "5.15.2")
-set(KF5_MIN_VERSION "5.90.0")
+set(KF6_MIN_VERSION "5.240.0")
+# Any higher and many Qt keywords get disabled
 set(KDE_COMPILERSETTINGS_LEVEL "5.84.0")
 
-find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${ECM_MODULE_PATH})
 
 include(CMakePushCheckState)
@@ -26,8 +26,8 @@ include(ECMInstallIcons)
 include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED COMPONENTS Concurrent Gui Svg Network Test Widgets)
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Gui Svg Network Test Widgets)
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     CoreAddons
     Completion
     Config
@@ -45,14 +45,13 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Wallet
     WidgetsAddons
     WindowSystem
+    StatusNotifierItem
 )
-find_package(Phonon4Qt${QT_MAJOR_VERSION} 4.6.60 REQUIRED NO_MODULE)
+find_package(Phonon4Qt6 4.6.60 REQUIRED NO_MODULE)
 
 find_package(Taglib 1.6 REQUIRED)
 
-include_directories(${CMAKE_BINARY_DIR} ${PHONON_INCLUDES})
-
-add_subdirectory( doc )
+#add_subdirectory( doc )
 add_subdirectory( tests )
 add_subdirectory( pics )
 
@@ -68,7 +67,7 @@ add_definitions(-DQT_STL -DQT_NO_URL_CAST_FROM_STRING)
 
 configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 
-set(juk_SRCS
+add_executable(juk
    advancedsearchdialog.cpp
    slider.cpp
    svghandler.cpp
@@ -135,16 +134,19 @@ set(juk_SRCS
    juk.qrc
 )
 
-ecm_qt_declare_logging_category(juk_SRCS HEADER juk_debug.h
+ecm_qt_declare_logging_category(juk HEADER juk_debug.h
                                 IDENTIFIER JUK_LOG CATEGORY_NAME org.kde.juk)
 
-qt_add_dbus_adaptor( juk_SRCS org.kde.juk.collection.xml
+set(JUK_DBUS_SRC "")
+
+qt_add_dbus_adaptor(JUK_DBUS_SRC org.kde.juk.collection.xml
     dbuscollectionproxy.h DBusCollectionProxy )
-qt_add_dbus_adaptor( juk_SRCS org.kde.juk.player.xml playermanager.h PlayerManager)
-qt_add_dbus_adaptor( juk_SRCS org.kde.juk.search.xml searchwidget.h SearchWidget)
+qt_add_dbus_adaptor(JUK_DBUS_SRC org.kde.juk.player.xml playermanager.h PlayerManager)
+qt_add_dbus_adaptor(JUK_DBUS_SRC org.kde.juk.search.xml searchwidget.h SearchWidget)
 
+target_sources(juk PRIVATE ${JUK_DBUS_SRC})
 
-ki18n_wrap_ui(juk_SRCS
+ki18n_wrap_ui(juk
     filerenamerbase.ui
     filerenameroptionsbase.ui
     directorylistbase.ui
@@ -156,8 +158,9 @@ ki18n_wrap_ui(juk_SRCS
 )
 
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*-apps-juk.png")
-ecm_add_app_icon(juk_SRCS ICONS ${ICONS_SRCS})
-add_executable(juk ${juk_SRCS})
+ecm_add_app_icon(juk ICONS ${ICONS_SRCS})
+
+target_include_directories(juk SYSTEM PRIVATE ${CMAKE_BINARY_DIR} ${PHONON_INCLUDES})
 
 kde_target_enable_exceptions(juk PRIVATE)
 target_compile_definitions(juk PRIVATE QT_USE_QSTRINGBUILDER)
@@ -176,25 +179,26 @@ target_link_libraries(juk ${LIBMATH}
     Qt::Svg
     Qt::Widgets
     Qt::Network
-    KF5::ConfigCore
-    KF5::CoreAddons
-    KF5::Completion
-    KF5::Crash
-    KF5::DBusAddons
-    KF5::GlobalAccel
-    KF5::KIOCore
-    KF5::KIOWidgets
-    KF5::KIOFileWidgets
-    KF5::JobWidgets
-    KF5::Notifications
-    KF5::I18n
-    KF5::IconThemes
-    KF5::TextWidgets
-    KF5::XmlGui
-    KF5::WindowSystem
-    KF5::WidgetsAddons
-    KF5::Wallet
-    Phonon::phonon4qt${QT_MAJOR_VERSION}
+    KF6::ConfigCore
+    KF6::CoreAddons
+    KF6::Completion
+    KF6::Crash
+    KF6::DBusAddons
+    KF6::GlobalAccel
+    KF6::KIOCore
+    KF6::KIOWidgets
+    KF6::KIOFileWidgets
+    KF6::JobWidgets
+    KF6::Notifications
+    KF6::I18n
+    KF6::IconThemes
+    KF6::TextWidgets
+    KF6::XmlGui
+    KF6::WindowSystem
+    KF6::WidgetsAddons
+    KF6::Wallet
+    KF6::StatusNotifierItem
+    Phonon::phonon4qt6
     Taglib::Taglib
 )
 
@@ -219,7 +223,7 @@ install( PROGRAMS jukservicemenu.desktop  DESTINATION ${KDE_INSTALL_DATADIR}/kio
 install( FILES org.kde.juk.collection.xml org.kde.juk.player.xml org.kde.juk.search.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR} )
 
 ki18n_install(po)
-kdoctools_install(po)
+#kdoctools_install(po)
 
 ecm_install_icons(ICONS
     128-apps-juk.png

@@ -106,7 +106,7 @@ bool PlaylistSearch::isEmpty() const
 
     ComponentList::ConstIterator it = m_components.begin();
     for(; it != m_components.end(); ++it) {
-        if(!(*it).query().isEmpty() || !(*it).pattern().isEmpty())
+        if(!(*it).query().isEmpty() || !(*it).pattern().pattern().isEmpty())
             return false;
     }
 
@@ -148,7 +148,7 @@ PlaylistSearch::Component::Component(const QString &query,
 
 }
 
-PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& columns) :
+PlaylistSearch::Component::Component(const QRegularExpression &query, const ColumnList& columns) :
     m_queryRe(query),
     m_columns(columns),
     m_mode(Exact),
@@ -161,7 +161,7 @@ PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& col
 
 bool PlaylistSearch::Component::matches(int row, QModelIndex parent, QAbstractItemModel* model) const
 {
-    for(int column : qAsConst(m_columns)) {
+    for(int column : std::as_const(m_columns)) {
         const QString str = model->index(row, column, parent).data().toString();
         if(m_re) {
             return str.contains(m_queryRe);
@@ -282,7 +282,7 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch::Component &c)
       >> mode;
 
     if(patternSearch)
-        c = PlaylistSearch::Component(QRegExp(pattern), columns);
+        c = PlaylistSearch::Component(QRegularExpression(pattern), columns);
     else
         c = PlaylistSearch::Component(pattern, caseSensitive, columns, PlaylistSearch::Component::MatchMode(mode));
 

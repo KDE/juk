@@ -1531,7 +1531,7 @@ void Playlist::slotPopulateBackMenu() const
     if(!playingItem())
         return;
 
-    QMenu *menu = action<KToolBarPopupAction>("back")->menu();
+    QMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
     menu->clear();
     m_backMenuItems.clear();
     m_backMenuItems.reserve(10);
@@ -1666,7 +1666,8 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
         m_history.append(wasPlayingItem->collectionItem());
 
         const bool enableBack = !m_history.isEmpty();
-        action<KToolBarPopupAction>("back")->menu()->setEnabled(enableBack);
+        const auto menu = action<KToolBarPopupAction>("back")->popupMenu();
+        menu->setEnabled(enableBack);
     }
 
     if(wasPlayingItem) {
@@ -1819,7 +1820,7 @@ QFuture<void> Playlist::addFilesFromDirectory(const QString &dirPath)
         }
     );
 
-    auto future = QtConcurrent::run(loader, &DirectoryLoader::startLoading);
+    auto future = QtConcurrent::run(&DirectoryLoader::startLoading, loader);
     auto loadWatcher = new QFutureWatcher<void>(this);
     connect(loadWatcher, &QFutureWatcher<void>::finished, this, [=]() {
             loader->deleteLater();
