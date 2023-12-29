@@ -108,9 +108,9 @@ QString FileNameScheme::composeRegExp(const QString &s) const
 
     KConfigGroup config(KSharedConfig::openConfig(), u"TagGuesser"_s);
 
-    substitutions[ 't' ] = config.readEntry("Title regexp", "([\\w\\s'&_,\\.]+)");
-    substitutions[ 'a' ] = config.readEntry("Artist regexp", "([\\w\\s'&_,\\.]+)");
-    substitutions[ 'A' ] = config.readEntry("Album regexp", "([\\w\\s'&_,\\.]+)");
+    substitutions[ 't' ] = config.readEntry("Title regexp", "([\\w\\s'&_,.]+)");
+    substitutions[ 'a' ] = config.readEntry("Artist regexp", "([\\w\\s'&_,.]+)");
+    substitutions[ 'A' ] = config.readEntry("Album regexp", "([\\w\\s'&_,.]+)");
     substitutions[ 'T' ] = config.readEntry("Track regexp", "(\\d+)");
     substitutions[ 'c' ] = config.readEntry("Comment regexp", "([\\w\\s_]+)");
 
@@ -119,7 +119,6 @@ QString FileNameScheme::composeRegExp(const QString &s) const
         .replace(")", "\\)")
         .replace("[", "\\[")
         .replace("]", "\\]");
-    regExp = ".*" + regExp;
     regExp.replace(' ', "\\s+");
     regExp = KMacroExpander::expandMacros(regExp, substitutions);
     regExp += "[^\\/]*$";
