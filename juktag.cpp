@@ -186,7 +186,7 @@ void Tag::setup(TagLib::File *file)
     m_track = file->tag()->track();
     m_year  = file->tag()->year();
 
-    m_seconds = file->audioProperties()->length();
+    m_seconds = file->audioProperties()->lengthInSeconds();
     m_bitrate = file->audioProperties()->bitrate();
 
     const int seconds = m_seconds % 60;

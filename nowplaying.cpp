@@ -157,8 +157,7 @@ void CoverItem::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 
-    if(event->x() >= 0 && event->y() >= 0 &&
-       event->x() < width() && event->y() < height() &&
+    if(rect().contains(event->position().toPoint()) &&
        event->button() == Qt::LeftButton &&
        m_file.coverInfo()->hasCover())
     {
@@ -171,7 +170,7 @@ void CoverItem::mouseReleaseEvent(QMouseEvent *event)
 void CoverItem::mousePressEvent(QMouseEvent *e)
 {
     m_dragging = false;
-    m_dragStart = e->globalPos();
+    m_dragStart = e->globalPosition().toPoint();
 }
 
 void CoverItem::mouseMoveEvent(QMouseEvent *e)
@@ -179,7 +178,7 @@ void CoverItem::mouseMoveEvent(QMouseEvent *e)
     if(m_dragging)
         return;
 
-    QPoint diff = m_dragStart - e->globalPos();
+    QPoint diff = m_dragStart - e->globalPosition().toPoint();
     if(diff.manhattanLength() > QApplication::startDragDistance()) {
 
         // Start a drag.

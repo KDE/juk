@@ -24,6 +24,8 @@
 #include <KSharedConfig>
 #include <KToggleAction>
 
+#include <utility>
+
 #include "actioncollection.h"
 #include "playlistitem.h"
 
@@ -127,7 +129,7 @@ Playlist::SharedSettings::SharedSettings()
         // Convert the int list into a bool list.
 
         m_columnsVisible.fill(false);
-        for(int i : qAsConst(l)) {
+        for(int i : std::as_const(l)) {
             if(Q_LIKELY(i < m_columnsVisible.size()))
                 m_columnsVisible[i] = true;
         }

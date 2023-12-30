@@ -38,6 +38,8 @@
 #include <QTime>
 #include <QTimer>
 
+#include <utility>
+
 #include "actioncollection.h"
 #include "cache.h"
 #include "collectionlist.h"
@@ -56,6 +58,7 @@
 
 using namespace ActionCollection; // ""_act and others
 using namespace IconSupport;      // ""_icon
+using std::as_const;
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox public methods
@@ -418,7 +421,7 @@ void PlaylistBox::remove()
 
         if(remove == yesButton) {
             QStringList couldNotDelete;
-            for(const auto &playlistFile : qAsConst(files)) {
+            for(const auto &playlistFile : as_const(files)) {
                 if(!QFile::remove(playlistFile))
                     couldNotDelete.append(playlistFile);
             }
@@ -460,7 +463,7 @@ void PlaylistBox::remove()
 
 void PlaylistBox::setDynamicListsFrozen(bool frozen)
 {
-    for(auto &playlistBoxItem : qAsConst(m_viewModes)) {
+    for(auto &playlistBoxItem : as_const(m_viewModes)) {
         playlistBoxItem->setDynamicListsFrozen(frozen);
     }
 }
@@ -487,14 +490,14 @@ void PlaylistBox::slotShowDropTarget()
 
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
 {
-    for(auto &viewMode : qAsConst(m_viewModes)) {
+    for(auto &viewMode : as_const(m_viewModes)) {
         viewMode->addItems(QStringList(tag), column);
     }
 }
 
 void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
 {
-    for(auto &viewMode : qAsConst(m_viewModes)) {
+    for(auto &viewMode : as_const(m_viewModes)) {
         viewMode->removeItem(tag, column);
     }
 }
@@ -556,7 +559,7 @@ void PlaylistBox::dragMoveEvent(QDragMoveEvent* event)
 {
     QTreeWidget::dragMoveEvent(event);
 
-    Item* hovered_item = static_cast<Item*>(itemAt(event->pos()));
+    Item* hovered_item = static_cast<Item*>(itemAt(event->position().toPoint()));
     if(hovered_item != m_dropItem){
         m_dropItem = hovered_item;
         if(m_dropItem) m_showTimer->start();

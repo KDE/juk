@@ -30,6 +30,8 @@
 #include <QPushButton>
 #include <QLineEdit>
 
+#include <utility>
+
 #include "collectionlist.h"
 #include "searchwidget.h"
 
@@ -139,7 +141,7 @@ void AdvancedSearchDialog::accept()
 
     m_search->addPlaylist(CollectionList::instance());
 
-    for(const auto &searchLine : qAsConst(m_searchLines))
+    for(const auto &searchLine : std::as_const(m_searchLines))
         m_search->addComponent(searchLine->searchComponent());
 
     PlaylistSearch::SearchMode m = PlaylistSearch::SearchMode(!m_matchAnyButton->isChecked());

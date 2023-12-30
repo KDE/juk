@@ -37,6 +37,8 @@
 #include <QTimer>
 #include <QWriteLocker>
 
+#include <utility>
+
 #include "playlistcollection.h"
 #include "stringshare.h"
 #include "cache.h"
@@ -263,7 +265,7 @@ void CollectionList::saveItemsToCache() const
 
     QDataStream fs(&f);
 
-    qint32 checksum = qChecksum(data.data(), data.size());
+    qint32 checksum = qChecksum(data);
 
     fs << qint32(Cache::playlistItemsCacheVersion)
        << checksum
@@ -300,7 +302,7 @@ void CollectionList::slotCheckCache()
     { // locked scope
         QWriteLocker lock(&m_itemsDictLock);
 
-        for(auto item : qAsConst(m_itemsDict)) {
+        for(auto item : std::as_const(m_itemsDict)) {
             if(!item->checkCurrent())
                 invalidItems.append(item);
         }

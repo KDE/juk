@@ -105,8 +105,8 @@ protected:
 
 private:
     FileHandle m_file;
-    bool m_dragging;
     QPoint m_dragStart;
+    bool m_dragging = false;
 };
 
 /**

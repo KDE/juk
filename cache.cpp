@@ -154,7 +154,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
     quint16 checksum;
     fs >> checksum >> data;
 
-    if(fs.status() != QDataStream::Ok || checksum != qChecksum(data.data(), data.size()))
+    if(fs.status() != QDataStream::Ok || checksum != qChecksum(data))
         return;
 
     QDataStream s(&data, QIODevice::ReadOnly);
@@ -217,7 +217,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
 
     QDataStream fs(&f);
     fs << qint32(playlistListCacheVersion);
-    fs << qChecksum(data.data(), data.size());
+    fs << qChecksum(data);
 
     fs << data;
 
@@ -292,8 +292,7 @@ bool Cache::prepareToLoadCachedItems()
         m_loadFileBuffer.open(QIODevice::ReadOnly);
         m_loadDataStream.setDevice(&m_loadFileBuffer);
 
-        qint32 checksumExpected = qChecksum(
-                m_loadFileBuffer.data(), m_loadFileBuffer.size());
+        qint32 checksumExpected = qChecksum(m_loadFileBuffer.data());
         if(m_loadDataStream.status() != CacheDataStream::Ok ||
                 checksum != checksumExpected)
         {

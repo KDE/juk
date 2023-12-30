@@ -88,8 +88,6 @@ int main(int argc, char *argv[])
         KNotification::event("dock_mode",i18n("JuK Docked"), message);
     }
 
-    a.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-
     a.setApplicationName("juk");
     a.setOrganizationDomain("kde.org");
     // Limit to only one instance

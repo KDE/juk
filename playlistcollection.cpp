@@ -40,6 +40,7 @@
 #include <QInputDialog>
 #include <QStackedWidget>
 
+#include <utility>
 #include <sys/types.h>
 #include <dirent.h>
 
@@ -898,7 +899,7 @@ void PlaylistCollection::readConfig()
     m_excludedFolderList = canonicalizeFolderPaths(
             config.readEntry("ExcludeDirectoryList", QStringList()));
 
-    for(const auto &folder : qAsConst(m_folderList)) {
+    for(const auto &folder : std::as_const(m_folderList)) {
         m_dirLister.openUrl(QUrl::fromUserInput(folder), KDirLister::Keep);
     }
 }

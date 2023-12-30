@@ -86,6 +86,7 @@
 #include "webimagefetcher.h"
 
 using namespace ActionCollection; // ""_act and others
+using std::as_const;
 
 /**
  * Used to give every track added in the program a unique identifier. See
@@ -1026,7 +1027,7 @@ bool Playlist::dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData 
 
 void Playlist::dropEvent(QDropEvent *e)
 {
-    QPoint vp = e->pos();
+    QPoint vp = e->position().toPoint();
     PlaylistItem *item = static_cast<PlaylistItem *>(itemAt(vp));
 
     // First see if we're dropping a cover, if so we can get it out of the
@@ -1125,7 +1126,7 @@ void Playlist::read(QDataStream &s)
 
     m_blockDataChanged = true;
 
-    for(const auto &file : qAsConst(files)) {
+    for(const auto &file : as_const(files)) {
         if(file.isEmpty())
             throw BICStreamException();
 
@@ -1239,7 +1240,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 
     // Build handlers for all the still-active loaders on the heap and then
     // return to the event loop.
-    for(const auto &future : qAsConst(pendingFutures)) {
+    for(const auto &future : as_const(pendingFutures)) {
         auto loadWatcher = new QFutureWatcher<void>(this);
         loadWatcher->setFuture(future);
 
@@ -1269,7 +1270,7 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
             item->file().coverInfo()->applyCoverToWholeAlbum(true);
     }
 
-    for(const auto &albumPair : qAsConst(albums)) {
+    for(const auto &albumPair : as_const(albums)) {
         refreshAlbum(albumPair.first, albumPair.second);
     }
 }
@@ -1789,7 +1790,7 @@ void Playlist::calculateColumnWeights()
     if(m_columnWeights.isEmpty())
         m_columnWeights.fill(-1, columnCount());
 
-    for(const auto column : qAsConst(m_weightDirty)) {
+    for(const auto column : as_const(m_weightDirty)) {
         m_columnWeights[column] = int(std::sqrt(averageWidth[column]) + 0.5);
     }
 
@@ -1919,7 +1920,7 @@ void Playlist::slotUpdateColumnWidths()
 
     // No item content to auto-fit around, use the headers for now
     if(count() == 0) {
-        for(int column : qAsConst(visibleColumns)) {
+        for(int column : as_const(visibleColumns)) {
             setColumnWidth(column, textWidth(header()->fontMetrics(),headerItem()->text(column)) + 10);
         }
 
@@ -1941,7 +1942,7 @@ void Playlist::slotUpdateColumnWidths()
     QVector<int> minimumFixedWidth(columnCount(), 0);
     int minimumFixedWidthTotal = 0;
 
-    for(int column : qAsConst(visibleColumns)) {
+    for(int column : as_const(visibleColumns)) {
         minimumWidth[column] = textWidth(header()->fontMetrics(), headerItem()->text(column)) + 10;
         minimumWidthTotal += minimumWidth[column];
 
@@ -1968,7 +1969,7 @@ void Playlist::slotUpdateColumnWidths()
     // useful weight to use as a divisor for each column's weight.
 
     double totalWeight = 0;
-    for(int column : qAsConst(visibleColumns)) {
+    for(int column : as_const(visibleColumns)) {
         totalWeight += m_columnWeights[column];
     }
 
@@ -1981,7 +1982,7 @@ void Playlist::slotUpdateColumnWidths()
     // width if we didn't have to handle the cases of minimum and maximum widths.
 
     QVector<int> weightedWidth(columnCount(), 0);
-    for(int column : qAsConst(visibleColumns)) {
+    for(int column : as_const(visibleColumns)) {
         weightedWidth[column] = int(double(m_columnWeights[column]) / totalWeight * viewport()->width() + 0.5);
     }
 
@@ -2013,7 +2014,7 @@ void Playlist::slotUpdateColumnWidths()
 
     // Fill in the values discussed above.
 
-    for(int column : qAsConst(visibleColumns)) {
+    for(int column : as_const(visibleColumns)) {
         if(weightedWidth[column] < minimumWidth[column]) {
             readjust = true;
             extraWidth[column] = 0;
@@ -2039,7 +2040,7 @@ void Playlist::slotUpdateColumnWidths()
     // than the minimum widths, just use those, otherwise use the "readjusted
     // weighted width".
 
-    for(int column : qAsConst(visibleColumns)) {
+    for(int column : as_const(visibleColumns)) {
         int width;
         if(readjust) {
             int adjustedExtraWidth = int(double(extraWidth[column]) * adjustmentRatio + 0.5);

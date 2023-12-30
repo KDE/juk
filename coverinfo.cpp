@@ -43,6 +43,8 @@
 #include <mp4tag.h>
 #include <mp4item.h>
 
+#include <utility>
+
 #include "mediafiles.h"
 #include "collectionlist.h"
 #include "playlistsearch.h"
@@ -198,7 +200,7 @@ void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
     for(QModelIndex i : playlistFoundItems)
         results.append(static_cast<PlaylistItem*>(CollectionList::instance()->itemAt(i.row(), i.column())));
 
-    for(const auto &playlistItem : qAsConst(results)) {
+    for(const auto &playlistItem : std::as_const(results)) {
 
         // Don't worry about files that somehow already have a tag,
         // unless the conversion is forced.
