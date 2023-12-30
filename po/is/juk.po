@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:30+0000\n"
+"POT-Creation-Date: 2023-12-30 01:37+0000\n"
 "PO-Revision-Date: 2013-05-14 21:04+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -104,48 +104,48 @@ msgstr ""
 msgid "Show Playing"
 msgstr "Sýna spilun"
 
-#: coverdialog.cpp:37
+#: coverdialog.cpp:38
 #, fuzzy, kde-format
 #| msgid "Artists"
 msgid "<All Artists>"
 msgstr "Flytjendur"
 
-#: coverdialog.cpp:148
+#: coverdialog.cpp:149
 #, kde-format
 msgid "Remove Cover"
 msgstr "Fjarlægja umslag"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:1005
+#: coverdialogbase.ui:14 playlistcollection.cpp:1007
 #, kde-format
 msgid "Cover Manager"
 msgstr "Umslagastjóri"
 
-#: deletedialog.cpp:62
+#: deletedialog.cpp:65
 #, kde-format
 msgid "<b>1</b> file selected."
 msgid_plural "<b>%1</b> files selected."
 msgstr[0] "<b>1</b> skrá valin."
 msgstr[1] "<b>%1</b> skrár valdar."
 
-#: deletedialog.cpp:75
+#: deletedialog.cpp:78
 #, kde-format
 msgid ""
 "<qt>These items will be <b>permanently deleted</b> from your hard disk.</qt>"
 msgstr ""
 "<qt>Þessum hlutum verður <b>eytt óendurkvæmt</b> af harða disknum.</qt>"
 
-#: deletedialog.cpp:81
+#: deletedialog.cpp:84
 #, kde-format
 msgid "<qt>These items will be moved to the Trash Bin.</qt>"
 msgstr "<qt>Þessir hlutir verða fluttir í ruslið.</qt>"
 
-#: deletedialog.cpp:93
+#: deletedialog.cpp:96
 #, kde-format
 msgid "&Send to Trash"
 msgstr "&Setja í ruslið"
 
-#: deletedialog.cpp:97
+#: deletedialog.cpp:100
 #, kde-format
 msgid "About to delete selected files"
 msgstr "Um það bil að eyða völdum skrám"
@@ -233,7 +233,7 @@ msgstr "Veldur möppurnar þar sem þú geymir tónlistina þína:"
 msgid "Import playlists"
 msgstr "Flytja inn lagalista"
 
-#: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -332,13 +332,13 @@ msgstr "Plata"
 msgid "Genre"
 msgstr "Tegund"
 
-#: filerenamer.cpp:67
+#: filerenamer.cpp:69
 #, kde-format
 msgctxt "warning about mass file rename"
 msgid "Warning"
 msgstr "Aðvörun"
 
-#: filerenamer.cpp:78
+#: filerenamer.cpp:80
 #, kde-format
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
@@ -347,60 +347,60 @@ msgstr ""
 "Þú ert að fara að endurnefna eftirfarandi skrár. Ertu viss um að þú viljir "
 "halda áfram?"
 
-#: filerenamer.cpp:85
+#: filerenamer.cpp:87
 #, kde-format
 msgid "Original Name"
 msgstr "Upprunalegt heiti"
 
-#: filerenamer.cpp:86
+#: filerenamer.cpp:88
 #, kde-format
 msgid "New Name"
 msgstr "Nýtt heiti"
 
-#: filerenamer.cpp:109
+#: filerenamer.cpp:111
 #, kde-format
 msgid "No Change"
 msgstr "Engin breyting"
 
-#: filerenamer.cpp:398
+#: filerenamer.cpp:400
 #, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
 msgstr "Fjarlægja"
 
-#: filerenamer.cpp:401
+#: filerenamer.cpp:403
 #, kde-format
 msgctxt "file renamer genre options"
 msgid "Options"
 msgstr "Valmöguleikar"
 
-#: filerenamer.cpp:513
+#: filerenamer.cpp:515
 #, kde-format
 msgid "Insert folder separator"
 msgstr "Setja inn möppuaðgreini"
 
-#: filerenamer.cpp:584
+#: filerenamer.cpp:586
 #, kde-format
 msgid "No file selected, or selected file has no tags."
 msgstr "Engin skrá valin, eða skráin inniheldur engar upplýsingar."
 
-#: filerenamer.cpp:815
+#: filerenamer.cpp:817
 #, kde-format
 msgid "Hide Renamer Test Dialog"
 msgstr "Fela prufuglugga endurnefna"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:820 filerenamerbase.ui:257
+#: filerenamer.cpp:822 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
 msgstr "Sýna prufuglugga endurnefna"
 
-#: filerenamer.cpp:902
+#: filerenamer.cpp:904
 #, kde-format
 msgid "%1 to %2"
 msgstr "%1 í %2"
 
-#: filerenamer.cpp:909
+#: filerenamer.cpp:911
 #, kde-format
 msgid "The following rename operations failed:\n"
 msgstr "Eftirfarandi endurnefning mistókst:\n"
@@ -594,160 +594,160 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "Spilað þann"
 
-#: juk.cpp:209
+#: juk.cpp:211
 #, kde-format
 msgid "Your album art failed to download."
 msgstr "Mistókst að hala niður umslaginu."
 
-#: juk.cpp:211
+#: juk.cpp:213
 #, kde-format
 msgid "Your album art has finished downloading."
 msgstr "Niðurhali umslagsins er lokið."
 
-#: juk.cpp:255 systemtray.cpp:184
+#: juk.cpp:257 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "S&lembispilun"
 
-#: juk.cpp:262
+#: juk.cpp:264
 #, kde-format
 msgid "&Disable Random Play"
 msgstr "&Afvirkja slembispilun"
 
-#: juk.cpp:268
+#: juk.cpp:270
 #, kde-format
 msgid "Use &Random Play"
 msgstr "&Nota slembispilun"
 
-#: juk.cpp:274
+#: juk.cpp:276
 #, kde-format
 msgid "Use &Album Random Play"
 msgstr "Slembispila &möppu"
 
-#: juk.cpp:282
+#: juk.cpp:284
 #, kde-format
 msgid "Remove From Playlist"
 msgstr "Fjarlægja úr lagalista"
 
-#: juk.cpp:286
+#: juk.cpp:288
 #, kde-format
 msgid "&Play"
 msgstr "&Spila"
 
-#: juk.cpp:291
+#: juk.cpp:293
 #, kde-format
 msgid "P&ause"
 msgstr "&Bíða"
 
-#: juk.cpp:296
+#: juk.cpp:298
 #, kde-format
 msgid "&Stop"
 msgstr "S&töðva"
 
-#: juk.cpp:299
+#: juk.cpp:301
 #, kde-format
 msgctxt "previous track"
 msgid "Previous"
 msgstr "Fyrra"
 
-#: juk.cpp:306
+#: juk.cpp:308
 #, kde-format
 msgctxt "next track"
 msgid "&Next"
 msgstr "&Næsta"
 
-#: juk.cpp:310
+#: juk.cpp:312
 #, kde-format
 msgid "&Loop Playlist"
 msgstr "&Endurtaka lagalista"
 
-#: juk.cpp:314
+#: juk.cpp:316
 #, kde-format
 msgid "&Resize Playlist Columns Manually"
 msgstr "Handvirk &breidd lagalistadálka"
 
-#: juk.cpp:319
+#: juk.cpp:321
 #, kde-format
 msgctxt "silence playback"
 msgid "Mute"
 msgstr "Þagga niður"
 
-#: juk.cpp:323
+#: juk.cpp:325
 #, kde-format
 msgid "Volume Up"
 msgstr "Hækka styrk"
 
-#: juk.cpp:327
+#: juk.cpp:329
 #, kde-format
 msgid "Volume Down"
 msgstr "Lækka styrk"
 
-#: juk.cpp:331
+#: juk.cpp:333
 #, kde-format
 msgid "Play / Pause"
 msgstr "Spila / bíða"
 
-#: juk.cpp:335
+#: juk.cpp:337
 #, kde-format
 msgid "Seek Forward"
 msgstr "Leita áfram"
 
-#: juk.cpp:339
+#: juk.cpp:341
 #, kde-format
 msgid "Seek Back"
 msgstr "Leita til baka"
 
-#: juk.cpp:343
+#: juk.cpp:345
 #, kde-format
 msgid "Show / Hide"
 msgstr "Sýna / fela"
 
-#: juk.cpp:350
+#: juk.cpp:352
 #, kde-format
 msgid "&Dock in System Tray"
 msgstr "&Setja í kerfisbakka"
 
-#: juk.cpp:354
+#: juk.cpp:356
 #, kde-format
 msgid "&Stay in System Tray on Close"
 msgstr "&Vera í kerfisbakka við lokun"
 
-#: juk.cpp:357
+#: juk.cpp:359
 #, kde-format
 msgid "Popup &Track Announcement"
 msgstr "Tilkynning &um lag"
 
-#: juk.cpp:360
+#: juk.cpp:362
 #, kde-format
 msgid "Save &Play Queue on Exit"
 msgstr "Vista s&pilunarröð þegar hætt er"
 
-#: juk.cpp:363
+#: juk.cpp:365
 #, kde-format
 msgid "&Tag Guesser..."
 msgstr "&Merkjaágiskari..."
 
-#: juk.cpp:366
+#: juk.cpp:368
 #, kde-format
 msgid "&File Renamer..."
 msgstr "&Skráarendurnefnari..."
 
-#: juk.cpp:369
+#: juk.cpp:371
 #, kde-format
 msgid "&Configure scrobbling..."
 msgstr ""
 
-#: juk.cpp:376
+#: juk.cpp:378
 #, kde-format
 msgid "Track Position"
 msgstr "Staða lags"
 
-#: juk.cpp:378 slider.cpp:125
+#: juk.cpp:380 slider.cpp:125
 #, kde-format
 msgid "Volume"
 msgstr "Hljóðstyrkur"
 
-#: juk.cpp:548
+#: juk.cpp:543
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -756,7 +756,7 @@ msgstr ""
 "<qt>Sé aðalglugga lokað mun juK halda áfram að keyra í kerfisbakkanum. "
 "Notaðu hætta frá skráarvalmyndinni til að hætta í forritinu.</qt>"
 
-#: juk.cpp:550
+#: juk.cpp:545
 #, kde-format
 msgid "Docking in System Tray"
 msgstr "Set í kerfisbakka"
@@ -809,32 +809,32 @@ msgstr "Aðal tækjaslá"
 msgid "Play Toolbar"
 msgstr "Spilunarslá"
 
-#: keydialog.cpp:100
+#: keydialog.cpp:102
 #, kde-format
 msgid "Configure Shortcuts"
 msgstr "Stilla flýtihnappa"
 
-#: keydialog.cpp:116
+#: keydialog.cpp:118
 #, kde-format
 msgid "Global Shortcuts"
 msgstr "Altækir flýtihnappar"
 
-#: keydialog.cpp:122
+#: keydialog.cpp:124
 #, kde-format
 msgid "&No keys"
 msgstr "&Engir hnappar"
 
-#: keydialog.cpp:126
+#: keydialog.cpp:128
 #, kde-format
 msgid "&Standard keys"
 msgstr "&Venjulegir hnappar"
 
-#: keydialog.cpp:130
+#: keydialog.cpp:132
 #, kde-format
 msgid "&Multimedia keys"
 msgstr "&Margmiðlunar hnappar"
 
-#: keydialog.cpp:136
+#: keydialog.cpp:138
 #, kde-format
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
@@ -1186,7 +1186,7 @@ msgstr[1] ""
 "Þú ert að fara að endurnefna eftirfarandi skrár. Ertu viss um að þú viljir "
 "halda áfram?"
 
-#: playlist.cpp:577 playlistcollection.cpp:999
+#: playlist.cpp:577 playlistcollection.cpp:1001
 #, kde-format
 msgid "Open Containing Folder"
 msgstr ""
@@ -1272,37 +1272,37 @@ msgstr "Skráarnafn (öll slóðin)"
 msgid "&Show Columns"
 msgstr "&Sýna dálka"
 
-#: playlist.cpp:1712
+#: playlist.cpp:1713
 #, kde-format
 msgid "Add to Play Queue"
 msgstr "Bæta við spilunarröð"
 
-#: playlist.cpp:1726 playlist.cpp:2180
+#: playlist.cpp:1727 playlist.cpp:2181
 #, kde-format
 msgid "Edit"
 msgstr "Breyta"
 
-#: playlist.cpp:1742
+#: playlist.cpp:1743
 #, kde-format
 msgid "Create Playlist From Selected Items..."
 msgstr "Búa til lagalista úr völdum lögum..."
 
-#: playlist.cpp:2094
+#: playlist.cpp:2095
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Breyta '%1'"
 
-#: playlist.cpp:2178
+#: playlist.cpp:2179
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Þetta mun breyta mörgum skrám! Ertu viss?"
 
-#: playlist.cpp:2237 playlistcollection.h:189
+#: playlist.cpp:2238 playlistcollection.h:189
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Búa til nýjan lagalista"
 
-#: playlist.cpp:2246
+#: playlist.cpp:2247
 #, fuzzy, kde-format
 #| msgid ""
 #| "Manual column widths have been enabled.  You can switch back to automatic "
@@ -1314,7 +1314,7 @@ msgstr ""
 "Handvirk dálkabreidd hefur verið sett í gang. Þú getur valið sjálvirka "
 "dálkabreidd í sýnarvalmyndinni."
 
-#: playlist.cpp:2249
+#: playlist.cpp:2250
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Handvirk dálkabreidd virk"
@@ -1329,7 +1329,7 @@ msgstr "Hamur sýnar"
 msgid "Show &History"
 msgstr "&Sýna feril"
 
-#: playlistbox.cpp:222 playlistcollection.cpp:434
+#: playlistbox.cpp:222 playlistcollection.cpp:436
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
@@ -1371,181 +1371,181 @@ msgstr "&Fjarlægja"
 msgid "Hid&e"
 msgstr "&Fela"
 
-#: playlistbox.cpp:632 playlistcollection.cpp:988
+#: playlistbox.cpp:632 playlistcollection.cpp:990
 #, kde-format
 msgid "R&emove"
 msgstr "&Fjarlægja"
 
-#: playlistcollection.cpp:202
+#: playlistcollection.cpp:204
 #, kde-format
 msgid "Dynamic List"
 msgstr "Breytilegur listi"
 
-#: playlistcollection.cpp:243
+#: playlistcollection.cpp:245
 #, kde-format
 msgid "Now Playing"
 msgstr "Nú í spilun"
 
-#: playlistcollection.cpp:359
+#: playlistcollection.cpp:361
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr "Viltu bæta þessum hlutum í núverandi lista eða í safnlistann?"
 
-#: playlistcollection.cpp:361
+#: playlistcollection.cpp:363
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "Núverandi"
 
-#: playlistcollection.cpp:362
+#: playlistcollection.cpp:364
 #, kde-format
 msgid "Collection"
 msgstr "Safn"
 
-#: playlistcollection.cpp:422
+#: playlistcollection.cpp:424
 #, kde-format
 msgid "Rename"
 msgstr "Endurnefna"
 
-#: playlistcollection.cpp:553
+#: playlistcollection.cpp:555
 #, kde-format
 msgid "Search Playlist"
 msgstr "Leitarlagalisti"
 
-#: playlistcollection.cpp:578
+#: playlistcollection.cpp:580
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "Búa til möppulagalista"
 
-#: playlistcollection.cpp:618
+#: playlistcollection.cpp:620
 #, kde-format
 msgid "History"
 msgstr "Ferill"
 
-#: playlistcollection.cpp:784
+#: playlistcollection.cpp:786
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "Vinsamlegast sláðu inn nafn á þennan lagalista:"
 
-#: playlistcollection.cpp:932
+#: playlistcollection.cpp:934
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&Nýtt"
 
-#: playlistcollection.cpp:935
+#: playlistcollection.cpp:937
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "&Tómur lagalisti..."
 
-#: playlistcollection.cpp:939
+#: playlistcollection.cpp:941
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "&Leitarlagalisti..."
 
-#: playlistcollection.cpp:943
+#: playlistcollection.cpp:945
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "Lagalisti frá &möppu..."
 
-#: playlistcollection.cpp:951
+#: playlistcollection.cpp:953
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "&Giska á upplýsingar um merki"
 
-#: playlistcollection.cpp:956
+#: playlistcollection.cpp:958
 #, kde-format
 msgid "From &File Name"
 msgstr "Af &skráarnafni"
 
-#: playlistcollection.cpp:960
+#: playlistcollection.cpp:962
 #, kde-format
 msgid "From &Internet"
 msgstr "Af &Internetinu"
 
-#: playlistcollection.cpp:965
+#: playlistcollection.cpp:967
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "Giska á &merkjaupplýsingar frá skráarnafni"
 
-#: playlistcollection.cpp:972
+#: playlistcollection.cpp:974
 #, kde-format
 msgid "Play First Track"
 msgstr "Spila fyrsta lag"
 
-#: playlistcollection.cpp:974
+#: playlistcollection.cpp:976
 #, kde-format
 msgid "Play Next Album"
 msgstr "Spila næstu plötu"
 
-#: playlistcollection.cpp:981
+#: playlistcollection.cpp:983
 #, kde-format
 msgid "Manage &Folders..."
 msgstr "Sýsla með &möppur..."
 
-#: playlistcollection.cpp:983
+#: playlistcollection.cpp:985
 #, kde-format
 msgid "&Rename..."
 msgstr "&Endurnefna..."
 
-#: playlistcollection.cpp:985
+#: playlistcollection.cpp:987
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "&Afrita..."
 
-#: playlistcollection.cpp:990
+#: playlistcollection.cpp:992
 #, kde-format
 msgid "Reload"
 msgstr "Endurlesa"
 
-#: playlistcollection.cpp:992
+#: playlistcollection.cpp:994
 #, kde-format
 msgid "Edit Search..."
 msgstr "Breyta leit..."
 
-#: playlistcollection.cpp:995
+#: playlistcollection.cpp:997
 #, kde-format
 msgid "&Delete"
 msgstr "&Eyða"
 
-#: playlistcollection.cpp:997
+#: playlistcollection.cpp:999
 #, kde-format
 msgid "Refresh"
 msgstr "Endurlesa"
 
-#: playlistcollection.cpp:1001
+#: playlistcollection.cpp:1003
 #, kde-format
 msgid "&Rename File"
 msgstr "E&ndurnefna skrá"
 
-#: playlistcollection.cpp:1008
+#: playlistcollection.cpp:1010
 #, kde-format
 msgid "&View Cover"
 msgstr "&Sýna umslag"
 
-#: playlistcollection.cpp:1010
+#: playlistcollection.cpp:1012
 #, kde-format
 msgid "Get Cover From &File..."
 msgstr "&Ná í umslag út skrá..."
 
-#: playlistcollection.cpp:1013
+#: playlistcollection.cpp:1015
 #, kde-format
 msgid "Get Cover From &Internet..."
 msgstr "Ná í umslag af &internetinu..."
 
-#: playlistcollection.cpp:1017
+#: playlistcollection.cpp:1019
 #, kde-format
 msgid "&Delete Cover"
 msgstr "&Eyða umslagi"
 
-#: playlistcollection.cpp:1019
+#: playlistcollection.cpp:1021
 #, kde-format
 msgid "Show Cover &Manager"
 msgstr "Sýna &umslagastjóra"
 
-#: playlistcollection.cpp:1023
+#: playlistcollection.cpp:1025
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "Sýna s&pilunarröð"
@@ -1623,27 +1623,27 @@ msgstr "Innskráning er ógild."
 msgid "Login valid."
 msgstr "Innskráning er gild."
 
-#: searchwidget.cpp:72
+#: searchwidget.cpp:73
 #, kde-format
 msgid "Normal Matching"
 msgstr "Venjuleg samsvörun"
 
-#: searchwidget.cpp:73
+#: searchwidget.cpp:74
 #, kde-format
 msgid "Case Sensitive"
 msgstr "Háð há-/lágstöfum"
 
-#: searchwidget.cpp:74
+#: searchwidget.cpp:75
 #, kde-format
 msgid "Pattern Matching"
 msgstr "Mynstur samsvörun"
 
-#: searchwidget.cpp:168
+#: searchwidget.cpp:169
 #, kde-format
 msgid "All Visible"
 msgstr "Öll sýnileg"
 
-#: searchwidget.cpp:199
+#: searchwidget.cpp:200
 #, fuzzy, kde-format
 #| msgid "Edit Search..."
 msgid "Search..."

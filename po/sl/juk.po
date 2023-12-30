@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:30+0000\n"
+"POT-Creation-Date: 2023-12-30 01:37+0000\n"
 "PO-Revision-Date: 2023-11-21 16:13+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -105,23 +105,23 @@ msgstr ""
 msgid "Show Playing"
 msgstr "Prikaži predvajanje"
 
-#: coverdialog.cpp:37
+#: coverdialog.cpp:38
 #, kde-format
 msgid "<All Artists>"
 msgstr "<All Artists>"
 
-#: coverdialog.cpp:148
+#: coverdialog.cpp:149
 #, kde-format
 msgid "Remove Cover"
 msgstr "Odstrani ovitek"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:1005
+#: coverdialogbase.ui:14 playlistcollection.cpp:1007
 #, kde-format
 msgid "Cover Manager"
 msgstr "Upravljalnik ovitkov"
 
-#: deletedialog.cpp:62
+#: deletedialog.cpp:65
 #, kde-format
 msgid "<b>1</b> file selected."
 msgid_plural "<b>%1</b> files selected."
@@ -130,23 +130,23 @@ msgstr[1] "<b>%1</b> izbrani datoteki."
 msgstr[2] "<b>%1</b> izbrane datoteke."
 msgstr[3] "<b>%1</b> izbranih datotek."
 
-#: deletedialog.cpp:75
+#: deletedialog.cpp:78
 #, kde-format
 msgid ""
 "<qt>These items will be <b>permanently deleted</b> from your hard disk.</qt>"
 msgstr "<qt>Ti predmeti bodo <b>trajno izbrisani</b> s trdega diska.</qt>"
 
-#: deletedialog.cpp:81
+#: deletedialog.cpp:84
 #, kde-format
 msgid "<qt>These items will be moved to the Trash Bin.</qt>"
 msgstr "<qt>Ti predmeti bodo prestavljeni v Smeti.</qt>"
 
-#: deletedialog.cpp:93
+#: deletedialog.cpp:96
 #, kde-format
 msgid "&Send to Trash"
 msgstr "Pošlji v Smeti"
 
-#: deletedialog.cpp:97
+#: deletedialog.cpp:100
 #, kde-format
 msgid "About to delete selected files"
 msgstr "Izbrane datoteke bodo izbrisane"
@@ -233,7 +233,7 @@ msgstr "Izberite mape, ki bi jih radi izločili iz iskanja za glasbo:"
 msgid "Import playlists"
 msgstr "Uvozi sezname predvajanja"
 
-#: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -332,73 +332,73 @@ msgstr "Album"
 msgid "Genre"
 msgstr "Zvrst"
 
-#: filerenamer.cpp:67
+#: filerenamer.cpp:69
 #, kde-format
 msgctxt "warning about mass file rename"
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: filerenamer.cpp:78
+#: filerenamer.cpp:80
 #, kde-format
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
 "continue?"
 msgstr "Preimenovali boste naslednje datoteke. Ali zares želite nadaljevati?"
 
-#: filerenamer.cpp:85
+#: filerenamer.cpp:87
 #, kde-format
 msgid "Original Name"
 msgstr "Prvotno ime"
 
-#: filerenamer.cpp:86
+#: filerenamer.cpp:88
 #, kde-format
 msgid "New Name"
 msgstr "Novo ime"
 
-#: filerenamer.cpp:109
+#: filerenamer.cpp:111
 #, kde-format
 msgid "No Change"
 msgstr "Brez sprememb"
 
-#: filerenamer.cpp:398
+#: filerenamer.cpp:400
 #, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
 msgstr "Odstrani"
 
-#: filerenamer.cpp:401
+#: filerenamer.cpp:403
 #, kde-format
 msgctxt "file renamer genre options"
 msgid "Options"
 msgstr "Možnosti"
 
-#: filerenamer.cpp:513
+#: filerenamer.cpp:515
 #, kde-format
 msgid "Insert folder separator"
 msgstr "Vstavi ločilnik map"
 
-#: filerenamer.cpp:584
+#: filerenamer.cpp:586
 #, kde-format
 msgid "No file selected, or selected file has no tags."
 msgstr "Ni izbranih datotek ali pa izbrane datoteke nimajo oznak."
 
-#: filerenamer.cpp:815
+#: filerenamer.cpp:817
 #, kde-format
 msgid "Hide Renamer Test Dialog"
 msgstr "Skrij preizkusno okno preimenovalnika"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:820 filerenamerbase.ui:257
+#: filerenamer.cpp:822 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
 msgstr "Prikaži poskusno okno preimenovalnika"
 
-#: filerenamer.cpp:902
+#: filerenamer.cpp:904
 #, kde-format
 msgid "%1 to %2"
 msgstr "%1 v %2"
 
-#: filerenamer.cpp:909
+#: filerenamer.cpp:911
 #, kde-format
 msgid "The following rename operations failed:\n"
 msgstr "Naslednja dejanja preimenovanja niso uspela:\n"
@@ -589,160 +589,160 @@ msgstr "14 →"
 msgid "Time"
 msgstr "Čas"
 
-#: juk.cpp:209
+#: juk.cpp:211
 #, kde-format
 msgid "Your album art failed to download."
 msgstr "Ovitka albuma ni bilo mogoče prejeti."
 
-#: juk.cpp:211
+#: juk.cpp:213
 #, kde-format
 msgid "Your album art has finished downloading."
 msgstr "Prejemanje ovitka albuma se je zaključilo."
 
-#: juk.cpp:255 systemtray.cpp:184
+#: juk.cpp:257 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "Naključno p&redvajaj"
 
-#: juk.cpp:262
+#: juk.cpp:264
 #, kde-format
 msgid "&Disable Random Play"
 msgstr "Onemogoči naključno predvajanje"
 
-#: juk.cpp:268
+#: juk.cpp:270
 #, kde-format
 msgid "Use &Random Play"
 msgstr "Uporabi naključno p%redvajanje"
 
-#: juk.cpp:274
+#: juk.cpp:276
 #, kde-format
 msgid "Use &Album Random Play"
 msgstr "Uporabi naključno predvajanje &albumov"
 
-#: juk.cpp:282
+#: juk.cpp:284
 #, kde-format
 msgid "Remove From Playlist"
 msgstr "Odstrani s seznama predvajanja"
 
-#: juk.cpp:286
+#: juk.cpp:288
 #, kde-format
 msgid "&Play"
 msgstr "&Predvajaj"
 
-#: juk.cpp:291
+#: juk.cpp:293
 #, kde-format
 msgid "P&ause"
 msgstr "P&avza"
 
-#: juk.cpp:296
+#: juk.cpp:298
 #, kde-format
 msgid "&Stop"
 msgstr "Zau&stavi"
 
-#: juk.cpp:299
+#: juk.cpp:301
 #, kde-format
 msgctxt "previous track"
 msgid "Previous"
 msgstr "Predhodna"
 
-#: juk.cpp:306
+#: juk.cpp:308
 #, kde-format
 msgctxt "next track"
 msgid "&Next"
 msgstr "&Naslednja"
 
-#: juk.cpp:310
+#: juk.cpp:312
 #, kde-format
 msgid "&Loop Playlist"
 msgstr "Ponav&ljaj seznam predvajanja"
 
-#: juk.cpp:314
+#: juk.cpp:316
 #, kde-format
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Ročno spremeni velikost stolpcev seznama predvajanja"
 
-#: juk.cpp:319
+#: juk.cpp:321
 #, kde-format
 msgctxt "silence playback"
 msgid "Mute"
 msgstr "Utišaj"
 
-#: juk.cpp:323
+#: juk.cpp:325
 #, kde-format
 msgid "Volume Up"
 msgstr "Povečaj glasnost"
 
-#: juk.cpp:327
+#: juk.cpp:329
 #, kde-format
 msgid "Volume Down"
 msgstr "Zmanjšaj glasnost"
 
-#: juk.cpp:331
+#: juk.cpp:333
 #, kde-format
 msgid "Play / Pause"
 msgstr "Predvajaj / Premor"
 
-#: juk.cpp:335
+#: juk.cpp:337
 #, kde-format
 msgid "Seek Forward"
 msgstr "Previj naprej"
 
-#: juk.cpp:339
+#: juk.cpp:341
 #, kde-format
 msgid "Seek Back"
 msgstr "Previj nazaj"
 
-#: juk.cpp:343
+#: juk.cpp:345
 #, kde-format
 msgid "Show / Hide"
 msgstr "Pokaži / Skrij"
 
-#: juk.cpp:350
+#: juk.cpp:352
 #, kde-format
 msgid "&Dock in System Tray"
 msgstr "Zasi&draj v sistemsko vrstico"
 
-#: juk.cpp:354
+#: juk.cpp:356
 #, kde-format
 msgid "&Stay in System Tray on Close"
 msgstr "Os&tani v sistemski vrstici ob zaprtju"
 
-#: juk.cpp:357
+#: juk.cpp:359
 #, kde-format
 msgid "Popup &Track Announcement"
 msgstr "Pojavitev napovedi skladbe"
 
-#: juk.cpp:360
+#: juk.cpp:362
 #, kde-format
 msgid "Save &Play Queue on Exit"
 msgstr "Shrani &predvajalno vrsto ob izhodu"
 
-#: juk.cpp:363
+#: juk.cpp:365
 #, kde-format
 msgid "&Tag Guesser..."
 msgstr "Uganjevalnik oznak..."
 
-#: juk.cpp:366
+#: juk.cpp:368
 #, kde-format
 msgid "&File Renamer..."
 msgstr "Preimenovalnik datotek ..."
 
-#: juk.cpp:369
+#: juk.cpp:371
 #, kde-format
 msgid "&Configure scrobbling..."
 msgstr "Nastavi pošiljanje podatkov o skladbah..."
 
-#: juk.cpp:376
+#: juk.cpp:378
 #, kde-format
 msgid "Track Position"
 msgstr "Položaj skladbe"
 
-#: juk.cpp:378 slider.cpp:125
+#: juk.cpp:380 slider.cpp:125
 #, kde-format
 msgid "Volume"
 msgstr "Glasnost"
 
-#: juk.cpp:548
+#: juk.cpp:543
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -751,7 +751,7 @@ msgstr ""
 "<qt>Po zaprtju glavnega okna bo JuK še vedno tekel v sistemski vrstici. "
 "Uporabite ukaz »Končaj« iz menija »Datoteka«, če želite končati program.</qt>"
 
-#: juk.cpp:550
+#: juk.cpp:545
 #, kde-format
 msgid "Docking in System Tray"
 msgstr "Zasidranje v sistemsko vrstico"
@@ -804,32 +804,32 @@ msgstr "Glavna orodna vrstica"
 msgid "Play Toolbar"
 msgstr "Orodna vrstica predvajanja"
 
-#: keydialog.cpp:100
+#: keydialog.cpp:102
 #, kde-format
 msgid "Configure Shortcuts"
 msgstr "Nastavi bližnjice"
 
-#: keydialog.cpp:116
+#: keydialog.cpp:118
 #, kde-format
 msgid "Global Shortcuts"
 msgstr "Splošne bližnjice"
 
-#: keydialog.cpp:122
+#: keydialog.cpp:124
 #, kde-format
 msgid "&No keys"
 msgstr "&Ni tipk"
 
-#: keydialog.cpp:126
+#: keydialog.cpp:128
 #, kde-format
 msgid "&Standard keys"
 msgstr "&Standardne tipke"
 
-#: keydialog.cpp:130
+#: keydialog.cpp:132
 #, kde-format
 msgid "&Multimedia keys"
 msgstr "Predstavnostne tipke"
 
-#: keydialog.cpp:136
+#: keydialog.cpp:138
 #, kde-format
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
@@ -1170,7 +1170,7 @@ msgstr[1] "Nameravate odpreti %1 imenika. Ali zares želite nadaljevati?"
 msgstr[2] "Nameravate odpreti %1 imenike. Ali zares želite nadaljevati?"
 msgstr[3] "Nameravate odpreti %1 imenikov. Ali zares želite nadaljevati?"
 
-#: playlist.cpp:577 playlistcollection.cpp:999
+#: playlist.cpp:577 playlistcollection.cpp:1001
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Odpri vsebovano mapo"
@@ -1256,37 +1256,37 @@ msgstr "Ime datoteke (polna pot)"
 msgid "&Show Columns"
 msgstr "Pokaži &stolpce"
 
-#: playlist.cpp:1712
+#: playlist.cpp:1713
 #, kde-format
 msgid "Add to Play Queue"
 msgstr "Dodaj v predvajalno vrsto"
 
-#: playlist.cpp:1726 playlist.cpp:2180
+#: playlist.cpp:1727 playlist.cpp:2181
 #, kde-format
 msgid "Edit"
 msgstr "Uredi"
 
-#: playlist.cpp:1742
+#: playlist.cpp:1743
 #, kde-format
 msgid "Create Playlist From Selected Items..."
 msgstr "Ustvari seznam predvajanja iz izbranih vnosov..."
 
-#: playlist.cpp:2094
+#: playlist.cpp:2095
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Uredi '%1'"
 
-#: playlist.cpp:2178
+#: playlist.cpp:2179
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "To bo uredilo več datotek. Ali ste prepričani?"
 
-#: playlist.cpp:2237 playlistcollection.h:189
+#: playlist.cpp:2238 playlistcollection.h:189
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Ustvari nov seznam predvajanja"
 
-#: playlist.cpp:2246
+#: playlist.cpp:2247
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1295,7 +1295,7 @@ msgstr ""
 "Ročne širine stolpcev so bile omogočene. Na samodejno spreminjanje velikosti "
 "lahko preklopite v meniju Pogled."
 
-#: playlist.cpp:2249
+#: playlist.cpp:2250
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Ročne širine stolpcev omogočene"
@@ -1310,7 +1310,7 @@ msgstr "Načini prikaza"
 msgid "Show &History"
 msgstr "Pokaži zgodovino"
 
-#: playlistbox.cpp:222 playlistcollection.cpp:434
+#: playlistbox.cpp:222 playlistcollection.cpp:436
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
@@ -1352,181 +1352,181 @@ msgstr "Odstrani"
 msgid "Hid&e"
 msgstr "Skrij"
 
-#: playlistbox.cpp:632 playlistcollection.cpp:988
+#: playlistbox.cpp:632 playlistcollection.cpp:990
 #, kde-format
 msgid "R&emove"
 msgstr "Odstrani"
 
-#: playlistcollection.cpp:202
+#: playlistcollection.cpp:204
 #, kde-format
 msgid "Dynamic List"
 msgstr "Dinamičen seznam"
 
-#: playlistcollection.cpp:243
+#: playlistcollection.cpp:245
 #, kde-format
 msgid "Now Playing"
 msgstr "Trenutno se predvaja"
 
-#: playlistcollection.cpp:359
+#: playlistcollection.cpp:361
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr "Ali želite dodati te predmete na trenuten seznam ali na seznam zbirk?"
 
-#: playlistcollection.cpp:361
+#: playlistcollection.cpp:363
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "Trenutni"
 
-#: playlistcollection.cpp:362
+#: playlistcollection.cpp:364
 #, kde-format
 msgid "Collection"
 msgstr "Zbirka"
 
-#: playlistcollection.cpp:422
+#: playlistcollection.cpp:424
 #, kde-format
 msgid "Rename"
 msgstr "Preimenuj"
 
-#: playlistcollection.cpp:553
+#: playlistcollection.cpp:555
 #, kde-format
 msgid "Search Playlist"
 msgstr "Iskalni seznam predvajanja"
 
-#: playlistcollection.cpp:578
+#: playlistcollection.cpp:580
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "Ustvari seznam predvajanja mape"
 
-#: playlistcollection.cpp:618
+#: playlistcollection.cpp:620
 #, kde-format
 msgid "History"
 msgstr "Zgodovina"
 
-#: playlistcollection.cpp:784
+#: playlistcollection.cpp:786
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "Vnesite ime za ta seznam predvajanja:"
 
-#: playlistcollection.cpp:932
+#: playlistcollection.cpp:934
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&Nov"
 
-#: playlistcollection.cpp:935
+#: playlistcollection.cpp:937
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "Prazen seznam predvajanja..."
 
-#: playlistcollection.cpp:939
+#: playlistcollection.cpp:941
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "I&skalni seznam predvajanja..."
 
-#: playlistcollection.cpp:943
+#: playlistcollection.cpp:945
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "Seznam predvajanja iz mape..."
 
-#: playlistcollection.cpp:951
+#: playlistcollection.cpp:953
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "Ugani podatke za oznake"
 
-#: playlistcollection.cpp:956
+#: playlistcollection.cpp:958
 #, kde-format
 msgid "From &File Name"
 msgstr "Iz imena datoteke"
 
-#: playlistcollection.cpp:960
+#: playlistcollection.cpp:962
 #, kde-format
 msgid "From &Internet"
 msgstr "Z &interneta"
 
-#: playlistcollection.cpp:965
+#: playlistcollection.cpp:967
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "Ugani oznake iz imena datoteke"
 
-#: playlistcollection.cpp:972
+#: playlistcollection.cpp:974
 #, kde-format
 msgid "Play First Track"
 msgstr "Predvajaj prvo skladbo"
 
-#: playlistcollection.cpp:974
+#: playlistcollection.cpp:976
 #, kde-format
 msgid "Play Next Album"
 msgstr "Predvajaj naslednji album"
 
-#: playlistcollection.cpp:981
+#: playlistcollection.cpp:983
 #, kde-format
 msgid "Manage &Folders..."
 msgstr "Upravljanje map..."
 
-#: playlistcollection.cpp:983
+#: playlistcollection.cpp:985
 #, kde-format
 msgid "&Rename..."
 msgstr "P&reimenuj..."
 
-#: playlistcollection.cpp:985
+#: playlistcollection.cpp:987
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "Po&dvoji ..."
 
-#: playlistcollection.cpp:990
+#: playlistcollection.cpp:992
 #, kde-format
 msgid "Reload"
 msgstr "Znova naloži"
 
-#: playlistcollection.cpp:992
+#: playlistcollection.cpp:994
 #, kde-format
 msgid "Edit Search..."
 msgstr "Uredi iskanje..."
 
-#: playlistcollection.cpp:995
+#: playlistcollection.cpp:997
 #, kde-format
 msgid "&Delete"
 msgstr "Izbriši"
 
-#: playlistcollection.cpp:997
+#: playlistcollection.cpp:999
 #, kde-format
 msgid "Refresh"
 msgstr "Osveži"
 
-#: playlistcollection.cpp:1001
+#: playlistcollection.cpp:1003
 #, kde-format
 msgid "&Rename File"
 msgstr "P&reimenuj datoteko"
 
-#: playlistcollection.cpp:1008
+#: playlistcollection.cpp:1010
 #, kde-format
 msgid "&View Cover"
 msgstr "Prikaži ovitek"
 
-#: playlistcollection.cpp:1010
+#: playlistcollection.cpp:1012
 #, kde-format
 msgid "Get Cover From &File..."
 msgstr "Dobi ovitek iz datoteke ..."
 
-#: playlistcollection.cpp:1013
+#: playlistcollection.cpp:1015
 #, kde-format
 msgid "Get Cover From &Internet..."
 msgstr "Dobi ovitek z &interneta ..."
 
-#: playlistcollection.cpp:1017
+#: playlistcollection.cpp:1019
 #, kde-format
 msgid "&Delete Cover"
 msgstr "Izbriši ovitek"
 
-#: playlistcollection.cpp:1019
+#: playlistcollection.cpp:1021
 #, kde-format
 msgid "Show Cover &Manager"
 msgstr "Prikaži upravljalnik ovitkov"
 
-#: playlistcollection.cpp:1023
+#: playlistcollection.cpp:1025
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "Prikaži &predvajalno vrsto"
@@ -1603,27 +1603,27 @@ msgstr "Prijava je neveljavna."
 msgid "Login valid."
 msgstr "Prijava je veljavna."
 
-#: searchwidget.cpp:72
+#: searchwidget.cpp:73
 #, kde-format
 msgid "Normal Matching"
 msgstr "Običajno ujemanje"
 
-#: searchwidget.cpp:73
+#: searchwidget.cpp:74
 #, kde-format
 msgid "Case Sensitive"
 msgstr "Ločevanje velikosti črk"
 
-#: searchwidget.cpp:74
+#: searchwidget.cpp:75
 #, kde-format
 msgid "Pattern Matching"
 msgstr "Ujemanje vzorcev"
 
-#: searchwidget.cpp:168
+#: searchwidget.cpp:169
 #, kde-format
 msgid "All Visible"
 msgstr "Vse vidno"
 
-#: searchwidget.cpp:199
+#: searchwidget.cpp:200
 #, kde-format
 msgid "Search..."
 msgstr "Išči..."

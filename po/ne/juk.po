@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:30+0000\n"
+"POT-Creation-Date: 2023-12-30 01:37+0000\n"
 "PO-Revision-Date: 2007-08-20 12:38+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -99,47 +99,47 @@ msgstr ""
 msgid "Show Playing"
 msgstr "बजिरहेको देखाउनुहोस्"
 
-#: coverdialog.cpp:37
+#: coverdialog.cpp:38
 #, fuzzy, kde-format
 #| msgid "Artists"
 msgid "<All Artists>"
 msgstr "कलाकार"
 
-#: coverdialog.cpp:148
+#: coverdialog.cpp:149
 #, kde-format
 msgid "Remove Cover"
 msgstr "आवरण हटाउनुहोस्"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:1005
+#: coverdialogbase.ui:14 playlistcollection.cpp:1007
 #, kde-format
 msgid "Cover Manager"
 msgstr "आवरण प्रबन्धक"
 
-#: deletedialog.cpp:62
+#: deletedialog.cpp:65
 #, fuzzy, kde-format
 msgid "<b>1</b> file selected."
 msgid_plural "<b>%1</b> files selected."
 msgstr[0] "<b>१</b> फाइल चयन गरियो ।"
 msgstr[1] "<b>%1</b> फाइल चयन गरियो ।"
 
-#: deletedialog.cpp:75
+#: deletedialog.cpp:78
 #, kde-format
 msgid ""
 "<qt>These items will be <b>permanently deleted</b> from your hard disk.</qt>"
 msgstr "<qt>यी वस्तुहरू <b>तपाईँको हार्डडिक्सबाट</b> स्थायी रूपमा मेटिनेछन् ।</qt>"
 
-#: deletedialog.cpp:81
+#: deletedialog.cpp:84
 #, kde-format
 msgid "<qt>These items will be moved to the Trash Bin.</qt>"
 msgstr "<qt>यी वस्तुहरू रद्दीटोकरीमा सारिनेछन् ।</qt>"
 
-#: deletedialog.cpp:93
+#: deletedialog.cpp:96
 #, kde-format
 msgid "&Send to Trash"
 msgstr "रद्दीटोकरीमा पठाउनुहोस्"
 
-#: deletedialog.cpp:97
+#: deletedialog.cpp:100
 #, kde-format
 msgid "About to delete selected files"
 msgstr "चयन गरिएको फाइल मेट्ने बारे"
@@ -224,7 +224,7 @@ msgstr ""
 msgid "Import playlists"
 msgstr "बजाउने सूची आयात गर्नुहोस्"
 
-#: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -325,73 +325,73 @@ msgstr "एल्बम"
 msgid "Genre"
 msgstr "विधा"
 
-#: filerenamer.cpp:67
+#: filerenamer.cpp:69
 #, kde-format
 msgctxt "warning about mass file rename"
 msgid "Warning"
 msgstr ""
 
-#: filerenamer.cpp:78
+#: filerenamer.cpp:80
 #, kde-format
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
 "continue?"
 msgstr "तपाईँ निम्न फाइल पुन: नामकरण गर्दै हुनुहुन्छ । तपाईँ जारी राख्न निश्चित हुनुहुन्छ ?"
 
-#: filerenamer.cpp:85
+#: filerenamer.cpp:87
 #, kde-format
 msgid "Original Name"
 msgstr "मौलिक नाम"
 
-#: filerenamer.cpp:86
+#: filerenamer.cpp:88
 #, kde-format
 msgid "New Name"
 msgstr "नयाँ नाम"
 
-#: filerenamer.cpp:109
+#: filerenamer.cpp:111
 #, kde-format
 msgid "No Change"
 msgstr "कुनै परिवर्तन छैन"
 
-#: filerenamer.cpp:398
+#: filerenamer.cpp:400
 #, fuzzy, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
 msgstr "हटाउनुहोस्"
 
-#: filerenamer.cpp:401
+#: filerenamer.cpp:403
 #, fuzzy, kde-format
 msgctxt "file renamer genre options"
 msgid "Options"
 msgstr "%1 विकल्प"
 
-#: filerenamer.cpp:513
+#: filerenamer.cpp:515
 #, kde-format
 msgid "Insert folder separator"
 msgstr "फोल्डर विभाजक घुसाउनुहोस्"
 
-#: filerenamer.cpp:584
+#: filerenamer.cpp:586
 #, kde-format
 msgid "No file selected, or selected file has no tags."
 msgstr "कुनै फाइल चयन गरिएको छैन वा चयन गरिएको फाइलसँग कुनै ट्याग छैन ।"
 
-#: filerenamer.cpp:815
+#: filerenamer.cpp:817
 #, kde-format
 msgid "Hide Renamer Test Dialog"
 msgstr "पुन: नामकरण गर्ने परीक्षण संवाद लुकाउनुहोस्"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:820 filerenamerbase.ui:257
+#: filerenamer.cpp:822 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
 msgstr "पुन: नामकरण गर्ने परीक्षण संवाद देखाउनुहोस्"
 
-#: filerenamer.cpp:902
+#: filerenamer.cpp:904
 #, kde-format
 msgid "%1 to %2"
 msgstr "%2 मा %1"
 
-#: filerenamer.cpp:909
+#: filerenamer.cpp:911
 #, kde-format
 msgid "The following rename operations failed:\n"
 msgstr "निम्न पुन: नामकरण सञ्चालन असफल भयो:\n"
@@ -587,162 +587,162 @@ msgstr "१४ ->"
 msgid "Time"
 msgstr "समय"
 
-#: juk.cpp:209
+#: juk.cpp:211
 #, kde-format
 msgid "Your album art failed to download."
 msgstr ""
 
-#: juk.cpp:211
+#: juk.cpp:213
 #, kde-format
 msgid "Your album art has finished downloading."
 msgstr ""
 
-#: juk.cpp:255 systemtray.cpp:184
+#: juk.cpp:257 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "अनियमित बजाइ"
 
-#: juk.cpp:262
+#: juk.cpp:264
 #, kde-format
 msgid "&Disable Random Play"
 msgstr "अनियमित बजाइ अक्षम पार्नुहोस्"
 
-#: juk.cpp:268
+#: juk.cpp:270
 #, kde-format
 msgid "Use &Random Play"
 msgstr "अनियमित बजाइ प्रयोग गर्नुहोस्"
 
-#: juk.cpp:274
+#: juk.cpp:276
 #, kde-format
 msgid "Use &Album Random Play"
 msgstr "एल्बम अनियमित बजाइ प्रयोग गर्नुहोस्"
 
-#: juk.cpp:282
+#: juk.cpp:284
 #, kde-format
 msgid "Remove From Playlist"
 msgstr "बजाउने सूचीबाट हटाउनुहोस्"
 
-#: juk.cpp:286
+#: juk.cpp:288
 #, kde-format
 msgid "&Play"
 msgstr "बजाउनुहोस्"
 
-#: juk.cpp:291
+#: juk.cpp:293
 #, kde-format
 msgid "P&ause"
 msgstr "पज गर्नुहोस्"
 
-#: juk.cpp:296
+#: juk.cpp:298
 #, kde-format
 msgid "&Stop"
 msgstr "रोक्नुहोस्"
 
-#: juk.cpp:299
+#: juk.cpp:301
 #, kde-format
 msgctxt "previous track"
 msgid "Previous"
 msgstr "अघिल्लो"
 
-#: juk.cpp:306
+#: juk.cpp:308
 #, kde-format
 msgctxt "next track"
 msgid "&Next"
 msgstr "पछिल्लो"
 
-#: juk.cpp:310
+#: juk.cpp:312
 #, kde-format
 msgid "&Loop Playlist"
 msgstr "लूप बजाउने सूची"
 
-#: juk.cpp:314
+#: juk.cpp:316
 #, kde-format
 msgid "&Resize Playlist Columns Manually"
 msgstr "प्ले सूची स्तम्भ म्यानुअल तरिकाले रिसाइज गर्नुहोस्"
 
-#: juk.cpp:319
+#: juk.cpp:321
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgctxt "silence playback"
 msgid "Mute"
 msgstr "मौन"
 
-#: juk.cpp:323
+#: juk.cpp:325
 #, kde-format
 msgid "Volume Up"
 msgstr "भोल्युम बढाउनुहोस्"
 
-#: juk.cpp:327
+#: juk.cpp:329
 #, kde-format
 msgid "Volume Down"
 msgstr "भोल्युम घटाउनुहोस्"
 
-#: juk.cpp:331
+#: juk.cpp:333
 #, kde-format
 msgid "Play / Pause"
 msgstr "प्ले / पज गर्नुहोस्"
 
-#: juk.cpp:335
+#: juk.cpp:337
 #, kde-format
 msgid "Seek Forward"
 msgstr "अघिल्तिर खोजी गर्नुहोस्"
 
-#: juk.cpp:339
+#: juk.cpp:341
 #, kde-format
 msgid "Seek Back"
 msgstr "पछिल्लितर खोजी गर्नुहोस्"
 
-#: juk.cpp:343
+#: juk.cpp:345
 #, kde-format
 msgid "Show / Hide"
 msgstr "देखाउनुहोस् / लुकाउनुहोस्"
 
-#: juk.cpp:350
+#: juk.cpp:352
 #, kde-format
 msgid "&Dock in System Tray"
 msgstr "प्रणाली ट्रेमा डक गर्नुहोस्"
 
-#: juk.cpp:354
+#: juk.cpp:356
 #, kde-format
 msgid "&Stay in System Tray on Close"
 msgstr "बन्द गर्दा प्रणाली ट्रेमा रोकिनुहोस्"
 
-#: juk.cpp:357
+#: juk.cpp:359
 #, kde-format
 msgid "Popup &Track Announcement"
 msgstr "पपअप ट्रयाक जानकारी"
 
-#: juk.cpp:360
+#: juk.cpp:362
 #, kde-format
 msgid "Save &Play Queue on Exit"
 msgstr "निस्कँदा बजाउने लामलाई बचत गर्नुहोस्"
 
-#: juk.cpp:363
+#: juk.cpp:365
 #, kde-format
 msgid "&Tag Guesser..."
 msgstr "ट्याग अनुमानकर्ता..."
 
-#: juk.cpp:366
+#: juk.cpp:368
 #, kde-format
 msgid "&File Renamer..."
 msgstr "फाइल पुन: नामकरणकर्ता..."
 
-#: juk.cpp:369
+#: juk.cpp:371
 #, kde-format
 msgid "&Configure scrobbling..."
 msgstr ""
 
-#: juk.cpp:376
+#: juk.cpp:378
 #, kde-format
 msgid "Track Position"
 msgstr "ट्रयाक स्थिति"
 
-#: juk.cpp:378 slider.cpp:125
+#: juk.cpp:380 slider.cpp:125
 #, fuzzy, kde-format
 #| msgid "Volume Up"
 msgid "Volume"
 msgstr "भोल्युम बढाउनुहोस्"
 
-#: juk.cpp:548
+#: juk.cpp:543
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -751,7 +751,7 @@ msgstr ""
 "<qt>मुख्य सञ्झ्याल बन्द गर्नाले प्रणाली ट्रेमा चलिरहेको ज्युके राख्नेछ । अनुप्रयोग अन्त्य गर्न "
 "फाइल मेनुबाट 'अन्त्य गर्नुहोस्' प्रयोग गर्नुहोस् ।</qt>"
 
-#: juk.cpp:550
+#: juk.cpp:545
 #, kde-format
 msgid "Docking in System Tray"
 msgstr "प्रणाली ट्रेमा डक गर्दैछ"
@@ -805,32 +805,32 @@ msgstr "प्ले गर्ने उपकरणपट्टी"
 msgid "Play Toolbar"
 msgstr "प्ले गर्ने उपकरणपट्टी"
 
-#: keydialog.cpp:100
+#: keydialog.cpp:102
 #, kde-format
 msgid "Configure Shortcuts"
 msgstr "सर्टकट कन्फिगर गर्नुहोस्"
 
-#: keydialog.cpp:116
+#: keydialog.cpp:118
 #, kde-format
 msgid "Global Shortcuts"
 msgstr "विश्वव्यापि सर्टकट"
 
-#: keydialog.cpp:122
+#: keydialog.cpp:124
 #, kde-format
 msgid "&No keys"
 msgstr "कुञ्जी छैन"
 
-#: keydialog.cpp:126
+#: keydialog.cpp:128
 #, kde-format
 msgid "&Standard keys"
 msgstr "मानक कुञ्जी"
 
-#: keydialog.cpp:130
+#: keydialog.cpp:132
 #, kde-format
 msgid "&Multimedia keys"
 msgstr "मल्टिमिडिया कुञ्जी"
 
-#: keydialog.cpp:136
+#: keydialog.cpp:138
 #, kde-format
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
@@ -1179,7 +1179,7 @@ msgid_plural ""
 msgstr[0] "तपाईँ निम्न फाइल पुन: नामकरण गर्दै हुनुहुन्छ । तपाईँ जारी राख्न निश्चित हुनुहुन्छ ?"
 msgstr[1] "तपाईँ निम्न फाइल पुन: नामकरण गर्दै हुनुहुन्छ । तपाईँ जारी राख्न निश्चित हुनुहुन्छ ?"
 
-#: playlist.cpp:577 playlistcollection.cpp:999
+#: playlist.cpp:577 playlistcollection.cpp:1001
 #, kde-format
 msgid "Open Containing Folder"
 msgstr ""
@@ -1266,37 +1266,37 @@ msgstr "फाइलको नाम (पूरा मार्ग)"
 msgid "&Show Columns"
 msgstr "स्तम्भ देखाउनुहोस्"
 
-#: playlist.cpp:1712
+#: playlist.cpp:1713
 #, kde-format
 msgid "Add to Play Queue"
 msgstr "बजाउने लाममा थप्नुहोस्"
 
-#: playlist.cpp:1726 playlist.cpp:2180
+#: playlist.cpp:1727 playlist.cpp:2181
 #, fuzzy, kde-format
 msgid "Edit"
 msgstr "'%1' सम्पादन गर्नुहोस्"
 
-#: playlist.cpp:1742
+#: playlist.cpp:1743
 #, kde-format
 msgid "Create Playlist From Selected Items..."
 msgstr "चयन गरिएको वस्तुबाट बजाउने सूची सिर्जना गर्नुहोस्..."
 
-#: playlist.cpp:2094
+#: playlist.cpp:2095
 #, kde-format
 msgid "Edit '%1'"
 msgstr "'%1' सम्पादन गर्नुहोस्"
 
-#: playlist.cpp:2178
+#: playlist.cpp:2179
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "यसले बहुविध फाइलहरू सम्पादन गर्नेछ । तपाईँ निश्चित हुनुहुन्छ ?"
 
-#: playlist.cpp:2237 playlistcollection.h:189
+#: playlist.cpp:2238 playlistcollection.h:189
 #, kde-format
 msgid "Create New Playlist"
 msgstr "नयाँ बजाउने सूची सिर्जना गर्नुहोस्"
 
-#: playlist.cpp:2246
+#: playlist.cpp:2247
 #, fuzzy, kde-format
 #| msgid ""
 #| "Manual column widths have been enabled.  You can switch back to automatic "
@@ -1308,7 +1308,7 @@ msgstr ""
 "म्यानुअल स्तम्भ चौडाइ सक्षम पारिएको छ । तपाईँले दृश्य मेनुमा स्वचालित स्तम्भ साइजमा पछाडि "
 "स्विच गर्न सक्नुहुन्छ ।"
 
-#: playlist.cpp:2249
+#: playlist.cpp:2250
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "म्यानुअल स्तम्भ चौडाइ सक्षम पारियो"
@@ -1323,7 +1323,7 @@ msgstr "दृश्य मोड"
 msgid "Show &History"
 msgstr "इतिहास देखाउनुहोस्"
 
-#: playlistbox.cpp:222 playlistcollection.cpp:434
+#: playlistbox.cpp:222 playlistcollection.cpp:436
 #, fuzzy, kde-format
 #| msgid "Duplicate"
 msgctxt "verb, copy the playlist"
@@ -1366,185 +1366,185 @@ msgstr "हटाउनुहोस्"
 msgid "Hid&e"
 msgstr "लुकाउनुहोस्"
 
-#: playlistbox.cpp:632 playlistcollection.cpp:988
+#: playlistbox.cpp:632 playlistcollection.cpp:990
 #, kde-format
 msgid "R&emove"
 msgstr "हटाउनुहोस्"
 
-#: playlistcollection.cpp:202
+#: playlistcollection.cpp:204
 #, kde-format
 msgid "Dynamic List"
 msgstr "गतिशील सूची"
 
-#: playlistcollection.cpp:243
+#: playlistcollection.cpp:245
 #, kde-format
 msgid "Now Playing"
 msgstr "अहिले बजिरहेको छ"
 
-#: playlistcollection.cpp:359
+#: playlistcollection.cpp:361
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr "तपाईँ यी वस्तुहरू हालको सूची वा सङ्कलन सूचीमा थप्न चाहनुहुन्छ ?"
 
-#: playlistcollection.cpp:361
+#: playlistcollection.cpp:363
 #, fuzzy, kde-format
 #| msgid "Current"
 msgctxt "current playlist"
 msgid "Current"
 msgstr "हालको"
 
-#: playlistcollection.cpp:362
+#: playlistcollection.cpp:364
 #, kde-format
 msgid "Collection"
 msgstr "सङ्कलन"
 
-#: playlistcollection.cpp:422
+#: playlistcollection.cpp:424
 #, kde-format
 msgid "Rename"
 msgstr "पुन: नामकरण गर्नुहोस्"
 
-#: playlistcollection.cpp:553
+#: playlistcollection.cpp:555
 #, kde-format
 msgid "Search Playlist"
 msgstr "बजाउने सूची खोजी गर्नुहोस्"
 
-#: playlistcollection.cpp:578
+#: playlistcollection.cpp:580
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "बजाउने सूची फोल्डर सिर्जना गर्नुहोस्"
 
-#: playlistcollection.cpp:618
+#: playlistcollection.cpp:620
 #, kde-format
 msgid "History"
 msgstr "इतिहास"
 
-#: playlistcollection.cpp:784
+#: playlistcollection.cpp:786
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "कृपया यो बजाउने सूचीका लागि नाम प्रविष्ट गर्नुहोस्:"
 
-#: playlistcollection.cpp:932
+#: playlistcollection.cpp:934
 #, fuzzy, kde-format
 #| msgid "&New"
 msgctxt "new playlist"
 msgid "&New"
 msgstr "नयाँ"
 
-#: playlistcollection.cpp:935
+#: playlistcollection.cpp:937
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "बजाउने सूची खाली गर्नुहोस्..."
 
-#: playlistcollection.cpp:939
+#: playlistcollection.cpp:941
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "बजाउने सूची खोजी गर्नुहोस्..."
 
-#: playlistcollection.cpp:943
+#: playlistcollection.cpp:945
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "फोल्डरबाट बजाउने सूची..."
 
-#: playlistcollection.cpp:951
+#: playlistcollection.cpp:953
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "ट्याग जानकारी अनुमान गर्नुहोस्"
 
-#: playlistcollection.cpp:956
+#: playlistcollection.cpp:958
 #, kde-format
 msgid "From &File Name"
 msgstr "फाइल नामबाट"
 
-#: playlistcollection.cpp:960
+#: playlistcollection.cpp:962
 #, kde-format
 msgid "From &Internet"
 msgstr "इन्टरनेटबाट"
 
-#: playlistcollection.cpp:965
+#: playlistcollection.cpp:967
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "फाइल नामबाट ट्याग जानकारी अनुमान गर्नुहोस्"
 
-#: playlistcollection.cpp:972
+#: playlistcollection.cpp:974
 #, kde-format
 msgid "Play First Track"
 msgstr "पहिलो ट्रयाक बजाउनुहोस्"
 
-#: playlistcollection.cpp:974
+#: playlistcollection.cpp:976
 #, kde-format
 msgid "Play Next Album"
 msgstr "पछिल्लो एल्बम बजाउनुहोस्"
 
-#: playlistcollection.cpp:981
+#: playlistcollection.cpp:983
 #, fuzzy, kde-format
 #| msgid "Add &Folder..."
 msgid "Manage &Folders..."
 msgstr "फोल्डर थप्नुहोस्..."
 
-#: playlistcollection.cpp:983
+#: playlistcollection.cpp:985
 #, kde-format
 msgid "&Rename..."
 msgstr "नाम फेर्नुहोस्..."
 
-#: playlistcollection.cpp:985
+#: playlistcollection.cpp:987
 #, fuzzy, kde-format
 #| msgid "D&uplicate..."
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "नक्कल गर्नुहोस्..."
 
-#: playlistcollection.cpp:990
+#: playlistcollection.cpp:992
 #, kde-format
 msgid "Reload"
 msgstr ""
 
-#: playlistcollection.cpp:992
+#: playlistcollection.cpp:994
 #, kde-format
 msgid "Edit Search..."
 msgstr "खोजी सम्पादन गर्नुहोस्..."
 
-#: playlistcollection.cpp:995
+#: playlistcollection.cpp:997
 #, fuzzy, kde-format
 msgid "&Delete"
 msgstr "आवरण मेट्नुहोस्"
 
-#: playlistcollection.cpp:997
+#: playlistcollection.cpp:999
 #, kde-format
 msgid "Refresh"
 msgstr "ताजा पार्नुहोस्"
 
-#: playlistcollection.cpp:1001
+#: playlistcollection.cpp:1003
 #, kde-format
 msgid "&Rename File"
 msgstr "फाइल पुन: नामकरण गर्नुहोस्"
 
-#: playlistcollection.cpp:1008
+#: playlistcollection.cpp:1010
 #, kde-format
 msgid "&View Cover"
 msgstr "आवरण हेर्नुहोस्"
 
-#: playlistcollection.cpp:1010
+#: playlistcollection.cpp:1012
 #, kde-format
 msgid "Get Cover From &File..."
 msgstr "फाइलबाट आवरण प्राप्त गर्नुहोस्..."
 
-#: playlistcollection.cpp:1013
+#: playlistcollection.cpp:1015
 #, kde-format
 msgid "Get Cover From &Internet..."
 msgstr "इन्टरनेटबाट आवरण प्राप्त गर्नुहोस्..."
 
-#: playlistcollection.cpp:1017
+#: playlistcollection.cpp:1019
 #, kde-format
 msgid "&Delete Cover"
 msgstr "आवरण मेट्नुहोस्"
 
-#: playlistcollection.cpp:1019
+#: playlistcollection.cpp:1021
 #, kde-format
 msgid "Show Cover &Manager"
 msgstr "आवरण प्रबन्धक देखाउनुहोस्"
 
-#: playlistcollection.cpp:1023
+#: playlistcollection.cpp:1025
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "बजाउनका लागि लगाइएको लाम देखाउनुहोस्"
@@ -1619,27 +1619,27 @@ msgstr ""
 msgid "Login valid."
 msgstr ""
 
-#: searchwidget.cpp:72
+#: searchwidget.cpp:73
 #, kde-format
 msgid "Normal Matching"
 msgstr "सामान्य जोडा"
 
-#: searchwidget.cpp:73
+#: searchwidget.cpp:74
 #, kde-format
 msgid "Case Sensitive"
 msgstr "केस सम्वेदनशील"
 
-#: searchwidget.cpp:74
+#: searchwidget.cpp:75
 #, kde-format
 msgid "Pattern Matching"
 msgstr "बाँन्की जोडा"
 
-#: searchwidget.cpp:168
+#: searchwidget.cpp:169
 #, kde-format
 msgid "All Visible"
 msgstr "सबै दृश्यात्मक"
 
-#: searchwidget.cpp:199
+#: searchwidget.cpp:200
 #, fuzzy, kde-format
 #| msgid "Edit Search..."
 msgid "Search..."
