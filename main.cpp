@@ -37,12 +37,13 @@ int main(int argc, char *argv[])
 
     KAboutData aboutData(QStringLiteral("juk"), i18n("JuK"),
                          QStringLiteral(JUK_VERSION), i18n("Jukebox and music manager by the KDE community"), KAboutLicense::GPL,
-                         i18n("Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"),
+                         i18n("Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"),
                          QLatin1String(""),
                          QStringLiteral("https://juk.kde.org/"));
 
     aboutData.addAuthor(i18n("Scott Wheeler"), i18n("Author, chief dork and keeper of the funk"), "wheeler@kde.org");
     aboutData.addAuthor(i18n("Michael Pyne"), i18n("Assistant superhero, fixer of many things"), "mpyne@kde.org");
+    aboutData.addCredit(i18n("Carl Schwan"), i18n("Porting to KDE Frameworks 6 when no one else was around"), "carl@carlschwan.eu");
     aboutData.addCredit(i18n("Kacper Kasper"), i18n("Porting to KDE Frameworks 5 when no one else was around"), "kacperkasper@gmail.com", "http://kacperkasper.pl/");
     aboutData.addCredit(i18n("Eike Hein"), i18n("MPRIS2 Interface implementation."), "hein@kde.org");
     aboutData.addCredit(i18n("Martin Sandsmark"), i18n("Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."), "martin.sandsmark@kde.org");
