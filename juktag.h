@@ -15,8 +15,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TAG_H
-#define TAG_H
+#ifndef JUKTAG_H
+#define JUKTAG_H
 
 #include <QDateTime>
 

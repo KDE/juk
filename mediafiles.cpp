@@ -31,6 +31,7 @@
 #include <taglib.h>
 #include <taglib_config.h>
 #include <tag.h>
+#include <tdebuglistener.h>
 #include <mpegfile.h>
 #include <vorbisfile.h>
 #include <flacfile.h>
@@ -42,6 +43,37 @@
 #include <mp4file.h>
 
 #include "juk_debug.h"
+
+// Intercepts Taglib debugging messages to make part of JuK's debug output
+// instead, so that we can pair messages to filenames.
+struct TaglibDebugHook final : public TagLib::DebugListener
+{
+    TaglibDebugHook() : TagLib::DebugListener()
+    {
+        qCDebug(JUK_LOG) << "Setting Taglib debug listener";
+        TagLib::setDebugListener(this);
+    }
+
+    virtual ~TaglibDebugHook() override
+    {
+        TagLib::setDebugListener(nullptr);
+    }
+
+    virtual void printMessage(const TagLib::String &msg) override
+    {
+        qCDebug(JUK_LOG) << m_filename << TStringToQString(msg);
+    }
+
+    void setCurrentFile(const QString &filename)
+    {
+        m_filename = filename;
+    }
+
+private:
+    QString m_filename;
+};
+
+Q_GLOBAL_STATIC(TaglibDebugHook, debugHook);
 
 namespace MediaFiles {
     static QStringList savedMimeTypes;
@@ -128,6 +160,7 @@ TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
         return nullptr;
 
     TagLib::File *file(nullptr);
+    debugHook->setCurrentFile(fileName);
     QByteArray encodedFileName(QFile::encodeName(fileName));
 
     if(result.inherits(QLatin1String(mp3Type)))

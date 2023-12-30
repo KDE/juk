@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2002-2004 Scott Wheeler <wheeler@kde.org>
- * Copyright (C) 2009 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2009-2023 Michael Pyne <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -19,7 +19,10 @@
 
 #include <KLocalizedString>
 
-#include <tag.h> //taglib
+#include <QScopedPointer>
+
+// taglib includes
+#include <tag.h>
 #include <tfile.h>
 #include <audioproperties.h>
 #include <id3v2framefactory.h>
@@ -34,23 +37,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-Tag::Tag(const QString &fileName) :
-    m_fileName(fileName),
-    m_track(0),
-    m_year(0),
-    m_seconds(0),
-    m_bitrate(0),
-    m_isValid(false)
+Tag::Tag(const QString &fileName)
+    : Tag(fileName, false)
 {
     if(fileName.isEmpty()) {
         qCCritical(JUK_LOG) << "Trying to add empty file";
         return;
     }
 
-    TagLib::File *file = MediaFiles::fileFactoryByType(fileName);
+    auto file = QScopedPointer<TagLib::File>(MediaFiles::fileFactoryByType(fileName));
     if(file && file->isValid()) {
-        setup(file);
-        delete file;
+        setup(file.get());
     }
     else {
         qCCritical(JUK_LOG) << "Couldn't resolve the mime type of \"" <<
@@ -62,7 +59,8 @@ bool Tag::save() const
 {
     bool result;
     TagLib::ID3v2::FrameFactory::instance()->setDefaultTextEncoding(TagLib::String::UTF8);
-    TagLib::File *file = MediaFiles::fileFactoryByType(m_fileName);
+
+    auto file = QScopedPointer<TagLib::File>(MediaFiles::fileFactoryByType(m_fileName));
 
     if(file && !file->readOnly() && file->isValid() && file->tag()) {
         file->tag()->setTitle(TagLib::String(m_title.toUtf8().constData(), TagLib::String::UTF8));
@@ -75,11 +73,10 @@ bool Tag::save() const
         result = file->save();
     }
     else {
-        qCCritical(JUK_LOG) << "Couldn't save file.";
+        qCCritical(JUK_LOG) << "Couldn't save file" << m_fileName;
         result = false;
     }
 
-    delete file;
     return result;
 }
 
@@ -167,7 +164,6 @@ Tag::Tag(const QString &fileName, bool) :
     m_bitrate(0),
     m_isValid(true)
 {
-
 }
 
 void Tag::setup(TagLib::File *file)
