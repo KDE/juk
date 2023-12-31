@@ -345,16 +345,13 @@ static QImage embeddedMPEGAlbumArt(TagLib::ID3v2::Tag *id3tag)
     // type of image (i.e. front cover, file info) we want.  If only 1
     // frame, just return that (scaled if necessary).
 
-    TagLib::ID3v2::AttachedPictureFrame *selectedFrame = 0;
+    TagLib::ID3v2::AttachedPictureFrame *selectedFrame = nullptr;
 
     if(frames.size() != 1) {
-        TagLib::ID3v2::FrameList::Iterator it = frames.begin();
-        for(; it != frames.end(); ++it) {
-
+        for(auto *srcFrame : frames) {
             // This must be dynamic_cast<>, TagLib will return UnknownFrame in APIC for
             // encrypted frames.
-            TagLib::ID3v2::AttachedPictureFrame *frame =
-                dynamic_cast<TagLib::ID3v2::AttachedPictureFrame *>(*it);
+            auto *frame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame *>(srcFrame);
 
             // Both thumbnail and full size should use FrontCover, as
             // FileIcon may be too small even for thumbnail.

@@ -517,9 +517,9 @@ void CollectionListItem::refresh()
         sharedData()->cachedWidths[i] = newWidth;
     }
 
-    for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
-        (*it)->playlist()->update();
-        (*it)->playlist()->playlistItemsChanged();
+    for(PlaylistItem *item : m_children) {
+        item->playlist()->update();
+        item->playlist()->playlistItemsChanged();
     }
     if(treeWidget()->isVisible())
         treeWidget()->viewport()->update();
