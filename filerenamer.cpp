@@ -40,6 +40,7 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QFrame>
+#include <QStandardPaths>
 #include <QTreeWidget>
 #include <QScrollBar>
 #include <QPushButton>
@@ -57,6 +58,21 @@
 
 using namespace Qt::Literals::StringLiterals;
 using std::as_const;
+
+static QString defaultMusicDir()
+{
+    const QString defaultDir(QStandardPaths::writableLocation(QStandardPaths::MusicLocation));
+    const QString home(QDir::homePath());
+
+    // replace home dir path with ~, if present
+
+    if(defaultDir.startsWith(home)) {
+        return u"~"_s + defaultDir.sliced(home.length());
+    }
+    else {
+        return defaultDir;
+    }
+}
 
 class ConfirmationDialog : public QDialog
 {
@@ -154,7 +170,7 @@ ConfigCategoryReader::ConfigCategoryReader()
             m_folderSeparators[sepIdx] = true;
     }
 
-    m_musicFolder = config.readPathEntry("MusicFolder", "${HOME}/music");
+    m_musicFolder = config.readPathEntry("MusicFolder", defaultMusicDir());
     m_separator = config.readEntry("Separator", " - ");
 }
 
@@ -300,7 +316,7 @@ void FileRenamerWidget::loadConfig()
             m_folderSwitches[separator]->setChecked(true);
     }
 
-    QString path = config.readEntry("MusicFolder", "${HOME}/music");
+    QString path = config.readEntry("MusicFolder", defaultMusicDir());
     m_ui->m_musicFolder->setUrl(QUrl::fromLocalFile(path));
     m_ui->m_musicFolder->setMode(KFile::Directory |
                                  KFile::ExistingOnly |
