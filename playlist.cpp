@@ -309,9 +309,8 @@ void Playlist::playPrevious()
     PlaylistItem *previous = nullptr;
 
     if(random && !m_history.isEmpty()) {
-        PlaylistItemList::Iterator last = m_history.end() - 1;
-        previous = *last;
-        m_history.erase(last);
+        previous = m_history.last();
+        m_history.removeLast();
     }
     else {
         m_history.clear();
@@ -410,7 +409,7 @@ QStringList Playlist::files() const
 
 PlaylistItemList Playlist::items()
 {
-    return items(QTreeWidgetItemIterator::IteratorFlag(0));
+    return items(QTreeWidgetItemIterator::All);
 }
 
 PlaylistItemList Playlist::visibleItems()
@@ -1538,16 +1537,14 @@ void Playlist::slotPopulateBackMenu() const
     m_backMenuItems.reserve(10);
 
     int count = 0;
-    PlaylistItemList::ConstIterator it = m_history.constEnd();
 
-    QAction *action;
+    for(auto it = m_history.crbegin(); it != m_history.crend(); it++) {
+        QAction *action = new QAction((*it)->file().tag()->title(), menu);
+        action->setData(count);
 
-    while(it != m_history.constBegin() && count < 10) {
-        ++count;
-        --it;
-        action = new QAction((*it)->file().tag()->title(), menu);
-        action->setData(count - 1);
         menu->addAction(action);
+
+        ++count;
         m_backMenuItems << *it;
     }
 }
