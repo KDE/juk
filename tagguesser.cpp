@@ -16,6 +16,9 @@
 
 #include "tagguesser.h"
 
+#include <algorithm>
+#include <utility>
+
 #include <KConfig>
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -174,22 +177,14 @@ void TagGuesser::setSchemeStrings(const QStringList &schemes)
 
 TagGuesser::TagGuesser()
 {
-    loadSchemes();
+    for(const QString &scheme : schemeStrings())
+        m_schemes << FileNameScheme(scheme);
 }
 
 TagGuesser::TagGuesser(const QString &absFileName)
+  : TagGuesser()
 {
-    loadSchemes();
     guess(absFileName);
-}
-
-void TagGuesser::loadSchemes()
-{
-    const QStringList schemes = schemeStrings();
-    QStringList::ConstIterator it = schemes.begin();
-    QStringList::ConstIterator end = schemes.end();
-    for ( ; it != end; ++it )
-        m_schemes += FileNameScheme( *it );
 }
 
 void TagGuesser::guess(const QString &absFileName)
@@ -200,19 +195,18 @@ void TagGuesser::guess(const QString &absFileName)
     m_track.clear();
     m_comment.clear();
 
-    FileNameScheme::List::ConstIterator it = m_schemes.constBegin();
-    FileNameScheme::List::ConstIterator end = m_schemes.constEnd();
-    for (; it != end; ++it) {
-        const FileNameScheme schema(*it);
-        if(schema.matches(absFileName)) {
-            m_title = capitalizeWords(schema.title().replace('_', " ")).trimmed();
-            m_artist = capitalizeWords(schema.artist().replace('_', " ")).trimmed();
-            m_album = capitalizeWords(schema.album().replace('_', " ")).trimmed();
-            m_track = schema.track().trimmed();
-            m_comment = schema.comment().replace('_', " ").trimmed();
-            break;
-        }
+    const auto it = std::find_if(m_schemes.cbegin(), m_schemes.cend(),
+            [absFileName](const auto &scheme) { return scheme.matches(absFileName); });
+    if(it == m_schemes.cend()) {
+        return;
     }
+
+    const auto &scheme = *it;
+    m_title = capitalizeWords(scheme.title().replace('_', " ")).trimmed();
+    m_artist = capitalizeWords(scheme.artist().replace('_', " ")).trimmed();
+    m_album = capitalizeWords(scheme.album().replace('_', " ")).trimmed();
+    m_track = scheme.track().trimmed();
+    m_comment = scheme.comment().replace('_', " ").trimmed();
 }
 
 QString TagGuesser::capitalizeWords(const QString &s)

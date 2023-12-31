@@ -109,14 +109,10 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
         m_matchAnyButton->setChecked(true);
     }
     else {
-        PlaylistSearch::ComponentList components = defaultSearch.components();
-
-        for(PlaylistSearch::ComponentList::ConstIterator it = components.constBegin();
-            it != components.constEnd();
-            ++it)
-        {
+        const auto components = defaultSearch.components();
+        for(const auto &component : components) {
             SearchLine *s = new SearchLine(this);
-            s->setSearchComponent(*it);
+            s->setSearchComponent(component);
             m_searchLines.append(s);
             m_criteriaLayout->insertWidget(m_criteriaLayout->count() - 1, s);
         }

@@ -64,9 +64,8 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
         return;
     }
 
-    QStringList::ConstIterator it;
-    for(it = files.begin(); it != files.end(); ++it) {
-        CollectionListItem *item = collection->lookup(*it);
+    for(const auto &file : files) {
+        CollectionListItem *item = collection->lookup(file);
         if(!item)
             continue;
 
@@ -85,7 +84,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
             break;
 
         default:
-            qCDebug(JUK_LOG) << "Unhandled column type editing " << *it;
+            qCDebug(JUK_LOG) << "Unhandled column type editing " << file;
         }
 
         TagTransactionManager::instance()->changeTagOnItem(item, tag);

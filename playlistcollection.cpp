@@ -17,6 +17,7 @@
 
 #include "playlistcollection.h"
 
+#include <algorithm>
 #include <utility>
 
 #include <kio_version.h>
@@ -259,13 +260,12 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
 void PlaylistCollection::removeTrack(const QString &playlist, const QStringList &files)
 {
     Playlist *p = playlistByName(playlist);
-    PlaylistItemList itemList;
     if(!p)
         return;
 
-    QStringList::ConstIterator it;
-    for(it = files.begin(); it != files.end(); ++it) {
-        CollectionListItem *item = CollectionList::instance()->lookup(*it);
+    PlaylistItemList itemList;
+    for(const QString &file : files) {
+        CollectionListItem *item = CollectionList::instance()->lookup(file);
 
         if(item) {
             PlaylistItem *playlistItem = item->itemForPlaylist(p);
@@ -330,20 +330,6 @@ QPixmap PlaylistCollection::trackCover(const QString &file, const QString &size)
 
 void PlaylistCollection::open(const QStringList &l)
 {
-    const auto questionFunc =
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5,100,0)
-        &KMessageBox::questionTwoActions;
-#else
-        &KMessageBox::questionYesNo;
-#endif
-
-    const auto secondaryResponse =
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5,100,0)
-        KMessageBox::SecondaryAction;
-#else
-        KMessageBox::No;
-#endif
-
     QStringList files = l;
 
     if(files.isEmpty())
@@ -352,20 +338,18 @@ void PlaylistCollection::open(const QStringList &l)
     if(files.isEmpty())
         return;
 
-    bool justPlaylists = true;
-
-    for(QStringList::ConstIterator it = files.constBegin(); it != files.constEnd() && justPlaylists; ++it)
-        justPlaylists = !MediaFiles::isPlaylistFile(*it);
+    bool justPlaylists = std::all_of(files.cbegin(), files.cend(),
+            [](const auto &file) { return MediaFiles::isPlaylistFile(file); });
 
     if(visiblePlaylist() == CollectionList::instance() || justPlaylists ||
-       questionFunc(
+       KMessageBox::questionTwoActions(
            JuK::JuKInstance(),
            i18n("Do you want to add these items to the current list or to the collection list?"),
            QString(),
            KGuiItem(i18nc("current playlist", "Current")),
            KGuiItem(i18n("Collection")),
            QString(),
-           KMessageBox::Notify) == secondaryResponse)
+           KMessageBox::Notify) == KMessageBox::SecondaryAction)
     {
         CollectionList::instance()->addFiles(files);
     }

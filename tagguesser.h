@@ -70,7 +70,6 @@ class TagGuesser
         QString comment() const { return m_comment; }
 
     private:
-        void loadSchemes();
         QString capitalizeWords(const QString &s);
 
         FileNameScheme::List m_schemes;

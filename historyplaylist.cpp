@@ -103,12 +103,12 @@ void HistoryPlaylistItem::setDateTime(const QDateTime &dt)
 
 QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p)
 {
-    PlaylistItemList l = const_cast<HistoryPlaylist *>(&p)->items();
+    const PlaylistItemList l = const_cast<HistoryPlaylist *>(&p)->items();
 
     s << qint32(l.count());
 
-    for(PlaylistItemList::ConstIterator it = l.constBegin(); it != l.constEnd(); ++it) {
-        const HistoryPlaylistItem *i = static_cast<HistoryPlaylistItem *>(*it);
+    for(PlaylistItem *item : l) {
+        const HistoryPlaylistItem *i = static_cast<HistoryPlaylistItem *>(item);
         s << i->file().absFilePath();
         s << i->dateTime();
     }

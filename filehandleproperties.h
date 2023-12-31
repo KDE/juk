@@ -85,13 +85,13 @@ namespace FileHandleProperties
 
     static QStringList properties()
     {
-        static QStringList l;
+        static QStringList l = []() {
+            QStringList temp;
+            for(const auto &k : propertyMap.keys())
+                temp << QString::fromUtf8(k);
+            return temp;
+        }(); // immediately invoked
 
-        if(l.isEmpty()) {
-            QMap<QByteArray, const Property *>::ConstIterator it = propertyMap.constBegin();
-            for(; it != propertyMap.constEnd(); ++it)
-                l.append(QString(it.key()));
-        }
         return l;
     }
 }

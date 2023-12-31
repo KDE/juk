@@ -104,9 +104,8 @@ bool PlaylistSearch::isEmpty() const
     if(isNull())
         return true;
 
-    ComponentList::ConstIterator it = m_components.begin();
-    for(; it != m_components.end(); ++it) {
-        if(!(*it).query().isEmpty() || !(*it).pattern().pattern().isEmpty())
+    for(const auto &component : m_components) {
+        if(!component.query().isEmpty() || !component.pattern().pattern().isEmpty())
             return false;
     }
 
@@ -245,9 +244,8 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch &search)
     search.clearComponents();
     PlaylistSearch::ComponentList components;
     s >> components;
-    PlaylistSearch::ComponentList::ConstIterator it = components.constBegin();
-    for(; it != components.constEnd(); ++it)
-        search.addComponent(*it);
+    for(const auto &component : components)
+        search.addComponent(component);
 
     qint32 mode;
     s >> mode;
