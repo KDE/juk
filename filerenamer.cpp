@@ -100,15 +100,13 @@ public:
 
         int lvHeight = 0;
 
-        QMap<QString, QString>::ConstIterator it = files.constBegin();
-        for(; it != files.constEnd(); ++it) {
+        for(const auto [oldName, newName] : files.asKeyValueRange()) {
             QTreeWidgetItem *item = new QTreeWidgetItem(lv);
-            item->setText(0, it.key());
+            item->setText(0, oldName);
 
-            if (it.key() != it.value()) {
-                item->setText(1, it.value());
+            if (oldName != newName) {
+                item->setText(1, newName);
             }
-
             else {
                 item->setText(1, i18n("No Change"));
             }
@@ -129,24 +127,18 @@ public:
 // Implementation of ConfigCategoryReader
 //
 
-ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
-    m_currentItem(0)
+ConfigCategoryReader::ConfigCategoryReader()
+  : CategoryReaderInterface()
 {
     KConfigGroup config(KSharedConfig::openConfig(), u"FileRenamer"_s);
 
-    QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
+    const QList<int> defaultCategories = { Artist, Album, Title, Track };
+    const QList<int> categoryOrder = config.readEntry("CategoryOrder", defaultCategories);
     int categoryCount[NumTypes] = { 0 }; // Keep track of each category encountered.
 
-    // Set a default:
-
-    if(categoryOrder.isEmpty())
-        categoryOrder << Artist << Album << Title << Track;
-
-    QList<int>::ConstIterator catIt = categoryOrder.constBegin();
-    for(; catIt != categoryOrder.constEnd(); ++catIt)
-    {
-        int catCount = categoryCount[*catIt]++;
-        TagType category = static_cast<TagType>(*catIt);
+    for(int catIdx : categoryOrder) {
+        int catCount = categoryCount[catIdx]++;
+        TagType category = static_cast<TagType>(catIdx);
         CategoryID catId(category, catCount);
 
         m_options[catId] = TagRenamerOptions(catId);
@@ -155,12 +147,11 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
 
     m_folderSeparators.fill(false, m_categoryOrder.count() - 1);
 
-    QList<int> checkedSeparators = config.readEntry("CheckedDirSeparators", QList<int>());
+    const auto checkedSeparators = config.readEntry("CheckedDirSeparators", QList<int>());
 
-    QList<int>::ConstIterator it = checkedSeparators.constBegin();
-    for(; it != checkedSeparators.constEnd(); ++it) {
-        if(*it < m_folderSeparators.count())
-            m_folderSeparators[*it] = true;
+    for(int sepIdx : checkedSeparators) {
+        if(sepIdx < m_folderSeparators.count())
+            m_folderSeparators[sepIdx] = true;
     }
 
     m_musicFolder = config.readPathEntry("MusicFolder", "${HOME}/music");
@@ -877,15 +868,15 @@ void FileRenamer::rename(const PlaylistItemList &items)
     QMap<QString, QString> map;
     QMap<QString, PlaylistItem *> itemMap;
 
-    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
-        reader.setPlaylistItem(*it);
-        QString oldFile = (*it)->file().absFilePath();
-        QString extension = (*it)->file().fileInfo().suffix();
+    for(PlaylistItem *item : as_const(items)) {
+        reader.setPlaylistItem(item);
+        QString oldFile = item->file().absFilePath();
+        QString extension = item->file().fileInfo().suffix();
         QString newFile = fileName(reader) + '.' + extension;
 
         if(oldFile != newFile) {
             map[oldFile] = newFile;
-            itemMap[oldFile] = *it;
+            itemMap[oldFile] = item;
         }
     }
 
@@ -893,24 +884,20 @@ void FileRenamer::rename(const PlaylistItemList &items)
         return;
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    for(QMap<QString, QString>::ConstIterator it = map.constBegin();
-        it != map.constEnd(); ++it)
-    {
-        if(moveFile(it.key(), it.value())) {
-            itemMap[it.key()]->setFile(it.value());
-            itemMap[it.key()]->refresh();
+    for(const auto &[oldFile, newFile] : as_const(map).asKeyValueRange()) {
+        if(moveFile(oldFile, newFile)) {
+            itemMap[oldFile]->setFile(newFile);
+            itemMap[oldFile]->refresh();
 
-            setFolderIcon(QUrl::fromLocalFile(it.value()), itemMap[it.key()]);
+            setFolderIcon(QUrl::fromLocalFile(newFile), itemMap[oldFile]);
         }
         else
-            errorFiles << i18n("%1 to %2", it.key(), it.value());
-
-        processEvents();
+            errorFiles << i18n("%1 to %2", oldFile, newFile);
     }
     QApplication::restoreOverrideCursor();
 
     if(!errorFiles.isEmpty())
-        KMessageBox::errorList(0, i18n("The following rename operations failed:\n"), errorFiles);
+        KMessageBox::errorList(nullptr, i18n("The following rename operations failed:\n"), errorFiles);
 }
 
 bool FileRenamer::moveFile(const QString &src, const QString &dest)
@@ -944,16 +931,14 @@ void FileRenamer::setFolderIcon(const QUrl &dstURL, const PlaylistItem *item)
 
     // Split path, and go through each path element.  If a path element has
     // the album information, set its folder icon.
-    QStringList elements = dstURL.path().split('/',
-            Qt::SkipEmptyParts
-            );
+    const QStringList elements = dstURL.path().split('/', Qt::SkipEmptyParts);
     QString path;
 
-    for(QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) {
-        path.append('/' + (*it));
+    for(const QString &pathPart : elements) {
+        path.append('/' + pathPart);
 
         qCDebug(JUK_LOG) << "Checking path: " << path;
-        if((*it).contains(item->file().tag()->album()) &&
+        if(pathPart.contains(item->file().tag()->album()) &&
            QDir(path).exists() &&
            !QFile::exists(path + "/.directory"))
         {
@@ -983,10 +968,9 @@ void FileRenamer::setFolderIcon(const QUrl &dstURL, const PlaylistItem *item)
 QList<CategoryID>::ConstIterator lastEnabledItem(const QList<CategoryID> &list,
                                                  const CategoryReaderInterface &interface)
 {
-    QList<CategoryID>::ConstIterator it = list.constBegin();
-    QList<CategoryID>::ConstIterator last = list.constEnd();
+    auto last = list.end();
 
-    for(; it != list.constEnd(); ++it) {
+    for(auto it = list.begin(); it != list.end(); ++it) {
         if(interface.isRequired(*it) || (!interface.isDisabled(*it) &&
               !interface.categoryValue((*it).category).isEmpty()))
         {
@@ -1011,9 +995,7 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
     lastEnabled = lastEnabledItem(categoryOrder, interface);
     bool pastLast = false; // Toggles to true once we've passed lastEnabled.
 
-    for(QList<CategoryID>::ConstIterator it = categoryOrder.constBegin();
-            it != categoryOrder.constEnd();
-            ++it, ++i)
+    for(auto it = categoryOrder.begin(); it != categoryOrder.end(); ++it, ++i)
     {
         if(it == lastEnabled)
             pastLast = true;
@@ -1040,13 +1022,13 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 
     QString result;
 
-    for(QStringList::ConstIterator it = list.constBegin(); it != list.constEnd(); /* Empty */) {
+    for(auto it = list.cbegin(); it != list.cend(); /* Empty */) {
         result += *it;
 
         ++it; // Manually advance iterator to check for end-of-list.
 
         // Add separator unless at a directory boundary
-        if(it != list.constEnd() &&
+        if(it != list.cend() &&
            !(*it).startsWith(dirSeparator) && // Check beginning of next item.
            !result.endsWith(dirSeparator))
         {

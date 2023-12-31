@@ -45,11 +45,12 @@ enum MovementDirection { MoveUp, MoveDown };
  */
 struct Row final
 {
-    Row() : widget(0), upButton(0), downButton(0), enableButton(0) {}
+    QWidget *widget = nullptr;
 
-    QWidget *widget;
-
-    QPushButton *upButton, *downButton, *optionsButton, *enableButton;
+    QPushButton *upButton      = nullptr;
+    QPushButton *downButton    = nullptr;
+    QPushButton *optionsButton = nullptr;
+    QPushButton *enableButton  = nullptr;
 
     TagRenamerOptions options;
     CategoryID category; // Includes category and a disambiguation id.
@@ -106,7 +107,7 @@ public:
     virtual bool isDisabled(const CategoryID &category) const override;
 
 private:
-    const PlaylistItem *m_currentItem;
+    const PlaylistItem *m_currentItem = nullptr;
     CategoryOptionsMap m_options;
     QList<CategoryID> m_categoryOrder;
     QString m_separator;
