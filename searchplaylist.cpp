@@ -79,7 +79,7 @@ void SearchPlaylist::updateItems()
 QDataStream &operator<<(QDataStream &s, const SearchPlaylist &p)
 {
     s << p.name()
-      << p.playlistSearch();
+      << *p.playlistSearch();
 
     return s;
 }
