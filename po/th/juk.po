@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-30 01:37+0000\n"
+"POT-Creation-Date: 2023-12-31 01:54+0000\n"
 "PO-Revision-Date: 2010-03-14 19:08+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -28,43 +28,43 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "drrider@gmail.com, donga.nb@gmail.com"
 
-#: advancedsearchdialog.cpp:46
+#: advancedsearchdialog.cpp:48
 #, kde-format
 msgid "Create Search Playlist"
 msgstr "สร้างรายการเล่นสำหรับค้นหา"
 
-#: advancedsearchdialog.cpp:55
+#: advancedsearchdialog.cpp:57
 #, kde-format
 msgid "Playlist name:"
 msgstr "ชื่อรายการเล่น:"
 
-#: advancedsearchdialog.cpp:59
+#: advancedsearchdialog.cpp:61
 #, kde-format
 msgid "Search Criteria"
 msgstr "เกณฑ์สำหรับค้นหา"
 
-#: advancedsearchdialog.cpp:64
+#: advancedsearchdialog.cpp:66
 #, kde-format
 msgid "Match any of the following"
 msgstr "เข้าคู่คำใดก็ได้ต่อไปนี้"
 
-#: advancedsearchdialog.cpp:65
+#: advancedsearchdialog.cpp:67
 #, kde-format
 msgid "Match all of the following"
 msgstr "เข้าคู่คำทั้งหมดต่อไปนี้"
 
-#: advancedsearchdialog.cpp:89
+#: advancedsearchdialog.cpp:91
 #, kde-format
 msgctxt "additional search options"
 msgid "More"
 msgstr "มากกว่านี้"
 
-#: advancedsearchdialog.cpp:94
+#: advancedsearchdialog.cpp:96
 #, kde-format
 msgid "Fewer"
 msgstr "น้อยกว่านี้"
 
-#: cache.cpp:302
+#: cache.cpp:301
 #, kde-format
 msgid ""
 "The music data cache has been corrupted. JuK needs to rescan it now. This "
@@ -73,12 +73,12 @@ msgstr ""
 "แคชของข้อมูลแทร็กเกิดความเสียหาย JuK จำเป็นที่จะต้องทำการตรวจหาข้อมูลซ้ำอีกครั้งในตอนนี้ "
 "ซึ่งอาจใช้เวลาสักครู่"
 
-#: collectionlist.cpp:143
+#: collectionlist.cpp:145
 #, kde-format
 msgid "Collection List"
 msgstr "รายการชุดสะสม"
 
-#: collectionlist.cpp:283
+#: collectionlist.cpp:285
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -93,7 +93,7 @@ msgstr ""
 "อย่างไรก็ตาม โปรดสังเกตว่า หากไดเรกทอรีที่แฟ้มเหล่านี้อยู่นั้น อยู่ในรายการ \"ค้นหา เมื่อเริ่มงาน"
 "\" แล้ว แฟ้มเหล่านี้จะถูกอ่านเข้ามาอีกครั้งเมื่อเริ่มโปรแกรม"
 
-#: collectionlist.cpp:336
+#: collectionlist.cpp:338
 #, kde-format
 msgid "Show Playing"
 msgstr "แสดงรายการเล่น"
@@ -110,7 +110,7 @@ msgid "Remove Cover"
 msgstr "ลบหน้าปกออก"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:1007
+#: coverdialogbase.ui:14 playlistcollection.cpp:1008
 #, kde-format
 msgid "Cover Manager"
 msgstr "ตัวจัดการหน้าปก"
@@ -222,7 +222,7 @@ msgstr ""
 msgid "Import playlists"
 msgstr "นำเข้ารายการเล่น"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1420
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -304,19 +304,19 @@ msgid "Title"
 msgstr "ชื่อแทร็ก"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1404 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 playlist.cpp:1405 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "ศิลปิน"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1405 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 playlist.cpp:1406 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "อัลบั้ม"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1408 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 playlist.cpp:1409 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "หมวด"
@@ -749,7 +749,7 @@ msgstr ""
 msgid "Docking in System Tray"
 msgstr "ลงไปอยู่ในถาดระบบ"
 
-#: juktag.cpp:93
+#: juktag.cpp:90
 #, fuzzy, kde-format
 #| msgctxt "a playing track, %1 is artist, %2 is song title"
 #| msgid "%1 - %2"
@@ -876,7 +876,7 @@ msgstr "ตู้เพลงและจัดการดนตรีสำห
 #: main.cpp:40
 #, fuzzy, kde-format
 #| msgid "© 2002 - 2010, Scott Wheeler"
-msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
 msgstr "© 2545 - 2553, Scott Wheeler"
 
 #: main.cpp:44
@@ -902,93 +902,104 @@ msgstr "ผู้ช่วยยอดมนุษย์, ช่วยแก้�
 
 #: main.cpp:46
 #, kde-format
-msgid "Kacper Kasper"
+msgid "Carl Schwan"
 msgstr ""
 
 #: main.cpp:46
 #, fuzzy, kde-format
 #| msgid "Porting to KDE 4 when no one else was around"
-msgid "Porting to KDE Frameworks 5 when no one else was around"
+msgid "Porting to KDE Frameworks 6 when no one else was around"
 msgstr "พอร์ตไปยัง KDE4 โดยไม่มีคนอื่นช่วย"
 
 #: main.cpp:47
 #, kde-format
-msgid "Eike Hein"
+msgid "Kacper Kasper"
 msgstr ""
 
 #: main.cpp:47
+#, fuzzy, kde-format
+#| msgid "Porting to KDE 4 when no one else was around"
+msgid "Porting to KDE Frameworks 5 when no one else was around"
+msgstr "พอร์ตไปยัง KDE4 โดยไม่มีคนอื่นช่วย"
+
+#: main.cpp:48
+#, kde-format
+msgid "Eike Hein"
+msgstr ""
+
+#: main.cpp:48
 #, kde-format
 msgid "MPRIS2 Interface implementation."
 msgstr ""
 
-#: main.cpp:48
+#: main.cpp:49
 #, kde-format
 msgid "Martin Sandsmark"
 msgstr ""
 
-#: main.cpp:48
+#: main.cpp:49
 #, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
 msgstr ""
 
-#: main.cpp:49
+#: main.cpp:50
 #, kde-format
 msgid "Γιώργος Κυλάφας (Giorgos Kylafas)"
 msgstr ""
 
-#: main.cpp:49
+#: main.cpp:50
 #, kde-format
 msgid "Badly-needed tag editor bugfixes."
 msgstr ""
 
-#: main.cpp:50
+#: main.cpp:51
 #, kde-format
 msgid "Georg Grabler"
 msgstr "Georg Grabler"
 
-#: main.cpp:50
+#: main.cpp:51
 #, fuzzy, kde-format
 #| msgid "More KDE 4 porting efforts"
 msgid "More KDE Platform 4 porting efforts"
 msgstr "ช่วยในการพอร์ทมายัง KDE 4 อย่างมาก"
 
-#: main.cpp:51
+#: main.cpp:52
 #, kde-format
 msgid "Laurent Montel"
 msgstr "Laurent Montel"
 
-#: main.cpp:51
+#: main.cpp:52
 #, fuzzy, kde-format
 #| msgid "Porting to KDE 4 when no one else was around"
 msgid "Porting to KDE Platform 4 when no one else was around"
 msgstr "พอร์ตไปยัง KDE4 โดยไม่มีคนอื่นช่วย"
 
-#: main.cpp:52
+#: main.cpp:53
 #, kde-format
 msgid "Nathan Toone"
 msgstr "Nathan Toone"
 
-#: main.cpp:52
+#: main.cpp:53
 #, kde-format
 msgid "Album cover manager"
 msgstr "ตัวจัดการหน้าปกอัลบั้ม"
 
-#: main.cpp:53
+#: main.cpp:54
 #, kde-format
 msgid "Matthias Kretz"
 msgstr "Matthias Kretz"
 
-#: main.cpp:53
+#: main.cpp:54
 #, kde-format
 msgid "Friendly, neighborhood aRts guru"
 msgstr "กูรู aRts ผู้ใกล้ชิดและเป็นมิตร"
 
-#: main.cpp:54
+#: main.cpp:55
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:54
+#: main.cpp:55
 #, kde-format
 msgid ""
 "System tray docking, \"inline\" tag editing,\n"
@@ -997,72 +1008,72 @@ msgstr ""
 "การฝังไอคอนในถาดระบบ, การแก้ไขป้ายกำกับ \"แบบทันที\",\n"
 "แก้ไขบั๊ก, สร้างลัทธิ, สนับสนุนด้านศีลธรรม"
 
-#: main.cpp:55
+#: main.cpp:56
 #, kde-format
 msgid "Tim Jansen"
 msgstr "Tim Jansen"
 
-#: main.cpp:55
+#: main.cpp:56
 #, kde-format
 msgid "GStreamer port"
 msgstr "ทำให้ใช้งานร่วมกับ GStreamer ได้"
 
-#: main.cpp:56
+#: main.cpp:57
 #, kde-format
 msgid "Stefan Asserhäll"
 msgstr "Stefan Asserhäll"
 
-#: main.cpp:56
+#: main.cpp:57
 #, kde-format
 msgid "Global keybindings support"
 msgstr "การรองรับการตั้งค่าปุ่มพิมพ์ลัดทั่วไป"
 
-#: main.cpp:57
+#: main.cpp:58
 #, kde-format
 msgid "Stephen Douglas"
 msgstr "Stephen Douglas"
 
-#: main.cpp:57
+#: main.cpp:58
 #, kde-format
 msgid "Track announcement popups"
 msgstr "ที่แจ้งข้อมูลแทร็กแบบผุดขึ้นมา"
 
-#: main.cpp:58
+#: main.cpp:59
 #, kde-format
 msgid "Frerich Raabe"
 msgstr "Frerich Raabe"
 
-#: main.cpp:58
+#: main.cpp:59
 #, kde-format
 msgid "Automagic track data guessing, bugfixes"
 msgstr "การเดาข้อมูลแทร็กอัตโนมัติ, แก้ไขบั๊ก"
 
-#: main.cpp:59
+#: main.cpp:60
 #, kde-format
 msgid "Zack Rusin"
 msgstr "Zack Rusin"
 
-#: main.cpp:59
+#: main.cpp:60
 #, kde-format
 msgid "More automagical things, now using MusicBrainz"
 msgstr "คุณสมบัติอัตโนมัติอื่น ๆ, ตอนนี้ใช้งาน MusicBrainz"
 
-#: main.cpp:60
+#: main.cpp:61
 #, kde-format
 msgid "Adam Treat"
 msgstr "Adam Treat"
 
-#: main.cpp:60
+#: main.cpp:61
 #, kde-format
 msgid "Co-conspirator in MusicBrainz wizardry"
 msgstr "ผู้สมรู้ร่วมคิดในเวทมนตร์ MusicBrainz"
 
-#: main.cpp:61
+#: main.cpp:62
 #, kde-format
 msgid "Maks Orlovich"
 msgstr "Maks Orlovich"
 
-#: main.cpp:61
+#: main.cpp:62
 #, fuzzy, kde-format
 #| msgid ""
 #| "Making JuK friendlier to people with\n"
@@ -1072,73 +1083,73 @@ msgstr ""
 "ทำให้ JuK ดูเป็นมิตรขึ้นสำหรับผู้คนกับ\n"
 "ดนตรีมหาศาล (เป็นเทระไบต์)"
 
-#: main.cpp:62
+#: main.cpp:63
 #, kde-format
 msgid "Antonio Larrosa Jimenez"
 msgstr "Antonio Larrosa Jimenez"
 
-#: main.cpp:62
+#: main.cpp:63
 #, kde-format
 msgid "DCOP interface"
 msgstr "ส่วนติดต่อ DCOP"
 
-#: main.cpp:63
+#: main.cpp:64
 #, kde-format
 msgid "Allan Sandfeld Jensen"
 msgstr "Allan Sandfeld Jensen"
 
-#: main.cpp:63
+#: main.cpp:64
 #, kde-format
 msgid "FLAC and MPC support"
 msgstr "การรองรับสื่อรูปแบบ FLAC และ MPC"
 
-#: main.cpp:64
+#: main.cpp:65
 #, kde-format
 msgid "Pascal Klein"
 msgstr "Pascal Klein"
 
-#: main.cpp:64
+#: main.cpp:65
 #, kde-format
 msgid "Gimper of splash screen"
 msgstr "ผู้ทำหน้าจอต้อนรับตอนเริ่มงานด้วย Gimp"
 
-#: main.cpp:69
+#: main.cpp:70
 #, kde-format
 msgid "File(s) to open"
 msgstr "แฟ้มที่จะเปิด"
 
-#: main.cpp:86
+#: main.cpp:87
 #, kde-format
 msgid ""
 "JuK running in docked mode\n"
 "Use context menu in system tray to restore."
 msgstr ""
 
-#: main.cpp:87
+#: main.cpp:88
 #, kde-format
 msgid "JuK Docked"
 msgstr ""
 
-#: mediafiles.cpp:103
+#: mediafiles.cpp:135
 #, kde-format
 msgctxt "open audio file"
 msgid "Open"
 msgstr "เปิด"
 
-#: mediafiles.cpp:116
+#: mediafiles.cpp:148
 #, fuzzy, kde-format
 #| msgid "Search Playlist"
 msgid "Save Playlist"
 msgstr "ค้นหารายการเล่น"
 
-#: mediafiles.cpp:118
+#: mediafiles.cpp:150
 #, fuzzy, kde-format
 #| msgid "Playlists"
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
 msgstr "รายการเล่น"
 
-#: nowplaying.cpp:316
+#: nowplaying.cpp:315
 #, kde-format
 msgid "back to playlist"
 msgstr "กลับไปที่ีรายการเล่น"
@@ -1161,12 +1172,12 @@ msgstr ""
 "JuK ไม่สามารถเล่นแฟ้มเสียง <nl/><filename>%1</filename><nl/> ได้ เนื่องจาก :<nl/"
 "><message>%2</message>"
 
-#: playlist.cpp:341
+#: playlist.cpp:342
 #, kde-format
 msgid "Could not save to file %1."
 msgstr "ไม่สามารถบันทึกไปยังแฟ้ม %1 ได้"
 
-#: playlist.cpp:574
+#: playlist.cpp:575
 #, fuzzy, kde-format
 #| msgid ""
 #| "You are about to rename the following files. Are you sure you want to "
@@ -1176,123 +1187,123 @@ msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
 msgstr[0] "คุณกำลังจะทำการเปลี่ยนชื่อแฟ้มเหล่านี้ คุณแน่ใจหรือว่าต้องการจะทำต่อไป ?"
 
-#: playlist.cpp:577 playlistcollection.cpp:1001
+#: playlist.cpp:578 playlistcollection.cpp:1002
 #, kde-format
 msgid "Open Containing Folder"
 msgstr ""
 
-#: playlist.cpp:644
+#: playlist.cpp:645
 #, kde-format
 msgid "Are you sure you want to delete these covers?"
 msgstr "คุณแน่ใจหรือว่าคุณต้องการที่จะลบหน้าปกเหล่านี้ ?"
 
-#: playlist.cpp:646
+#: playlist.cpp:647
 #, kde-format
 msgid "&Delete Covers"
 msgstr "ลบหน้า&ปก"
 
-#: playlist.cpp:675
+#: playlist.cpp:676
 #, kde-format
 msgid "Select Cover Image File"
 msgstr "เลือกแฟ้มรูปหน้าปก"
 
-#: playlist.cpp:677
+#: playlist.cpp:678
 #, kde-format
 msgid "Images (*.png *.jpg)"
 msgstr ""
 
-#: playlist.cpp:875
+#: playlist.cpp:876
 #, kde-format
 msgid "Could not delete these files"
 msgstr "ไม่สามารถลบแฟ้มเหล่านี้ได้"
 
-#: playlist.cpp:876
+#: playlist.cpp:877
 #, kde-format
 msgid "Could not move these files to the Trash"
 msgstr "ไม่สามารถย้ายแฟ้มเหล่านี้ไปถังขยะได้"
 
-#: playlist.cpp:1403
+#: playlist.cpp:1404
 #, kde-format
 msgid "Track Name"
 msgstr "ชื่อแทร็ก"
 
-#: playlist.cpp:1406
+#: playlist.cpp:1407
 #, kde-format
 msgid "Cover"
 msgstr "หน้าปก"
 
-#: playlist.cpp:1407 tagrenameroptions.cpp:112
+#: playlist.cpp:1408 tagrenameroptions.cpp:112
 #, kde-format
 msgctxt "cd track number"
 msgid "Track"
 msgstr "แทร็กที่"
 
-#: playlist.cpp:1409 tagrenameroptions.cpp:120
+#: playlist.cpp:1410 tagrenameroptions.cpp:120
 #, kde-format
 msgid "Year"
 msgstr "ปี"
 
-#: playlist.cpp:1410
+#: playlist.cpp:1411
 #, kde-format
 msgid "Length"
 msgstr "ความยาว"
 
-#: playlist.cpp:1411
+#: playlist.cpp:1412
 #, kde-format
 msgid "Bitrate"
 msgstr "อัตราบิท"
 
-#: playlist.cpp:1412
+#: playlist.cpp:1413
 #, kde-format
 msgid "Comment"
 msgstr "หมายเหตุ"
 
-#: playlist.cpp:1413
+#: playlist.cpp:1414
 #, kde-format
 msgid "File Name"
 msgstr "ชื่อแฟ้ม"
 
-#: playlist.cpp:1414
+#: playlist.cpp:1415
 #, kde-format
 msgid "File Name (full path)"
 msgstr "ชื่อแฟ้ม (แสดงพาธเต็ม ๆ)"
 
-#: playlist.cpp:1605
+#: playlist.cpp:1606
 #, kde-format
 msgid "&Show Columns"
 msgstr "&แสดงคอลัมน์"
 
-#: playlist.cpp:1713
+#: playlist.cpp:1714
 #, kde-format
 msgid "Add to Play Queue"
 msgstr "เพิ่มเข้าไปในคิวรอเล่น"
 
-#: playlist.cpp:1727 playlist.cpp:2181
+#: playlist.cpp:1728 playlist.cpp:2182
 #, kde-format
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: playlist.cpp:1743
+#: playlist.cpp:1744
 #, kde-format
 msgid "Create Playlist From Selected Items..."
 msgstr "สร้างรายการเล่นจากรายการที่เลือก..."
 
-#: playlist.cpp:2095
+#: playlist.cpp:2096
 #, kde-format
 msgid "Edit '%1'"
 msgstr "แก้ไข '%1'"
 
-#: playlist.cpp:2179
+#: playlist.cpp:2180
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "นี่จะเป็นการแก้ไขแฟ้มหลาย ๆ แฟ้ม คุณแน่ใจหรือไม่ ?"
 
-#: playlist.cpp:2238 playlistcollection.h:189
+#: playlist.cpp:2239 playlistcollection.h:189
 #, kde-format
 msgid "Create New Playlist"
 msgstr "สร้างรายการเล่นใหม่"
 
-#: playlist.cpp:2247
+#: playlist.cpp:2248
 #, fuzzy, kde-format
 #| msgid ""
 #| "Manual column widths have been enabled.  You can switch back to automatic "
@@ -1304,239 +1315,239 @@ msgstr ""
 "การปรับความกว้างของคอลัมน์ด้วยตัวเองถูกเปิดใช้งานอยู่ "
 "คุณสามารถเปลี่ยนกลับไปใช้การปรับขนาดคอลัมน์ให้โดยอัตโนมัติ ได้ในเมนูมุมมอง"
 
-#: playlist.cpp:2250
+#: playlist.cpp:2251
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "เปิดการปรับขนาดคอลัมน์ด้วยตนเอง"
 
-#: playlistbox.cpp:103
+#: playlistbox.cpp:106
 #, kde-format
 msgid "View Modes"
 msgstr "โหมดมุมมอง"
 
-#: playlistbox.cpp:161
+#: playlistbox.cpp:164
 #, kde-format
 msgid "Show &History"
 msgstr "แสดง&ประวัติ"
 
-#: playlistbox.cpp:222 playlistcollection.cpp:436
+#: playlistbox.cpp:225 playlistcollection.cpp:437
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "สร้างรายการเล่นซ้ำ"
 
-#: playlistbox.cpp:414
+#: playlistbox.cpp:417
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "คุณต้องการที่จะลบแฟ้มเหล่านี้ออกจากดิสก์ด้วยหรือไม่ ?"
 
-#: playlistbox.cpp:415
+#: playlistbox.cpp:418
 #, kde-format
 msgid "Keep"
 msgstr "เก็บไว้"
 
-#: playlistbox.cpp:427
+#: playlistbox.cpp:430
 #, kde-format
 msgid "Could not delete these files."
 msgstr "ไม่สามารถลบแฟ้มเหล่านี้ได้"
 
-#: playlistbox.cpp:435
+#: playlistbox.cpp:438
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "คุณแน่ใจหรือว่าต้องการที่จะเอกรายการเล่นเหล่านี้ออกไปจากชุดสะสมของคุณ ?"
 
-#: playlistbox.cpp:438
+#: playlistbox.cpp:441
 #, kde-format
 msgid "Remove Items?"
 msgstr "เอารายการออกหรือไม่ ?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:439 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:442 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "เ&อาออก"
 
-#: playlistbox.cpp:628
+#: playlistbox.cpp:631
 #, kde-format
 msgid "Hid&e"
 msgstr "ซ่อ&น"
 
-#: playlistbox.cpp:632 playlistcollection.cpp:990
+#: playlistbox.cpp:635 playlistcollection.cpp:991
 #, kde-format
 msgid "R&emove"
 msgstr "เอ&าออก"
 
-#: playlistcollection.cpp:204
+#: playlistcollection.cpp:205
 #, kde-format
 msgid "Dynamic List"
 msgstr "รายการไม่ตายตัว"
 
-#: playlistcollection.cpp:245
+#: playlistcollection.cpp:246
 #, kde-format
 msgid "Now Playing"
 msgstr "ที่กำลังเล่นตอนนี้"
 
-#: playlistcollection.cpp:361
+#: playlistcollection.cpp:362
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr "คุณต้องการเพิ่มรายการเหล่านี้ลงไปยังรายการปัจจุบัน หรือว่าลงไปในรายการชุดสะสม ?"
 
-#: playlistcollection.cpp:363
+#: playlistcollection.cpp:364
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "ปัจจุบัน"
 
-#: playlistcollection.cpp:364
+#: playlistcollection.cpp:365
 #, kde-format
 msgid "Collection"
 msgstr "ชุดสะสม"
 
-#: playlistcollection.cpp:424
+#: playlistcollection.cpp:425
 #, kde-format
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
-#: playlistcollection.cpp:555
+#: playlistcollection.cpp:556
 #, kde-format
 msgid "Search Playlist"
 msgstr "ค้นหารายการเล่น"
 
-#: playlistcollection.cpp:580
+#: playlistcollection.cpp:581
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "สร้างโฟลเดอร์รายการเล่น"
 
-#: playlistcollection.cpp:620
+#: playlistcollection.cpp:621
 #, kde-format
 msgid "History"
 msgstr "ประวัติ"
 
-#: playlistcollection.cpp:786
+#: playlistcollection.cpp:787
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "โปรดป้อนชื่อให้รายการเล่นนี้:"
 
-#: playlistcollection.cpp:934
+#: playlistcollection.cpp:935
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "สร้างใ&หม่"
 
-#: playlistcollection.cpp:937
+#: playlistcollection.cpp:938
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "&รายการเล่นว่าง ๆ..."
 
-#: playlistcollection.cpp:941
+#: playlistcollection.cpp:942
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "ค้&นหารายการเล่น..."
 
-#: playlistcollection.cpp:945
+#: playlistcollection.cpp:946
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "สร้างรายการเล่นจากโ&ฟลเดอร์..."
 
-#: playlistcollection.cpp:953
+#: playlistcollection.cpp:954
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "เ&ดาข้อมูลป้ายกำกับ"
 
-#: playlistcollection.cpp:958
+#: playlistcollection.cpp:959
 #, kde-format
 msgid "From &File Name"
 msgstr "จากชื่อ&แฟ้ม"
 
-#: playlistcollection.cpp:962
+#: playlistcollection.cpp:963
 #, kde-format
 msgid "From &Internet"
 msgstr "จากอินเ&ทอร์เน็ต"
 
-#: playlistcollection.cpp:967
+#: playlistcollection.cpp:968
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "เดาข้อมูลป้ายกำกับจากชื่&อแฟ้ม"
 
-#: playlistcollection.cpp:974
+#: playlistcollection.cpp:975
 #, kde-format
 msgid "Play First Track"
 msgstr "เล่นแทร็กแรก"
 
-#: playlistcollection.cpp:976
+#: playlistcollection.cpp:977
 #, kde-format
 msgid "Play Next Album"
 msgstr "เล่นอัลบั้มถัดไป"
 
-#: playlistcollection.cpp:983
+#: playlistcollection.cpp:984
 #, fuzzy, kde-format
 #| msgid "Add &Folder..."
 msgid "Manage &Folders..."
 msgstr "เพิ่มโ&ฟลเดอร์..."
 
-#: playlistcollection.cpp:985
+#: playlistcollection.cpp:986
 #, kde-format
 msgid "&Rename..."
 msgstr "&เปลี่ยนชื่อ..."
 
-#: playlistcollection.cpp:987
+#: playlistcollection.cpp:988
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "สร้างราย&การเล่นซ้ำ..."
 
-#: playlistcollection.cpp:992
+#: playlistcollection.cpp:993
 #, kde-format
 msgid "Reload"
 msgstr "โหลดใหม่"
 
-#: playlistcollection.cpp:994
+#: playlistcollection.cpp:995
 #, kde-format
 msgid "Edit Search..."
 msgstr "แก้ไขรายการค้นหา..."
 
-#: playlistcollection.cpp:997
+#: playlistcollection.cpp:998
 #, kde-format
 msgid "&Delete"
 msgstr "&ลบ"
 
-#: playlistcollection.cpp:999
+#: playlistcollection.cpp:1000
 #, kde-format
 msgid "Refresh"
 msgstr "โหลดใหม่"
 
-#: playlistcollection.cpp:1003
+#: playlistcollection.cpp:1004
 #, kde-format
 msgid "&Rename File"
 msgstr "&เปลี่ยนชื่อแฟ้ม"
 
-#: playlistcollection.cpp:1010
+#: playlistcollection.cpp:1011
 #, kde-format
 msgid "&View Cover"
 msgstr "ดูหน้าป&ก"
 
-#: playlistcollection.cpp:1012
+#: playlistcollection.cpp:1013
 #, kde-format
 msgid "Get Cover From &File..."
 msgstr "รับหน้าปกจาก&แฟ้ม..."
 
-#: playlistcollection.cpp:1015
+#: playlistcollection.cpp:1016
 #, kde-format
 msgid "Get Cover From &Internet..."
 msgstr "รับหน้าปกจากอินเ&ทอร์เน็ต..."
 
-#: playlistcollection.cpp:1019
+#: playlistcollection.cpp:1020
 #, kde-format
 msgid "&Delete Cover"
 msgstr "&ลบหน้าปก"
 
-#: playlistcollection.cpp:1021
+#: playlistcollection.cpp:1022
 #, kde-format
 msgid "Show Cover &Manager"
 msgstr "แสดงตัวจัดกา&รหน้าปก"
 
-#: playlistcollection.cpp:1025
+#: playlistcollection.cpp:1026
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "แสดงคิ&วรอเล่น"

@@ -91,9 +91,7 @@
 >Introducció</title>
 
 <para
->&juk; és com una màquina de discos. Com és típic en moltes aplicacions de màquina de discos, &juk; permet editar les <quote
->marques</quote
-> dels vostres fitxers d'àudio, i gestionar la vostra col·lecció i llistes de reproducció. </para>
+>&juk; és com una màquina de discos. Com és típic en moltes aplicacions de màquina de discos, &juk; permet editar les «marques» dels vostres fitxers d'àudio, i gestionar la vostra col·lecció i llistes de reproducció. </para>
 </chapter>
 
 <chapter id="using-juk">
@@ -368,11 +366,7 @@
 ><guimenuitem
 >Reanomenador de fitxers...</guimenuitem
 ></menuchoice
->. El nom resultant de cada fitxer es basarà en les marques de metadades. Per exemple, la cançó en Ogg Vorbis <quote
->The Theme (Metroid)</quote
-> per <quote
->Stemage</quote
-> pot resultar en <filename
+>. El nom resultant de cada fitxer es basarà en les marques de metadades. Per exemple, la cançó en Ogg Vorbis «The Theme (Metroid)» per «Stemage» pot resultar en <filename
 >/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
 >. </para>
 </listitem>
@@ -534,19 +528,13 @@ Show Cover Manager
 >L'editor de marques de &juk;</title>
 
 <para
->Per a molts formats de fitxer, és pràctic utilitzar el nom de fitxer per descriure el contingut del fitxer: <quote
-><filename
+>Per a molts formats de fitxer, és pràctic utilitzar el nom de fitxer per descriure el contingut del fitxer: «<filename
 >Report for the board - June 2003.doc</filename
-></quote
->, per exemple, pot ser tota la informació necessària per trobar aquest fitxer de nou. En mirar de capturar tota la informació útil sobre un tema en particular, però, podria donar com a resultat un nom de fitxer com aquest: <quote
-><filename
+>», per exemple, pot ser tota la informació necessària per trobar aquest fitxer de nou. En mirar de capturar tota la informació útil sobre un tema en particular, però, podria donar com a resultat un nom de fitxer com aquest: «<filename
 >Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.mp3</filename
-></quote
-> o <quote
-><filename
+>» o «<filename
 >Various Artists_15_The Smithsonian Collection of Classic Jazz Volume II_Jimmie Lunceford &amp; His Orchestra - Organ Grinder's Swing.mp3</filename
-></quote
->. Aquests no són molt pràctics, ni contenen tota la informació útil que es pot recopilar sobre la cançó. Afegir l'àlbum i el nombre de la peça a la primera, per exemple, el faria encara més llarg i difícil de manejar, mentre que no afegir-ho no us dirà res al cap d'un any, i un cop d'ull no us indicarà a quin estil de música pertany, a menys que esteu familiaritzat amb l'artista.</para>
+>». Aquests no són molt pràctics, ni contenen tota la informació útil que es pot recopilar sobre la cançó. Afegir l'àlbum i el nombre de la peça a la primera, per exemple, el faria encara més llarg i difícil de manejar, mentre que no afegir-ho no us dirà res al cap d'un any, i un cop d'ull no us indicarà a quin estil de música pertany, a menys que esteu familiaritzat amb l'artista.</para>
 
 <para
 >Llavors la solució, és emmagatzemar aquest tipus de metadades dins dels mateixos fitxers. Els fitxers MP3 i OGG també poden contenir petits fragments de text que es poden utilitzar per descriure el contingut del fitxer. Hi ha diversos formats, però &juk; oculta els detalls de les diferències entre ells, i proporciona una forma estàndard per editar un subconjunt de les marques estàndard ben conegudes per a tots els vostres fitxers d'àudio.</para>
@@ -616,9 +604,7 @@ Show Cover Manager
 ></term>
 <listitem>
 <para
->L'<quote
->estil</quote
-> de la música. &juk; proporciona una llista més o menys equivalent a l'estàndard id3 informal, però sou lliure d'escriure les vostres pròpies entrades en aquesta llista.</para>
+>L'«estil» de la música. &juk; proporciona una llista més o menys equivalent a l'estàndard id3 informal, però sou lliure d'escriure les vostres pròpies entrades en aquesta llista.</para>
 </listitem>
 </varlistentry>
 
@@ -887,15 +873,7 @@ Show Cover Manager
 </para>
 
 <para
->Per exemple, l'esquema de nom de fitxer <quote
->[%T] %a - %t</quote
-> coincidirà amb <quote
->[01] Deep Purple - Smoke on the water</quote
->, però no <quote
->(Deep Purple) Smoke on the water</quote
->. Per a aquest segon nom, s'utilitza l'esquema <quote
->(%a) %t</quote
->.</para>
+>Per exemple, l'esquema de nom de fitxer «[%T] %a - %t» coincidirà amb «[01] Deep Purple - Smoke on the water», però no «(Deep Purple) Smoke on the water». Per a aquest segon nom, s'utilitza l'esquema «(%a) %t».</para>
 
 <para
 >&juk; provarà els esquemes que heu llistat un a un, començant per la part superior de la llista. El primer esquema que coincideixi serà l'utilitzat per deduir les marques de la cançó. Algunes cançons poden coincidir amb més d'un esquema. Podeu assegurar-vos que coincideix amb l'esquema correcte per primera vegada seleccionant-lo en el quadre de llista i després utilitzant els botons de fletxa per moure'l a la part superior de la llista. </para>
@@ -1233,9 +1211,7 @@ write new for kde4
 ></term>
   <listitem
 ><para
->Això obrirà el diàleg de Cerca avançada, el qual us permetrà crear una <quote
->llista de reproducció virtual</quote
->. Qualsevol cançó a la vostra llista de col·leccions que coincideixi amb els criteris de cerca especificats al diàleg de Cerca avançada serà afegida a la nova llista de reproducció. A mesura que canvia la llista de col·leccions, la nova llista de reproducció també ho farà. Per exemple, si creeu una llista de reproducció de totes les cançons de «Depeche Mode», i després afegiu una altra cançó d'aquest grup a la vostra llista de col·leccions, aquesta es mostrarà a la llista de reproducció de «Depeche Mode» sense requerir cap acció especial de la vostra part. </para
+>Això obrirà el diàleg de Cerca avançada, el qual us permetrà crear una «llista de reproducció virtual». Qualsevol cançó a la vostra llista de col·leccions que coincideixi amb els criteris de cerca especificats al diàleg de Cerca avançada serà afegida a la nova llista de reproducció. A mesura que canvia la llista de col·leccions, la nova llista de reproducció també ho farà. Per exemple, si creeu una llista de reproducció de totes les cançons de «Depeche Mode», i després afegiu una altra cançó d'aquest grup a la vostra llista de col·leccions, aquesta es mostrarà a la llista de reproducció de «Depeche Mode» sense requerir cap acció especial de la vostra part. </para
 ></listitem>
   </varlistentry>
 
@@ -1349,11 +1325,7 @@ write new for kde4
 <para
 >També hi ha una barra de control, que mostra el punt (relatiu) en el que es troba la reproducció de la cançó. Podeu arrossegar amb el ratolí aquest control lliscant per saltar cap endavant o cap enrere dins d'una peça.</para>
 <para
->Finalment, hi ha un control lliscant de volum. Com es pot esperar, aquest fa pujar i baixar el volum. <quote
->Alt</quote
-> és a la dreta, i <quote
->Silenci</quote
-> és a l'esquerra.</para
+>Finalment, hi ha un control lliscant de volum. Com es pot esperar, aquest fa pujar i baixar el volum. «Alt» és a la dreta, i «Silenci» és a l'esquerra.</para
 ></listitem>
 </varlistentry>
 </variablelist>
@@ -2354,9 +2326,7 @@ action="simul"
 <itemizedlist>
 <listitem
 ><para
->&Daniel.Molkentin; &Daniel.Molkentin.mail; per l'acoblat a la safata del sistema, edició de marques <quote
->inline</quote
->, esmena d'errors, predicació, suport moral.</para>
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; per l'acoblat a la safata del sistema, edició de marques «inline», esmena d'errors, predicació, suport moral.</para>
 </listitem>
 <listitem
 ><para
