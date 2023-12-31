@@ -2090,7 +2090,18 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
         (adjColumn == PlaylistItem::YearColumn);
 
     if(showEdit) {
-        m_rmbEdit->setText(i18n("Edit '%1'", item->text(column)));
+        QString labelText(item->text(column));
+
+        // Don't show an ugly “Edit ''”
+        if(labelText.isEmpty()) {
+            labelText = headerItem()->text(column);
+        }
+        if(labelText.length() > 31) {
+            labelText.truncate(31);
+            labelText.append(QStringLiteral("..."));
+        }
+
+        m_rmbEdit->setText(i18n("Edit '%1'", labelText));
 
         m_rmbEdit->disconnect(this);
         connect(m_rmbEdit, &QAction::triggered, this, [this, item, column]() {
