@@ -27,7 +27,7 @@
 #include <QWriteLocker>
 
 namespace The {
-    static SvgHandler* s_SvgHandler_instance = 0;
+    static SvgHandler* s_SvgHandler_instance = nullptr;
 
     SvgHandler* svgHandler()
     {
@@ -41,16 +41,13 @@ namespace The {
 
 SvgHandler::SvgHandler( QObject* parent )
     : QObject( parent )
-    , m_renderer( 0 )
     , m_themeFile( "juk/pics/theme.svg" )
 {
 }
 
 SvgHandler::~SvgHandler()
 {
-    delete m_renderer;
-
-    The::s_SvgHandler_instance = 0;
+    The::s_SvgHandler_instance = nullptr;
 }
 
 
@@ -66,28 +63,9 @@ bool SvgHandler::loadSvg( const QString& name )
         return false;
     }
     QWriteLocker writeLocker( &m_lock );
+    m_renderer.reset(renderer);
 
-    if( m_renderer )
-        delete m_renderer;
-
-    m_renderer = renderer;
     return true;
-}
-
-QSvgRenderer * SvgHandler::getRenderer()
-{
-    QReadLocker readLocker( &m_lock );
-    if( ! m_renderer )
-    {
-        readLocker.unlock();
-        if( !loadSvg( m_themeFile ) )
-        {
-            QWriteLocker writeLocker( &m_lock );
-            m_renderer = new QSvgRenderer( this );
-        }
-        readLocker.relock();
-    }
-    return m_renderer;
 }
 
 QPixmap SvgHandler::renderSvg( const QString& keyname,

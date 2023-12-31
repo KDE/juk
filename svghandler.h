@@ -22,6 +22,7 @@
 class QStyleOptionSlider;
 
 #include <QMap>
+#include <QScopedPointer>
 #include <QReadWriteLock>
 
 #include <QPixmap>
@@ -46,8 +47,6 @@ class SvgHandler : public QObject
 
     public:
         ~SvgHandler();
-
-        QSvgRenderer* getRenderer();
 
         /**
         * Overloaded function that uses the current theme
@@ -87,7 +86,7 @@ class SvgHandler : public QObject
          * @return the path of the currently used theme file.
          */
         QString themeFile();
-        
+
         void setDevicePixelRatioF(qreal dpr);
 
     public slots:
@@ -97,7 +96,7 @@ class SvgHandler : public QObject
         void retinted();
 
     private:
-        SvgHandler( QObject* parent = 0 );
+        SvgHandler( QObject* parent = nullptr );
 
         bool loadSvg( const QString& name );
 
@@ -105,11 +104,11 @@ class SvgHandler : public QObject
 
         QMap<QString, QPixmap> m_cache;
 
-        QSvgRenderer *m_renderer;
+        QScopedPointer<QSvgRenderer> m_renderer;
         QReadWriteLock m_lock;
 
         QString m_themeFile;
-        
+
         qreal dpr = 1;
 };
 
