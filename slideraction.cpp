@@ -38,10 +38,10 @@ TrackPositionAction::TrackPositionAction(const QString &text, QObject *parent) :
 
 QWidget *TrackPositionAction::createWidget(QWidget *parent)
 {
-    TimeSlider *slider = new TimeSlider(parent);
-    slider->setObjectName(QLatin1String("timeSlider"));
-
     PlayerManager *player = JuK::JuKInstance()->playerManager();
+
+    TimeSlider *slider = new TimeSlider(parent, player);
+    slider->setObjectName(QLatin1String("timeSlider"));
 
     // When user starts dragging slider we may have tick events in event loop
     // that will set the position back so stop updating until the user is done.
@@ -56,9 +56,6 @@ QWidget *TrackPositionAction::createWidget(QWidget *parent)
 
             connect(player, &PlayerManager::tick, slider, &TimeSlider::setValue);
             });
-
-    // TODO only connect the tick signal when actually visible
-    connect(player, &PlayerManager::tick, slider, &TimeSlider::setValue);
 
     connect(slider, &TimeSlider::actionTriggered, this, [player, slider](int action) {
                 if(action == QAbstractSlider::SliderMove) {

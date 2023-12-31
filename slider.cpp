@@ -18,7 +18,6 @@
  */
 
 #include "slider.h"
-#include "svghandler.h"
 
 #include <KLocalizedString>
 
@@ -28,6 +27,9 @@
 #include <QPainter>
 #include <QStyle>
 #include <QStyleOptionSlider>
+
+#include "playermanager.h"
+#include "svghandler.h"
 
 Slider::Slider( Qt::Orientation orientation, uint max, QWidget *parent )
     : QSlider( orientation, parent )
@@ -174,8 +176,9 @@ VolumeSlider::emitVolumeChanged( int value )
 ////////////////////////////////// TIMESLIDER ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 
-TimeSlider::TimeSlider( QWidget *parent )
+TimeSlider::TimeSlider( QWidget *parent, PlayerManager *player )
     : Slider( Qt::Horizontal, 0, parent )
+    , m_player( player )
     , m_knobX( 0.0 )
 {
     m_usingCustomStyle = true;
@@ -209,4 +212,14 @@ void TimeSlider::sliderChange( SliderChange change )
     }
     else
         Slider::sliderChange( change ); // calls update()
+}
+
+void TimeSlider::showEvent(QShowEvent *)
+{
+    connect(m_player, &PlayerManager::tick, this, &TimeSlider::setValue);
+}
+
+void TimeSlider::hideEvent(QHideEvent *)
+{
+    disconnect(m_player);
 }

@@ -26,6 +26,8 @@
 class QPalette;
 class QTimer;
 
+class PlayerManager;
+
 class Slider : public QSlider
 {
     Q_OBJECT
@@ -88,15 +90,18 @@ class TimeSlider : public Slider
     Q_OBJECT
 
 public:
-    explicit TimeSlider( QWidget *parent );
+    explicit TimeSlider( QWidget *parent, PlayerManager *player );
 
 protected:
     virtual void paintEvent( QPaintEvent* ) override;
     virtual void sliderChange( SliderChange change ) override;
+    virtual void showEvent( QShowEvent* ) override;
+    virtual void hideEvent( QHideEvent* ) override;
 
 private:
     Q_DISABLE_COPY( TimeSlider )
 
+    PlayerManager *m_player;
     int m_knobX; // The position of the current indicator.
 };
 
