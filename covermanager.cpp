@@ -513,8 +513,8 @@ bool CoverManager::removeCover(coverKey id)
     QPixmapCache::remove(QString("t%1").arg(coverData.path));
 
     // Remove references to files that had that track ID.
-    QList<QString> affectedFiles = data()->tracks.keys(id);
-    foreach (const QString &file, affectedFiles) {
+    const QList<QString> affectedFiles = data()->tracks.keys(id);
+    for (const QString &file : affectedFiles) {
         data()->tracks.remove(file);
     }
 

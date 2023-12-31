@@ -773,8 +773,9 @@ void Playlist::createItems(const Container<SiblingType *> &siblings, ItemType *a
     if(siblings.isEmpty())
         return;
 
-    foreach(SiblingType *sibling, siblings)
+    for(auto *sibling : siblings) {
         after = createItem(sibling, after);
+    }
 
     playlistItemsChanged();
     slotWeightDirty();

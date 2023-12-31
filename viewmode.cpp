@@ -16,6 +16,8 @@
 
 #include "viewmode.h"
 
+#include <utility>
+
 #include <kiconloader.h>
 
 #include <QPainter>
@@ -240,7 +242,7 @@ void TreeViewMode::addItems(const QStringList &items, unsigned column)
     QString itemKey;
     PlaylistBox::Item *itemParent = m_searchCategories.value(searchCategory, 0);
 
-    foreach(const QString &item, items) {
+    for(const QString &item : items) {
         itemKey = searchCategory + item;
 
         if(m_treeViewItems.contains(itemKey))
@@ -264,7 +266,7 @@ void TreeViewMode::setDynamicListsFrozen(bool frozen)
     if(frozen)
         return;
 
-    foreach(const QString &pendingItem, m_pendingItemsToRemove) {
+    for(const QString &pendingItem : std::as_const(m_pendingItemsToRemove)) {
         m_treeViewItems[pendingItem]->deleteLater();
         m_treeViewItems.remove(pendingItem);
     }

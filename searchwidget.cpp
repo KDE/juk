@@ -92,7 +92,7 @@ PlaylistSearch::Component SearchLine::searchComponent() const
     QVector<int> searchedColumns;
 
     if(!m_searchFieldsBox || m_searchFieldsBox->currentIndex() == 0) {
-        foreach(int column, m_columnList) {
+        for(int column : std::as_const(m_columnList)) {
             if(!playlist->isColumnHidden(column))
                 searchedColumns.append(column);
         }

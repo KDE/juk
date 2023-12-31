@@ -19,6 +19,7 @@
 #include "filerenamer.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <kiconloader.h>
 #include <KLocalizedString>
@@ -55,6 +56,7 @@
 #include "playlistitem.h"
 
 using namespace Qt::Literals::StringLiterals;
+using std::as_const;
 
 class ConfirmationDialog : public QDialog
 {
@@ -302,7 +304,7 @@ void FileRenamerWidget::loadConfig()
 
     checkedSeparators = config.readEntry("CheckedDirSeparators", QList<int>());
 
-    foreach(int separator, checkedSeparators) {
+    for(int separator : as_const(checkedSeparators)) {
         if(separator < m_folderSwitches.count())
             m_folderSwitches[separator]->setChecked(true);
     }

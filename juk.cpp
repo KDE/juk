@@ -380,8 +380,11 @@ void JuK::setupActions()
                           new VolumeAction(i18n("Volume"), this));
 
     ActionCollection::actions()->addAssociatedWidget(this);
-    foreach (QAction* action, ActionCollection::actions()->actions())
+
+    const auto actList = ActionCollection::actions()->actions();
+    for(QAction* action : actList) {
         action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    }
 }
 
 void JuK::slotSetupSystemTray()
