@@ -41,6 +41,8 @@
 
 #include <id3v1genres.h>
 
+#include <array>
+
 #include "actioncollection.h"
 #include "collectionlist.h"
 #include "iconsupport.h"
@@ -244,104 +246,88 @@ void TagEditor::slotRefresh()
 
     commentBox->setPlainText(tag->comment());
 
-    // Start at the second item, since we've already processed the first.
+    // If there is more than one item in the items that we're dealing with then add
+    // 'Enable' boxes to use to determine whether to modify tags en masse or not
 
-    PlaylistItemList::Iterator it = m_items.begin();
-    ++it;
+    if(m_items.count() > 1) {
+        const std::array<QWidget*, 6> inputs {
+            fileNameLabel, fileNameBox, lengthLabel, lengthBox, bitrateLabel, bitrateBox
+        };
 
-    // If there is more than one item in the m_items that we're dealing with...
-
-    QList<QWidget *> disabledForMulti;
-
-    disabledForMulti << fileNameLabel << fileNameBox << lengthLabel << lengthBox
-                     << bitrateLabel << bitrateBox;
-
-    foreach(QWidget *w, disabledForMulti) {
-        w->setDisabled(m_items.size() > 1);
-        if(m_items.size() > 1 && !w->inherits("QLabel"))
-            QMetaObject::invokeMethod(w, "clear");
+        for(auto w : inputs) {
+            w->setDisabled(true);
+            if(!w->inherits("QLabel"))
+                QMetaObject::invokeMethod(w, "clear");
+        }
     }
 
-    if(it != m_items.end()) {
-
-        foreach(QCheckBox *box, m_enableBoxes) {
-            box->setChecked(true);
+    for(QCheckBox *box : std::as_const(m_enableBoxes)) {
+        box->setChecked(true);
+        if(m_items.count() > 1)
             box->show();
-        }
-
-        // Yep, this is ugly.  Loop through all of the files checking to see
-        // if their fields are the same.  If so, by default, enable their
-        // checkbox.
-
-        // Also, if there are more than 50 m_items, don't scan all of them.
-
-        if(m_items.count() > 50) {
-            m_enableBoxes[artistNameBox]->setChecked(false);
-            m_enableBoxes[trackNameBox]->setChecked(false);
-            m_enableBoxes[albumNameBox]->setChecked(false);
-            m_enableBoxes[genreBox]->setChecked(false);
-            m_enableBoxes[trackSpin]->setChecked(false);
-            m_enableBoxes[yearSpin]->setChecked(false);
-            m_enableBoxes[commentBox]->setChecked(false);
-        }
-        else {
-            for(; it != m_items.end(); ++it) {
-                tag = (*it)->file().tag();
-
-                if(tag) {
-
-                    if(artistNameBox->currentText() != tag->artist() &&
-                       m_enableBoxes.contains(artistNameBox))
-                    {
-                        artistNameBox->lineEdit()->clear();
-                        m_enableBoxes[artistNameBox]->setChecked(false);
-                    }
-                    if(trackNameBox->text() != tag->title() &&
-                       m_enableBoxes.contains(trackNameBox))
-                    {
-                        trackNameBox->clear();
-                        m_enableBoxes[trackNameBox]->setChecked(false);
-                    }
-                    if(albumNameBox->currentText() != tag->album() &&
-                       m_enableBoxes.contains(albumNameBox))
-                    {
-                        albumNameBox->lineEdit()->clear();
-                        m_enableBoxes[albumNameBox]->setChecked(false);
-                    }
-                    if(genreBox->currentText() != tag->genre() &&
-                       m_enableBoxes.contains(genreBox))
-                    {
-                        genreBox->lineEdit()->clear();
-                        m_enableBoxes[genreBox]->setChecked(false);
-                    }
-                    if(trackSpin->value() != tag->track() &&
-                       m_enableBoxes.contains(trackSpin))
-                    {
-                        trackSpin->setValue(0);
-                        m_enableBoxes[trackSpin]->setChecked(false);
-                    }
-                    if(yearSpin->value() != tag->year() &&
-                       m_enableBoxes.contains(yearSpin))
-                    {
-                        yearSpin->setValue(0);
-                        m_enableBoxes[yearSpin]->setChecked(false);
-                    }
-                    if(commentBox->toPlainText() != tag->comment() &&
-                       m_enableBoxes.contains(commentBox))
-                    {
-                        commentBox->clear();
-                        m_enableBoxes[commentBox]->setChecked(false);
-                    }
-                }
-            }
-        }
-    }
-    else {
-        foreach(QCheckBox *box, m_enableBoxes) {
-            box->setChecked(true);
+        else
             box->hide();
+    }
+
+    // Yep, this is ugly.  Loop through all of the files checking to see
+    // if their fields are the same.  If not, disable their checkbox.
+    // But skip the check if there are more than 50 items
+
+    bool enable_artist  = m_items.count() <= 50;
+    bool enable_title   = enable_artist;
+    bool enable_album   = enable_artist;
+    bool enable_genre   = enable_artist;
+    bool enable_track   = enable_artist;
+    bool enable_year    = enable_artist;
+    bool enable_comment = enable_artist;
+
+    if(m_items.count() <= 50) {
+        for(const PlaylistItem *item : std::as_const(m_items)) {
+            const auto tag = item->file().tag();
+
+            if(!tag) {
+                continue;
+            }
+
+            enable_artist  = enable_artist  && artistNameBox->currentText() == tag->artist();
+            enable_title   = enable_title   && trackNameBox->text() == tag->title();
+            enable_album   = enable_album   && albumNameBox->currentText() == tag->album();
+            enable_genre   = enable_genre   && genreBox->currentText() == tag->genre();
+            enable_track   = enable_track   && trackSpin->value() == tag->track();
+            enable_year    = enable_year    && yearSpin->value() == tag->year();
+            enable_comment = enable_comment && commentBox->toPlainText() == tag->comment();
         }
     }
+
+    if(!enable_artist && m_enableBoxes.contains(artistNameBox)) {
+        artistNameBox->lineEdit()->clear();
+        m_enableBoxes[artistNameBox]->setChecked(false);
+    }
+    if(!enable_title && m_enableBoxes.contains(trackNameBox)) {
+        trackNameBox->clear();
+        m_enableBoxes[trackNameBox]->setChecked(false);
+    }
+    if(!enable_album && m_enableBoxes.contains(albumNameBox)) {
+        albumNameBox->lineEdit()->clear();
+        m_enableBoxes[albumNameBox]->setChecked(false);
+    }
+    if(!enable_genre && m_enableBoxes.contains(genreBox)) {
+        genreBox->lineEdit()->clear();
+        m_enableBoxes[genreBox]->setChecked(false);
+    }
+    if(!enable_track && m_enableBoxes.contains(trackSpin)) {
+        trackSpin->setValue(0);
+        m_enableBoxes[trackSpin]->setChecked(false);
+    }
+    if(!enable_year && m_enableBoxes.contains(yearSpin)) {
+        yearSpin->setValue(0);
+        m_enableBoxes[yearSpin]->setChecked(false);
+    }
+    if(!enable_comment && m_enableBoxes.contains(commentBox)) {
+        commentBox->clear();
+        m_enableBoxes[commentBox]->setChecked(false);
+    }
+
     m_dataChanged = false;
 }
 
