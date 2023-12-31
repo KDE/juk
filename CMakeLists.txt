@@ -51,7 +51,7 @@ find_package(Phonon4Qt6 4.6.60 REQUIRED NO_MODULE)
 
 find_package(Taglib 1.6 REQUIRED)
 
-#add_subdirectory( doc )
+add_subdirectory( doc )
 add_subdirectory( tests )
 add_subdirectory( pics )
 
@@ -223,7 +223,7 @@ install( PROGRAMS jukservicemenu.desktop  DESTINATION ${KDE_INSTALL_DATADIR}/kio
 install( FILES org.kde.juk.collection.xml org.kde.juk.player.xml org.kde.juk.search.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR} )
 
 ki18n_install(po)
-#kdoctools_install(po)
+kdoctools_install(po)
 
 ecm_install_icons(ICONS
     128-apps-juk.png
