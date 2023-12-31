@@ -27,7 +27,6 @@
 #include "collectionlist.h"
 #include "juktag.h"
 #include "coverinfo.h"
-#include "covermanager.h"
 #include "tagtransactionmanager.h"
 
 #include "juk_debug.h"
@@ -328,14 +327,6 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
             return -1;
         else
             return 0;
-        break;
-    case CoverColumn:
-        if(firstItem->d->fileHandle.coverInfo()->coverId() == secondItem->d->fileHandle.coverInfo()->coverId())
-            return 0;
-        else if (firstItem->d->fileHandle.coverInfo()->coverId() != CoverManager::NoMatch)
-            return -1;
-        else
-            return 1;
         break;
     default:
         return naturalCompare(firstItem->d->metadata[column - offset],

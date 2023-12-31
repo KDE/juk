@@ -24,7 +24,6 @@
 #include <QTreeWidget>
 #include <QFuture>
 
-#include "covermanager.h"
 #include "stringhash.h"
 #include "playlistsearch.h"
 #include "tagguesser.h"
@@ -39,7 +38,6 @@ class QFileInfo;
 class QMimeData;
 class QTimer;
 
-class WebImageFetcher;
 class PlaylistItem;
 class PlaylistCollection;
 class CollectionListItem;
@@ -386,27 +384,6 @@ public slots:
     void slotBeginPlayback();
 
     /**
-     * Sets the cover of the selected items, pass in true if you want to load from the local system,
-     * false if you want to load from the internet.
-     */
-    void slotAddCover(bool fromLocal);
-
-    /**
-     * Shows a large image of the cover
-     */
-    void slotViewCover();
-
-    /**
-     * Removes covers from the selected items
-     */
-    void slotRemoveCover();
-
-    /**
-     * Shows the cover manager GUI dialog
-     */
-    void slotShowCoverManager();
-
-    /**
      * Reload the playlist contents from the m3u file.
      */
     virtual void slotReload();
@@ -586,11 +563,6 @@ private:
 
     void redisplaySearch() { setSearch(m_search); }
 
-    /**
-     * Sets the cover for items to the cover identified by id.
-     */
-    void refreshAlbums(const PlaylistItemList &items, coverKey id = CoverManager::NoMatch);
-
     void refreshAlbum(const QString &artist, const QString &album);
 
     void updatePlaying() const;
@@ -643,12 +615,6 @@ private slots:
      * and starts the process of renaming the values.
      */
     void slotInlineEditDone(QTreeWidgetItem *, int column);
-
-    /**
-     * The image fetcher will update the cover asynchronously, this internal
-     * slot is called when it happens.
-     */
-    void slotCoverChanged(int coverId);
 
     /**
      * Moves the column \a from to the position \a to.  This matches the signature
@@ -717,7 +683,6 @@ private:
     QAction *m_rmbEdit  = nullptr;
     QMenu *m_rmbMenu    = nullptr;
     QMenu *m_headerMenu = nullptr;
-    WebImageFetcher *m_fetcher = nullptr;
 
     /**
      * This is used to indicate if the list of visible items has changed (via a

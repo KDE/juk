@@ -24,7 +24,6 @@
 
 #include "collectionadaptor.h"
 #include "playlistcollection.h"
-#include "covermanager.h"
 #include "collectionlist.h"
 #include "coverinfo.h"
 #include "filehandle.h"
@@ -113,13 +112,7 @@ void DBusCollectionProxy::removeTrack(const QString &playlist, const QStringList
 
 QString DBusCollectionProxy::trackCover(const QString &track)
 {
-    coverKey id = CoverManager::idForTrack(track);
-    if(id != CoverManager::NoMatch) {
-        CoverData coverData = CoverManager::coverInfo(id);
-        return coverData.path;
-    }
-
-    // No cover, let's see if one is embedded.
+    // Let's see if a cover is embedded.
     CollectionListItem *collectionItem = CollectionList::instance()->lookup(track);
 
     if(!collectionItem)

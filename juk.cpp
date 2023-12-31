@@ -47,7 +47,6 @@
 #include "actioncollection.h"
 #include "cache.h"
 #include "collectionlist.h"
-#include "covermanager.h"
 #include "filerenamerconfigdlg.h"
 #include "iconsupport.h"
 #include "keydialog.h"
@@ -197,22 +196,6 @@ JuK* JuK::JuKInstance()
 PlayerManager *JuK::playerManager() const
 {
     return m_player;
-}
-
-void JuK::coverDownloaded(const QPixmap &cover)
-{
-    QString event(cover.isNull() ? "coverFailed" : "coverDownloaded");
-    KNotification *notification = new KNotification(event);
-    notification->setWindow(windowHandle());
-    notification->setPixmap(cover);
-    notification->setFlags(KNotification::CloseOnTimeout);
-
-    if(cover.isNull())
-        notification->setText(i18n("Your album art failed to download."));
-    else
-        notification->setText(i18n("Your album art has finished downloading."));
-
-    notification->sendEvent();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

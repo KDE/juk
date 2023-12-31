@@ -19,7 +19,6 @@
 #define COVERINFO_H
 
 #include "filehandle.h"
-#include "covermanager.h"
 
 #include <QImage>
 
@@ -39,22 +38,6 @@ public:
     void clearCover();
     void setCover(const QImage &image = QImage());
 
-    // Use this to assign to a specific cover id.
-    void setCoverId(coverKey id);
-
-    /**
-     * This function sets the cover identifier for all tracks that have the
-     * same Artist and Album as this track, to the cover identifier of this
-     * track.
-     *
-     * @param overwriteExistingCovers If set to true, this function will always
-     *        apply the new cover to a track even if the track already had
-     *        a different cover set.
-     */
-    void applyCoverToWholeAlbum(bool overwriteExistingCovers = false) const;
-
-    coverKey coverId() const;
-
     QPixmap pixmap(CoverSize size) const;
 
     /**
@@ -63,7 +46,7 @@ public:
      * temporary file. The temporary file will be owned by the caller.
      *
      * Note that it is possible to have a valid filename even for covers that
-     * do not have "coverKey" since JuK supports using cover.{jpg,png} in a
+     * have no embedded art since JuK supports using cover.{jpg,png} in a
      * directory.
      *
      * @param fallbackFileName The filename (including full absolute path)
@@ -88,10 +71,9 @@ private:
     FileHandle m_file;
 
     // Mutable to allow this info to be cached.
-    mutable bool m_hasCover;
-    mutable bool m_hasAttachedCover;
-    mutable bool m_haveCheckedForCover;
-    mutable coverKey m_coverKey;
+    mutable bool m_hasCover = false;
+    mutable bool m_hasAttachedCover = false;
+    mutable bool m_haveCheckedForCover = false;
 };
 
 #endif

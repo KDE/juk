@@ -503,34 +503,6 @@ void PlaylistCollection::renameItems()
     visiblePlaylist()->slotRenameFile();
 }
 
-void PlaylistCollection::addLocalCover()
-{
-    visiblePlaylist()->slotAddCover(true /* from file */);
-    playlistItemsChanged();
-}
-
-void PlaylistCollection::addInternetCover()
-{
-    visiblePlaylist()->slotAddCover(false /* not from file */);
-    playlistItemsChanged();
-}
-
-void PlaylistCollection::removeCovers()
-{
-    visiblePlaylist()->slotRemoveCover();
-    playlistItemsChanged();
-}
-
-void PlaylistCollection::viewCovers()
-{
-    visiblePlaylist()->slotViewCover();
-}
-
-void PlaylistCollection::showCoverManager()
-{
-    visiblePlaylist()->slotShowCoverManager();
-}
-
 PlaylistItemList PlaylistCollection::selectedItems()
 {
     return visiblePlaylist()->selectedItems();
@@ -1003,23 +975,6 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("&Rename File"), &PlaylistCollection::renameItems,
             "renameFile", "document-save-as",
             QKeySequence(Qt::CTRL | Qt::Key_R));
-
-    menu = new KActionMenu(i18n("Cover Manager"), actionCollection);
-    actionCollection->addAction("coverManager", menu);
-    menu->setIcon("image-x-generic"_icon);
-    menu->addAction(createAction(i18n("&View Cover"),
-        &PlaylistCollection::viewCovers, "viewCover", "document-preview"));
-    menu->addAction(createAction(i18n("Get Cover From &File..."),
-        &PlaylistCollection::addLocalCover, "addCover", "document-import",
-        QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_F)));
-    menu->addAction(createAction(i18n("Get Cover From &Internet..."),
-        &PlaylistCollection::addInternetCover,
-        "webImageCover", "network-server",
-        QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_G)));
-    menu->addAction(createAction(i18n("&Delete Cover"),
-        &PlaylistCollection::removeCovers, "removeCover", "edit-delete"));
-    menu->addAction(createAction(i18n("Show Cover &Manager"),
-        &PlaylistCollection::showCoverManager, "showCoverManager"));
 
     auto upcomingAction = new KToggleAction(
             "go-jump-today"_icon, i18n("Show &Play Queue"), actionCollection);

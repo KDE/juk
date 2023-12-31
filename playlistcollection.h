@@ -105,12 +105,6 @@ public:
     void refreshItems();
     void openItemDir();
     void renameItems();
-    void addCovers(bool fromFile);
-    void addLocalCover();
-    void addInternetCover();
-    void removeCovers();
-    void viewCovers();
-    void showCoverManager();
 
     virtual PlaylistItemList selectedItems();
 

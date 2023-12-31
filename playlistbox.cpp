@@ -34,6 +34,7 @@
 #include <QIcon>
 #include <QKeyEvent>
 #include <QMenu>
+#include <QMimeData>
 #include <QMouseEvent>
 #include <QTime>
 #include <QTimer>

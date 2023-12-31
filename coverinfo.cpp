@@ -55,8 +55,10 @@
 struct CoverPopup : public QWidget
 {
     CoverPopup(QPixmap &image, const QPoint &p) :
-        QWidget(0, Qt::WindowFlags(Qt::WA_DeleteOnClose | Qt::X11BypassWindowManagerHint))
+        QWidget(nullptr, Qt::WindowFlags(Qt::FramelessWindowHint))
     {
+        setAttribute(Qt::WA_DeleteOnClose);
+
         QHBoxLayout *layout = new QHBoxLayout(this);
         QLabel *label = new QLabel(this);
         layout->addWidget(label);
@@ -86,14 +88,9 @@ struct CoverPopup : public QWidget
 ////////////////////////////////////////////////////////////////////////////////
 
 
-CoverInfo::CoverInfo(const FileHandle &file) :
-    m_file(file),
-    m_hasCover(false),
-    m_hasAttachedCover(false),
-    m_haveCheckedForCover(false),
-    m_coverKey(CoverManager::NoMatch)
+CoverInfo::CoverInfo(const FileHandle &file)
+  : m_file(file)
 {
-
 }
 
 bool CoverInfo::hasCover() const
@@ -102,18 +99,6 @@ bool CoverInfo::hasCover() const
         return m_hasCover || m_hasAttachedCover;
 
     m_haveCheckedForCover = true;
-
-    // Check for new-style covers.  First let's determine what our coverKey is
-    // if it's not already set, as that's also tracked by the CoverManager.
-    if(m_coverKey == CoverManager::NoMatch)
-        m_coverKey = CoverManager::idForTrack(m_file.absFilePath());
-
-    // We were assigned a key, let's see if we already have a cover.  Notice
-    // that due to the way the CoverManager is structured, we should have a
-    // cover if we have a cover key.  If we don't then either there's a logic
-    // error, or the user has been mucking around where they shouldn't.
-    if(m_coverKey != CoverManager::NoMatch)
-        m_hasCover = CoverManager::hasCover(m_coverKey);
 
     // Check if it's embedded in the file itself.
 
@@ -139,11 +124,6 @@ void CoverInfo::clearCover()
 
     // Re-search for cover since we may still have a different type of cover.
     m_haveCheckedForCover = false;
-
-    // We don't need to call removeCover because the CoverManager will
-    // automatically unlink the cover if we were the last track to use it.
-    CoverManager::setIdForTrack(m_file.absFilePath(), CoverManager::NoMatch);
-    m_coverKey = CoverManager::NoMatch;
 }
 
 void CoverInfo::setCover(const QImage &image)
@@ -156,81 +136,15 @@ void CoverInfo::setCover(const QImage &image)
 
     QPixmap cover = QPixmap::fromImage(image);
 
-    // If we use replaceCover we'll change the cover for every other track
-    // with the same coverKey, which we don't want since that case will be
-    // handled by Playlist.  Instead just replace this track's cover.
-    m_coverKey = CoverManager::addCover(cover, m_file.tag()->artist(), m_file.tag()->album());
-    if(m_coverKey != CoverManager::NoMatch)
-        CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
-}
-
-void CoverInfo::setCoverId(coverKey id)
-{
-    m_coverKey = id;
-    m_haveCheckedForCover = true;
-    m_hasCover = id != CoverManager::NoMatch;
-
-    // Inform CoverManager of the change.
-    CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
-}
-
-void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
-{
-    QString artist = m_file.tag()->artist();
-    QString album = m_file.tag()->album();
-    PlaylistSearch::ComponentList components;
-    ColumnList columns;
-
-    columns.append(PlaylistItem::ArtistColumn);
-    components.append(PlaylistSearch::Component(artist, false, columns, PlaylistSearch::Component::Exact));
-
-    columns.clear();
-    columns.append(PlaylistItem::AlbumColumn);
-    components.append(PlaylistSearch::Component(album, false, columns, PlaylistSearch::Component::Exact));
-
-    PlaylistList playlists;
-    playlists.append(CollectionList::instance());
-
-    PlaylistSearch search(playlists, components, PlaylistSearch::MatchAll);
-
-    // Search done, iterate through results.
-
-    const auto playlistFoundItems = search.matchedItems();
-    PlaylistItemList results;
-    for(QModelIndex i : playlistFoundItems)
-        results.append(static_cast<PlaylistItem*>(CollectionList::instance()->itemAt(i.row(), i.column())));
-
-    for(const auto &playlistItem : std::as_const(results)) {
-
-        // Don't worry about files that somehow already have a tag,
-        // unless the conversion is forced.
-        if(!overwriteExistingCovers && playlistItem->file().coverInfo()->coverId() != CoverManager::NoMatch)
-            continue;
-
-        playlistItem->file().coverInfo()->setCoverId(m_coverKey);
-    }
-}
-
-coverKey CoverInfo::coverId() const
-{
-    if(m_coverKey == CoverManager::NoMatch)
-        m_coverKey = CoverManager::idForTrack(m_file.absFilePath());
-
-    return m_coverKey;
+    // TODO: Embed album art into the music track
+    qCWarning(JUK_LOG) << "Unable to embed cover image for" << m_file.absFilePath() << "(unsupported)";
 }
 
 QPixmap CoverInfo::pixmap(CoverSize size) const
 {
-    if(hasCover() && m_coverKey != CoverManager::NoMatch) {
-        return CoverManager::coverFromId(m_coverKey,
-            size == Thumbnail
-               ? CoverManager::Thumbnail
-               : CoverManager::FullSize);
-    }
-
     QImage cover;
 
-    // If m_hasCover is still true we must have a directory cover image.
+    // We either have a directory cover image or an embedded art
     if(m_hasCover) {
         QString fileName = m_file.fileInfo().absolutePath() + "/cover.jpg";
 
@@ -257,12 +171,6 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
 
 QString CoverInfo::localPathToCover(const QString &fallbackFileName) const
 {
-    if(m_coverKey != CoverManager::NoMatch) {
-        QString path = CoverManager::coverInfo(m_coverKey).path;
-        if(!path.isEmpty())
-            return path;
-    }
-
     if(hasEmbeddedAlbumArt()) {
         QFile albumArtFile(fallbackFileName);
         if(!albumArtFile.open(QIODevice::ReadWrite)) {

@@ -41,7 +41,6 @@
 #include "playlistcollection.h"
 #include "playlistitem.h"
 #include "coverinfo.h"
-#include "covermanager.h"
 #include "juktag.h"
 #include "collectionlist.h"
 #include "juk_debug.h"
@@ -187,21 +186,29 @@ void CoverItem::mouseMoveEvent(QMouseEvent *e)
 
         m_dragging = true;
 
+        // TODO: Restore CoverDrag and include ability to DnD image data
+        // rather than a cover ID.
+#if 0
         QDrag *drag = new QDrag(this);
         CoverDrag *data = new CoverDrag(m_file.coverInfo()->coverId());
 
         drag->setMimeData(data);
         drag->exec(Qt::CopyAction);
+#endif
     }
 }
 
 void CoverItem::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->setAccepted(CoverDrag::isCover(e->mimeData()) || e->mimeData()->hasUrls());
+    e->setAccepted(false);
 }
 
 void CoverItem::dropEvent(QDropEvent *e)
 {
+    qCWarning(JUK_LOG) << "Dropping covers is not currently supported.";
+    Q_UNUSED(e);
+
+#if 0
     QImage image;
     QList<QUrl> urls;
     coverKey key;
@@ -209,12 +216,7 @@ void CoverItem::dropEvent(QDropEvent *e)
     if(e->source() == this)
         return;
 
-    key = CoverDrag::idFromData(e->mimeData());
-    if(key != CoverManager::NoMatch) {
-        m_file.coverInfo()->setCoverId(key);
-        update(m_file);
-    }
-    else if(e->mimeData()->hasImage()) {
+    if(e->mimeData()->hasImage()) {
         m_file.coverInfo()->setCover(qvariant_cast<QImage>(e->mimeData()->imageData()));
         update(m_file);
     }
@@ -236,6 +238,7 @@ void CoverItem::dropEvent(QDropEvent *e)
         else
             qCCritical(JUK_LOG) << "Unable to download " << urls.front();
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

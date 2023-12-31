@@ -76,11 +76,7 @@ add_executable(juk
    cache.cpp
    categoryreaderinterface.cpp
    collectionlist.cpp
-   coverdialog.cpp
-   covericonview.cpp
    coverinfo.cpp
-   covermanager.cpp
-   coverproxy.cpp
    dbuscollectionproxy.cpp
    deletedialog.cpp
    directorylist.cpp
@@ -92,7 +88,6 @@ add_executable(juk
    filerenamer.cpp
    filerenameroptions.cpp
    filerenamerconfigdlg.cpp
-   webimagefetcher.cpp
    historyplaylist.cpp
    iconsupport.cpp
    juk.cpp
@@ -152,7 +147,6 @@ ki18n_wrap_ui(juk
     directorylistbase.ui
     tagguesserconfigdlgwidget.ui
     exampleoptionsbase.ui
-    coverdialogbase.ui
     deletedialogbase.ui
     tageditor.ui
 )

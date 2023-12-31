@@ -68,7 +68,6 @@
 #include "actioncollection.h"
 #include "cache.h"
 #include "collectionlist.h"
-#include "coverdialog.h"
 #include "coverinfo.h"
 #include "deletedialog.h"
 #include "directoryloader.h"
@@ -83,7 +82,6 @@
 #include "playlistsharedsettings.h"
 #include "tagtransactionmanager.h"
 #include "upcomingplaylist.h"
-#include "webimagefetcher.h"
 
 using namespace ActionCollection; // ""_act and others
 using std::as_const;
@@ -125,7 +123,6 @@ Playlist::Playlist(
   , m_collection(collection)
   , m_playlistName(name)
   , m_refillDebounce(new QTimer(this))
-  , m_fetcher(new WebImageFetcher(this))
 {
     setup(extraCols);
 
@@ -622,80 +619,6 @@ void Playlist::slotBeginPlayback()
     }
 }
 
-void Playlist::slotViewCover()
-{
-    const PlaylistItemList items = selectedItems();
-    for(const auto &item : items) {
-        const auto cover = item->file().coverInfo();
-
-        if(cover->hasCover()) {
-            cover->popup();
-            return; // If we select multiple items, only show one
-        }
-    }
-}
-
-void Playlist::slotRemoveCover()
-{
-    PlaylistItemList items = selectedItems();
-    if(items.isEmpty())
-        return;
-    int button = KMessageBox::warningContinueCancel(this,
-                                                    i18n("Are you sure you want to delete these covers?"),
-                                                    QString(),
-                                                    KGuiItem(i18n("&Delete Covers")));
-    if(button == KMessageBox::Continue)
-        refreshAlbums(items);
-}
-
-void Playlist::slotShowCoverManager()
-{
-    static CoverDialog *managerDialog = 0;
-
-    if(!managerDialog)
-        managerDialog = new CoverDialog(this);
-
-    managerDialog->show();
-}
-
-void Playlist::slotAddCover(bool retrieveLocal)
-{
-    PlaylistItemList items = selectedItems();
-
-    if(items.isEmpty())
-        return;
-
-    if(!retrieveLocal) {
-        m_fetcher->setFile((*items.begin())->file());
-        m_fetcher->searchCover();
-        return;
-    }
-
-    QUrl file = QFileDialog::getOpenFileUrl(
-        this, i18n("Select Cover Image File"),
-        QUrl::fromLocalFile(QDir::home().path()),
-        i18n("Images (*.png *.jpg)"), nullptr,
-        {}, QStringList() << QStringLiteral("file")
-        );
-    if(file.isEmpty())
-        return;
-
-    QString artist = items.front()->file().tag()->artist();
-    QString album = items.front()->file().tag()->album();
-
-    coverKey newId = CoverManager::addCover(file, artist, album);
-
-    if(newId != CoverManager::NoMatch)
-        refreshAlbums(items, newId);
-}
-
-// Called when image fetcher has added a new cover.
-void Playlist::slotCoverChanged(int coverId)
-{
-    qCDebug(JUK_LOG) << "Refreshing information for newly changed covers.";
-    refreshAlbums(selectedItems(), coverId);
-}
-
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -905,12 +828,6 @@ void Playlist::beginPlayingItem(PlaylistItem *itemToPlay)
 
 void Playlist::dragEnterEvent(QDragEnterEvent *e)
 {
-    if(CoverDrag::isCover(e->mimeData())) {
-        setDropIndicatorShown(false);
-        e->accept();
-        return;
-    }
-
     if(e->mimeData()->hasUrls() && !e->mimeData()->urls().isEmpty()) {
         setDropIndicatorShown(true);
         e->acceptProposedAction();
@@ -1028,29 +945,6 @@ void Playlist::dropEvent(QDropEvent *e)
 {
     QPoint vp = e->position().toPoint();
     PlaylistItem *item = static_cast<PlaylistItem *>(itemAt(vp));
-
-    // First see if we're dropping a cover, if so we can get it out of the
-    // way early.
-    if(item && CoverDrag::isCover(e->mimeData())) {
-        coverKey id = CoverDrag::idFromData(e->mimeData());
-
-        // If the item we dropped on is selected, apply cover to all selected
-        // items, otherwise just apply to the dropped item.
-
-        if(item->isSelected()) {
-            const PlaylistItemList selItems = selectedItems();
-            for(auto &playlistItem : selItems) {
-                playlistItem->file().coverInfo()->setCoverId(id);
-                playlistItem->refresh();
-            }
-        }
-        else {
-            item->file().coverInfo()->setCoverId(id);
-            item->refresh();
-        }
-
-        return;
-    }
 
     // When dropping on the toUpper half of an item, insert before this item.
     // This is what the user expects, and also allows the insertion at
@@ -1253,27 +1147,6 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     }
 }
 
-void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
-{
-    QSet<QPair<QString, QString>> albums;
-    bool setAlbumCovers = items.count() == 1;
-
-    for(const auto &item : items) {
-        const QString artist = item->file().tag()->artist();
-        const QString album = item->file().tag()->album();
-
-        albums.insert(qMakePair(artist, album));
-
-        item->file().coverInfo()->setCoverId(id);
-        if(setAlbumCovers)
-            item->file().coverInfo()->applyCoverToWholeAlbum(true);
-    }
-
-    for(const auto &albumPair : as_const(albums)) {
-        refreshAlbum(albumPair.first, albumPair.second);
-    }
-}
-
 void Playlist::updatePlaying() const
 {
     const auto playingItems = PlaylistItem::playingItems();
@@ -1403,7 +1276,6 @@ void Playlist::slotInitialize(int numColumnsToReserve)
         i18n("Track Name"),
         i18n("Artist"),
         i18n("Album"),
-        i18n("Cover"),
         i18nc("cd track number", "Track"),
         i18n("Genre"),
         i18n("Year"),
@@ -1577,14 +1449,6 @@ void Playlist::setup(int numColumnsToReserve)
     connect(header(), &QHeaderView::sectionMoved,
             this,     &Playlist::slotColumnOrderChanged);
 
-    connect(m_fetcher, &WebImageFetcher::signalCoverChanged,
-            this,      &Playlist::slotCoverChanged);
-
-    // Prevent list of selected items from changing while internet search is in
-    // progress.
-    connect(this,      &Playlist::itemSelectionChanged,
-            m_fetcher, &WebImageFetcher::abortSearch);
-
     connect(this, &QTreeWidget::itemDoubleClicked,
             this, &Playlist::slotPlayCurrent);
 
@@ -1732,8 +1596,6 @@ void Playlist::createPlaylistRMBMenu()
 
     m_rmbMenu->addAction(action("guessTag"));
     m_rmbMenu->addAction(action("renameFile"));
-
-    m_rmbMenu->addAction(action("coverManager"));
 
     m_rmbMenu->addSeparator();
 
@@ -2116,13 +1978,6 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
     FileHandle file = static_cast<PlaylistItem*>(item)->file();
 
     m_rmbEdit->setEnabled(file.fileInfo().isWritable() || selectedItems().count() > 1);
-
-    // View cover is based on if there is a cover to see.  We should only have
-    // the remove cover option if the cover is in our database (and not directly
-    // embedded in the file, for instance).
-
-    action("viewCover")->setEnabled(file.coverInfo()->hasCover());
-    action("removeCover")->setEnabled(file.coverInfo()->coverId() != CoverManager::NoMatch);
 
     m_rmbMenu->popup(mapToGlobal(point));
 }
