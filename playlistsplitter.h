@@ -20,6 +20,7 @@
 #include <QSplitter>
 
 class QStackedWidget;
+class QTimer;
 class QTreeWidgetItem;
 
 class Playlist;
@@ -125,6 +126,7 @@ private:
     LyricsWidget   *m_lyricsWidget   = nullptr;
     Playlist       *m_newVisible     = nullptr;
     PlayerManager  *m_player         = nullptr;
+    QTimer         *m_searchDebounce = nullptr;
 };
 
 #endif

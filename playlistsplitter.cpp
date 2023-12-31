@@ -29,6 +29,7 @@
 #include <QList>
 #include <QSizePolicy>
 #include <QStackedWidget>
+#include <QTimer>
 #include <QVBoxLayout>
 
 #include "actioncollection.h"
@@ -244,12 +245,18 @@ void PlaylistSplitter::setupLayout()
 
     // Create the search widget -- this must be done after the CollectionList is created.
 
+    m_searchDebounce = new QTimer(this); // used to avoid search updates until user stops typing
+    m_searchDebounce->setInterval(30);
+    m_searchDebounce->setSingleShot(true);
+
     m_searchWidget = new SearchWidget(top);
 
     // auto-shortcuts don't seem to work and aren't needed anyway.
     KAcceleratorManager::setNoAccel(m_searchWidget);
 
     connect(m_searchWidget,   &SearchWidget::signalQueryChanged,
+            m_searchDebounce, qOverload<>(&QTimer::start));
+    connect(m_searchDebounce, &QTimer::timeout,
             this,             &PlaylistSplitter::slotShowSearchResults);
     connect(m_searchWidget,   &SearchWidget::signalDownPressed,
             this,             &PlaylistSplitter::slotFocusCurrentPlaylist);

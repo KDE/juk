@@ -452,6 +452,8 @@ void Playlist::setSearch(PlaylistSearch* s)
     for(int row = 0; row < topLevelItemCount(); ++row)
         topLevelItem(row)->setHidden(true);
     setItemsVisible(s->matchedItems(), true);
+
+    refillRandomList();
 }
 
 void Playlist::setSearchEnabled(bool enabled)
@@ -471,6 +473,8 @@ void Playlist::setSearchEnabled(bool enabled)
         for(PlaylistItem* item : playlistItems)
             item->setHidden(false);
     }
+
+    refillRandomList();
 }
 
 // Mostly seems to be for DynamicPlaylist
@@ -657,14 +661,14 @@ void Playlist::slotReload()
 
 void Playlist::refillRandomList()
 {
-    qCDebug(JUK_LOG) << "Refilling random items.";
-
     if(action("disableRandomPlay")->isChecked()) {
         m_randomSequence.clear();
         return;
     }
 
     PlaylistItemList randomItems = visibleItems();
+
+    qCDebug(JUK_LOG) << "Refilling random items among" << randomItems.count() << "viable tracks";
 
     // See https://www.pcg-random.org/posts/cpp-seeding-surprises.html
     std::random_device rdev;
