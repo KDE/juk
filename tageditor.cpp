@@ -42,6 +42,7 @@
 #include <id3v1genres.h>
 
 #include <array>
+#include <utility>
 
 #include "actioncollection.h"
 #include "collectionlist.h"
@@ -52,6 +53,8 @@
 #include "tagtransactionmanager.h"
 
 #undef KeyRelease
+
+using std::as_const;
 
 class FileNameValidator final : public QValidator
 {
@@ -162,11 +165,11 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
     // Store the playlist that we're setting because saveChangesPrompt
     // can delete the PlaylistItems in list.
 
-    Playlist *itemPlaylist = 0;
+    Playlist *itemPlaylist = nullptr;
     if(!list.isEmpty())
         itemPlaylist = list.first()->playlist();
 
-    bool hadPlaylist = m_currentPlaylist != 0;
+    bool hadPlaylist = m_currentPlaylist != nullptr;
 
     saveChangesPrompt();
 
@@ -176,7 +179,7 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
     }
 
     if((hadPlaylist && !m_currentPlaylist) || !itemPlaylist) {
-        m_currentPlaylist = 0;
+        m_currentPlaylist = nullptr;
         m_items.clear();
     }
     else {
@@ -261,7 +264,7 @@ void TagEditor::slotRefresh()
         }
     }
 
-    for(QCheckBox *box : std::as_const(m_enableBoxes)) {
+    for(QCheckBox *box : as_const(m_enableBoxes)) {
         box->setChecked(true);
         if(m_items.count() > 1)
             box->show();
@@ -282,7 +285,7 @@ void TagEditor::slotRefresh()
     bool enable_comment = enable_artist;
 
     if(m_items.count() <= 50) {
-        for(const PlaylistItem *item : std::as_const(m_items)) {
+        for(const PlaylistItem *item : as_const(m_items)) {
             const auto tag = item->file().tag();
 
             if(!tag) {
@@ -381,13 +384,14 @@ void TagEditor::updateCollection()
 
     m_genreList = list->uniqueSet(CollectionList::Genres);
 
-    foreach(const QString &genre, m_genreList)
+    for(const QString &genre : as_const(m_genreList)) {
         genreHash.insert(genre);
+    }
 
-    TagLib::StringList genres = TagLib::ID3v1::genreList();
-
-    for(TagLib::StringList::Iterator it = genres.begin(); it != genres.end(); ++it)
-        genreHash.insert(TStringToQString((*it)));
+    const auto genres = TagLib::ID3v1::genreList();
+    for(const auto &taglibGenre : genres) {
+        genreHash.insert(TStringToQString(taglibGenre));
+    }
 
     m_genreList = genreHash.values();
     m_genreList.sort();
@@ -421,10 +425,11 @@ void TagEditor::readConfig()
     ActionCollection::action<KToggleAction>("showEditor")->setChecked(show);
     setVisible(show);
 
-    TagLib::StringList genres = TagLib::ID3v1::genreList();
+    const auto genres = TagLib::ID3v1::genreList();
 
-    for(TagLib::StringList::ConstIterator it = genres.begin(); it != genres.end(); ++it)
-        m_genreList.append(TStringToQString((*it)));
+    for(const auto &taglibGenre : genres) {
+        m_genreList.append(TStringToQString(taglibGenre));
+    }
     m_genreList.sort();
 
     genreBox->clear();
@@ -508,77 +513,63 @@ void TagEditor::setupLayout()
 
 void TagEditor::save(const PlaylistItemList &list)
 {
-    if(!list.isEmpty() && m_dataChanged) {
-
-        QApplication::setOverrideCursor(Qt::WaitCursor);
-        m_dataChanged = false;
-        m_performingSave = true;
-
-        // The list variable can become corrupted if the playlist holding its
-        // items dies, which is possible as we edit tags.  So we need to copy
-        // the end marker.
-
-        PlaylistItemList::ConstIterator end = list.end();
-
-        for(PlaylistItemList::ConstIterator it = list.begin(); it != end; /* Deliberately missing */ ) {
-
-            // Process items before we being modifying tags, as the dynamic
-            // playlists will try to modify the file we edit if the tag changes
-            // due to our alterations here.
-
-            qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
-
-            PlaylistItem *item = *it;
-
-            // The playlist can be deleted from under us if this is the last
-            // item and we edit it so that it doesn't match the search, which
-            // means we can't increment the iterator, so let's do it now.
-
-            ++it;
-
-            QString fileName = item->file().fileInfo().path() + QDir::separator() +
-                               fileNameBox->text();
-            if(list.count() > 1)
-                fileName = item->file().fileInfo().absoluteFilePath();
-
-            Tag *tag = TagTransactionManager::duplicateTag(item->file().tag(), fileName);
-
-            // A bit more ugliness.  If there are multiple files that are
-            // being modified, they each have a "enabled" checkbox that
-            // says if that field is to be respected for the multiple
-            // files.  We have to check to see if that is enabled before
-            // each field that we write.
-
-            if(m_enableBoxes[artistNameBox]->isChecked())
-                tag->setArtist(artistNameBox->currentText());
-            if(m_enableBoxes[trackNameBox]->isChecked())
-                tag->setTitle(trackNameBox->text());
-            if(m_enableBoxes[albumNameBox]->isChecked())
-                tag->setAlbum(albumNameBox->currentText());
-            if(m_enableBoxes[trackSpin]->isChecked()) {
-                if(trackSpin->text().isEmpty())
-                    trackSpin->setValue(0);
-                tag->setTrack(trackSpin->value());
-            }
-            if(m_enableBoxes[yearSpin]->isChecked()) {
-                if(yearSpin->text().isEmpty())
-                    yearSpin->setValue(0);
-                tag->setYear(yearSpin->value());
-            }
-            if(m_enableBoxes[commentBox]->isChecked())
-                tag->setComment(commentBox->toPlainText());
-
-            if(m_enableBoxes[genreBox]->isChecked())
-                tag->setGenre(genreBox->currentText());
-
-            TagTransactionManager::instance()->changeTagOnItem(item, tag);
-        }
-
-        TagTransactionManager::instance()->commit();
-        CollectionList::instance()->playlistItemsChanged();
-        m_performingSave = false;
-        QApplication::restoreOverrideCursor();
+    if(!m_dataChanged || list.isEmpty()) {
+        return;
     }
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    m_dataChanged = false;
+    m_performingSave = true;
+
+    // Generate a 'command list' of tag changes to apply to the files for the
+    // music tracks first, before any changes are made. This both enables undo
+    // support, and ensures the GUI isn't accidentally broken in e.g. dynamic
+    // playlists as playlist items are modified.
+
+    for(PlaylistItem *item : list) {
+        QString fileName = item->file().fileInfo().path() + QDir::separator() +
+                           fileNameBox->text();
+        if(list.count() > 1)
+            fileName = item->file().fileInfo().absoluteFilePath();
+
+        Tag *tag = TagTransactionManager::duplicateTag(item->file().tag(), fileName);
+
+        // A bit more ugliness.  If there are multiple files that are
+        // being modified, they each have a "enabled" checkbox that
+        // says if that field is to be respected for the multiple
+        // files.  We have to check to see if that is enabled before
+        // each field that we write.
+
+        if(m_enableBoxes[artistNameBox]->isChecked())
+            tag->setArtist(artistNameBox->currentText());
+        if(m_enableBoxes[trackNameBox]->isChecked())
+            tag->setTitle(trackNameBox->text());
+        if(m_enableBoxes[albumNameBox]->isChecked())
+            tag->setAlbum(albumNameBox->currentText());
+        if(m_enableBoxes[trackSpin]->isChecked()) {
+            if(trackSpin->text().isEmpty())
+                trackSpin->setValue(0);
+            tag->setTrack(trackSpin->value());
+        }
+        if(m_enableBoxes[yearSpin]->isChecked()) {
+            if(yearSpin->text().isEmpty())
+                yearSpin->setValue(0);
+            tag->setYear(yearSpin->value());
+        }
+        if(m_enableBoxes[commentBox]->isChecked())
+            tag->setComment(commentBox->toPlainText());
+
+        if(m_enableBoxes[genreBox]->isChecked())
+            tag->setGenre(genreBox->currentText());
+
+        TagTransactionManager::instance()->changeTagOnItem(item, tag);
+    }
+
+    TagTransactionManager::instance()->commit();
+    m_performingSave = false;
+    QApplication::restoreOverrideCursor();
+
+    CollectionList::instance()->playlistItemsChanged();
 }
 
 void TagEditor::saveChangesPrompt()
@@ -588,24 +579,11 @@ void TagEditor::saveChangesPrompt()
 
     QStringList files;
 
-    foreach(const PlaylistItem *item, m_items)
+    for(const PlaylistItem *item : as_const(m_items)) {
         files.append(item->file().absFilePath());
+    }
 
-    const auto questionFunc =
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        &KMessageBox::questionTwoActionsList;
-#else
-        &KMessageBox::questionYesNoList;
-#endif
-
-    const auto primaryResponse =
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        KMessageBox::PrimaryAction;
-#else
-        KMessageBox::Yes;
-#endif
-
-    const auto response = questionFunc(
+    const auto response = KMessageBox::questionTwoActionsList(
                 this,
                 i18n("Do you want to save your changes to:\n"),
                 files,
@@ -616,7 +594,7 @@ void TagEditor::saveChangesPrompt()
                 KMessageBox::Notify
             );
 
-    if(response == primaryResponse) {
+    if(response == KMessageBox::PrimaryAction) {
         save(m_items);
     }
 }
@@ -649,7 +627,7 @@ void TagEditor::slotItemRemoved(PlaylistItem *item)
 void TagEditor::slotPlaylistDestroyed(Playlist *p)
 {
     if(m_currentPlaylist == p) {
-        m_currentPlaylist = 0;
+        m_currentPlaylist = nullptr;
         slotSetItems(PlaylistItemList());
     }
 }
