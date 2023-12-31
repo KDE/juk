@@ -529,7 +529,9 @@ bool JuK::queryClose()
             i18n("<qt>Closing the main window will keep JuK running in the system tray. "
                  "Use Quit from the File menu to quit the application.</qt>"),
             i18n("Docking in System Tray"), "hideOnCloseInfo");
-        hide();
+
+        showMinimized(); // Avoid confusing Qt / KWin
+        hide();          // Remove icon in taskbar
         return false;
     }
 
