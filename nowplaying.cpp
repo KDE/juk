@@ -100,14 +100,16 @@ void NowPlaying::slotUpdate(const FileHandle &file)
     else
         show();
 
-    foreach(NowPlayingItem *item, m_items)
+    for(NowPlayingItem *item : m_items) {
         item->update(file);
+    }
 }
 
 void NowPlaying::slotReloadCurrentItem()
 {
-    foreach(NowPlayingItem *item, m_items)
+    for(NowPlayingItem *item : m_items) {
         item->update(m_file);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

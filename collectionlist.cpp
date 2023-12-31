@@ -48,6 +48,7 @@
 #include "juk_debug.h"
 
 using ActionCollection::action;
+using std::as_const;
 
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
@@ -175,7 +176,7 @@ CollectionListItem *CollectionList::createItem(const FileHandle &file, QTreeWidg
 
 void CollectionList::clearItems(const PlaylistItemList &items)
 {
-    foreach(PlaylistItem *item, items) {
+    for(PlaylistItem *item : items) {
         delete item;
     }
 
@@ -195,16 +196,18 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
     columnList << PlaylistItem::GenreColumn;
     columnList << PlaylistItem::AlbumColumn;
 
-    foreach(int column, columnList)
+    for(int column : as_const(columnList)) {
         treeViewMode->addItems(m_columnTags[column]->keys(), column);
+    }
 }
 
 void CollectionList::slotNewItems(const KFileItemList &items)
 {
     QStringList files;
 
-    for(KFileItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
-        files.append((*it).url().path());
+    for(const KFileItem &file : items) {
+        files.append(file.url().path());
+    }
 
     addFiles(files);
     update();
@@ -254,12 +257,11 @@ void CollectionList::saveItemsToCache() const
     s.setVersion(QDataStream::Qt_4_3);
 
     { // locked scope
-        QHash<QString, CollectionListItem *>::const_iterator it;
         QWriteLocker lock(&m_itemsDictLock);
 
-        for(it = m_itemsDict.begin(); it != m_itemsDict.end(); ++it) {
-            s << it.key();
-            s << (*it)->file();
+        for(const auto &[key, v] : as_const(m_itemsDict).asKeyValueRange()) {
+            s << key;
+            s << v->file();
         }
     }
 
@@ -531,11 +533,12 @@ PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist)
     if(playlist == CollectionList::instance())
         return this;
 
-    PlaylistItemList::ConstIterator it;
-    for(it = m_children.constBegin(); it != m_children.constEnd(); ++it)
-        if((*it)->playlist() == playlist)
-            return *it;
-    return 0;
+    for(PlaylistItem *item : as_const(m_children)) {
+        if(item->playlist() == playlist)
+            return item;
+    }
+
+    return nullptr;
 }
 
 void CollectionListItem::updateCollectionDict(const QString &oldPath, const QString &newPath)
@@ -551,10 +554,9 @@ void CollectionListItem::updateCollectionDict(const QString &oldPath, const QStr
 
 void CollectionListItem::repaint() const
 {
-    // FIXME repaint
-    /*QItemDelegate::repaint();
-    for(PlaylistItemList::ConstIterator it = m_children.constBegin(); it != m_children.constEnd(); ++it)
-        (*it)->repaint();*/
+    for(PlaylistItem *item : m_children) {
+        item->playlist()->update();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -583,8 +585,9 @@ CollectionListItem::~CollectionListItem()
 {
     m_shuttingDown = true;
 
-    foreach(PlaylistItem *item, m_children)
+    for(PlaylistItem *item : m_children) {
         delete item;
+    }
 
     CollectionList *l = CollectionList::instance();
     if(l) {
