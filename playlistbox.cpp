@@ -30,6 +30,7 @@
 #include <QDragMoveEvent>
 #include <QElapsedTimer>
 #include <QFileInfo>
+#include <QFont>
 #include <QHeaderView>
 #include <QIcon>
 #include <QKeyEvent>
@@ -86,7 +87,7 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     header()->hide();
     header()->blockSignals(false);
 
-    setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setSelectionMode(QAbstractItemView::SingleSelection);
 
     m_contextMenu = new QMenu(this);
 
@@ -144,6 +145,8 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
 
     connect(this, &PlaylistBox::signalPlayFile,
             player, qOverload<const FileHandle &>(&PlayerManager::play));
+    connect(player, &PlayerManager::signalStop,
+            this, &PlaylistBox::slotClearPlayingIndicators);
 
     const auto *tagManager = TagTransactionManager::instance();
     connect(tagManager, &TagTransactionManager::signalAboutToModifyTags,
@@ -240,6 +243,9 @@ void PlaylistBox::scanFolders()
 
 bool PlaylistBox::requestPlaybackFor(const FileHandle &file)
 {
+    slotClearPlayingIndicators();
+    m_playlistDict[currentPlaylist()]->setPlaying(true);
+
     emit signalPlayFile(file);
     return true;
 }
@@ -489,6 +495,21 @@ void PlaylistBox::slotShowDropTarget()
     if(m_dropItem) raise(m_dropItem->playlist());
 }
 
+void PlaylistBox::slotUpdatePlayingPlaylist()
+{
+    slotClearPlayingIndicators();
+    Playlist *p = currentPlaylist();
+    PlaylistBox::Item *item = m_playlistDict[p];
+    item->setPlaying(playing());
+}
+
+void PlaylistBox::slotClearPlayingIndicators()
+{
+    for(Item *item : as_const(m_playlistDict).values()) {
+        item->setPlaying(false);
+    }
+}
+
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
 {
     for(auto &viewMode : as_const(m_viewModes)) {
@@ -647,6 +668,7 @@ void PlaylistBox::slotDoubleClicked(QTreeWidgetItem *item)
         return;
     auto *playlist = static_cast<Item *>(item)->playlist();
 
+    slotClearPlayingIndicators();
     playlist->slotBeginPlayback();
 }
 
@@ -688,13 +710,7 @@ void PlaylistBox::setupUpcomingPlaylist()
 
 void PlaylistBox::slotLoadCachedPlaylists()
 {
-    qCDebug(JUK_LOG) << "Loading cached playlists.";
-    QElapsedTimer stopwatch;
-    stopwatch.start();
-
     Cache::loadPlaylists(this);
-
-    qCDebug(JUK_LOG) << "Cached playlists loaded, took" << stopwatch.elapsed() << "ms";
 
     // Auto-save playlists after they change.
     m_savePlaylistTimer = new QTimer(this);
@@ -732,9 +748,25 @@ PlaylistBox::Item::Item(Item *parent, const QString &icon, const QString &text, 
     init();
 }
 
-PlaylistBox::Item::~Item()
+void PlaylistBox::Item::setPlaying(bool isPlaying)
 {
+    using namespace Qt::Literals::StringLiterals;
 
+    if(isPlaying) {
+        setBackground(0, QBrush(m_playlist->palette().alternateBase()));
+        setStatusTip(0, u"Playing"_s);
+
+        auto f = font(0);
+        f.setBold(true);
+        setFont(0, f);
+    }
+    else {
+        setBackground(0, QBrush());
+
+        auto f = font(0);
+        f.setBold(false);
+        setFont(0, f);
+    }
 }
 
 void PlaylistBox::Item::setup()

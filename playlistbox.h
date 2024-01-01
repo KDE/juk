@@ -126,6 +126,9 @@ private slots:
 
     void slotPlaylistItemsDropped(Playlist *p);
 
+    void slotUpdatePlayingPlaylist();
+    void slotClearPlayingIndicators();
+
     void slotAddItem(const QString &tag, unsigned column);
     void slotRemoveItem(const QString &tag, unsigned column);
 
@@ -159,7 +162,7 @@ class PlaylistBox::Item final : public QObject, public QTreeWidgetItem
     // compile.
 
 public:
-    virtual ~Item();
+    virtual ~Item() = default;
 
 protected:
     using QTreeWidgetItem::text;
@@ -171,7 +174,9 @@ protected:
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(QTreeWidgetItem::treeWidget()); }
     QString iconName() const { return m_iconName; }
     QString text() const { return QTreeWidgetItem::text(0); }
+
     void setSortedFirst(bool first = true) { m_sortedFirst = first; }
+    void setPlaying(bool isPlaying);
 
     virtual void setup();
 
