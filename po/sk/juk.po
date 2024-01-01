@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-31 01:54+0000\n"
+"POT-Creation-Date: 2024-01-01 01:35+0000\n"
 "PO-Revision-Date: 2022-04-09 20:15+0200\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -79,12 +79,12 @@ msgstr ""
 "Vyrovnávacia pamäť hudobných dát je poškodená. JuK musí znovu skontrolovať "
 "všetky súbory. To môže chvíľu trvať."
 
-#: collectionlist.cpp:145
+#: collectionlist.cpp:146
 #, kde-format
 msgid "Collection List"
 msgstr "Zoznam zbierky"
 
-#: collectionlist.cpp:285
+#: collectionlist.cpp:287
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -99,26 +99,10 @@ msgstr ""
 "Uvedomte si, že ak je priečinok tejto položky v zozname \"prehľadať pri "
 "štarte\", bude položka znovu pri štarte pridaná."
 
-#: collectionlist.cpp:338
+#: collectionlist.cpp:340
 #, kde-format
 msgid "Show Playing"
 msgstr "Zobraziť prehrávanie"
-
-#: coverdialog.cpp:38
-#, kde-format
-msgid "<All Artists>"
-msgstr "<Všetci interpreti>"
-
-#: coverdialog.cpp:149
-#, kde-format
-msgid "Remove Cover"
-msgstr "Odstrániť obal"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:1008
-#, kde-format
-msgid "Cover Manager"
-msgstr "Správca obalov"
 
 #: deletedialog.cpp:65
 #, kde-format
@@ -231,7 +215,7 @@ msgstr "Prosím zvoľte priečinky, ktoré sa majú vylúčiť z hľadania hudby
 msgid "Import playlists"
 msgstr "Importovať zoznamy skladieb"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1420
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -313,90 +297,90 @@ msgid "Title"
 msgstr "Názov"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1405 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "Interpret"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1406 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "Album"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1409 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "Žáner"
 
-#: filerenamer.cpp:69
+#: filerenamer.cpp:87
 #, kde-format
 msgctxt "warning about mass file rename"
 msgid "Warning"
 msgstr "Upozornenie"
 
-#: filerenamer.cpp:80
+#: filerenamer.cpp:98
 #, kde-format
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
 "continue?"
 msgstr "Chystáte sa premenovať nasledujúce súbory. Naozaj chcete pokračovať?"
 
-#: filerenamer.cpp:87
+#: filerenamer.cpp:105
 #, kde-format
 msgid "Original Name"
 msgstr "Pôvodný názov"
 
-#: filerenamer.cpp:88
+#: filerenamer.cpp:106
 #, kde-format
 msgid "New Name"
 msgstr "Nový názov"
 
-#: filerenamer.cpp:111
+#: filerenamer.cpp:127
 #, kde-format
 msgid "No Change"
 msgstr "Bez zmeny"
 
-#: filerenamer.cpp:400
+#: filerenamer.cpp:409
 #, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
 msgstr "Odstrániť"
 
-#: filerenamer.cpp:403
+#: filerenamer.cpp:412
 #, kde-format
 msgctxt "file renamer genre options"
 msgid "Options"
 msgstr "Možnosti"
 
-#: filerenamer.cpp:515
+#: filerenamer.cpp:524
 #, kde-format
 msgid "Insert folder separator"
 msgstr "Vložiť oddeľovač priečinkov"
 
-#: filerenamer.cpp:586
+#: filerenamer.cpp:595
 #, kde-format
 msgid "No file selected, or selected file has no tags."
 msgstr "Nie je vybraný žiadny súbor, alebo vybraný súbor neobsahuje značky."
 
-#: filerenamer.cpp:817
+#: filerenamer.cpp:826
 #, kde-format
 msgid "Hide Renamer Test Dialog"
 msgstr "Skryť skúšobné okno premenovania"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:822 filerenamerbase.ui:257
+#: filerenamer.cpp:831 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
 msgstr "Zobraziť skúšobné okno premenovania"
 
-#: filerenamer.cpp:904
+#: filerenamer.cpp:911
 #, kde-format
 msgid "%1 to %2"
 msgstr "%1 na %2"
 
-#: filerenamer.cpp:911
+#: filerenamer.cpp:916
 #, kde-format
 msgid "The following rename operations failed:\n"
 msgstr "Nasledujúce operácie premenovania zlyhali:\n"
@@ -585,160 +569,150 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "Čas"
 
-#: juk.cpp:211
-#, kde-format
-msgid "Your album art failed to download."
-msgstr "Obal albumu sa nepodarilo stiahnuť."
-
-#: juk.cpp:213
-#, kde-format
-msgid "Your album art has finished downloading."
-msgstr "Obal albumu bol úspešne stiahnutý."
-
-#: juk.cpp:257 systemtray.cpp:184
+#: juk.cpp:240 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "&Náhodné prehrávanie"
 
-#: juk.cpp:264
+#: juk.cpp:247
 #, kde-format
 msgid "&Disable Random Play"
 msgstr "&Zakázať náhodné prehrávanie"
 
-#: juk.cpp:270
+#: juk.cpp:253
 #, kde-format
 msgid "Use &Random Play"
 msgstr "&Použiť náhodné prehrávanie"
 
-#: juk.cpp:276
+#: juk.cpp:259
 #, kde-format
 msgid "Use &Album Random Play"
 msgstr "Použiť náhodné prehrávanie &albumu"
 
-#: juk.cpp:284
+#: juk.cpp:267
 #, kde-format
 msgid "Remove From Playlist"
 msgstr "Odstrániť zo zoznamu skladieb"
 
-#: juk.cpp:288
+#: juk.cpp:271
 #, kde-format
 msgid "&Play"
 msgstr "&Prehrať"
 
-#: juk.cpp:293
+#: juk.cpp:276
 #, kde-format
 msgid "P&ause"
 msgstr "Poz&astaviť"
 
-#: juk.cpp:298
+#: juk.cpp:281
 #, kde-format
 msgid "&Stop"
 msgstr "Za&staviť"
 
-#: juk.cpp:301
+#: juk.cpp:284
 #, kde-format
 msgctxt "previous track"
 msgid "Previous"
 msgstr "Predchádzajúca"
 
-#: juk.cpp:308
+#: juk.cpp:291
 #, kde-format
 msgctxt "next track"
 msgid "&Next"
 msgstr "&Nasledujúca"
 
-#: juk.cpp:312
+#: juk.cpp:295
 #, kde-format
 msgid "&Loop Playlist"
 msgstr "&Opakovať zoznam skladieb"
 
-#: juk.cpp:316
+#: juk.cpp:299
 #, kde-format
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Meniť veľkosť stĺpcov zoznamu skladieb ručne"
 
-#: juk.cpp:321
+#: juk.cpp:304
 #, kde-format
 msgctxt "silence playback"
 msgid "Mute"
 msgstr "Stlmiť"
 
-#: juk.cpp:325
+#: juk.cpp:308
 #, kde-format
 msgid "Volume Up"
 msgstr "Zvýšiť hlasitosť"
 
-#: juk.cpp:329
+#: juk.cpp:312
 #, kde-format
 msgid "Volume Down"
 msgstr "Znížiť hlasitosť"
 
-#: juk.cpp:333
+#: juk.cpp:316
 #, kde-format
 msgid "Play / Pause"
 msgstr "Prehrať / Pozastaviť"
 
-#: juk.cpp:337
+#: juk.cpp:320
 #, kde-format
 msgid "Seek Forward"
 msgstr "Hľadať dopredu"
 
-#: juk.cpp:341
+#: juk.cpp:324
 #, kde-format
 msgid "Seek Back"
 msgstr "Hľadať dozadu"
 
-#: juk.cpp:345
+#: juk.cpp:328
 #, kde-format
 msgid "Show / Hide"
 msgstr "Zobraziť / Skryť"
 
-#: juk.cpp:352
+#: juk.cpp:335
 #, kde-format
 msgid "&Dock in System Tray"
 msgstr "&Dokovať v systémovej lište"
 
-#: juk.cpp:356
+#: juk.cpp:339
 #, kde-format
 msgid "&Stay in System Tray on Close"
 msgstr "&Zostať v systémovej lište po uzavretí"
 
-#: juk.cpp:359
+#: juk.cpp:342
 #, kde-format
 msgid "Popup &Track Announcement"
 msgstr "Zobraziť &oznámenie o skladbe"
 
-#: juk.cpp:362
+#: juk.cpp:345
 #, kde-format
 msgid "Save &Play Queue on Exit"
 msgstr "Uložiť frontu &prehrávania pri ukončení"
 
-#: juk.cpp:365
+#: juk.cpp:348
 #, kde-format
 msgid "&Tag Guesser..."
 msgstr "&Odhad značiek..."
 
-#: juk.cpp:368
+#: juk.cpp:351
 #, kde-format
 msgid "&File Renamer..."
 msgstr "Pre&menovanie súborov..."
 
-#: juk.cpp:371
+#: juk.cpp:354
 #, kde-format
 msgid "&Configure scrobbling..."
 msgstr "&Nastaviť scrobbling..."
 
-#: juk.cpp:378
+#: juk.cpp:361
 #, kde-format
 msgid "Track Position"
 msgstr "Pozícia v skladbe"
 
-#: juk.cpp:380 slider.cpp:125
+#: juk.cpp:363 slider.cpp:127
 #, kde-format
 msgid "Volume"
 msgstr "Hlasitosť"
 
-#: juk.cpp:543
+#: juk.cpp:529
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -747,7 +721,7 @@ msgstr ""
 "<qt>Po zatvorení hlavného okna zostane JuK bežať v systémovej lište. Ak "
 "chcete aplikáciu ukončiť, použite položku Koniec z ponuky Súbor.</qt>"
 
-#: juk.cpp:545
+#: juk.cpp:531
 #, kde-format
 msgid "Docking in System Tray"
 msgstr "Dokovanie v systémovej lište"
@@ -783,19 +757,19 @@ msgid "&Tagger"
 msgstr "Zn&ačkovač"
 
 #. i18n: ectx: Menu (settings)
-#: jukui-rtl.rc:67 jukui.rc:69
+#: jukui-rtl.rc:66 jukui.rc:68
 #, kde-format
 msgid "&Settings"
 msgstr "Nas&tavenie"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: jukui-rtl.rc:80 jukui.rc:82
+#: jukui-rtl.rc:79 jukui.rc:81
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Hlavný panel nástrojov"
 
 #. i18n: ectx: ToolBar (playToolBar)
-#: jukui-rtl.rc:98 jukui.rc:100
+#: jukui-rtl.rc:97 jukui.rc:99
 #, kde-format
 msgid "Play Toolbar"
 msgstr "Panel nástrojov pre prehrávanie"
@@ -1142,7 +1116,7 @@ msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
 msgstr "Zoznamy skladieb (*%1)"
 
-#: nowplaying.cpp:315
+#: nowplaying.cpp:320
 #, kde-format
 msgid "back to playlist"
 msgstr "späť na zoznam skladieb"
@@ -1165,7 +1139,7 @@ msgstr ""
 "JuK nemôže prehrať zvukový súbor <nl/><filename>%1</filename><nl/> z "
 "nasledujúceho dôvodu:<nl/><message>%2</message>"
 
-#: playlist.cpp:342
+#: playlist.cpp:338
 #, kde-format
 msgid "Could not save to file %1."
 msgstr "Nepodarilo sa uložiť do súboru %1."
@@ -1179,123 +1153,98 @@ msgstr[0] "Chystáte sa otvoriť adresár. Naozaj chcete pokračovať?"
 msgstr[1] "Chystáte sa otvoriť %1 adresáre. Naozaj chcete pokračovať?"
 msgstr[2] "Chystáte sa otvoriť %1 adresárov. Naozaj chcete pokračovať?"
 
-#: playlist.cpp:578 playlistcollection.cpp:1002
+#: playlist.cpp:578 playlistcollection.cpp:957
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Otvoriť priečinok s obsahom"
 
-#: playlist.cpp:645
-#, kde-format
-msgid "Are you sure you want to delete these covers?"
-msgstr "Naozaj chcete odstrániť tieto obaly?"
-
-#: playlist.cpp:647
-#, kde-format
-msgid "&Delete Covers"
-msgstr "O&dstrániť obaly"
-
-#: playlist.cpp:676
-#, kde-format
-msgid "Select Cover Image File"
-msgstr "Vybrať súbor s obrázkom obalu"
-
-#: playlist.cpp:678
-#, kde-format
-msgid "Images (*.png *.jpg)"
-msgstr "Obrázky (*.png *.jpg)"
-
-#: playlist.cpp:876
+#: playlist.cpp:802
 #, kde-format
 msgid "Could not delete these files"
 msgstr "Nepodarilo sa odstrániť tieto súbory"
 
-#: playlist.cpp:877
+#: playlist.cpp:803
 #, kde-format
 msgid "Could not move these files to the Trash"
 msgstr "Nepodarilo sa presunúť tieto súbory do koša"
 
-#: playlist.cpp:1404
+#: playlist.cpp:1280
 #, kde-format
 msgid "Track Name"
 msgstr "Názov skladby"
 
-#: playlist.cpp:1407
-#, kde-format
-msgid "Cover"
-msgstr "Obal"
-
-#: playlist.cpp:1408 tagrenameroptions.cpp:112
+#: playlist.cpp:1283 tagrenameroptions.cpp:112
 #, kde-format
 msgctxt "cd track number"
 msgid "Track"
 msgstr "Stopa"
 
-#: playlist.cpp:1410 tagrenameroptions.cpp:120
+#: playlist.cpp:1285 tagrenameroptions.cpp:120
 #, kde-format
 msgid "Year"
 msgstr "Rok"
 
-#: playlist.cpp:1411
+#: playlist.cpp:1286
 #, kde-format
 msgid "Length"
 msgstr "Dĺžka"
 
-#: playlist.cpp:1412
+#: playlist.cpp:1287
 #, kde-format
 msgid "Bitrate"
 msgstr "Dátový tok"
 
-#: playlist.cpp:1413
+#: playlist.cpp:1288
 #, kde-format
 msgid "Comment"
 msgstr "Komentár"
 
-#: playlist.cpp:1414
+#: playlist.cpp:1289
 #, kde-format
 msgid "File Name"
 msgstr "Názov súboru"
 
-#: playlist.cpp:1415
+#: playlist.cpp:1290
 #, kde-format
 msgid "File Name (full path)"
 msgstr "Názov súboru (celá cesta)"
 
-#: playlist.cpp:1606
+#: playlist.cpp:1471
 #, kde-format
 msgid "&Show Columns"
 msgstr "&Zobraziť stĺpce"
 
-#: playlist.cpp:1714
+#: playlist.cpp:1579
 #, kde-format
 msgid "Add to Play Queue"
 msgstr "Pridať do fronty prehrávania"
 
-#: playlist.cpp:1728 playlist.cpp:2182
+#: playlist.cpp:1593 playlist.cpp:2049
 #, kde-format
 msgid "Edit"
 msgstr "Upraviť"
 
-#: playlist.cpp:1744
+#: playlist.cpp:1607
 #, kde-format
 msgid "Create Playlist From Selected Items..."
 msgstr "Vytvoriť zoznam skladieb z vybraných položiek..."
 
-#: playlist.cpp:2096
+#: playlist.cpp:1970
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Upraviť '%1'"
 
-#: playlist.cpp:2180
+#: playlist.cpp:2047
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Týmto upravíte niekoľko súborov. Naozaj to chcete?"
 
-#: playlist.cpp:2239 playlistcollection.h:189
+#: playlist.cpp:2106 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Vytvoriť nový zoznam skladieb"
 
-#: playlist.cpp:2248
+#: playlist.cpp:2115
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1304,254 +1253,229 @@ msgstr ""
 "Boli povolené ručné šírky stĺpcov. Túto voľbu môžete prepnúť späť na "
 "automatické šírky v ponuke Zobraziť."
 
-#: playlist.cpp:2251
+#: playlist.cpp:2118
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Povolené ručné šírky stĺpcov"
 
-#: playlistbox.cpp:106
+#: playlistbox.cpp:107
 #, kde-format
 msgid "View Modes"
 msgstr "Režimy zobrazenia"
 
-#: playlistbox.cpp:164
+#: playlistbox.cpp:165
 #, kde-format
 msgid "Show &History"
 msgstr "Zobraziť &históriu"
 
-#: playlistbox.cpp:225 playlistcollection.cpp:437
+#: playlistbox.cpp:226 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Duplikovať"
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:418
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Naozaj chcete odstrániť tieto súbory aj z disku?"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:419
 #, kde-format
 msgid "Keep"
 msgstr "Ponechať"
 
-#: playlistbox.cpp:430
+#: playlistbox.cpp:431
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Nie je možné odstrániť tieto súbory."
 
-#: playlistbox.cpp:438
+#: playlistbox.cpp:439
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Naozaj chcete odstrániť tieto zoznamy skladieb z vašej zbierky?"
 
-#: playlistbox.cpp:441
+#: playlistbox.cpp:442
 #, kde-format
 msgid "Remove Items?"
 msgstr "Odstrániť položky?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:442 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "&Odstrániť"
 
-#: playlistbox.cpp:631
+#: playlistbox.cpp:632
 #, kde-format
 msgid "Hid&e"
 msgstr "&Skryť"
 
-#: playlistbox.cpp:635 playlistcollection.cpp:991
+#: playlistbox.cpp:636 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "&Odstrániť"
 
-#: playlistcollection.cpp:205
+#: playlistcollection.cpp:207
 #, kde-format
 msgid "Dynamic List"
 msgstr "Dynamický zoznam"
 
-#: playlistcollection.cpp:246
+#: playlistcollection.cpp:248
 #, kde-format
 msgid "Now Playing"
 msgstr "Teraz hrá"
 
-#: playlistcollection.cpp:362
+#: playlistcollection.cpp:347
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr ""
 "Chcete pridať tieto položky do aktuálneho zoznamu alebo do zoznamu zbierky?"
 
-#: playlistcollection.cpp:364
+#: playlistcollection.cpp:349
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "Aktuálny"
 
-#: playlistcollection.cpp:365
+#: playlistcollection.cpp:350
 #, kde-format
 msgid "Collection"
 msgstr "Zbierka"
 
-#: playlistcollection.cpp:425
+#: playlistcollection.cpp:412
 #, kde-format
 msgid "Rename"
 msgstr "Premenovať"
 
-#: playlistcollection.cpp:556
+#: playlistcollection.cpp:515
 #, kde-format
 msgid "Search Playlist"
 msgstr "Zoznam skladieb z hľadania"
 
-#: playlistcollection.cpp:581
+#: playlistcollection.cpp:540
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "Vytvoriť zoznam skladieb z priečinku"
 
-#: playlistcollection.cpp:621
+#: playlistcollection.cpp:580
 #, kde-format
 msgid "History"
 msgstr "História"
 
-#: playlistcollection.cpp:787
+#: playlistcollection.cpp:746
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "Zadajte názov pre tento zoznam skladieb:"
 
-#: playlistcollection.cpp:935
+#: playlistcollection.cpp:890
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&Nový"
 
-#: playlistcollection.cpp:938
+#: playlistcollection.cpp:893
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "P&rázdny zoznam skladieb..."
 
-#: playlistcollection.cpp:942
+#: playlistcollection.cpp:897
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "Zoznam skladieb z &hľadania..."
 
-#: playlistcollection.cpp:946
+#: playlistcollection.cpp:901
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "Zoznam skladieb z &priečinku..."
 
-#: playlistcollection.cpp:954
+#: playlistcollection.cpp:909
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "&Odhadnúť informácie zo značiek"
 
-#: playlistcollection.cpp:959
+#: playlistcollection.cpp:914
 #, kde-format
 msgid "From &File Name"
 msgstr "Z názvu &súboru"
 
-#: playlistcollection.cpp:963
+#: playlistcollection.cpp:918
 #, kde-format
 msgid "From &Internet"
 msgstr "Z &Internetu"
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:923
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "&Odhadnúť informácie značiek z názvu súboru"
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:930
 #, kde-format
 msgid "Play First Track"
 msgstr "Prehrať prvú skladbu"
 
-#: playlistcollection.cpp:977
+#: playlistcollection.cpp:932
 #, kde-format
 msgid "Play Next Album"
 msgstr "Prehrať nasledujúci album"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "Manage &Folders..."
 msgstr "Spravovať priečinky..."
 
-#: playlistcollection.cpp:986
+#: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
 msgstr "Pre&menovať..."
 
-#: playlistcollection.cpp:988
+#: playlistcollection.cpp:943
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "&Duplikovať..."
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:948
 #, kde-format
 msgid "Reload"
 msgstr "Znovu načítať"
 
-#: playlistcollection.cpp:995
+#: playlistcollection.cpp:950
 #, kde-format
 msgid "Edit Search..."
 msgstr "Upraviť hľadanie..."
 
-#: playlistcollection.cpp:998
+#: playlistcollection.cpp:953
 #, kde-format
 msgid "&Delete"
 msgstr "&Odstrániť"
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:955
 #, kde-format
 msgid "Refresh"
 msgstr "Obnoviť"
 
-#: playlistcollection.cpp:1004
+#: playlistcollection.cpp:959
 #, kde-format
 msgid "&Rename File"
 msgstr "&Premenovať súbor"
 
-#: playlistcollection.cpp:1011
-#, kde-format
-msgid "&View Cover"
-msgstr "Zobraziť o&bal"
-
-#: playlistcollection.cpp:1013
-#, kde-format
-msgid "Get Cover From &File..."
-msgstr "Získať obal zo &súboru..."
-
-#: playlistcollection.cpp:1016
-#, kde-format
-msgid "Get Cover From &Internet..."
-msgstr "Získať obal z &Internetu..."
-
-#: playlistcollection.cpp:1020
-#, kde-format
-msgid "&Delete Cover"
-msgstr "O&dstrániť obal"
-
-#: playlistcollection.cpp:1022
-#, kde-format
-msgid "Show Cover &Manager"
-msgstr "&Zobraziť správcu obalov"
-
-#: playlistcollection.cpp:1026
+#: playlistcollection.cpp:964
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "Zobraziť &frontu prehrávania"
 
-#: playlistcollection.h:192
+#: playlistcollection.h:186
 #, kde-format
 msgid "Playlist"
 msgstr "Zoznam skladieb"
 
-#: playlistsplitter.cpp:157
+#: playlistsplitter.cpp:158
 #, kde-format
 msgid "Show &Search Bar"
 msgstr "Zobraziť panel &hľadania"
 
-#: playlistsplitter.cpp:160
+#: playlistsplitter.cpp:161
 #, kde-format
 msgid "Edit Track Search"
 msgstr "Upraviť hľadanie skladieb..."
@@ -1638,37 +1562,37 @@ msgstr "Všetky viditeľné"
 msgid "Search..."
 msgstr "Hľadať..."
 
-#: slider.cpp:126
+#: slider.cpp:128
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: slider.cpp:127
+#: slider.cpp:129
 #, kde-format
 msgid "80%"
 msgstr "80%"
 
-#: slider.cpp:128
+#: slider.cpp:130
 #, kde-format
 msgid "60%"
 msgstr "60%"
 
-#: slider.cpp:129
+#: slider.cpp:131
 #, kde-format
 msgid "40%"
 msgstr "40%"
 
-#: slider.cpp:130
+#: slider.cpp:132
 #, kde-format
 msgid "20%"
 msgstr "20%"
 
-#: slider.cpp:131
+#: slider.cpp:133
 #, kde-format
 msgid "0%"
 msgstr "0%"
 
-#: slideraction.cpp:76
+#: slideraction.cpp:73
 #, kde-format
 msgid "Seeking is not supported in this file with your audio settings."
 msgstr ""
@@ -1692,22 +1616,22 @@ msgstr[2] "%1 položiek"
 msgid "Redisplay Popup"
 msgstr "Znovu zobraziť okno"
 
-#: tageditor.cpp:477
+#: tageditor.cpp:468
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "Zobraziť editor &značiek"
 
-#: tageditor.cpp:481
+#: tageditor.cpp:472
 #, kde-format
 msgid "&Save"
 msgstr "&Uložiť"
 
-#: tageditor.cpp:624
+#: tageditor.cpp:588
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr "Chcete uložiť zmeny do:\n"
 
-#: tageditor.cpp:626
+#: tageditor.cpp:590
 #, kde-format
 msgid "Save Changes"
 msgstr "Uložiť zmeny"
@@ -1998,34 +1922,34 @@ msgstr "Zmena značky skladby"
 msgid "Play Queue"
 msgstr "Fronta prehrávania"
 
-#: viewmode.cpp:64
+#: viewmode.cpp:66
 #, kde-format
 msgctxt "the normal viewing mode"
 msgid "Default"
 msgstr "Štandardný"
 
-#: viewmode.cpp:121
+#: viewmode.cpp:123
 #, kde-format
 msgctxt "compact viewing mode"
 msgid "Compact"
 msgstr "Kompaktný"
 
-#: viewmode.cpp:150
+#: viewmode.cpp:152
 #, kde-format
 msgid "Tree"
 msgstr "Strom"
 
-#: viewmode.cpp:280
+#: viewmode.cpp:282
 #, kde-format
 msgid "Artists"
 msgstr "Interpreti"
 
-#: viewmode.cpp:283
+#: viewmode.cpp:285
 #, kde-format
 msgid "Albums"
 msgstr "Albumy"
 
-#: viewmode.cpp:286
+#: viewmode.cpp:288
 #, kde-format
 msgid "Genres"
 msgstr "Žánre"
@@ -2050,67 +1974,90 @@ msgstr "Hlasitosť: %1% (stlmená)"
 msgid "Volume: %1%"
 msgstr "Hlasitosť: %1%"
 
-#: webimagefetcher.cpp:82
-#, kde-format
-msgid "Searching for cover. Please Wait..."
-msgstr "Hľadanie obalu. Prosím čakajte..."
+#~ msgid "<All Artists>"
+#~ msgstr "<Všetci interpreti>"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgid "Album '%1' not found."
-msgstr "Album '%1' nebol nájdený."
+#~ msgid "Remove Cover"
+#~ msgstr "Odstrániť obal"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgctxt "@title:window"
-msgid "Album not Found"
-msgstr "Album nenájdený"
+#~ msgid "Cover Manager"
+#~ msgstr "Správca obalov"
 
-#: webimagefetcher.cpp:146
-#, kde-format
-msgid ""
-"Error %1 when searching for cover:\n"
-"%2"
-msgstr ""
-"Chyba %1 počas hľadania obalu:\n"
-"%2"
+#~ msgid "Your album art failed to download."
+#~ msgstr "Obal albumu sa nepodarilo stiahnuť."
 
-#: webimagefetcher.cpp:156
-#, kde-format
-msgid "No available cover for the album '%1'."
-msgstr "Žiaden obal albumu nie je dostupný '%1'."
+#~ msgid "Your album art has finished downloading."
+#~ msgstr "Obal albumu bol úspešne stiahnutý."
 
-#: webimagefetcher.cpp:157
-#, kde-format
-msgctxt "@title:window"
-msgid "Cover not Available"
-msgstr "Obal albumu nedostupný"
+#~ msgid "Are you sure you want to delete these covers?"
+#~ msgstr "Naozaj chcete odstrániť tieto obaly?"
 
-#: webimagefetcher.cpp:166
-#, kde-format
-msgid "Downloading cover. Please Wait..."
-msgstr "Sťahovanie obalu. Prosím čakajte..."
+#~ msgid "&Delete Covers"
+#~ msgstr "O&dstrániť obaly"
 
-#: webimagefetcher.cpp:183
-#, kde-format
-msgid "Cover found"
-msgstr "Obal nájdený"
+#~ msgid "Select Cover Image File"
+#~ msgstr "Vybrať súbor s obrázkom obalu"
 
-#: webimagefetcher.cpp:190
-#, kde-format
-msgid "Failed to download requested cover art: %1"
-msgstr "Nepodarilo sa stiahnuť požadovaný obal albumu: %1"
+#~ msgid "Images (*.png *.jpg)"
+#~ msgstr "Obrázky (*.png *.jpg)"
 
-#: webimagefetcher.cpp:191
-#, kde-format
-msgctxt "@title:window"
-msgid "Could not download cover art"
-msgstr "Obal obalu sa nepodarilo stiahnuť"
+#~ msgid "Cover"
+#~ msgstr "Obal"
 
-#: webimagefetcher.cpp:213
-#, kde-format
-msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-msgstr "Obal stiahnutý z <a href='http://last.fm/'>last.fm</a>."
+#~ msgid "&View Cover"
+#~ msgstr "Zobraziť o&bal"
+
+#~ msgid "Get Cover From &File..."
+#~ msgstr "Získať obal zo &súboru..."
+
+#~ msgid "Get Cover From &Internet..."
+#~ msgstr "Získať obal z &Internetu..."
+
+#~ msgid "&Delete Cover"
+#~ msgstr "O&dstrániť obal"
+
+#~ msgid "Show Cover &Manager"
+#~ msgstr "&Zobraziť správcu obalov"
+
+#~ msgid "Searching for cover. Please Wait..."
+#~ msgstr "Hľadanie obalu. Prosím čakajte..."
+
+#~ msgid "Album '%1' not found."
+#~ msgstr "Album '%1' nebol nájdený."
+
+#~ msgctxt "@title:window"
+#~ msgid "Album not Found"
+#~ msgstr "Album nenájdený"
+
+#~ msgid ""
+#~ "Error %1 when searching for cover:\n"
+#~ "%2"
+#~ msgstr ""
+#~ "Chyba %1 počas hľadania obalu:\n"
+#~ "%2"
+
+#~ msgid "No available cover for the album '%1'."
+#~ msgstr "Žiaden obal albumu nie je dostupný '%1'."
+
+#~ msgctxt "@title:window"
+#~ msgid "Cover not Available"
+#~ msgstr "Obal albumu nedostupný"
+
+#~ msgid "Downloading cover. Please Wait..."
+#~ msgstr "Sťahovanie obalu. Prosím čakajte..."
+
+#~ msgid "Cover found"
+#~ msgstr "Obal nájdený"
+
+#~ msgid "Failed to download requested cover art: %1"
+#~ msgstr "Nepodarilo sa stiahnuť požadovaný obal albumu: %1"
+
+#~ msgctxt "@title:window"
+#~ msgid "Could not download cover art"
+#~ msgstr "Obal obalu sa nepodarilo stiahnuť"
+
+#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
+#~ msgstr "Obal stiahnutý z <a href='http://last.fm/'>last.fm</a>."
 
 #~ msgid "&lt;All Artists&gt;"
 #~ msgstr "&lt;Všetci interpreti&gt;"

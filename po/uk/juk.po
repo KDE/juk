@@ -6,20 +6,20 @@
 # Eugene Onischenko <oneugene@ukr.net>, 2004, 2005.
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007, 2008.
 # Andriy Rysin <rysin@kde.org>, 2006.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-31 01:54+0000\n"
-"PO-Revision-Date: 2021-05-10 08:32+0300\n"
+"POT-Creation-Date: 2024-01-01 01:35+0000\n"
+"PO-Revision-Date: 2023-12-31 09:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 23.04.1\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -78,12 +78,12 @@ msgstr ""
 "Кеш музичних даних пошкоджено. JuK мусить їх зараз пересканувати. Це може "
 "зайняти трохи часу."
 
-#: collectionlist.cpp:145
+#: collectionlist.cpp:146
 #, kde-format
 msgid "Collection List"
 msgstr "Список збірки"
 
-#: collectionlist.cpp:285
+#: collectionlist.cpp:287
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -98,26 +98,10 @@ msgstr ""
 "Примітка: однак, якщо тека з цими файлами міститься у вашому списку "
 "«сканувати при запуску», то вони будуть додані знову при запуску."
 
-#: collectionlist.cpp:338
+#: collectionlist.cpp:340
 #, kde-format
 msgid "Show Playing"
 msgstr "Показувати що програється"
-
-#: coverdialog.cpp:38
-#, kde-format
-msgid "<All Artists>"
-msgstr "<Усі виконавці>"
-
-#: coverdialog.cpp:149
-#, kde-format
-msgid "Remove Cover"
-msgstr "Вилучити обкладинку"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:1008
-#, kde-format
-msgid "Cover Manager"
-msgstr "Менеджер обкладинок"
 
 #: deletedialog.cpp:65
 #, kde-format
@@ -232,7 +216,7 @@ msgstr "Будь ласка, вкажіть теки, у яких не слід 
 msgid "Import playlists"
 msgstr "Імпортувати список композицій"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1420
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -314,30 +298,30 @@ msgid "Title"
 msgstr "Заголовок"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1405 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "Виконавець"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1406 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "Альбом"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1409 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "Жанр"
 
-#: filerenamer.cpp:69
+#: filerenamer.cpp:87
 #, kde-format
 msgctxt "warning about mass file rename"
 msgid "Warning"
 msgstr "Попередження"
 
-#: filerenamer.cpp:80
+#: filerenamer.cpp:98
 #, kde-format
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
@@ -346,60 +330,60 @@ msgstr ""
 "Ви збираєтесь перейменувати наступні файли. Ви впевнені, що хочете "
 "продовжити?"
 
-#: filerenamer.cpp:87
+#: filerenamer.cpp:105
 #, kde-format
 msgid "Original Name"
 msgstr "Початкова назва"
 
-#: filerenamer.cpp:88
+#: filerenamer.cpp:106
 #, kde-format
 msgid "New Name"
 msgstr "Нова назва"
 
-#: filerenamer.cpp:111
+#: filerenamer.cpp:127
 #, kde-format
 msgid "No Change"
 msgstr "Без зміни"
 
-#: filerenamer.cpp:400
+#: filerenamer.cpp:409
 #, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
 msgstr "Вилучити"
 
-#: filerenamer.cpp:403
+#: filerenamer.cpp:412
 #, kde-format
 msgctxt "file renamer genre options"
 msgid "Options"
 msgstr "Параметри"
 
-#: filerenamer.cpp:515
+#: filerenamer.cpp:524
 #, kde-format
 msgid "Insert folder separator"
 msgstr "Вставити роздільник теки"
 
-#: filerenamer.cpp:586
+#: filerenamer.cpp:595
 #, kde-format
 msgid "No file selected, or selected file has no tags."
 msgstr "Не вибраний файл або файл немає міток."
 
-#: filerenamer.cpp:817
+#: filerenamer.cpp:826
 #, kde-format
 msgid "Hide Renamer Test Dialog"
 msgstr "Сховати вікно тестування перейменування"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:822 filerenamerbase.ui:257
+#: filerenamer.cpp:831 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
 msgstr "Показати вікно тестування перейменування"
 
-#: filerenamer.cpp:904
+#: filerenamer.cpp:911
 #, kde-format
 msgid "%1 to %2"
 msgstr "%1 до %2"
 
-#: filerenamer.cpp:911
+#: filerenamer.cpp:916
 #, kde-format
 msgid "The following rename operations failed:\n"
 msgstr "Наступні дії перейменування зазнали невдачі:\n"
@@ -589,160 +573,150 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "Час"
 
-#: juk.cpp:211
-#, kde-format
-msgid "Your album art failed to download."
-msgstr "Зображення до вашого альбому не вдалося отримати."
-
-#: juk.cpp:213
-#, kde-format
-msgid "Your album art has finished downloading."
-msgstr "Зображення до вашого альбому успішно отримано."
-
-#: juk.cpp:257 systemtray.cpp:184
+#: juk.cpp:240 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "&Випадкове відтворення"
 
-#: juk.cpp:264
+#: juk.cpp:247
 #, kde-format
 msgid "&Disable Random Play"
 msgstr "&Вимкнути випадкове відтворення"
 
-#: juk.cpp:270
+#: juk.cpp:253
 #, kde-format
 msgid "Use &Random Play"
 msgstr "&Увімкнути випадкове відтворення"
 
-#: juk.cpp:276
+#: juk.cpp:259
 #, kde-format
 msgid "Use &Album Random Play"
 msgstr "Використовувати випадкове відтворення &альбому"
 
-#: juk.cpp:284
+#: juk.cpp:267
 #, kde-format
 msgid "Remove From Playlist"
 msgstr "Вилучити зі списку композицій"
 
-#: juk.cpp:288
+#: juk.cpp:271
 #, kde-format
 msgid "&Play"
 msgstr "&Старт"
 
-#: juk.cpp:293
+#: juk.cpp:276
 #, kde-format
 msgid "P&ause"
 msgstr "П&ауза"
 
-#: juk.cpp:298
+#: juk.cpp:281
 #, kde-format
 msgid "&Stop"
 msgstr "&Зупинити"
 
-#: juk.cpp:301
+#: juk.cpp:284
 #, kde-format
 msgctxt "previous track"
 msgid "Previous"
 msgstr "Попередня"
 
-#: juk.cpp:308
+#: juk.cpp:291
 #, kde-format
 msgctxt "next track"
 msgid "&Next"
 msgstr "&Наступна"
 
-#: juk.cpp:312
+#: juk.cpp:295
 #, kde-format
 msgid "&Loop Playlist"
 msgstr "&Зациклити список композицій"
 
-#: juk.cpp:316
+#: juk.cpp:299
 #, kde-format
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Вручну міняти розмір стовпчиків списку композицій"
 
-#: juk.cpp:321
+#: juk.cpp:304
 #, kde-format
 msgctxt "silence playback"
 msgid "Mute"
 msgstr "Вимкнути звук"
 
-#: juk.cpp:325
+#: juk.cpp:308
 #, kde-format
 msgid "Volume Up"
 msgstr "Гучніше"
 
-#: juk.cpp:329
+#: juk.cpp:312
 #, kde-format
 msgid "Volume Down"
 msgstr "Тихіше"
 
-#: juk.cpp:333
+#: juk.cpp:316
 #, kde-format
 msgid "Play / Pause"
 msgstr "Старт / Пауза"
 
-#: juk.cpp:337
+#: juk.cpp:320
 #, kde-format
 msgid "Seek Forward"
 msgstr "Перемотати вперед"
 
-#: juk.cpp:341
+#: juk.cpp:324
 #, kde-format
 msgid "Seek Back"
 msgstr "Перемотати назад"
 
-#: juk.cpp:345
+#: juk.cpp:328
 #, kde-format
 msgid "Show / Hide"
 msgstr "Показувати / Ховати"
 
-#: juk.cpp:352
+#: juk.cpp:335
 #, kde-format
 msgid "&Dock in System Tray"
 msgstr "&Пришвартувати у системному лотку"
 
-#: juk.cpp:356
+#: juk.cpp:339
 #, kde-format
 msgid "&Stay in System Tray on Close"
 msgstr "&Залишатись у системному лотку при закритті"
 
-#: juk.cpp:359
+#: juk.cpp:342
 #, kde-format
 msgid "Popup &Track Announcement"
 msgstr "Оголошення дорі&жки у вигульку"
 
-#: juk.cpp:362
+#: juk.cpp:345
 #, kde-format
 msgid "Save &Play Queue on Exit"
 msgstr "Зберігати &чергу відтворення при виході"
 
-#: juk.cpp:365
+#: juk.cpp:348
 #, kde-format
 msgid "&Tag Guesser..."
 msgstr "Вгад&ування міток..."
 
-#: juk.cpp:368
+#: juk.cpp:351
 #, kde-format
 msgid "&File Renamer..."
 msgstr "Перейменування &файлів..."
 
-#: juk.cpp:371
+#: juk.cpp:354
 #, kde-format
 msgid "&Configure scrobbling..."
 msgstr "&Налаштувати скроблінґ…"
 
-#: juk.cpp:378
+#: juk.cpp:361
 #, kde-format
 msgid "Track Position"
 msgstr "Позиція доріжки"
 
-#: juk.cpp:380 slider.cpp:125
+#: juk.cpp:363 slider.cpp:127
 #, kde-format
 msgid "Volume"
 msgstr "Гучність"
 
-#: juk.cpp:543
+#: juk.cpp:529
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -752,7 +726,7 @@ msgstr ""
 "лотку. Скористайтеся пунктом «Вийти» з меню «Файл», щоб зупинити програму.</"
 "qt>"
 
-#: juk.cpp:545
+#: juk.cpp:531
 #, kde-format
 msgid "Docking in System Tray"
 msgstr "Швартування в системному лотку"
@@ -788,19 +762,19 @@ msgid "&Tagger"
 msgstr "&Мітки"
 
 #. i18n: ectx: Menu (settings)
-#: jukui-rtl.rc:67 jukui.rc:69
+#: jukui-rtl.rc:66 jukui.rc:68
 #, kde-format
 msgid "&Settings"
 msgstr "П&араметри"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: jukui-rtl.rc:80 jukui.rc:82
+#: jukui-rtl.rc:79 jukui.rc:81
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Головний пенал"
 
 #. i18n: ectx: ToolBar (playToolBar)
-#: jukui-rtl.rc:98 jukui.rc:100
+#: jukui-rtl.rc:97 jukui.rc:99
 #, kde-format
 msgid "Play Toolbar"
 msgstr "Пенал відтворення"
@@ -882,10 +856,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Музичний центр і програма для керування музикою від спільноти KDE"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "© Scott Wheeler, Michael Pyne та інші, 2002–2021"
+msgstr "© Scott Wheeler, Michael Pyne та інші, 2002–2023"
 
 #: main.cpp:44
 #, kde-format
@@ -910,13 +883,12 @@ msgstr "Супергерой помічник, полагодив багато �
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE Frameworks 5 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Портування на KDE Frameworks 5, коли всі інші відвернулися"
+msgstr "Портування на KDE Frameworks 6, коли всі інші відвернулися"
 
 #: main.cpp:47
 #, kde-format
@@ -1151,7 +1123,7 @@ msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
 msgstr "списки композицій (*%1)"
 
-#: nowplaying.cpp:315
+#: nowplaying.cpp:320
 #, kde-format
 msgid "back to playlist"
 msgstr "назад до списку композицій"
@@ -1174,7 +1146,7 @@ msgstr ""
 "JuK не вдалося відтворити звуковий файл<nl/><filename>%1</filename><nl/> з "
 "такої причини:<nl/><message>%2</message>"
 
-#: playlist.cpp:342
+#: playlist.cpp:338
 #, kde-format
 msgid "Could not save to file %1."
 msgstr "Неможливо зберегти у файл %1."
@@ -1192,123 +1164,98 @@ msgstr[2] ""
 "Ви маєте намір відкрити %1 каталогів. Ви впевнені, що хочете продовжити?"
 msgstr[3] "Ви маєте намір відкрити каталог. Ви впевнені, що хочете продовжити?"
 
-#: playlist.cpp:578 playlistcollection.cpp:1002
+#: playlist.cpp:578 playlistcollection.cpp:957
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Відкрити теку з даними"
 
-#: playlist.cpp:645
-#, kde-format
-msgid "Are you sure you want to delete these covers?"
-msgstr "Ви впевнені, що хочете вилучити ці обкладинки?"
-
-#: playlist.cpp:647
-#, kde-format
-msgid "&Delete Covers"
-msgstr "&Вилучити обкладинки"
-
-#: playlist.cpp:676
-#, kde-format
-msgid "Select Cover Image File"
-msgstr "Виберіть файл зображення обкладинки - JuK"
-
-#: playlist.cpp:678
-#, kde-format
-msgid "Images (*.png *.jpg)"
-msgstr "зображення (*.png *.jpg)"
-
-#: playlist.cpp:876
+#: playlist.cpp:802
 #, kde-format
 msgid "Could not delete these files"
 msgstr "Не вдалось вилучити ці файли"
 
-#: playlist.cpp:877
+#: playlist.cpp:803
 #, kde-format
 msgid "Could not move these files to the Trash"
 msgstr "Не вдалось пересунути ці файли у смітник"
 
-#: playlist.cpp:1404
+#: playlist.cpp:1280
 #, kde-format
 msgid "Track Name"
 msgstr "Назва доріжки"
 
-#: playlist.cpp:1407
-#, kde-format
-msgid "Cover"
-msgstr "Обкладинка"
-
-#: playlist.cpp:1408 tagrenameroptions.cpp:112
+#: playlist.cpp:1283 tagrenameroptions.cpp:112
 #, kde-format
 msgctxt "cd track number"
 msgid "Track"
 msgstr "Доріжка"
 
-#: playlist.cpp:1410 tagrenameroptions.cpp:120
+#: playlist.cpp:1285 tagrenameroptions.cpp:120
 #, kde-format
 msgid "Year"
 msgstr "Рік"
 
-#: playlist.cpp:1411
+#: playlist.cpp:1286
 #, kde-format
 msgid "Length"
 msgstr "Тривалість"
 
-#: playlist.cpp:1412
+#: playlist.cpp:1287
 #, kde-format
 msgid "Bitrate"
 msgstr "Частота"
 
-#: playlist.cpp:1413
+#: playlist.cpp:1288
 #, kde-format
 msgid "Comment"
 msgstr "Коментар"
 
-#: playlist.cpp:1414
+#: playlist.cpp:1289
 #, kde-format
 msgid "File Name"
 msgstr "Назва файла"
 
-#: playlist.cpp:1415
+#: playlist.cpp:1290
 #, kde-format
 msgid "File Name (full path)"
 msgstr "Назва файла (повний шлях)"
 
-#: playlist.cpp:1606
+#: playlist.cpp:1471
 #, kde-format
 msgid "&Show Columns"
 msgstr "&Показувати колонки"
 
-#: playlist.cpp:1714
+#: playlist.cpp:1579
 #, kde-format
 msgid "Add to Play Queue"
 msgstr "Додати до черги відтворення"
 
-#: playlist.cpp:1728 playlist.cpp:2182
+#: playlist.cpp:1593 playlist.cpp:2049
 #, kde-format
 msgid "Edit"
 msgstr "Змінити"
 
-#: playlist.cpp:1744
+#: playlist.cpp:1607
 #, kde-format
 msgid "Create Playlist From Selected Items..."
 msgstr "Створити список з вибраних композицій..."
 
-#: playlist.cpp:2096
+#: playlist.cpp:1970
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Редагувати «%1»"
 
-#: playlist.cpp:2180
+#: playlist.cpp:2047
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Будуть редагуватись декілька файлів. Ви впевнені?"
 
-#: playlist.cpp:2239 playlistcollection.h:189
+#: playlist.cpp:2106 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Створити новий список композицій"
 
-#: playlist.cpp:2248
+#: playlist.cpp:2115
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1317,253 +1264,228 @@ msgstr ""
 "Увімкнено можливість ручної зміни ширини стовпчиків. Можна назад перемкнути "
 "зміну ширини стовпчиків на автоматичну за допомогою меню «Перегляд»."
 
-#: playlist.cpp:2251
+#: playlist.cpp:2118
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Увімкнено можливість ручної зміни ширини стовпчиків"
 
-#: playlistbox.cpp:106
+#: playlistbox.cpp:107
 #, kde-format
 msgid "View Modes"
 msgstr "Режими перегляду"
 
-#: playlistbox.cpp:164
+#: playlistbox.cpp:165
 #, kde-format
 msgid "Show &History"
 msgstr "Показувати &журнал"
 
-#: playlistbox.cpp:225 playlistcollection.cpp:437
+#: playlistbox.cpp:226 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Здублювати"
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:418
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Хочете вилучити ці файли також і з диску?"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:419
 #, kde-format
 msgid "Keep"
 msgstr "Залишити"
 
-#: playlistbox.cpp:430
+#: playlistbox.cpp:431
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Не вдалось вилучити ці файли."
 
-#: playlistbox.cpp:438
+#: playlistbox.cpp:439
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Ви впевнені, що хочете вилучити ці списки композицій з вашої збірки?"
 
-#: playlistbox.cpp:441
+#: playlistbox.cpp:442
 #, kde-format
 msgid "Remove Items?"
 msgstr "Вилучити елементи?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:442 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "Ви&лучити"
 
-#: playlistbox.cpp:631
+#: playlistbox.cpp:632
 #, kde-format
 msgid "Hid&e"
 msgstr "Хова&ти"
 
-#: playlistbox.cpp:635 playlistcollection.cpp:991
+#: playlistbox.cpp:636 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "Вит&ерти"
 
-#: playlistcollection.cpp:205
+#: playlistcollection.cpp:207
 #, kde-format
 msgid "Dynamic List"
 msgstr "Динамічний список"
 
-#: playlistcollection.cpp:246
+#: playlistcollection.cpp:248
 #, kde-format
 msgid "Now Playing"
 msgstr "Тепер програється"
 
-#: playlistcollection.cpp:362
+#: playlistcollection.cpp:347
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr "Хочете додати ці композиції до поточного списку чи до списку збірок?"
 
-#: playlistcollection.cpp:364
+#: playlistcollection.cpp:349
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "Поточний"
 
-#: playlistcollection.cpp:365
+#: playlistcollection.cpp:350
 #, kde-format
 msgid "Collection"
 msgstr "Збірка"
 
-#: playlistcollection.cpp:425
+#: playlistcollection.cpp:412
 #, kde-format
 msgid "Rename"
 msgstr "Перейменувати"
 
-#: playlistcollection.cpp:556
+#: playlistcollection.cpp:515
 #, kde-format
 msgid "Search Playlist"
 msgstr "Список пошуку"
 
-#: playlistcollection.cpp:581
+#: playlistcollection.cpp:540
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "Створити теку списку композицій"
 
-#: playlistcollection.cpp:621
+#: playlistcollection.cpp:580
 #, kde-format
 msgid "History"
 msgstr "Журнал"
 
-#: playlistcollection.cpp:787
+#: playlistcollection.cpp:746
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "Введіть назву цього списку композицій:"
 
-#: playlistcollection.cpp:935
+#: playlistcollection.cpp:890
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&Створити"
 
-#: playlistcollection.cpp:938
+#: playlistcollection.cpp:893
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "&Спорожнити список композицій..."
 
-#: playlistcollection.cpp:942
+#: playlistcollection.cpp:897
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "&Список пошуку..."
 
-#: playlistcollection.cpp:946
+#: playlistcollection.cpp:901
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "Список композицій з &теки..."
 
-#: playlistcollection.cpp:954
+#: playlistcollection.cpp:909
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "&Вгадувати інформацію мітки"
 
-#: playlistcollection.cpp:959
+#: playlistcollection.cpp:914
 #, kde-format
 msgid "From &File Name"
 msgstr "З назви &файла"
 
-#: playlistcollection.cpp:963
+#: playlistcollection.cpp:918
 #, kde-format
 msgid "From &Internet"
 msgstr "З &Інтернету"
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:923
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "Вгадувати інформацію мітки з назви &файла"
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:930
 #, kde-format
 msgid "Play First Track"
 msgstr "Програти першу доріжку"
 
-#: playlistcollection.cpp:977
+#: playlistcollection.cpp:932
 #, kde-format
 msgid "Play Next Album"
 msgstr "Програти наступний альбом"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "Manage &Folders..."
 msgstr "Керування &теками…"
 
-#: playlistcollection.cpp:986
+#: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
 msgstr "&Перейменувати..."
 
-#: playlistcollection.cpp:988
+#: playlistcollection.cpp:943
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "З&дублювати..."
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:948
 #, kde-format
 msgid "Reload"
 msgstr "Перезавантажити"
 
-#: playlistcollection.cpp:995
+#: playlistcollection.cpp:950
 #, kde-format
 msgid "Edit Search..."
 msgstr "Змінити пошук..."
 
-#: playlistcollection.cpp:998
+#: playlistcollection.cpp:953
 #, kde-format
 msgid "&Delete"
 msgstr "&Вилучити"
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:955
 #, kde-format
 msgid "Refresh"
 msgstr "Освіжити"
 
-#: playlistcollection.cpp:1004
+#: playlistcollection.cpp:959
 #, kde-format
 msgid "&Rename File"
 msgstr "&Перейменувати файл"
 
-#: playlistcollection.cpp:1011
-#, kde-format
-msgid "&View Cover"
-msgstr "&Перегляд обкладинки"
-
-#: playlistcollection.cpp:1013
-#, kde-format
-msgid "Get Cover From &File..."
-msgstr "Взяти обкладинку з &файла..."
-
-#: playlistcollection.cpp:1016
-#, kde-format
-msgid "Get Cover From &Internet..."
-msgstr "Отримати обкладинку з &Інтернету..."
-
-#: playlistcollection.cpp:1020
-#, kde-format
-msgid "&Delete Cover"
-msgstr "&Вилучити обкладинку"
-
-#: playlistcollection.cpp:1022
-#, kde-format
-msgid "Show Cover &Manager"
-msgstr "Показати &менеджер обкладинок"
-
-#: playlistcollection.cpp:1026
+#: playlistcollection.cpp:964
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "Показувати &чергу відтворення"
 
-#: playlistcollection.h:192
+#: playlistcollection.h:186
 #, kde-format
 msgid "Playlist"
 msgstr "Список композицій"
 
-#: playlistsplitter.cpp:157
+#: playlistsplitter.cpp:158
 #, kde-format
 msgid "Show &Search Bar"
 msgstr "Показувати &смужку пошуку"
 
-#: playlistsplitter.cpp:160
+#: playlistsplitter.cpp:161
 #, kde-format
 msgid "Edit Track Search"
 msgstr "Змінити пошук доріжки"
@@ -1650,37 +1572,37 @@ msgstr "Всі видимі"
 msgid "Search..."
 msgstr "Шукати…"
 
-#: slider.cpp:126
+#: slider.cpp:128
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: slider.cpp:127
+#: slider.cpp:129
 #, kde-format
 msgid "80%"
 msgstr "80%"
 
-#: slider.cpp:128
+#: slider.cpp:130
 #, kde-format
 msgid "60%"
 msgstr "60%"
 
-#: slider.cpp:129
+#: slider.cpp:131
 #, kde-format
 msgid "40%"
 msgstr "40%"
 
-#: slider.cpp:130
+#: slider.cpp:132
 #, kde-format
 msgid "20%"
 msgstr "20%"
 
-#: slider.cpp:131
+#: slider.cpp:133
 #, kde-format
 msgid "0%"
 msgstr "0%"
 
-#: slideraction.cpp:76
+#: slideraction.cpp:73
 #, kde-format
 msgid "Seeking is not supported in this file with your audio settings."
 msgstr ""
@@ -1706,22 +1628,22 @@ msgstr[3] "1 елемент"
 msgid "Redisplay Popup"
 msgstr "Знов показувати вигульк"
 
-#: tageditor.cpp:477
+#: tageditor.cpp:468
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "Показувати редактор &міток"
 
-#: tageditor.cpp:481
+#: tageditor.cpp:472
 #, kde-format
 msgid "&Save"
 msgstr "&Зберегти"
 
-#: tageditor.cpp:624
+#: tageditor.cpp:588
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr "Зберегти ваші зміни в:\n"
 
-#: tageditor.cpp:626
+#: tageditor.cpp:590
 #, kde-format
 msgid "Save Changes"
 msgstr "Зберегти зміни"
@@ -2011,34 +1933,34 @@ msgstr "Зміна міток доріжок"
 msgid "Play Queue"
 msgstr "Черга відтворення"
 
-#: viewmode.cpp:64
+#: viewmode.cpp:66
 #, kde-format
 msgctxt "the normal viewing mode"
 msgid "Default"
 msgstr "Типовий"
 
-#: viewmode.cpp:121
+#: viewmode.cpp:123
 #, kde-format
 msgctxt "compact viewing mode"
 msgid "Compact"
 msgstr "Компактний"
 
-#: viewmode.cpp:150
+#: viewmode.cpp:152
 #, kde-format
 msgid "Tree"
 msgstr "Дерево"
 
-#: viewmode.cpp:280
+#: viewmode.cpp:282
 #, kde-format
 msgid "Artists"
 msgstr "Виконавці"
 
-#: viewmode.cpp:283
+#: viewmode.cpp:285
 #, kde-format
 msgid "Albums"
 msgstr "Альбоми"
 
-#: viewmode.cpp:286
+#: viewmode.cpp:288
 #, kde-format
 msgid "Genres"
 msgstr "Жанри"
@@ -2063,67 +1985,90 @@ msgstr "Гучність: %1% (звук вимкнено)"
 msgid "Volume: %1%"
 msgstr "Гучність: %1%"
 
-#: webimagefetcher.cpp:82
-#, kde-format
-msgid "Searching for cover. Please Wait..."
-msgstr "Пошук обкладинки. Зачекайте, будь ласка…"
+#~ msgid "<All Artists>"
+#~ msgstr "<Усі виконавці>"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgid "Album '%1' not found."
-msgstr "Альбом «%1» не знайдено."
+#~ msgid "Remove Cover"
+#~ msgstr "Вилучити обкладинку"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgctxt "@title:window"
-msgid "Album not Found"
-msgstr "Альбом не знайдено"
+#~ msgid "Cover Manager"
+#~ msgstr "Менеджер обкладинок"
 
-#: webimagefetcher.cpp:146
-#, kde-format
-msgid ""
-"Error %1 when searching for cover:\n"
-"%2"
-msgstr ""
-"Помилка %1 під час спроби знайти зображення обкладинки:\n"
-"%2"
+#~ msgid "Your album art failed to download."
+#~ msgstr "Зображення до вашого альбому не вдалося отримати."
 
-#: webimagefetcher.cpp:156
-#, kde-format
-msgid "No available cover for the album '%1'."
-msgstr "Немає доступного зображення обкладинки для альбому «%1»."
+#~ msgid "Your album art has finished downloading."
+#~ msgstr "Зображення до вашого альбому успішно отримано."
 
-#: webimagefetcher.cpp:157
-#, kde-format
-msgctxt "@title:window"
-msgid "Cover not Available"
-msgstr "Немає доступної обкладинки"
+#~ msgid "Are you sure you want to delete these covers?"
+#~ msgstr "Ви впевнені, що хочете вилучити ці обкладинки?"
 
-#: webimagefetcher.cpp:166
-#, kde-format
-msgid "Downloading cover. Please Wait..."
-msgstr "Отримання обкладинки. Будь ласка, зачекайте…"
+#~ msgid "&Delete Covers"
+#~ msgstr "&Вилучити обкладинки"
 
-#: webimagefetcher.cpp:183
-#, kde-format
-msgid "Cover found"
-msgstr "Знайдено зображення обкладинки"
+#~ msgid "Select Cover Image File"
+#~ msgstr "Виберіть файл зображення обкладинки - JuK"
 
-#: webimagefetcher.cpp:190
-#, kde-format
-msgid "Failed to download requested cover art: %1"
-msgstr "Не вдалося отримати потрібні зображення обкладинок: %1"
+#~ msgid "Images (*.png *.jpg)"
+#~ msgstr "зображення (*.png *.jpg)"
 
-#: webimagefetcher.cpp:191
-#, kde-format
-msgctxt "@title:window"
-msgid "Could not download cover art"
-msgstr "Не вдалося отримати зображення обкладинок"
+#~ msgid "Cover"
+#~ msgstr "Обкладинка"
 
-#: webimagefetcher.cpp:213
-#, kde-format
-msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-msgstr "Обкладинку отримано з <a href='https://last.fm/'>last.fm</a>."
+#~ msgid "&View Cover"
+#~ msgstr "&Перегляд обкладинки"
+
+#~ msgid "Get Cover From &File..."
+#~ msgstr "Взяти обкладинку з &файла..."
+
+#~ msgid "Get Cover From &Internet..."
+#~ msgstr "Отримати обкладинку з &Інтернету..."
+
+#~ msgid "&Delete Cover"
+#~ msgstr "&Вилучити обкладинку"
+
+#~ msgid "Show Cover &Manager"
+#~ msgstr "Показати &менеджер обкладинок"
+
+#~ msgid "Searching for cover. Please Wait..."
+#~ msgstr "Пошук обкладинки. Зачекайте, будь ласка…"
+
+#~ msgid "Album '%1' not found."
+#~ msgstr "Альбом «%1» не знайдено."
+
+#~ msgctxt "@title:window"
+#~ msgid "Album not Found"
+#~ msgstr "Альбом не знайдено"
+
+#~ msgid ""
+#~ "Error %1 when searching for cover:\n"
+#~ "%2"
+#~ msgstr ""
+#~ "Помилка %1 під час спроби знайти зображення обкладинки:\n"
+#~ "%2"
+
+#~ msgid "No available cover for the album '%1'."
+#~ msgstr "Немає доступного зображення обкладинки для альбому «%1»."
+
+#~ msgctxt "@title:window"
+#~ msgid "Cover not Available"
+#~ msgstr "Немає доступної обкладинки"
+
+#~ msgid "Downloading cover. Please Wait..."
+#~ msgstr "Отримання обкладинки. Будь ласка, зачекайте…"
+
+#~ msgid "Cover found"
+#~ msgstr "Знайдено зображення обкладинки"
+
+#~ msgid "Failed to download requested cover art: %1"
+#~ msgstr "Не вдалося отримати потрібні зображення обкладинок: %1"
+
+#~ msgctxt "@title:window"
+#~ msgid "Could not download cover art"
+#~ msgstr "Не вдалося отримати зображення обкладинок"
+
+#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
+#~ msgstr "Обкладинку отримано з <a href='https://last.fm/'>last.fm</a>."
 
 #~ msgid "&lt;All Artists&gt;"
 #~ msgstr "&lt;Всі виконавці&gt;"

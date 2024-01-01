@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-31 01:54+0000\n"
+"POT-Creation-Date: 2024-01-01 01:35+0000\n"
 "PO-Revision-Date: 2023-12-30 13:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -73,12 +73,12 @@ msgid ""
 "may take some time."
 msgstr "音乐数据缓存已损坏。JuK 现在需要重新扫描，这可能需要一些时间。"
 
-#: collectionlist.cpp:145
+#: collectionlist.cpp:146
 #, kde-format
 msgid "Collection List"
 msgstr "收藏列表"
 
-#: collectionlist.cpp:285
+#: collectionlist.cpp:287
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -93,26 +93,10 @@ msgstr ""
 "但是，请注意，如果这些文件所在的目录位于您的“启动时扫描”列表中，它们会被重新"
 "添加到媒体库中。"
 
-#: collectionlist.cpp:338
+#: collectionlist.cpp:340
 #, kde-format
 msgid "Show Playing"
 msgstr "显示播放中"
-
-#: coverdialog.cpp:38
-#, kde-format
-msgid "<All Artists>"
-msgstr "<所有艺人>"
-
-#: coverdialog.cpp:149
-#, kde-format
-msgid "Remove Cover"
-msgstr "移除封面"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:1008
-#, kde-format
-msgid "Cover Manager"
-msgstr "封面管理器"
 
 #: deletedialog.cpp:65
 #, kde-format
@@ -220,7 +204,7 @@ msgstr "请选择音乐搜索应该排除的文件夹："
 msgid "Import playlists"
 msgstr "导入播放列表"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1420
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -302,90 +286,90 @@ msgid "Title"
 msgstr "标题"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1405 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "艺人"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1406 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "专辑"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1409 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "流派​​"
 
-#: filerenamer.cpp:69
+#: filerenamer.cpp:87
 #, kde-format
 msgctxt "warning about mass file rename"
 msgid "Warning"
 msgstr "警告"
 
-#: filerenamer.cpp:80
+#: filerenamer.cpp:98
 #, kde-format
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
 "continue?"
 msgstr "您将要重命名下列文件。您确定要继续吗？"
 
-#: filerenamer.cpp:87
+#: filerenamer.cpp:105
 #, kde-format
 msgid "Original Name"
 msgstr "初始名称"
 
-#: filerenamer.cpp:88
+#: filerenamer.cpp:106
 #, kde-format
 msgid "New Name"
 msgstr "新名称"
 
-#: filerenamer.cpp:111
+#: filerenamer.cpp:127
 #, kde-format
 msgid "No Change"
 msgstr "无更改"
 
-#: filerenamer.cpp:400
+#: filerenamer.cpp:409
 #, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
 msgstr "移除"
 
-#: filerenamer.cpp:403
+#: filerenamer.cpp:412
 #, kde-format
 msgctxt "file renamer genre options"
 msgid "Options"
 msgstr "选项"
 
-#: filerenamer.cpp:515
+#: filerenamer.cpp:524
 #, kde-format
 msgid "Insert folder separator"
 msgstr "插入文件夹分隔符"
 
-#: filerenamer.cpp:586
+#: filerenamer.cpp:595
 #, kde-format
 msgid "No file selected, or selected file has no tags."
 msgstr "未选择文件，或选择的文件无标签。"
 
-#: filerenamer.cpp:817
+#: filerenamer.cpp:826
 #, kde-format
 msgid "Hide Renamer Test Dialog"
 msgstr "隐藏重命名测试对话框"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:822 filerenamerbase.ui:257
+#: filerenamer.cpp:831 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
 msgstr "显示重命名测试对话框"
 
-#: filerenamer.cpp:904
+#: filerenamer.cpp:911
 #, kde-format
 msgid "%1 to %2"
 msgstr "%1 到 %2"
 
-#: filerenamer.cpp:911
+#: filerenamer.cpp:916
 #, kde-format
 msgid "The following rename operations failed:\n"
 msgstr "下列重命名操作失败：\n"
@@ -574,160 +558,150 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "时间"
 
-#: juk.cpp:211
-#, kde-format
-msgid "Your album art failed to download."
-msgstr "您的专辑封面下载失败。"
-
-#: juk.cpp:213
-#, kde-format
-msgid "Your album art has finished downloading."
-msgstr "您的专辑封面下载完成。"
-
-#: juk.cpp:257 systemtray.cpp:184
+#: juk.cpp:240 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "随机播放(&R)"
 
-#: juk.cpp:264
+#: juk.cpp:247
 #, kde-format
 msgid "&Disable Random Play"
 msgstr "禁用随机播放(&D)"
 
-#: juk.cpp:270
+#: juk.cpp:253
 #, kde-format
 msgid "Use &Random Play"
 msgstr "启用随机播放(&R)"
 
-#: juk.cpp:276
+#: juk.cpp:259
 #, kde-format
 msgid "Use &Album Random Play"
 msgstr "启用专辑随机播放(&A)"
 
-#: juk.cpp:284
+#: juk.cpp:267
 #, kde-format
 msgid "Remove From Playlist"
 msgstr "从播放列表中删除"
 
-#: juk.cpp:288
+#: juk.cpp:271
 #, kde-format
 msgid "&Play"
 msgstr "播放(&P)"
 
-#: juk.cpp:293
+#: juk.cpp:276
 #, kde-format
 msgid "P&ause"
 msgstr "暂停(&P)"
 
-#: juk.cpp:298
+#: juk.cpp:281
 #, kde-format
 msgid "&Stop"
 msgstr "停止(&S)"
 
-#: juk.cpp:301
+#: juk.cpp:284
 #, kde-format
 msgctxt "previous track"
 msgid "Previous"
 msgstr "上一曲"
 
-#: juk.cpp:308
+#: juk.cpp:291
 #, kde-format
 msgctxt "next track"
 msgid "&Next"
 msgstr "下一曲(&N)"
 
-#: juk.cpp:312
+#: juk.cpp:295
 #, kde-format
 msgid "&Loop Playlist"
 msgstr "循环播放列表(&L)"
 
-#: juk.cpp:316
+#: juk.cpp:299
 #, kde-format
 msgid "&Resize Playlist Columns Manually"
 msgstr "手动调整播放列表栏大小(&R)"
 
-#: juk.cpp:321
+#: juk.cpp:304
 #, kde-format
 msgctxt "silence playback"
 msgid "Mute"
 msgstr "静音"
 
-#: juk.cpp:325
+#: juk.cpp:308
 #, kde-format
 msgid "Volume Up"
 msgstr "增大音量"
 
-#: juk.cpp:329
+#: juk.cpp:312
 #, kde-format
 msgid "Volume Down"
 msgstr "减小音量"
 
-#: juk.cpp:333
+#: juk.cpp:316
 #, kde-format
 msgid "Play / Pause"
 msgstr "播放/暂停"
 
-#: juk.cpp:337
+#: juk.cpp:320
 #, kde-format
 msgid "Seek Forward"
 msgstr "快进"
 
-#: juk.cpp:341
+#: juk.cpp:324
 #, kde-format
 msgid "Seek Back"
 msgstr "快退"
 
-#: juk.cpp:345
+#: juk.cpp:328
 #, kde-format
 msgid "Show / Hide"
 msgstr "显示/隐藏"
 
-#: juk.cpp:352
+#: juk.cpp:335
 #, kde-format
 msgid "&Dock in System Tray"
 msgstr "停靠在系统托盘(&D)"
 
-#: juk.cpp:356
+#: juk.cpp:339
 #, kde-format
 msgid "&Stay in System Tray on Close"
 msgstr "关闭窗口后停留在系统托盘(&S)"
 
-#: juk.cpp:359
+#: juk.cpp:342
 #, kde-format
 msgid "Popup &Track Announcement"
 msgstr "弹出曲目通知(&T)"
 
-#: juk.cpp:362
+#: juk.cpp:345
 #, kde-format
 msgid "Save &Play Queue on Exit"
 msgstr "退出时保存播放队列(&P)"
 
-#: juk.cpp:365
+#: juk.cpp:348
 #, kde-format
 msgid "&Tag Guesser..."
 msgstr "标签猜测器(&T)"
 
-#: juk.cpp:368
+#: juk.cpp:351
 #, kde-format
 msgid "&File Renamer..."
 msgstr "文件重命名(&F)..."
 
-#: juk.cpp:371
+#: juk.cpp:354
 #, kde-format
 msgid "&Configure scrobbling..."
 msgstr "配置信息收集(&C)..."
 
-#: juk.cpp:378
+#: juk.cpp:361
 #, kde-format
 msgid "Track Position"
 msgstr "曲目播放位置"
 
-#: juk.cpp:380 slider.cpp:125
+#: juk.cpp:363 slider.cpp:127
 #, kde-format
 msgid "Volume"
 msgstr "音量"
 
-#: juk.cpp:543
+#: juk.cpp:529
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -736,7 +710,7 @@ msgstr ""
 "<qt>关闭主窗口后， JuK 将继续在系统托盘内运行。请从文件菜单退出应用程序。</"
 "qt>"
 
-#: juk.cpp:545
+#: juk.cpp:531
 #, kde-format
 msgid "Docking in System Tray"
 msgstr "停靠系统托盘"
@@ -772,19 +746,19 @@ msgid "&Tagger"
 msgstr "标签编辑器(&T)"
 
 #. i18n: ectx: Menu (settings)
-#: jukui-rtl.rc:67 jukui.rc:69
+#: jukui-rtl.rc:66 jukui.rc:68
 #, kde-format
 msgid "&Settings"
 msgstr "设置(&S)"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: jukui-rtl.rc:80 jukui.rc:82
+#: jukui-rtl.rc:79 jukui.rc:81
 #, kde-format
 msgid "Main Toolbar"
 msgstr "主工具栏"
 
 #. i18n: ectx: ToolBar (playToolBar)
-#: jukui-rtl.rc:98 jukui.rc:100
+#: jukui-rtl.rc:97 jukui.rc:99
 #, kde-format
 msgid "Play Toolbar"
 msgstr "播放工具栏"
@@ -1128,7 +1102,7 @@ msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
 msgstr "播放列表 (*%1)"
 
-#: nowplaying.cpp:315
+#: nowplaying.cpp:320
 #, kde-format
 msgid "back to playlist"
 msgstr "返回播放列表"
@@ -1151,7 +1125,7 @@ msgstr ""
 "JuK 无法播放音频文件 <nl/><filename>%1</filename><nl/>，由于以下原因：<nl/"
 "><message>%2</message>"
 
-#: playlist.cpp:342
+#: playlist.cpp:338
 #, kde-format
 msgid "Could not save to file %1."
 msgstr "无法保存到文件 %1。"
@@ -1163,376 +1137,326 @@ msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
 msgstr[0] "您将要打开 %1 个目录。您确定要继续吗？"
 
-#: playlist.cpp:578 playlistcollection.cpp:1002
+#: playlist.cpp:578 playlistcollection.cpp:957
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "打开所在文件夹"
 
-#: playlist.cpp:645
-#, kde-format
-msgid "Are you sure you want to delete these covers?"
-msgstr "您确定要删除这些封面吗？"
-
-#: playlist.cpp:647
-#, kde-format
-msgid "&Delete Covers"
-msgstr "删除封面(&D)"
-
-#: playlist.cpp:676
-#, kde-format
-msgid "Select Cover Image File"
-msgstr "选择封面图片文件"
-
-#: playlist.cpp:678
-#, kde-format
-msgid "Images (*.png *.jpg)"
-msgstr "图像 (*.png *.jpg)"
-
-#: playlist.cpp:876
+#: playlist.cpp:802
 #, kde-format
 msgid "Could not delete these files"
 msgstr "无法删除这些文件"
 
-#: playlist.cpp:877
+#: playlist.cpp:803
 #, kde-format
 msgid "Could not move these files to the Trash"
 msgstr "无法将这些文件移动到回收站"
 
-#: playlist.cpp:1404
+#: playlist.cpp:1280
 #, kde-format
 msgid "Track Name"
 msgstr "曲名"
 
-#: playlist.cpp:1407
-#, kde-format
-msgid "Cover"
-msgstr "封面"
-
-#: playlist.cpp:1408 tagrenameroptions.cpp:112
+#: playlist.cpp:1283 tagrenameroptions.cpp:112
 #, kde-format
 msgctxt "cd track number"
 msgid "Track"
 msgstr "编号"
 
-#: playlist.cpp:1410 tagrenameroptions.cpp:120
+#: playlist.cpp:1285 tagrenameroptions.cpp:120
 #, kde-format
 msgid "Year"
 msgstr "年份"
 
-#: playlist.cpp:1411
+#: playlist.cpp:1286
 #, kde-format
 msgid "Length"
 msgstr "长度"
 
-#: playlist.cpp:1412
+#: playlist.cpp:1287
 #, kde-format
 msgid "Bitrate"
 msgstr "码率"
 
-#: playlist.cpp:1413
+#: playlist.cpp:1288
 #, kde-format
 msgid "Comment"
 msgstr "备注"
 
-#: playlist.cpp:1414
+#: playlist.cpp:1289
 #, kde-format
 msgid "File Name"
 msgstr "文件名"
 
-#: playlist.cpp:1415
+#: playlist.cpp:1290
 #, kde-format
 msgid "File Name (full path)"
 msgstr "文件名(完整路径)"
 
-#: playlist.cpp:1606
+#: playlist.cpp:1471
 #, kde-format
 msgid "&Show Columns"
 msgstr "显示列(&S)"
 
-#: playlist.cpp:1714
+#: playlist.cpp:1579
 #, kde-format
 msgid "Add to Play Queue"
 msgstr "添加到播放队列"
 
-#: playlist.cpp:1728 playlist.cpp:2182
+#: playlist.cpp:1593 playlist.cpp:2049
 #, kde-format
 msgid "Edit"
 msgstr "编辑"
 
-#: playlist.cpp:1744
+#: playlist.cpp:1607
 #, kde-format
 msgid "Create Playlist From Selected Items..."
 msgstr "从选定项创建播放列表..."
 
-#: playlist.cpp:2096
+#: playlist.cpp:1970
 #, kde-format
 msgid "Edit '%1'"
 msgstr "编辑“%1”"
 
-#: playlist.cpp:2180
+#: playlist.cpp:2047
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "这将编辑多个文件。您确定吗？"
 
-#: playlist.cpp:2239 playlistcollection.h:189
+#: playlist.cpp:2106 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "新建播放列表"
 
-#: playlist.cpp:2248
+#: playlist.cpp:2115
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr "已启用手动列宽。您可以在视图菜单中切换回自动列宽。"
 
-#: playlist.cpp:2251
+#: playlist.cpp:2118
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "手动列宽已启用"
 
-#: playlistbox.cpp:106
+#: playlistbox.cpp:107
 #, kde-format
 msgid "View Modes"
 msgstr "视图模式"
 
-#: playlistbox.cpp:164
+#: playlistbox.cpp:165
 #, kde-format
 msgid "Show &History"
 msgstr "显示历史(&H)"
 
-#: playlistbox.cpp:225 playlistcollection.cpp:437
+#: playlistbox.cpp:226 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "制作副本"
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:418
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "您想同时从磁盘中删除这些文件吗？"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:419
 #, kde-format
 msgid "Keep"
 msgstr "保留"
 
-#: playlistbox.cpp:430
+#: playlistbox.cpp:431
 #, kde-format
 msgid "Could not delete these files."
 msgstr "无法删除这些文件。"
 
-#: playlistbox.cpp:438
+#: playlistbox.cpp:439
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "您确定要从收藏中删除这些播放列表吗？"
 
-#: playlistbox.cpp:441
+#: playlistbox.cpp:442
 #, kde-format
 msgid "Remove Items?"
 msgstr "移除项目？"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:442 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "移除(&R)"
 
-#: playlistbox.cpp:631
+#: playlistbox.cpp:632
 #, kde-format
 msgid "Hid&e"
 msgstr "隐藏(&E)"
 
-#: playlistbox.cpp:635 playlistcollection.cpp:991
+#: playlistbox.cpp:636 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "移除(&E)"
 
-#: playlistcollection.cpp:205
+#: playlistcollection.cpp:207
 #, kde-format
 msgid "Dynamic List"
 msgstr "动态列表"
 
-#: playlistcollection.cpp:246
+#: playlistcollection.cpp:248
 #, kde-format
 msgid "Now Playing"
 msgstr "正在播放"
 
-#: playlistcollection.cpp:362
+#: playlistcollection.cpp:347
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr "您想要把这些项目添加到当前列表中还是收藏列表中？"
 
-#: playlistcollection.cpp:364
+#: playlistcollection.cpp:349
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "当前"
 
-#: playlistcollection.cpp:365
+#: playlistcollection.cpp:350
 #, kde-format
 msgid "Collection"
 msgstr "收藏"
 
-#: playlistcollection.cpp:425
+#: playlistcollection.cpp:412
 #, kde-format
 msgid "Rename"
 msgstr "重命名"
 
-#: playlistcollection.cpp:556
+#: playlistcollection.cpp:515
 #, kde-format
 msgid "Search Playlist"
 msgstr "搜索播放列表"
 
-#: playlistcollection.cpp:581
+#: playlistcollection.cpp:540
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "创建文件夹播放列表"
 
-#: playlistcollection.cpp:621
+#: playlistcollection.cpp:580
 #, kde-format
 msgid "History"
 msgstr "历史"
 
-#: playlistcollection.cpp:787
+#: playlistcollection.cpp:746
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "请输入此播放列表的名字："
 
-#: playlistcollection.cpp:935
+#: playlistcollection.cpp:890
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "新建(&N)"
 
-#: playlistcollection.cpp:938
+#: playlistcollection.cpp:893
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "空白播放列表(&E)..."
 
-#: playlistcollection.cpp:942
+#: playlistcollection.cpp:897
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "搜索播放列表(&S)..."
 
-#: playlistcollection.cpp:946
+#: playlistcollection.cpp:901
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "文件夹播放列表(&F)..."
 
-#: playlistcollection.cpp:954
+#: playlistcollection.cpp:909
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "推测标签信息(&G)"
 
-#: playlistcollection.cpp:959
+#: playlistcollection.cpp:914
 #, kde-format
 msgid "From &File Name"
 msgstr "从文件名(&F)"
 
-#: playlistcollection.cpp:963
+#: playlistcollection.cpp:918
 #, kde-format
 msgid "From &Internet"
 msgstr "从互联网(&I)"
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:923
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "根据文件名推测标签信息(&F)"
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:930
 #, kde-format
 msgid "Play First Track"
 msgstr "播放第一首曲目"
 
-#: playlistcollection.cpp:977
+#: playlistcollection.cpp:932
 #, kde-format
 msgid "Play Next Album"
 msgstr "播放下一张专辑"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "Manage &Folders..."
 msgstr "管理文件夹(&F)..."
 
-#: playlistcollection.cpp:986
+#: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
 msgstr "重命名(&R)..."
 
-#: playlistcollection.cpp:988
+#: playlistcollection.cpp:943
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "创建副本(&U)..."
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:948
 #, kde-format
 msgid "Reload"
 msgstr "重新加载"
 
-#: playlistcollection.cpp:995
+#: playlistcollection.cpp:950
 #, kde-format
 msgid "Edit Search..."
 msgstr "编辑搜索..."
 
-#: playlistcollection.cpp:998
+#: playlistcollection.cpp:953
 #, kde-format
 msgid "&Delete"
 msgstr "删除(&D)"
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:955
 #, kde-format
 msgid "Refresh"
 msgstr "刷新"
 
-#: playlistcollection.cpp:1004
+#: playlistcollection.cpp:959
 #, kde-format
 msgid "&Rename File"
 msgstr "重命名文件(&R)"
 
-#: playlistcollection.cpp:1011
-#, kde-format
-msgid "&View Cover"
-msgstr "查看封面(&V)"
-
-#: playlistcollection.cpp:1013
-#, kde-format
-msgid "Get Cover From &File..."
-msgstr "从文件获取封面(&F)..."
-
-#: playlistcollection.cpp:1016
-#, kde-format
-msgid "Get Cover From &Internet..."
-msgstr "从互联网获取封面(&I)... "
-
-#: playlistcollection.cpp:1020
-#, kde-format
-msgid "&Delete Cover"
-msgstr "删除封面(&D)"
-
-#: playlistcollection.cpp:1022
-#, kde-format
-msgid "Show Cover &Manager"
-msgstr "显示封面管理器(&M)"
-
-#: playlistcollection.cpp:1026
+#: playlistcollection.cpp:964
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "显示播放队列(&P)"
 
-#: playlistcollection.h:192
+#: playlistcollection.h:186
 #, kde-format
 msgid "Playlist"
 msgstr "播放列表"
 
-#: playlistsplitter.cpp:157
+#: playlistsplitter.cpp:158
 #, kde-format
 msgid "Show &Search Bar"
 msgstr "显示搜索栏(&S)"
 
-#: playlistsplitter.cpp:160
+#: playlistsplitter.cpp:161
 #, kde-format
 msgid "Edit Track Search"
 msgstr "编辑曲目搜索"
@@ -1615,37 +1539,37 @@ msgstr "所有可见"
 msgid "Search..."
 msgstr "搜索..."
 
-#: slider.cpp:126
+#: slider.cpp:128
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: slider.cpp:127
+#: slider.cpp:129
 #, kde-format
 msgid "80%"
 msgstr "80%"
 
-#: slider.cpp:128
+#: slider.cpp:130
 #, kde-format
 msgid "60%"
 msgstr "60%"
 
-#: slider.cpp:129
+#: slider.cpp:131
 #, kde-format
 msgid "40%"
 msgstr "40%"
 
-#: slider.cpp:130
+#: slider.cpp:132
 #, kde-format
 msgid "20%"
 msgstr "20%"
 
-#: slider.cpp:131
+#: slider.cpp:133
 #, kde-format
 msgid "0%"
 msgstr "0%"
 
-#: slideraction.cpp:76
+#: slideraction.cpp:73
 #, kde-format
 msgid "Seeking is not supported in this file with your audio settings."
 msgstr "当前音频设置下此文件不支持进度条定位。"
@@ -1666,22 +1590,22 @@ msgstr[0] "%1 项"
 msgid "Redisplay Popup"
 msgstr "重新显示弹窗"
 
-#: tageditor.cpp:477
+#: tageditor.cpp:468
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "显示标签编辑器(&T)"
 
-#: tageditor.cpp:481
+#: tageditor.cpp:472
 #, kde-format
 msgid "&Save"
 msgstr "保存(&S)"
 
-#: tageditor.cpp:624
+#: tageditor.cpp:588
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr "您是否要保存修改到：\n"
 
-#: tageditor.cpp:626
+#: tageditor.cpp:590
 #, kde-format
 msgid "Save Changes"
 msgstr "保存更改"
@@ -1962,34 +1886,34 @@ msgstr "更改曲目标签"
 msgid "Play Queue"
 msgstr "播放队列"
 
-#: viewmode.cpp:64
+#: viewmode.cpp:66
 #, kde-format
 msgctxt "the normal viewing mode"
 msgid "Default"
 msgstr "默认"
 
-#: viewmode.cpp:121
+#: viewmode.cpp:123
 #, kde-format
 msgctxt "compact viewing mode"
 msgid "Compact"
 msgstr "紧凑"
 
-#: viewmode.cpp:150
+#: viewmode.cpp:152
 #, kde-format
 msgid "Tree"
 msgstr "树形"
 
-#: viewmode.cpp:280
+#: viewmode.cpp:282
 #, kde-format
 msgid "Artists"
 msgstr "艺人"
 
-#: viewmode.cpp:283
+#: viewmode.cpp:285
 #, kde-format
 msgid "Albums"
 msgstr "专辑"
 
-#: viewmode.cpp:286
+#: viewmode.cpp:288
 #, kde-format
 msgid "Genres"
 msgstr "流派"
@@ -2014,64 +1938,87 @@ msgstr "音量：%1% (静音)"
 msgid "Volume: %1%"
 msgstr "音量：%1%"
 
-#: webimagefetcher.cpp:82
-#, kde-format
-msgid "Searching for cover. Please Wait..."
-msgstr "封面搜索中。请稍候…"
+#~ msgid "<All Artists>"
+#~ msgstr "<所有艺人>"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgid "Album '%1' not found."
-msgstr "未找到专辑“%1”。"
+#~ msgid "Remove Cover"
+#~ msgstr "移除封面"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgctxt "@title:window"
-msgid "Album not Found"
-msgstr "未找到专辑"
+#~ msgid "Cover Manager"
+#~ msgstr "封面管理器"
 
-#: webimagefetcher.cpp:146
-#, kde-format
-msgid ""
-"Error %1 when searching for cover:\n"
-"%2"
-msgstr ""
-"搜索专辑封面时出错 %1：\n"
-"%2"
+#~ msgid "Your album art failed to download."
+#~ msgstr "您的专辑封面下载失败。"
 
-#: webimagefetcher.cpp:156
-#, kde-format
-msgid "No available cover for the album '%1'."
-msgstr "专辑“%1”没有可用的封面。"
+#~ msgid "Your album art has finished downloading."
+#~ msgstr "您的专辑封面下载完成。"
 
-#: webimagefetcher.cpp:157
-#, kde-format
-msgctxt "@title:window"
-msgid "Cover not Available"
-msgstr "封面不可用"
+#~ msgid "Are you sure you want to delete these covers?"
+#~ msgstr "您确定要删除这些封面吗？"
 
-#: webimagefetcher.cpp:166
-#, kde-format
-msgid "Downloading cover. Please Wait..."
-msgstr "封面下载中。请稍候…"
+#~ msgid "&Delete Covers"
+#~ msgstr "删除封面(&D)"
 
-#: webimagefetcher.cpp:183
-#, kde-format
-msgid "Cover found"
-msgstr "找到封面"
+#~ msgid "Select Cover Image File"
+#~ msgstr "选择封面图片文件"
 
-#: webimagefetcher.cpp:190
-#, kde-format
-msgid "Failed to download requested cover art: %1"
-msgstr "下载请求的专辑封面失败：%1"
+#~ msgid "Images (*.png *.jpg)"
+#~ msgstr "图像 (*.png *.jpg)"
 
-#: webimagefetcher.cpp:191
-#, kde-format
-msgctxt "@title:window"
-msgid "Could not download cover art"
-msgstr "无法下载专辑封面"
+#~ msgid "Cover"
+#~ msgstr "封面"
 
-#: webimagefetcher.cpp:213
-#, kde-format
-msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-msgstr "封面取自 <a href='https://last.fm/'>last.fm</a>."
+#~ msgid "&View Cover"
+#~ msgstr "查看封面(&V)"
+
+#~ msgid "Get Cover From &File..."
+#~ msgstr "从文件获取封面(&F)..."
+
+#~ msgid "Get Cover From &Internet..."
+#~ msgstr "从互联网获取封面(&I)... "
+
+#~ msgid "&Delete Cover"
+#~ msgstr "删除封面(&D)"
+
+#~ msgid "Show Cover &Manager"
+#~ msgstr "显示封面管理器(&M)"
+
+#~ msgid "Searching for cover. Please Wait..."
+#~ msgstr "封面搜索中。请稍候…"
+
+#~ msgid "Album '%1' not found."
+#~ msgstr "未找到专辑“%1”。"
+
+#~ msgctxt "@title:window"
+#~ msgid "Album not Found"
+#~ msgstr "未找到专辑"
+
+#~ msgid ""
+#~ "Error %1 when searching for cover:\n"
+#~ "%2"
+#~ msgstr ""
+#~ "搜索专辑封面时出错 %1：\n"
+#~ "%2"
+
+#~ msgid "No available cover for the album '%1'."
+#~ msgstr "专辑“%1”没有可用的封面。"
+
+#~ msgctxt "@title:window"
+#~ msgid "Cover not Available"
+#~ msgstr "封面不可用"
+
+#~ msgid "Downloading cover. Please Wait..."
+#~ msgstr "封面下载中。请稍候…"
+
+#~ msgid "Cover found"
+#~ msgstr "找到封面"
+
+#~ msgid "Failed to download requested cover art: %1"
+#~ msgstr "下载请求的专辑封面失败：%1"
+
+#~ msgctxt "@title:window"
+#~ msgid "Could not download cover art"
+#~ msgstr "无法下载专辑封面"
+
+#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
+#~ msgstr "封面取自 <a href='https://last.fm/'>last.fm</a>."

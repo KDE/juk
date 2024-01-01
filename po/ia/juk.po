@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-31 01:54+0000\n"
+"POT-Creation-Date: 2024-01-01 01:35+0000\n"
 "PO-Revision-Date: 2021-07-27 23:12+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -72,12 +72,12 @@ msgstr ""
 "Le memoria de cache de datos de musica ha essite corrumpite. Juk necessita "
 "rescansionar lo nunc. Isto poterea prender alcun tempore."
 
-#: collectionlist.cpp:145
+#: collectionlist.cpp:146
 #, kde-format
 msgid "Collection List"
 msgstr "Lista de collection"
 
-#: collectionlist.cpp:285
+#: collectionlist.cpp:287
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -92,26 +92,10 @@ msgstr ""
 "Totevia, tu nota, que si le directorio continente iste files es in tu lista "
 "de \"scande quando on initia\", illos essera readdite quando on initia."
 
-#: collectionlist.cpp:338
+#: collectionlist.cpp:340
 #, kde-format
 msgid "Show Playing"
 msgstr "Monstra lo que es reproducente"
-
-#: coverdialog.cpp:38
-#, kde-format
-msgid "<All Artists>"
-msgstr "<Omne artistas>"
-
-#: coverdialog.cpp:149
-#, kde-format
-msgid "Remove Cover"
-msgstr "Remove copertura"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:1008
-#, kde-format
-msgid "Cover Manager"
-msgstr "Gerente de copertura"
 
 #: deletedialog.cpp:65
 #, kde-format
@@ -227,7 +211,7 @@ msgstr ""
 msgid "Import playlists"
 msgstr "Importa listas de reproduction"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1420
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -309,30 +293,30 @@ msgid "Title"
 msgstr "Titulo"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1405 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "Artista"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1406 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "Album"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1409 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "Genere"
 
-#: filerenamer.cpp:69
+#: filerenamer.cpp:87
 #, kde-format
 msgctxt "warning about mass file rename"
 msgid "Warning"
 msgstr "Aviso"
 
-#: filerenamer.cpp:80
+#: filerenamer.cpp:98
 #, kde-format
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
@@ -341,60 +325,60 @@ msgstr ""
 "Tu es preste pro renominar le sequente files. Tu es secur que tu vole "
 "continuar?"
 
-#: filerenamer.cpp:87
+#: filerenamer.cpp:105
 #, kde-format
 msgid "Original Name"
 msgstr "Nomine original"
 
-#: filerenamer.cpp:88
+#: filerenamer.cpp:106
 #, kde-format
 msgid "New Name"
 msgstr "Nove nomine"
 
-#: filerenamer.cpp:111
+#: filerenamer.cpp:127
 #, kde-format
 msgid "No Change"
 msgstr "Nulle modification"
 
-#: filerenamer.cpp:400
+#: filerenamer.cpp:409
 #, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
 msgstr "Remove"
 
-#: filerenamer.cpp:403
+#: filerenamer.cpp:412
 #, kde-format
 msgctxt "file renamer genre options"
 msgid "Options"
 msgstr "Optiones"
 
-#: filerenamer.cpp:515
+#: filerenamer.cpp:524
 #, kde-format
 msgid "Insert folder separator"
 msgstr "Inserta separator de dossier"
 
-#: filerenamer.cpp:586
+#: filerenamer.cpp:595
 #, kde-format
 msgid "No file selected, or selected file has no tags."
 msgstr "Necun file seligite, o files seligite non ha etiquettas."
 
-#: filerenamer.cpp:817
+#: filerenamer.cpp:826
 #, kde-format
 msgid "Hide Renamer Test Dialog"
 msgstr "Cela Dialogo de test de programma renominator"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:822 filerenamerbase.ui:257
+#: filerenamer.cpp:831 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
 msgstr "Monstra Dialogo de test de programma renominator"
 
-#: filerenamer.cpp:904
+#: filerenamer.cpp:911
 #, kde-format
 msgid "%1 to %2"
 msgstr "%1 a %2"
 
-#: filerenamer.cpp:911
+#: filerenamer.cpp:916
 #, kde-format
 msgid "The following rename operations failed:\n"
 msgstr "Il falleva executar le sequente operationes de renominar:\n"
@@ -585,160 +569,150 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "Tempore"
 
-#: juk.cpp:211
-#, kde-format
-msgid "Your album art failed to download."
-msgstr "Tu falleva discargar tu arte de album"
-
-#: juk.cpp:213
-#, kde-format
-msgid "Your album art has finished downloading."
-msgstr "Tu terminava discargar tu arte de album"
-
-#: juk.cpp:257 systemtray.cpp:184
+#: juk.cpp:240 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "&Reproduction casual"
 
-#: juk.cpp:264
+#: juk.cpp:247
 #, kde-format
 msgid "&Disable Random Play"
 msgstr "&Dishabilita reproduction casual"
 
-#: juk.cpp:270
+#: juk.cpp:253
 #, kde-format
 msgid "Use &Random Play"
 msgstr "Usa &Reproduction casual"
 
-#: juk.cpp:276
+#: juk.cpp:259
 #, kde-format
 msgid "Use &Album Random Play"
 msgstr "Usa reproduction casual de &Album"
 
-#: juk.cpp:284
+#: juk.cpp:267
 #, kde-format
 msgid "Remove From Playlist"
 msgstr "Remove ex lista de reproduction"
 
-#: juk.cpp:288
+#: juk.cpp:271
 #, kde-format
 msgid "&Play"
 msgstr "&Reproduce"
 
-#: juk.cpp:293
+#: juk.cpp:276
 #, kde-format
 msgid "P&ause"
 msgstr "P&ausa"
 
-#: juk.cpp:298
+#: juk.cpp:281
 #, kde-format
 msgid "&Stop"
 msgstr "&Stoppa"
 
-#: juk.cpp:301
+#: juk.cpp:284
 #, kde-format
 msgctxt "previous track"
 msgid "Previous"
 msgstr "Precedente"
 
-#: juk.cpp:308
+#: juk.cpp:291
 #, kde-format
 msgctxt "next track"
 msgid "&Next"
 msgstr "&Proxime"
 
-#: juk.cpp:312
+#: juk.cpp:295
 #, kde-format
 msgid "&Loop Playlist"
 msgstr "&Lista de reproduction reproducite continuemente"
 
-#: juk.cpp:316
+#: juk.cpp:299
 #, kde-format
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Redimensiona manualmente columnas de lista de reproduction"
 
-#: juk.cpp:321
+#: juk.cpp:304
 #, kde-format
 msgctxt "silence playback"
 msgid "Mute"
 msgstr "Surdina"
 
-#: juk.cpp:325
+#: juk.cpp:308
 #, kde-format
 msgid "Volume Up"
 msgstr "Altia volumine"
 
-#: juk.cpp:329
+#: juk.cpp:312
 #, kde-format
 msgid "Volume Down"
 msgstr "Bassa volumine"
 
-#: juk.cpp:333
+#: juk.cpp:316
 #, kde-format
 msgid "Play / Pause"
 msgstr "Sona/Pausa"
 
-#: juk.cpp:337
+#: juk.cpp:320
 #, kde-format
 msgid "Seek Forward"
 msgstr "Cerca avante"
 
-#: juk.cpp:341
+#: juk.cpp:324
 #, kde-format
 msgid "Seek Back"
 msgstr "Cerca retro"
 
-#: juk.cpp:345
+#: juk.cpp:328
 #, kde-format
 msgid "Show / Hide"
 msgstr "Monstra/Cela"
 
-#: juk.cpp:352
+#: juk.cpp:335
 #, kde-format
 msgid "&Dock in System Tray"
 msgstr "&Mitte in tabuliero de systema"
 
-#: juk.cpp:356
+#: juk.cpp:339
 #, kde-format
 msgid "&Stay in System Tray on Close"
 msgstr "&Sta in tabuliero de systema quando on claude"
 
-#: juk.cpp:359
+#: juk.cpp:342
 #, kde-format
 msgid "Popup &Track Announcement"
 msgstr "Popup annuncio de &tracia"
 
-#: juk.cpp:362
+#: juk.cpp:345
 #, kde-format
 msgid "Save &Play Queue on Exit"
 msgstr "Salveguarda cauda de re&production quando on exi"
 
-#: juk.cpp:365
+#: juk.cpp:348
 #, kde-format
 msgid "&Tag Guesser..."
 msgstr "Conjecturator de e&tiquetta..."
 
-#: juk.cpp:368
+#: juk.cpp:351
 #, kde-format
 msgid "&File Renamer..."
 msgstr "&File Renamer (Renominator de file)..."
 
-#: juk.cpp:371
+#: juk.cpp:354
 #, kde-format
 msgid "&Configure scrobbling..."
 msgstr "&Configura scrobbling"
 
-#: juk.cpp:378
+#: juk.cpp:361
 #, kde-format
 msgid "Track Position"
 msgstr "Tracia position"
 
-#: juk.cpp:380 slider.cpp:125
+#: juk.cpp:363 slider.cpp:127
 #, kde-format
 msgid "Volume"
 msgstr "Volumine"
 
-#: juk.cpp:543
+#: juk.cpp:529
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -748,7 +722,7 @@ msgstr ""
 "de systema. Usa Abandona ex le menu de file pro abandonar le application.</"
 "qt>"
 
-#: juk.cpp:545
+#: juk.cpp:531
 #, kde-format
 msgid "Docking in System Tray"
 msgstr "Mitte in tabuliero de systema"
@@ -784,19 +758,19 @@ msgid "&Tagger"
 msgstr "E&tiquettator"
 
 #. i18n: ectx: Menu (settings)
-#: jukui-rtl.rc:67 jukui.rc:69
+#: jukui-rtl.rc:66 jukui.rc:68
 #, kde-format
 msgid "&Settings"
 msgstr "Preferentia&s"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: jukui-rtl.rc:80 jukui.rc:82
+#: jukui-rtl.rc:79 jukui.rc:81
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Barra de instrumento principal"
 
 #. i18n: ectx: ToolBar (playToolBar)
-#: jukui-rtl.rc:98 jukui.rc:100
+#: jukui-rtl.rc:97 jukui.rc:99
 #, kde-format
 msgid "Play Toolbar"
 msgstr "Barra de Instrumento pro reproducer"
@@ -1145,7 +1119,7 @@ msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
 msgstr "Listas de reproduction (*%1)"
 
-#: nowplaying.cpp:315
+#: nowplaying.cpp:320
 #, kde-format
 msgid "back to playlist"
 msgstr "retro a lista de reproduction"
@@ -1168,7 +1142,7 @@ msgstr ""
 "JuK es incapace de reproducer le file <nl/><filename>%1</filename><nl/>pro "
 "le sequente ration:<nl/><message>%2</message>"
 
-#: playlist.cpp:342
+#: playlist.cpp:338
 #, kde-format
 msgid "Could not save to file %1."
 msgstr "Il non poteva salveguardar in file %1."
@@ -1183,123 +1157,98 @@ msgstr[0] ""
 msgstr[1] ""
 "Tu es preste pro aperir %1 directorios. Tu es secur que tu vole continuar?"
 
-#: playlist.cpp:578 playlistcollection.cpp:1002
+#: playlist.cpp:578 playlistcollection.cpp:957
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Aperi dossier continente"
 
-#: playlist.cpp:645
-#, kde-format
-msgid "Are you sure you want to delete these covers?"
-msgstr "Tu es secur que tu vole deler iste coperturas?"
-
-#: playlist.cpp:647
-#, kde-format
-msgid "&Delete Covers"
-msgstr "&Dele coperturas"
-
-#: playlist.cpp:676
-#, kde-format
-msgid "Select Cover Image File"
-msgstr "Selige file de imagine de copertura"
-
-#: playlist.cpp:678
-#, kde-format
-msgid "Images (*.png *.jpg)"
-msgstr "Images (*.png *.jpg)"
-
-#: playlist.cpp:876
+#: playlist.cpp:802
 #, kde-format
 msgid "Could not delete these files"
 msgstr "Non pote deler iste files"
 
-#: playlist.cpp:877
+#: playlist.cpp:803
 #, kde-format
 msgid "Could not move these files to the Trash"
 msgstr "Non pote mover iste files in le corbe"
 
-#: playlist.cpp:1404
+#: playlist.cpp:1280
 #, kde-format
 msgid "Track Name"
 msgstr "Nomine de tracia"
 
-#: playlist.cpp:1407
-#, kde-format
-msgid "Cover"
-msgstr "Copertura"
-
-#: playlist.cpp:1408 tagrenameroptions.cpp:112
+#: playlist.cpp:1283 tagrenameroptions.cpp:112
 #, kde-format
 msgctxt "cd track number"
 msgid "Track"
 msgstr "Tracia"
 
-#: playlist.cpp:1410 tagrenameroptions.cpp:120
+#: playlist.cpp:1285 tagrenameroptions.cpp:120
 #, kde-format
 msgid "Year"
 msgstr "Anno"
 
-#: playlist.cpp:1411
+#: playlist.cpp:1286
 #, kde-format
 msgid "Length"
 msgstr "Longitude"
 
-#: playlist.cpp:1412
+#: playlist.cpp:1287
 #, kde-format
 msgid "Bitrate"
 msgstr "Frequentia de bit"
 
-#: playlist.cpp:1413
+#: playlist.cpp:1288
 #, kde-format
 msgid "Comment"
 msgstr "Commento"
 
-#: playlist.cpp:1414
+#: playlist.cpp:1289
 #, kde-format
 msgid "File Name"
 msgstr "Nomine de file"
 
-#: playlist.cpp:1415
+#: playlist.cpp:1290
 #, kde-format
 msgid "File Name (full path)"
 msgstr "Nomine de file (percurso complete)"
 
-#: playlist.cpp:1606
+#: playlist.cpp:1471
 #, kde-format
 msgid "&Show Columns"
 msgstr "Mon&stra columnas"
 
-#: playlist.cpp:1714
+#: playlist.cpp:1579
 #, kde-format
 msgid "Add to Play Queue"
 msgstr "Adde a cauda de reproduction"
 
-#: playlist.cpp:1728 playlist.cpp:2182
+#: playlist.cpp:1593 playlist.cpp:2049
 #, kde-format
 msgid "Edit"
 msgstr "Modifica"
 
-#: playlist.cpp:1744
+#: playlist.cpp:1607
 #, kde-format
 msgid "Create Playlist From Selected Items..."
 msgstr "Crea lista de reproduction ex elementos seligite..."
 
-#: playlist.cpp:2096
+#: playlist.cpp:1970
 #, kde-format
 msgid "Edit '%1'"
 msgstr "&Modifica '%1'"
 
-#: playlist.cpp:2180
+#: playlist.cpp:2047
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Isto modificara files multiple. Tu es secur?"
 
-#: playlist.cpp:2239 playlistcollection.h:189
+#: playlist.cpp:2106 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Crea nove lista de reproduction"
 
-#: playlist.cpp:2248
+#: playlist.cpp:2115
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1308,255 +1257,230 @@ msgstr ""
 "Amplitudes de columna manual ha essite habilitate. Tu pote retornar a "
 "grandor de columnas automatic in le menu de vista."
 
-#: playlist.cpp:2251
+#: playlist.cpp:2118
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Amplitudes de columnas manual habilitate"
 
-#: playlistbox.cpp:106
+#: playlistbox.cpp:107
 #, kde-format
 msgid "View Modes"
 msgstr "Modos de vista"
 
-#: playlistbox.cpp:164
+#: playlistbox.cpp:165
 #, kde-format
 msgid "Show &History"
 msgstr "Monstra &Historia"
 
-#: playlistbox.cpp:225 playlistcollection.cpp:437
+#: playlistbox.cpp:226 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:418
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Mesmo si tu vole deler iste files ex le disco?"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:419
 #, kde-format
 msgid "Keep"
 msgstr "Mantene"
 
-#: playlistbox.cpp:430
+#: playlistbox.cpp:431
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Non pote deler iste files."
 
-#: playlistbox.cpp:438
+#: playlistbox.cpp:439
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr ""
 "Tu es secur quw tu vole remover iste listas de reproduction ex tu collection?"
 
-#: playlistbox.cpp:441
+#: playlistbox.cpp:442
 #, kde-format
 msgid "Remove Items?"
 msgstr "Remove elementos?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:442 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "&Remove"
 
-#: playlistbox.cpp:631
+#: playlistbox.cpp:632
 #, kde-format
 msgid "Hid&e"
 msgstr "C&ela"
 
-#: playlistbox.cpp:635 playlistcollection.cpp:991
+#: playlistbox.cpp:636 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "R&emove"
 
-#: playlistcollection.cpp:205
+#: playlistcollection.cpp:207
 #, kde-format
 msgid "Dynamic List"
 msgstr "Lista dynamic"
 
-#: playlistcollection.cpp:246
+#: playlistcollection.cpp:248
 #, kde-format
 msgid "Now Playing"
 msgstr "Ora il reproduce"
 
-#: playlistcollection.cpp:362
+#: playlistcollection.cpp:347
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr ""
 "Tu vole adder iste elementos al lista currente o al lista de collection?"
 
-#: playlistcollection.cpp:364
+#: playlistcollection.cpp:349
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "Currente"
 
-#: playlistcollection.cpp:365
+#: playlistcollection.cpp:350
 #, kde-format
 msgid "Collection"
 msgstr "Collection"
 
-#: playlistcollection.cpp:425
+#: playlistcollection.cpp:412
 #, kde-format
 msgid "Rename"
 msgstr "Renomina"
 
-#: playlistcollection.cpp:556
+#: playlistcollection.cpp:515
 #, kde-format
 msgid "Search Playlist"
 msgstr "Cerca lista de reproduction"
 
-#: playlistcollection.cpp:581
+#: playlistcollection.cpp:540
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "Crea lista de reproduction dossier"
 
-#: playlistcollection.cpp:621
+#: playlistcollection.cpp:580
 #, kde-format
 msgid "History"
 msgstr "Historia"
 
-#: playlistcollection.cpp:787
+#: playlistcollection.cpp:746
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "Pro favor inserta un nomne pro iste lista de reproduction:"
 
-#: playlistcollection.cpp:935
+#: playlistcollection.cpp:890
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&Nove "
 
-#: playlistcollection.cpp:938
+#: playlistcollection.cpp:893
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "&Vacua lista de reproduction..."
 
-#: playlistcollection.cpp:942
+#: playlistcollection.cpp:897
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "&Cerca lista de reproduction..."
 
-#: playlistcollection.cpp:946
+#: playlistcollection.cpp:901
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "Lista de reproduction ex &dossier..."
 
-#: playlistcollection.cpp:954
+#: playlistcollection.cpp:909
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "&Indovina Information de etiquetta"
 
-#: playlistcollection.cpp:959
+#: playlistcollection.cpp:914
 #, kde-format
 msgid "From &File Name"
 msgstr "Ex Nomine de &File"
 
-#: playlistcollection.cpp:963
+#: playlistcollection.cpp:918
 #, kde-format
 msgid "From &Internet"
 msgstr "Ex &Internet"
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:923
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "Indovina Information de etiquetta ex nomine de &file"
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:930
 #, kde-format
 msgid "Play First Track"
 msgstr "Reproduce prime tracia"
 
-#: playlistcollection.cpp:977
+#: playlistcollection.cpp:932
 #, kde-format
 msgid "Play Next Album"
 msgstr "Reproduce proxime album"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "Manage &Folders..."
 msgstr "Gere &Dossieres..."
 
-#: playlistcollection.cpp:986
+#: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
 msgstr "&Renomina..."
 
-#: playlistcollection.cpp:988
+#: playlistcollection.cpp:943
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "D&uplica..."
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:948
 #, kde-format
 msgid "Reload"
 msgstr "Recarga"
 
-#: playlistcollection.cpp:995
+#: playlistcollection.cpp:950
 #, kde-format
 msgid "Edit Search..."
 msgstr "Modifica cerca..."
 
-#: playlistcollection.cpp:998
+#: playlistcollection.cpp:953
 #, kde-format
 msgid "&Delete"
 msgstr "&Dele"
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:955
 #, kde-format
 msgid "Refresh"
 msgstr "Refresca"
 
-#: playlistcollection.cpp:1004
+#: playlistcollection.cpp:959
 #, kde-format
 msgid "&Rename File"
 msgstr "&Renomina file"
 
-#: playlistcollection.cpp:1011
-#, kde-format
-msgid "&View Cover"
-msgstr "&Vide copertura"
-
-#: playlistcollection.cpp:1013
-#, kde-format
-msgid "Get Cover From &File..."
-msgstr "Obtene copertura ex &file..."
-
-#: playlistcollection.cpp:1016
-#, kde-format
-msgid "Get Cover From &Internet..."
-msgstr "Obtene copertura ex &Internet..."
-
-#: playlistcollection.cpp:1020
-#, kde-format
-msgid "&Delete Cover"
-msgstr "&Dele copertura"
-
-#: playlistcollection.cpp:1022
-#, kde-format
-msgid "Show Cover &Manager"
-msgstr "&Monstra gerente de copertura"
-
-#: playlistcollection.cpp:1026
+#: playlistcollection.cpp:964
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "Monstra cauda de re&production"
 
-#: playlistcollection.h:192
+#: playlistcollection.h:186
 #, kde-format
 msgid "Playlist"
 msgstr "Lista de reproduction"
 
-#: playlistsplitter.cpp:157
+#: playlistsplitter.cpp:158
 #, kde-format
 msgid "Show &Search Bar"
 msgstr "Mon&stra barra de cerca"
 
-#: playlistsplitter.cpp:160
+#: playlistsplitter.cpp:161
 #, kde-format
 msgid "Edit Track Search"
 msgstr "Modifica cerca de tracia"
@@ -1643,37 +1567,37 @@ msgstr "Omne visibile"
 msgid "Search..."
 msgstr "Cerca..."
 
-#: slider.cpp:126
+#: slider.cpp:128
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: slider.cpp:127
+#: slider.cpp:129
 #, kde-format
 msgid "80%"
 msgstr "80%"
 
-#: slider.cpp:128
+#: slider.cpp:130
 #, kde-format
 msgid "60%"
 msgstr "60%"
 
-#: slider.cpp:129
+#: slider.cpp:131
 #, kde-format
 msgid "40%"
 msgstr "40%"
 
-#: slider.cpp:130
+#: slider.cpp:132
 #, kde-format
 msgid "20%"
 msgstr "20%"
 
-#: slider.cpp:131
+#: slider.cpp:133
 #, kde-format
 msgid "0%"
 msgstr "0%"
 
-#: slideraction.cpp:76
+#: slideraction.cpp:73
 #, kde-format
 msgid "Seeking is not supported in this file with your audio settings."
 msgstr "Cerca non es supportate in iste file con tu preeferentias audio"
@@ -1695,22 +1619,22 @@ msgstr[1] "%1 elementos"
 msgid "Redisplay Popup"
 msgstr "Monstra de nove Popup"
 
-#: tageditor.cpp:477
+#: tageditor.cpp:468
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "Monstra Editor de e&tiquetta"
 
-#: tageditor.cpp:481
+#: tageditor.cpp:472
 #, kde-format
 msgid "&Save"
 msgstr "&Salveguarda"
 
-#: tageditor.cpp:624
+#: tageditor.cpp:588
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr "Tu vole salveguardar tu modificationes in: \n"
 
-#: tageditor.cpp:626
+#: tageditor.cpp:590
 #, kde-format
 msgid "Save Changes"
 msgstr "Salveguarda modificationes"
@@ -2007,34 +1931,34 @@ msgstr "Modificante etiquettas de tracia"
 msgid "Play Queue"
 msgstr "Cauda de reproduction"
 
-#: viewmode.cpp:64
+#: viewmode.cpp:66
 #, kde-format
 msgctxt "the normal viewing mode"
 msgid "Default"
 msgstr "Predefinite"
 
-#: viewmode.cpp:121
+#: viewmode.cpp:123
 #, kde-format
 msgctxt "compact viewing mode"
 msgid "Compact"
 msgstr "Compacte"
 
-#: viewmode.cpp:150
+#: viewmode.cpp:152
 #, kde-format
 msgid "Tree"
 msgstr "Arbore"
 
-#: viewmode.cpp:280
+#: viewmode.cpp:282
 #, kde-format
 msgid "Artists"
 msgstr "Artistas"
 
-#: viewmode.cpp:283
+#: viewmode.cpp:285
 #, kde-format
 msgid "Albums"
 msgstr "Albumes"
 
-#: viewmode.cpp:286
+#: viewmode.cpp:288
 #, kde-format
 msgid "Genres"
 msgstr "Generes"
@@ -2059,68 +1983,92 @@ msgstr "Volumine: %1% (in surdina)"
 msgid "Volume: %1%"
 msgstr "Volumine: %1%"
 
-#: webimagefetcher.cpp:82
-#, kde-format
-msgid "Searching for cover. Please Wait..."
-msgstr "Cercante coperturas. Pro favor attende..."
+#~ msgid "<All Artists>"
+#~ msgstr "<Omne artistas>"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgid "Album '%1' not found."
-msgstr "Album '%1' non trovate."
+#~ msgid "Remove Cover"
+#~ msgstr "Remove copertura"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgctxt "@title:window"
-msgid "Album not Found"
-msgstr "Album non trovate"
+#~ msgid "Cover Manager"
+#~ msgstr "Gerente de copertura"
 
-#: webimagefetcher.cpp:146
-#, kde-format
-msgid ""
-"Error %1 when searching for cover:\n"
-"%2"
-msgstr ""
-"Error %1 quando on cercava copertura:\n"
-"%2"
+#~ msgid "Your album art failed to download."
+#~ msgstr "Tu falleva discargar tu arte de album"
 
-#: webimagefetcher.cpp:156
-#, kde-format
-msgid "No available cover for the album '%1'."
-msgstr "Copertura non disponibile per le album '%1'."
+#~ msgid "Your album art has finished downloading."
+#~ msgstr "Tu terminava discargar tu arte de album"
 
-#: webimagefetcher.cpp:157
-#, kde-format
-msgctxt "@title:window"
-msgid "Cover not Available"
-msgstr "Copertura non disponibile"
+#~ msgid "Are you sure you want to delete these covers?"
+#~ msgstr "Tu es secur que tu vole deler iste coperturas?"
 
-#: webimagefetcher.cpp:166
-#, kde-format
-msgid "Downloading cover. Please Wait..."
-msgstr "Discargante copertura. Pro favor attende..."
+#~ msgid "&Delete Covers"
+#~ msgstr "&Dele coperturas"
 
-#: webimagefetcher.cpp:183
-#, kde-format
-msgid "Cover found"
-msgstr "Copertura trovate"
+#~ msgid "Select Cover Image File"
+#~ msgstr "Selige file de imagine de copertura"
 
-#: webimagefetcher.cpp:190
-#, kde-format
-msgid "Failed to download requested cover art: %1"
-msgstr ""
-"Il falleva a discargar le copertura artistic  (illustration) requirite: %1 "
+#~ msgid "Images (*.png *.jpg)"
+#~ msgstr "Images (*.png *.jpg)"
 
-#: webimagefetcher.cpp:191
-#, kde-format
-msgctxt "@title:window"
-msgid "Could not download cover art"
-msgstr "Il non pote discargar copertura artistic (illustration)"
+#~ msgid "Cover"
+#~ msgstr "Copertura"
 
-#: webimagefetcher.cpp:213
-#, kde-format
-msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-msgstr "Copertura obtenite ex <a href='https://last.fm/'>last.fm</a>."
+#~ msgid "&View Cover"
+#~ msgstr "&Vide copertura"
+
+#~ msgid "Get Cover From &File..."
+#~ msgstr "Obtene copertura ex &file..."
+
+#~ msgid "Get Cover From &Internet..."
+#~ msgstr "Obtene copertura ex &Internet..."
+
+#~ msgid "&Delete Cover"
+#~ msgstr "&Dele copertura"
+
+#~ msgid "Show Cover &Manager"
+#~ msgstr "&Monstra gerente de copertura"
+
+#~ msgid "Searching for cover. Please Wait..."
+#~ msgstr "Cercante coperturas. Pro favor attende..."
+
+#~ msgid "Album '%1' not found."
+#~ msgstr "Album '%1' non trovate."
+
+#~ msgctxt "@title:window"
+#~ msgid "Album not Found"
+#~ msgstr "Album non trovate"
+
+#~ msgid ""
+#~ "Error %1 when searching for cover:\n"
+#~ "%2"
+#~ msgstr ""
+#~ "Error %1 quando on cercava copertura:\n"
+#~ "%2"
+
+#~ msgid "No available cover for the album '%1'."
+#~ msgstr "Copertura non disponibile per le album '%1'."
+
+#~ msgctxt "@title:window"
+#~ msgid "Cover not Available"
+#~ msgstr "Copertura non disponibile"
+
+#~ msgid "Downloading cover. Please Wait..."
+#~ msgstr "Discargante copertura. Pro favor attende..."
+
+#~ msgid "Cover found"
+#~ msgstr "Copertura trovate"
+
+#~ msgid "Failed to download requested cover art: %1"
+#~ msgstr ""
+#~ "Il falleva a discargar le copertura artistic  (illustration) requirite: "
+#~ "%1 "
+
+#~ msgctxt "@title:window"
+#~ msgid "Could not download cover art"
+#~ msgstr "Il non pote discargar copertura artistic (illustration)"
+
+#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
+#~ msgstr "Copertura obtenite ex <a href='https://last.fm/'>last.fm</a>."
 
 #~ msgid "&lt;All Artists&gt;"
 #~ msgstr "&lt;Omne artistas&gt;"

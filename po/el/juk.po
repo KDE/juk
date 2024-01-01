@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-31 01:54+0000\n"
+"POT-Creation-Date: 2024-01-01 01:35+0000\n"
 "PO-Revision-Date: 2021-06-04 21:45+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -84,12 +84,12 @@ msgstr ""
 "Η λανθάνουσα μνήμη των μουσικών δεδομένων έχει καταστραφεί. Το JuK πρέπει να "
 "την ξανασαρώσει τώρα. Αυτό μπορεί να πάρει λίγη ώρα."
 
-#: collectionlist.cpp:145
+#: collectionlist.cpp:146
 #, kde-format
 msgid "Collection List"
 msgstr "Λίστα συλλογής"
 
-#: collectionlist.cpp:285
+#: collectionlist.cpp:287
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -105,26 +105,10 @@ msgstr ""
 "βρίσκεται στη λίστα \"σάρωσης στην εκκίνηση\", τα αρχεία θα προστεθούν ξανά "
 "κατά την εκκίνηση."
 
-#: collectionlist.cpp:338
+#: collectionlist.cpp:340
 #, kde-format
 msgid "Show Playing"
 msgstr "Εμφάνιση αναπαραγόμενου"
-
-#: coverdialog.cpp:38
-#, kde-format
-msgid "<All Artists>"
-msgstr "<Όλοι οι καλλιτέχνες>"
-
-#: coverdialog.cpp:149
-#, kde-format
-msgid "Remove Cover"
-msgstr "Αφαίρεση εξώφυλλου"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:1008
-#, kde-format
-msgid "Cover Manager"
-msgstr "Διαχειριστής εξωφύλλων"
 
 #: deletedialog.cpp:65
 #, kde-format
@@ -241,7 +225,7 @@ msgstr ""
 msgid "Import playlists"
 msgstr "Εισαγωγή λιστών αναπαραγωγής"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1420
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -323,30 +307,30 @@ msgid "Title"
 msgstr "Τίτλος"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1405 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "Καλλιτέχνης"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1406 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "Άλμπουμ"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1409 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "Είδος"
 
-#: filerenamer.cpp:69
+#: filerenamer.cpp:87
 #, kde-format
 msgctxt "warning about mass file rename"
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: filerenamer.cpp:80
+#: filerenamer.cpp:98
 #, kde-format
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
@@ -355,60 +339,60 @@ msgstr ""
 "Πρόκειται να μετονομάσετε τα ακόλουθα αρχεία. Είστε σίγουροι ότι θέλετε να "
 "συνεχίσετε;"
 
-#: filerenamer.cpp:87
+#: filerenamer.cpp:105
 #, kde-format
 msgid "Original Name"
 msgstr "Αρχικό όνομα"
 
-#: filerenamer.cpp:88
+#: filerenamer.cpp:106
 #, kde-format
 msgid "New Name"
 msgstr "Νέο όνομα"
 
-#: filerenamer.cpp:111
+#: filerenamer.cpp:127
 #, kde-format
 msgid "No Change"
 msgstr "Χωρίς αλλαγή"
 
-#: filerenamer.cpp:400
+#: filerenamer.cpp:409
 #, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
 msgstr "Αφαίρεση"
 
-#: filerenamer.cpp:403
+#: filerenamer.cpp:412
 #, kde-format
 msgctxt "file renamer genre options"
 msgid "Options"
 msgstr "Επιλογές"
 
-#: filerenamer.cpp:515
+#: filerenamer.cpp:524
 #, kde-format
 msgid "Insert folder separator"
 msgstr "Εισαγωγή διαχωριστικού φακέλου"
 
-#: filerenamer.cpp:586
+#: filerenamer.cpp:595
 #, kde-format
 msgid "No file selected, or selected file has no tags."
 msgstr "Δεν επιλέχθηκε αρχείο, ή το επιλεγμένο αρχείο δεν περιέχει ετικέτες."
 
-#: filerenamer.cpp:817
+#: filerenamer.cpp:826
 #, kde-format
 msgid "Hide Renamer Test Dialog"
 msgstr "Απόκρυψη διαλόγου δοκιμής μετονομασίας"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:822 filerenamerbase.ui:257
+#: filerenamer.cpp:831 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
 msgstr "Εμφάνιση διαλόγου δοκιμής μετονομασίας"
 
-#: filerenamer.cpp:904
+#: filerenamer.cpp:911
 #, kde-format
 msgid "%1 to %2"
 msgstr "%1 στο %2"
 
-#: filerenamer.cpp:911
+#: filerenamer.cpp:916
 #, kde-format
 msgid "The following rename operations failed:\n"
 msgstr "Οι ακόλουθες λειτουργίες μετονομασίας απέτυχαν:\n"
@@ -599,160 +583,150 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "Χρόνος"
 
-#: juk.cpp:211
-#, kde-format
-msgid "Your album art failed to download."
-msgstr "Αποτυχία λήψης εικόνων του άλμπουμ."
-
-#: juk.cpp:213
-#, kde-format
-msgid "Your album art has finished downloading."
-msgstr "Ολοκλήρωση λήψης εικόνων του άλμπουμ."
-
-#: juk.cpp:257 systemtray.cpp:184
+#: juk.cpp:240 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "&Τυχαία αναπαραγωγή"
 
-#: juk.cpp:264
+#: juk.cpp:247
 #, kde-format
 msgid "&Disable Random Play"
 msgstr "&Απενεργοποίηση τυχαίας αναπαραγωγής"
 
-#: juk.cpp:270
+#: juk.cpp:253
 #, kde-format
 msgid "Use &Random Play"
 msgstr "&Χρήση τυχαίας αναπαραγωγής"
 
-#: juk.cpp:276
+#: juk.cpp:259
 #, kde-format
 msgid "Use &Album Random Play"
 msgstr "Χρήση &τυχαίας αναπαραγωγής άλμπουμ"
 
-#: juk.cpp:284
+#: juk.cpp:267
 #, kde-format
 msgid "Remove From Playlist"
 msgstr "Αφαίρεση από τη λίστα αναπαραγωγής"
 
-#: juk.cpp:288
+#: juk.cpp:271
 #, kde-format
 msgid "&Play"
 msgstr "&Αναπαραγωγή"
 
-#: juk.cpp:293
+#: juk.cpp:276
 #, kde-format
 msgid "P&ause"
 msgstr "Π&αύση"
 
-#: juk.cpp:298
+#: juk.cpp:281
 #, kde-format
 msgid "&Stop"
 msgstr "&Σταμάτημα"
 
-#: juk.cpp:301
+#: juk.cpp:284
 #, kde-format
 msgctxt "previous track"
 msgid "Previous"
 msgstr "Προηγούμενο"
 
-#: juk.cpp:308
+#: juk.cpp:291
 #, kde-format
 msgctxt "next track"
 msgid "&Next"
 msgstr "&Επόμενο"
 
-#: juk.cpp:312
+#: juk.cpp:295
 #, kde-format
 msgid "&Loop Playlist"
 msgstr "&Επανάληψη λίστας αναπαραγωγής"
 
-#: juk.cpp:316
+#: juk.cpp:299
 #, kde-format
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Αλλαγή μεγέθους των στηλών λίστας χειροκίνητα"
 
-#: juk.cpp:321
+#: juk.cpp:304
 #, kde-format
 msgctxt "silence playback"
 msgid "Mute"
 msgstr "Κλείσιμο ήχου"
 
-#: juk.cpp:325
+#: juk.cpp:308
 #, kde-format
 msgid "Volume Up"
 msgstr "Αύξηση έντασης"
 
-#: juk.cpp:329
+#: juk.cpp:312
 #, kde-format
 msgid "Volume Down"
 msgstr "Μείωση έντασης"
 
-#: juk.cpp:333
+#: juk.cpp:316
 #, kde-format
 msgid "Play / Pause"
 msgstr "Αναπαραγωγή / Παύση"
 
-#: juk.cpp:337
+#: juk.cpp:320
 #, kde-format
 msgid "Seek Forward"
 msgstr "Αναζήτηση μπροστά"
 
-#: juk.cpp:341
+#: juk.cpp:324
 #, kde-format
 msgid "Seek Back"
 msgstr "Αναζήτηση πίσω"
 
-#: juk.cpp:345
+#: juk.cpp:328
 #, kde-format
 msgid "Show / Hide"
 msgstr "Εμφάνιση / Απόκρυψη"
 
-#: juk.cpp:352
+#: juk.cpp:335
 #, kde-format
 msgid "&Dock in System Tray"
 msgstr "&Προσάρτηση στο πλαίσιο συστήματος"
 
-#: juk.cpp:356
+#: juk.cpp:339
 #, kde-format
 msgid "&Stay in System Tray on Close"
 msgstr "&Παραμονή στο πλαίσιο συστήματος με το κλείσιμο"
 
-#: juk.cpp:359
+#: juk.cpp:342
 #, kde-format
 msgid "Popup &Track Announcement"
 msgstr "Αναδυόμενη ανακοίνωση &κομματιού"
 
-#: juk.cpp:362
+#: juk.cpp:345
 #, kde-format
 msgid "Save &Play Queue on Exit"
 msgstr "Αποθήκευση της αναμονής &αναπαραγωγής κατά την έξοδο"
 
-#: juk.cpp:365
+#: juk.cpp:348
 #, kde-format
 msgid "&Tag Guesser..."
 msgstr "Μάντης &ετικέτας..."
 
-#: juk.cpp:368
+#: juk.cpp:351
 #, kde-format
 msgid "&File Renamer..."
 msgstr "&Εργαλείο μετονομασίας αρχείων..."
 
-#: juk.cpp:371
+#: juk.cpp:354
 #, kde-format
 msgid "&Configure scrobbling..."
 msgstr "&Διαμόρφωση χρήσης του μουσικού σας προφίλ από last.fm..."
 
-#: juk.cpp:378
+#: juk.cpp:361
 #, kde-format
 msgid "Track Position"
 msgstr "Θέση κομματιού"
 
-#: juk.cpp:380 slider.cpp:125
+#: juk.cpp:363 slider.cpp:127
 #, kde-format
 msgid "Volume"
 msgstr "Ένταση"
 
-#: juk.cpp:543
+#: juk.cpp:529
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -762,7 +736,7 @@ msgstr ""
 "συστήματος. Χρησιμοποιήστε το Τερματισμός από το μενού Αρχείο για να "
 "τερματίσετε την εφαρμογή.</qt>"
 
-#: juk.cpp:545
+#: juk.cpp:531
 #, kde-format
 msgid "Docking in System Tray"
 msgstr "Προσάρτηση στο πλαίσιο συστήματος"
@@ -798,19 +772,19 @@ msgid "&Tagger"
 msgstr "&Ετικέτες"
 
 #. i18n: ectx: Menu (settings)
-#: jukui-rtl.rc:67 jukui.rc:69
+#: jukui-rtl.rc:66 jukui.rc:68
 #, kde-format
 msgid "&Settings"
 msgstr "Ρ&υθμίσεις"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: jukui-rtl.rc:80 jukui.rc:82
+#: jukui-rtl.rc:79 jukui.rc:81
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Κύρια γραμμή εργαλείων"
 
 #. i18n: ectx: ToolBar (playToolBar)
-#: jukui-rtl.rc:98 jukui.rc:100
+#: jukui-rtl.rc:97 jukui.rc:99
 #, kde-format
 msgid "Play Toolbar"
 msgstr "Γραμμή εργαλείων αναπαραγωγής"
@@ -1161,7 +1135,7 @@ msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
 msgstr "Λίστες αναπαραγωγής (*%1)"
 
-#: nowplaying.cpp:315
+#: nowplaying.cpp:320
 #, kde-format
 msgid "back to playlist"
 msgstr "πίσω στη λίστα αναπαραγωγής"
@@ -1184,7 +1158,7 @@ msgstr ""
 "Το JuK αδυνατεί να αναπαράγει το αρχείο ήχου <nl/><filename>%1</filename><nl/"
 "> για τον παρακάτω λόγο:<nl/><message>%2</message>"
 
-#: playlist.cpp:342
+#: playlist.cpp:338
 #, kde-format
 msgid "Could not save to file %1."
 msgstr "Αδυναμία αποθήκευσης στο αρχείο %1."
@@ -1197,123 +1171,98 @@ msgid_plural ""
 msgstr[0] "Πρόκειται να ανοίξετε κατάλογο. Θέλετε πράγματι να συνεχίσετε;"
 msgstr[1] "Πρόκειται να ανοίξετε %1 καταλόγους. Θέλετε πράγματι να συνεχίσετε;"
 
-#: playlist.cpp:578 playlistcollection.cpp:1002
+#: playlist.cpp:578 playlistcollection.cpp:957
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Άνοιγμα φακέλου"
 
-#: playlist.cpp:645
-#, kde-format
-msgid "Are you sure you want to delete these covers?"
-msgstr "Είστε σίγουροι ότι θέλετε να αφαιρέσετε αυτά τα εξώφυλλα;"
-
-#: playlist.cpp:647
-#, kde-format
-msgid "&Delete Covers"
-msgstr "&Διαγραφή εξωφύλλων"
-
-#: playlist.cpp:676
-#, kde-format
-msgid "Select Cover Image File"
-msgstr "Επιλέξτε αρχείο εξωφύλλου"
-
-#: playlist.cpp:678
-#, kde-format
-msgid "Images (*.png *.jpg)"
-msgstr "Εικόνες (*.png *.jpg)"
-
-#: playlist.cpp:876
+#: playlist.cpp:802
 #, kde-format
 msgid "Could not delete these files"
 msgstr "Δεν ήταν δυνατή η διαγραφή αυτών των αρχείων"
 
-#: playlist.cpp:877
+#: playlist.cpp:803
 #, kde-format
 msgid "Could not move these files to the Trash"
 msgstr "Δεν ήταν δυνατή η μετακίνηση αυτών των αρχείων στο Κάδο"
 
-#: playlist.cpp:1404
+#: playlist.cpp:1280
 #, kde-format
 msgid "Track Name"
 msgstr "Όνομα κομματιού"
 
-#: playlist.cpp:1407
-#, kde-format
-msgid "Cover"
-msgstr "Εξώφυλλο"
-
-#: playlist.cpp:1408 tagrenameroptions.cpp:112
+#: playlist.cpp:1283 tagrenameroptions.cpp:112
 #, kde-format
 msgctxt "cd track number"
 msgid "Track"
 msgstr "Κομμάτι"
 
-#: playlist.cpp:1410 tagrenameroptions.cpp:120
+#: playlist.cpp:1285 tagrenameroptions.cpp:120
 #, kde-format
 msgid "Year"
 msgstr "Έτος"
 
-#: playlist.cpp:1411
+#: playlist.cpp:1286
 #, kde-format
 msgid "Length"
 msgstr "Διάρκεια"
 
-#: playlist.cpp:1412
+#: playlist.cpp:1287
 #, kde-format
 msgid "Bitrate"
 msgstr "Ρυθμός bit"
 
-#: playlist.cpp:1413
+#: playlist.cpp:1288
 #, kde-format
 msgid "Comment"
 msgstr "Σχόλιο"
 
-#: playlist.cpp:1414
+#: playlist.cpp:1289
 #, kde-format
 msgid "File Name"
 msgstr "Όνομα αρχείου"
 
-#: playlist.cpp:1415
+#: playlist.cpp:1290
 #, kde-format
 msgid "File Name (full path)"
 msgstr "Όνομα αρχείου (πλήρης διαδρομή)"
 
-#: playlist.cpp:1606
+#: playlist.cpp:1471
 #, kde-format
 msgid "&Show Columns"
 msgstr "&Εμφάνιση στηλών"
 
-#: playlist.cpp:1714
+#: playlist.cpp:1579
 #, kde-format
 msgid "Add to Play Queue"
 msgstr "Προσθήκη στην αναμονή αναπαραγωγής"
 
-#: playlist.cpp:1728 playlist.cpp:2182
+#: playlist.cpp:1593 playlist.cpp:2049
 #, kde-format
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: playlist.cpp:1744
+#: playlist.cpp:1607
 #, kde-format
 msgid "Create Playlist From Selected Items..."
 msgstr "Δημιουργία λίστας αναπαραγωγής από τα επιλεγμένα αντικείμενα..."
 
-#: playlist.cpp:2096
+#: playlist.cpp:1970
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Επεξεργασία του '%1'"
 
-#: playlist.cpp:2180
+#: playlist.cpp:2047
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Αυτό θα επεξεργαστεί πολλαπλά αρχεία. Είστε σίγουροι;"
 
-#: playlist.cpp:2239 playlistcollection.h:189
+#: playlist.cpp:2106 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Δημιουργία νέας λίστας αναπαραγωγής"
 
-#: playlist.cpp:2248
+#: playlist.cpp:2115
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1322,81 +1271,81 @@ msgstr ""
 "Ενεργοποιήθηκαν τα χειροκίνητα πλάτη των στηλών. Μπορείτε να επαναφέρετε τα "
 "αυτόματα πλάτη στηλών από το μενού προβολής."
 
-#: playlist.cpp:2251
+#: playlist.cpp:2118
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Ενεργοποιήθηκαν τα χειροκίνητα πλάτη των στηλών"
 
-#: playlistbox.cpp:106
+#: playlistbox.cpp:107
 #, kde-format
 msgid "View Modes"
 msgstr "Λειτουργίες προβολής"
 
-#: playlistbox.cpp:164
+#: playlistbox.cpp:165
 #, kde-format
 msgid "Show &History"
 msgstr "Εμφάνιση &ιστορικού"
 
-#: playlistbox.cpp:225 playlistcollection.cpp:437
+#: playlistbox.cpp:226 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Αντίγραφο"
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:418
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Θέλετε να διαγράψετε αυτά τα αρχεία και από το δίσκο;"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:419
 #, kde-format
 msgid "Keep"
 msgstr "Διατήρηση"
 
-#: playlistbox.cpp:430
+#: playlistbox.cpp:431
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Δεν ήταν δυνατή η διαγραφή αυτών των αρχείων."
 
-#: playlistbox.cpp:438
+#: playlistbox.cpp:439
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr ""
 "Είστε σίγουροι ότι θέλετε να αφαιρέσετε αυτές τις λίστες αναπαραγωγής από τη "
 "συλλογή σας;"
 
-#: playlistbox.cpp:441
+#: playlistbox.cpp:442
 #, kde-format
 msgid "Remove Items?"
 msgstr "Αφαίρεση αντικειμένων;"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:442 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "Α&φαίρεση"
 
-#: playlistbox.cpp:631
+#: playlistbox.cpp:632
 #, kde-format
 msgid "Hid&e"
 msgstr "Α&πόκρυψη"
 
-#: playlistbox.cpp:635 playlistcollection.cpp:991
+#: playlistbox.cpp:636 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "&Αφαίρεση"
 
-#: playlistcollection.cpp:205
+#: playlistcollection.cpp:207
 #, kde-format
 msgid "Dynamic List"
 msgstr "Δυναμική λίστα"
 
-#: playlistcollection.cpp:246
+#: playlistcollection.cpp:248
 #, kde-format
 msgid "Now Playing"
 msgstr "Αναπαράγεται τώρα"
 
-#: playlistcollection.cpp:362
+#: playlistcollection.cpp:347
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
@@ -1404,175 +1353,150 @@ msgstr ""
 "Θέλετε να προσθέσετε αυτά τα αντικείμενα στην τρέχουσα λίστα ή στη λίστα "
 "συλλογής;"
 
-#: playlistcollection.cpp:364
+#: playlistcollection.cpp:349
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "Τρέχουσα"
 
-#: playlistcollection.cpp:365
+#: playlistcollection.cpp:350
 #, kde-format
 msgid "Collection"
 msgstr "Συλλογή"
 
-#: playlistcollection.cpp:425
+#: playlistcollection.cpp:412
 #, kde-format
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: playlistcollection.cpp:556
+#: playlistcollection.cpp:515
 #, kde-format
 msgid "Search Playlist"
 msgstr "Αναζήτηση σε λίστα αναπαραγωγής"
 
-#: playlistcollection.cpp:581
+#: playlistcollection.cpp:540
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "Δημιουργία φακέλου λίστας αναπαραγωγής"
 
-#: playlistcollection.cpp:621
+#: playlistcollection.cpp:580
 #, kde-format
 msgid "History"
 msgstr "Ιστορικό"
 
-#: playlistcollection.cpp:787
+#: playlistcollection.cpp:746
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "Παρακαλώ δώστε ένα όνομα γι' αυτή τη λίστα αναπαραγωγής:"
 
-#: playlistcollection.cpp:935
+#: playlistcollection.cpp:890
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&Νέα"
 
-#: playlistcollection.cpp:938
+#: playlistcollection.cpp:893
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "&Κενή λίστα αναπαραγωγής..."
 
-#: playlistcollection.cpp:942
+#: playlistcollection.cpp:897
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "Αναζήτη&ση σε λίστα αναπαραγωγής..."
 
-#: playlistcollection.cpp:946
+#: playlistcollection.cpp:901
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "Λίστα αναπαραγωγής από &φάκελο..."
 
-#: playlistcollection.cpp:954
+#: playlistcollection.cpp:909
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "&Μάντεμα πληροφοριών ετικέτας"
 
-#: playlistcollection.cpp:959
+#: playlistcollection.cpp:914
 #, kde-format
 msgid "From &File Name"
 msgstr "Από το ό&νομα αρχείου"
 
-#: playlistcollection.cpp:963
+#: playlistcollection.cpp:918
 #, kde-format
 msgid "From &Internet"
 msgstr "Από το &διαδίκτυο"
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:923
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "Μάντεψε πληροφορίες ετικέτας από το ό&νομα αρχείου"
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:930
 #, kde-format
 msgid "Play First Track"
 msgstr "Αναπαραγωγή πρώτου κομματιού"
 
-#: playlistcollection.cpp:977
+#: playlistcollection.cpp:932
 #, kde-format
 msgid "Play Next Album"
 msgstr "Αναπαραγωγή επόμενου άλμπουμ"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "Manage &Folders..."
 msgstr "Διαχείριση &φακέλων..."
 
-#: playlistcollection.cpp:986
+#: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
 msgstr "Μ&ετονομασία..."
 
-#: playlistcollection.cpp:988
+#: playlistcollection.cpp:943
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "&Αντίγραφο..."
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:948
 #, kde-format
 msgid "Reload"
 msgstr "Επαναφόρτωση"
 
-#: playlistcollection.cpp:995
+#: playlistcollection.cpp:950
 #, kde-format
 msgid "Edit Search..."
 msgstr "Παραμετροποίηση αναζήτησης..."
 
-#: playlistcollection.cpp:998
+#: playlistcollection.cpp:953
 #, kde-format
 msgid "&Delete"
 msgstr "&Διαγραφή"
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:955
 #, kde-format
 msgid "Refresh"
 msgstr "Ανανέωση"
 
-#: playlistcollection.cpp:1004
+#: playlistcollection.cpp:959
 #, kde-format
 msgid "&Rename File"
 msgstr "&Μετονομασία αρχείου"
 
-#: playlistcollection.cpp:1011
-#, kde-format
-msgid "&View Cover"
-msgstr "&Εμφάνιση εξωφύλλων"
-
-#: playlistcollection.cpp:1013
-#, kde-format
-msgid "Get Cover From &File..."
-msgstr "Ανάκτηση εξωφύλλου από &αρχείο..."
-
-#: playlistcollection.cpp:1016
-#, kde-format
-msgid "Get Cover From &Internet..."
-msgstr "Ανάκτηση εξωφύλλου από το &διαδίκτυο..."
-
-#: playlistcollection.cpp:1020
-#, kde-format
-msgid "&Delete Cover"
-msgstr "&Διαγραφή εξωφύλλου"
-
-#: playlistcollection.cpp:1022
-#, kde-format
-msgid "Show Cover &Manager"
-msgstr "Εμφάνιση του &διαχειριστή Εξωφύλλων"
-
-#: playlistcollection.cpp:1026
+#: playlistcollection.cpp:964
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "Εμφάνιση &αναμονής αναπαραγωγής"
 
-#: playlistcollection.h:192
+#: playlistcollection.h:186
 #, kde-format
 msgid "Playlist"
 msgstr "Λίστα αναπαραγωγής"
 
-#: playlistsplitter.cpp:157
+#: playlistsplitter.cpp:158
 #, kde-format
 msgid "Show &Search Bar"
 msgstr "Εμφάνιση γραμμής &αναζήτησης"
 
-#: playlistsplitter.cpp:160
+#: playlistsplitter.cpp:161
 #, kde-format
 msgid "Edit Track Search"
 msgstr "Επεξεργασία αναζήτησης κομματιού"
@@ -1659,37 +1583,37 @@ msgstr "Όλα ορατά"
 msgid "Search..."
 msgstr "Αναζήτηση..."
 
-#: slider.cpp:126
+#: slider.cpp:128
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: slider.cpp:127
+#: slider.cpp:129
 #, kde-format
 msgid "80%"
 msgstr "80%"
 
-#: slider.cpp:128
+#: slider.cpp:130
 #, kde-format
 msgid "60%"
 msgstr "60%"
 
-#: slider.cpp:129
+#: slider.cpp:131
 #, kde-format
 msgid "40%"
 msgstr "40%"
 
-#: slider.cpp:130
+#: slider.cpp:132
 #, kde-format
 msgid "20%"
 msgstr "20%"
 
-#: slider.cpp:131
+#: slider.cpp:133
 #, kde-format
 msgid "0%"
 msgstr "0%"
 
-#: slideraction.cpp:76
+#: slideraction.cpp:73
 #, kde-format
 msgid "Seeking is not supported in this file with your audio settings."
 msgstr ""
@@ -1713,22 +1637,22 @@ msgstr[1] "%1 αντικείμενα"
 msgid "Redisplay Popup"
 msgstr "Επανεμφάνιση αναδυόμενου"
 
-#: tageditor.cpp:477
+#: tageditor.cpp:468
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "Εμφάνιση επεξεργαστή &Ετικετών"
 
-#: tageditor.cpp:481
+#: tageditor.cpp:472
 #, kde-format
 msgid "&Save"
 msgstr "Απο&θήκευση"
 
-#: tageditor.cpp:624
+#: tageditor.cpp:588
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr "Θέλετε να αποθηκεύσετε τις αλλαγές σας στο:\n"
 
-#: tageditor.cpp:626
+#: tageditor.cpp:590
 #, kde-format
 msgid "Save Changes"
 msgstr "Αποθήκευση αλλαγών"
@@ -2026,34 +1950,34 @@ msgstr "Τροποποίηση ετικετών κομματιού"
 msgid "Play Queue"
 msgstr "Αναμονή αναπαραγωγής"
 
-#: viewmode.cpp:64
+#: viewmode.cpp:66
 #, kde-format
 msgctxt "the normal viewing mode"
 msgid "Default"
 msgstr "Προκαθορισμένο"
 
-#: viewmode.cpp:121
+#: viewmode.cpp:123
 #, kde-format
 msgctxt "compact viewing mode"
 msgid "Compact"
 msgstr "Συμπαγής"
 
-#: viewmode.cpp:150
+#: viewmode.cpp:152
 #, kde-format
 msgid "Tree"
 msgstr "Δέντρο"
 
-#: viewmode.cpp:280
+#: viewmode.cpp:282
 #, kde-format
 msgid "Artists"
 msgstr "Καλλιτέχνες"
 
-#: viewmode.cpp:283
+#: viewmode.cpp:285
 #, kde-format
 msgid "Albums"
 msgstr "Άλμπουμ"
 
-#: viewmode.cpp:286
+#: viewmode.cpp:288
 #, kde-format
 msgid "Genres"
 msgstr "Είδη"
@@ -2078,68 +2002,91 @@ msgstr "Ένταση: %1% (χωρίς ήχο)"
 msgid "Volume: %1%"
 msgstr "Ένταση: %1%"
 
-#: webimagefetcher.cpp:82
-#, kde-format
-msgid "Searching for cover. Please Wait..."
-msgstr "Αναζήτηση για εξώφυλλο. Παρακαλώ περιμένετε..."
+#~ msgid "<All Artists>"
+#~ msgstr "<Όλοι οι καλλιτέχνες>"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgid "Album '%1' not found."
-msgstr "Το άλμπουμ '%1' δε βρέθηκε."
+#~ msgid "Remove Cover"
+#~ msgstr "Αφαίρεση εξώφυλλου"
 
-#: webimagefetcher.cpp:144
-#, kde-format
-msgctxt "@title:window"
-msgid "Album not Found"
-msgstr "Το άλμπουμ δε βρέθηκε"
+#~ msgid "Cover Manager"
+#~ msgstr "Διαχειριστής εξωφύλλων"
 
-#: webimagefetcher.cpp:146
-#, kde-format
-msgid ""
-"Error %1 when searching for cover:\n"
-"%2"
-msgstr ""
-"Σφάλμα %1 κατά την αναζήτηση εξώφυλλου:\n"
-"%2"
+#~ msgid "Your album art failed to download."
+#~ msgstr "Αποτυχία λήψης εικόνων του άλμπουμ."
 
-#: webimagefetcher.cpp:156
-#, kde-format
-msgid "No available cover for the album '%1'."
-msgstr "Δεν υπάρχει διαθέσιμο εξώφυλλο για το άλμπουμ '%1'."
+#~ msgid "Your album art has finished downloading."
+#~ msgstr "Ολοκλήρωση λήψης εικόνων του άλμπουμ."
 
-#: webimagefetcher.cpp:157
-#, kde-format
-msgctxt "@title:window"
-msgid "Cover not Available"
-msgstr "Εξώφυλλο μη διαθέσιμο"
+#~ msgid "Are you sure you want to delete these covers?"
+#~ msgstr "Είστε σίγουροι ότι θέλετε να αφαιρέσετε αυτά τα εξώφυλλα;"
 
-#: webimagefetcher.cpp:166
-#, kde-format
-msgid "Downloading cover. Please Wait..."
-msgstr "Λήψη εξωφύλλου. Παρακαλώ περιμένετε..."
+#~ msgid "&Delete Covers"
+#~ msgstr "&Διαγραφή εξωφύλλων"
 
-#: webimagefetcher.cpp:183
-#, kde-format
-msgid "Cover found"
-msgstr "Βρέθηκε εξώφυλλο"
+#~ msgid "Select Cover Image File"
+#~ msgstr "Επιλέξτε αρχείο εξωφύλλου"
 
-#: webimagefetcher.cpp:190
-#, kde-format
-msgid "Failed to download requested cover art: %1"
-msgstr "Αποτυχία λήψης της αιτηθήσας καλλιτεχνικής κάλυψης εξωφύλλου: %1"
+#~ msgid "Images (*.png *.jpg)"
+#~ msgstr "Εικόνες (*.png *.jpg)"
 
-#: webimagefetcher.cpp:191
-#, kde-format
-msgctxt "@title:window"
-msgid "Could not download cover art"
-msgstr "Αποτυχία λήψης της καλλιτεχνικής κάλυψης εξωφύλλου"
+#~ msgid "Cover"
+#~ msgstr "Εξώφυλλο"
 
-#: webimagefetcher.cpp:213
-#, kde-format
-msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-msgstr ""
-"Το εξώφυλλο προσκομίστηκε από το <a href='https://last.fm/'>last.fm</a>."
+#~ msgid "&View Cover"
+#~ msgstr "&Εμφάνιση εξωφύλλων"
+
+#~ msgid "Get Cover From &File..."
+#~ msgstr "Ανάκτηση εξωφύλλου από &αρχείο..."
+
+#~ msgid "Get Cover From &Internet..."
+#~ msgstr "Ανάκτηση εξωφύλλου από το &διαδίκτυο..."
+
+#~ msgid "&Delete Cover"
+#~ msgstr "&Διαγραφή εξωφύλλου"
+
+#~ msgid "Show Cover &Manager"
+#~ msgstr "Εμφάνιση του &διαχειριστή Εξωφύλλων"
+
+#~ msgid "Searching for cover. Please Wait..."
+#~ msgstr "Αναζήτηση για εξώφυλλο. Παρακαλώ περιμένετε..."
+
+#~ msgid "Album '%1' not found."
+#~ msgstr "Το άλμπουμ '%1' δε βρέθηκε."
+
+#~ msgctxt "@title:window"
+#~ msgid "Album not Found"
+#~ msgstr "Το άλμπουμ δε βρέθηκε"
+
+#~ msgid ""
+#~ "Error %1 when searching for cover:\n"
+#~ "%2"
+#~ msgstr ""
+#~ "Σφάλμα %1 κατά την αναζήτηση εξώφυλλου:\n"
+#~ "%2"
+
+#~ msgid "No available cover for the album '%1'."
+#~ msgstr "Δεν υπάρχει διαθέσιμο εξώφυλλο για το άλμπουμ '%1'."
+
+#~ msgctxt "@title:window"
+#~ msgid "Cover not Available"
+#~ msgstr "Εξώφυλλο μη διαθέσιμο"
+
+#~ msgid "Downloading cover. Please Wait..."
+#~ msgstr "Λήψη εξωφύλλου. Παρακαλώ περιμένετε..."
+
+#~ msgid "Cover found"
+#~ msgstr "Βρέθηκε εξώφυλλο"
+
+#~ msgid "Failed to download requested cover art: %1"
+#~ msgstr "Αποτυχία λήψης της αιτηθήσας καλλιτεχνικής κάλυψης εξωφύλλου: %1"
+
+#~ msgctxt "@title:window"
+#~ msgid "Could not download cover art"
+#~ msgstr "Αποτυχία λήψης της καλλιτεχνικής κάλυψης εξωφύλλου"
+
+#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
+#~ msgstr ""
+#~ "Το εξώφυλλο προσκομίστηκε από το <a href='https://last.fm/'>last.fm</a>."
 
 #~ msgid "&lt;All Artists&gt;"
 #~ msgstr "&lt;Όλοι οι Καλλιτέχνες&gt;"
