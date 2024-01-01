@@ -17,13 +17,13 @@
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
 # Yıldız KARDESLER <turkishprogram@xposta.com>, 2004.
 # Zerrin Cakmakkaya <zerrin@uludag.org.tr>, 2004.
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-24 00:56+0000\n"
-"PO-Revision-Date: 2023-08-02 00:36+0300\n"
+"PO-Revision-Date: 2023-12-31 11:26+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 24.01.85\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -730,7 +730,7 @@ msgstr "&Etiket Tahmincisi..."
 #: juk.cpp:366
 #, kde-format
 msgid "&File Renamer..."
-msgstr "&Dosya Adı Değiştirici..."
+msgstr "&Dosya Adı Değiştiricisi..."
 
 #: juk.cpp:369
 #, kde-format
@@ -885,7 +885,7 @@ msgstr ""
 #: main.cpp:39
 #, kde-format
 msgid "Jukebox and music manager by the KDE community"
-msgstr "KDE topluluğu tarafından geliştirilmiş Jukebox ve müzik yöneticisi"
+msgstr "KDE topluluğu tarafından geliştirilen müzik kutusu ve yöneticisi"
 
 #: main.cpp:40
 #, kde-format
@@ -1558,7 +1558,7 @@ msgstr "Parça Aramasını Düzenle"
 #: scrobbleconfigdlg.cpp:38
 #, kde-format
 msgid "Configure scrobbling..."
-msgstr "Yayınlamayı yapılandır..."
+msgstr "Yayınlamayı Yapılandır"
 
 #: scrobbleconfigdlg.cpp:42
 #, kde-format

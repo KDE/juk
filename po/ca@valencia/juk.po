@@ -140,7 +140,7 @@ msgstr "<qt>Estos elements es mouran cap a dins de la paperera.</qt>"
 #: deletedialog.cpp:93
 #, kde-format
 msgid "&Send to Trash"
-msgstr "&Envia a la paperera"
+msgstr "&Envia cap a dins de la paperera"
 
 #: deletedialog.cpp:97
 #, kde-format
@@ -184,7 +184,7 @@ msgstr ""
 #: deletedialogbase.ui:146
 #, kde-format
 msgid "&Delete files instead of moving them to the trash"
-msgstr "Sup&rimix els fitxers en lloc de llençar-los a la paperera"
+msgstr "Sup&rimix els fitxers en lloc de llençar-los a dins de la paperera"
 
 #: directorylist.cpp:55
 #, kde-format
