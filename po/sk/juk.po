@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 01:35+0000\n"
+"POT-Creation-Date: 2024-01-02 01:31+0000\n"
 "PO-Revision-Date: 2022-04-09 20:15+0200\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -1258,59 +1258,59 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "Povolené ručné šírky stĺpcov"
 
-#: playlistbox.cpp:107
+#: playlistbox.cpp:108
 #, kde-format
 msgid "View Modes"
 msgstr "Režimy zobrazenia"
 
-#: playlistbox.cpp:165
+#: playlistbox.cpp:168
 #, kde-format
 msgid "Show &History"
 msgstr "Zobraziť &históriu"
 
-#: playlistbox.cpp:226 playlistcollection.cpp:424
+#: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Duplikovať"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:424
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Naozaj chcete odstrániť tieto súbory aj z disku?"
 
-#: playlistbox.cpp:419
+#: playlistbox.cpp:425
 #, kde-format
 msgid "Keep"
 msgstr "Ponechať"
 
-#: playlistbox.cpp:431
+#: playlistbox.cpp:437
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Nie je možné odstrániť tieto súbory."
 
-#: playlistbox.cpp:439
+#: playlistbox.cpp:445
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Naozaj chcete odstrániť tieto zoznamy skladieb z vašej zbierky?"
 
-#: playlistbox.cpp:442
+#: playlistbox.cpp:448
 #, kde-format
 msgid "Remove Items?"
 msgstr "Odstrániť položky?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "&Odstrániť"
 
-#: playlistbox.cpp:632
+#: playlistbox.cpp:653
 #, kde-format
 msgid "Hid&e"
 msgstr "&Skryť"
 
-#: playlistbox.cpp:636 playlistcollection.cpp:946
+#: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "&Odstrániť"

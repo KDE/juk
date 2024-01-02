@@ -1,8 +1,7 @@
 # Translation for juk.po to Euskara/Basque (eu).
-# Copyright (C) 2003-2018, Free Software Foundation.
-# Copyright (C) 2019-2021, This is copyright:
+# Copyright (C) 2003-2024 This is copyright:
 # This file is distributed under the same license as the juk package.
-# KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
+# SPDX-FileCopyrightText: 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Marcos  <marcos@euskalgnu.org>, 2003, 2004, 2005.
@@ -10,20 +9,20 @@
 # Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
 # Julen Landa Alustiza <julen@mundurat.net>, 2009.
 # Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2009.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2018, 2019, 2020, 2021, 2023.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2018, 2019, 2020, 2021, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 01:35+0000\n"
-"PO-Revision-Date: 2023-04-22 19:11+0200\n"
+"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"PO-Revision-Date: 2024-01-01 09:53+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -858,10 +857,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "KDE komunitateak egindako «jukebox» eta musika kudeatzailea"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, eta beste batzuk"
+msgstr "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, eta beste batzuk"
 
 #: main.cpp:44
 #, kde-format
@@ -886,13 +884,12 @@ msgstr "Laguntzaile superheroia, gauza askoren konpontzailea"
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE Frameworks 5 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "KDE Frameworks 5era eratortzea inguruan beste inor ez zegoenean"
+msgstr "KDE «Frameworks» 6ra eratortzea, inguruan beste inor ez zegoenean"
 
 #: main.cpp:47
 #, kde-format
@@ -1266,59 +1263,59 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "\"Zutabe zabalerak eskuz\" gaitu da"
 
-#: playlistbox.cpp:107
+#: playlistbox.cpp:108
 #, kde-format
 msgid "View Modes"
 msgstr "Ikuspegi moduak"
 
-#: playlistbox.cpp:165
+#: playlistbox.cpp:168
 #, kde-format
 msgid "Show &History"
 msgstr "Erakutsi &historia"
 
-#: playlistbox.cpp:226 playlistcollection.cpp:424
+#: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Bikoiztu"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:424
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Fitxategi hauek ere diskotik ezabatu nahi dituzu?"
 
-#: playlistbox.cpp:419
+#: playlistbox.cpp:425
 #, kde-format
 msgid "Keep"
 msgstr "Mantendu"
 
-#: playlistbox.cpp:431
+#: playlistbox.cpp:437
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Ezin izan da fitxategi hauek ezabatu."
 
-#: playlistbox.cpp:439
+#: playlistbox.cpp:445
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Ziur zaude jotze-zerrenda hauek zure bildumatik kendu nahi dituzula?"
 
-#: playlistbox.cpp:442
+#: playlistbox.cpp:448
 #, kde-format
 msgid "Remove Items?"
 msgstr "Kendu elementuak?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "&Kendu"
 
-#: playlistbox.cpp:632
+#: playlistbox.cpp:653
 #, kde-format
 msgid "Hid&e"
 msgstr "&Ezkutatu"
 
-#: playlistbox.cpp:636 playlistcollection.cpp:946
+#: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "K&endu"

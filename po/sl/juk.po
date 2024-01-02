@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 01:35+0000\n"
+"POT-Creation-Date: 2024-01-02 01:31+0000\n"
 "PO-Revision-Date: 2023-12-31 11:09+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
-"%100<=4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "X-Generator: Poedit 3.4.1\n"
 
@@ -1259,59 +1259,59 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "Ročne širine stolpcev omogočene"
 
-#: playlistbox.cpp:107
+#: playlistbox.cpp:108
 #, kde-format
 msgid "View Modes"
 msgstr "Načini prikaza"
 
-#: playlistbox.cpp:165
+#: playlistbox.cpp:168
 #, kde-format
 msgid "Show &History"
 msgstr "Pokaži zgodovino"
 
-#: playlistbox.cpp:226 playlistcollection.cpp:424
+#: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Podvoji"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:424
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Ali želite izbrisati te datoteke tudi z diska?"
 
-#: playlistbox.cpp:419
+#: playlistbox.cpp:425
 #, kde-format
 msgid "Keep"
 msgstr "Ohrani"
 
-#: playlistbox.cpp:431
+#: playlistbox.cpp:437
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Ni bilo mogoče izbrisati teh datotek."
 
-#: playlistbox.cpp:439
+#: playlistbox.cpp:445
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Ali zares želite odstraniti te sezname predvajanja iz vaše zbirke?"
 
-#: playlistbox.cpp:442
+#: playlistbox.cpp:448
 #, kde-format
 msgid "Remove Items?"
 msgstr "Odstranim predmete?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "Odstrani"
 
-#: playlistbox.cpp:632
+#: playlistbox.cpp:653
 #, kde-format
 msgid "Hid&e"
 msgstr "Skrij"
 
-#: playlistbox.cpp:636 playlistcollection.cpp:946
+#: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "Odstrani"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 01:35+0000\n"
+"POT-Creation-Date: 2024-01-02 01:31+0000\n"
 "PO-Revision-Date: 2023-12-31 09:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -1269,59 +1269,59 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "Увімкнено можливість ручної зміни ширини стовпчиків"
 
-#: playlistbox.cpp:107
+#: playlistbox.cpp:108
 #, kde-format
 msgid "View Modes"
 msgstr "Режими перегляду"
 
-#: playlistbox.cpp:165
+#: playlistbox.cpp:168
 #, kde-format
 msgid "Show &History"
 msgstr "Показувати &журнал"
 
-#: playlistbox.cpp:226 playlistcollection.cpp:424
+#: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Здублювати"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:424
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Хочете вилучити ці файли також і з диску?"
 
-#: playlistbox.cpp:419
+#: playlistbox.cpp:425
 #, kde-format
 msgid "Keep"
 msgstr "Залишити"
 
-#: playlistbox.cpp:431
+#: playlistbox.cpp:437
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Не вдалось вилучити ці файли."
 
-#: playlistbox.cpp:439
+#: playlistbox.cpp:445
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Ви впевнені, що хочете вилучити ці списки композицій з вашої збірки?"
 
-#: playlistbox.cpp:442
+#: playlistbox.cpp:448
 #, kde-format
 msgid "Remove Items?"
 msgstr "Вилучити елементи?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "Ви&лучити"
 
-#: playlistbox.cpp:632
+#: playlistbox.cpp:653
 #, kde-format
 msgid "Hid&e"
 msgstr "Хова&ти"
 
-#: playlistbox.cpp:636 playlistcollection.cpp:946
+#: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "Вит&ерти"

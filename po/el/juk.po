@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 01:35+0000\n"
+"POT-Creation-Date: 2024-01-02 01:31+0000\n"
 "PO-Revision-Date: 2021-06-04 21:45+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -1276,61 +1276,61 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "Ενεργοποιήθηκαν τα χειροκίνητα πλάτη των στηλών"
 
-#: playlistbox.cpp:107
+#: playlistbox.cpp:108
 #, kde-format
 msgid "View Modes"
 msgstr "Λειτουργίες προβολής"
 
-#: playlistbox.cpp:165
+#: playlistbox.cpp:168
 #, kde-format
 msgid "Show &History"
 msgstr "Εμφάνιση &ιστορικού"
 
-#: playlistbox.cpp:226 playlistcollection.cpp:424
+#: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Αντίγραφο"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:424
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Θέλετε να διαγράψετε αυτά τα αρχεία και από το δίσκο;"
 
-#: playlistbox.cpp:419
+#: playlistbox.cpp:425
 #, kde-format
 msgid "Keep"
 msgstr "Διατήρηση"
 
-#: playlistbox.cpp:431
+#: playlistbox.cpp:437
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Δεν ήταν δυνατή η διαγραφή αυτών των αρχείων."
 
-#: playlistbox.cpp:439
+#: playlistbox.cpp:445
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr ""
 "Είστε σίγουροι ότι θέλετε να αφαιρέσετε αυτές τις λίστες αναπαραγωγής από τη "
 "συλλογή σας;"
 
-#: playlistbox.cpp:442
+#: playlistbox.cpp:448
 #, kde-format
 msgid "Remove Items?"
 msgstr "Αφαίρεση αντικειμένων;"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "Α&φαίρεση"
 
-#: playlistbox.cpp:632
+#: playlistbox.cpp:653
 #, kde-format
 msgid "Hid&e"
 msgstr "Α&πόκρυψη"
 
-#: playlistbox.cpp:636 playlistcollection.cpp:946
+#: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "&Αφαίρεση"

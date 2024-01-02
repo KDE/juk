@@ -5,27 +5,27 @@
 # R.F. Pels <ruurd@tiscali.nl>, 2004.
 # Rinse de Vries <rinsedevries@kde.nl>, 2004, 2005, 2007, 2008, 2010.
 # Bram Schoenmakers <bramschoenmakers@kde.nl>, 2004, 2006.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2009.
+# SPDX-FileCopyrightText: 2009, 2023 Freek de Kruijf <freekdekruijf@kde.nl>
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 01:35+0000\n"
-"PO-Revision-Date: 2021-07-12 12:33+0200\n"
+"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"PO-Revision-Date: 2023-12-31 12:49+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.04.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Rinse de Vries,Ruurd Pels,Freek de Kruijf - t/m 2019;2021"
+msgstr "Rinse de Vries,Ruurd Pels,Freek de Kruijf - t/m 2019;2021;2024"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -860,10 +860,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Jukebox en muziekbeheerder door de KDE-gemeenschap"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Copyright © 2002–2021, Scott Wheeler, Michael Pyne en anderen"
+msgstr "Copyright © 2002–2023, Scott Wheeler, Michael Pyne en anderen"
 
 #: main.cpp:44
 #, kde-format
@@ -888,13 +887,12 @@ msgstr "Assistent superheld, reparatie van meerdere dingen"
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE Frameworks 5 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Overbrenegn naar KDE Frameworks 5 toen niemand anders in de buurt was"
+msgstr "Overbrengen naar KDE Frameworks 6 toen niemand anders in de buurt was"
 
 #: main.cpp:47
 #, kde-format
@@ -1271,59 +1269,59 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "Handmatige kolombreedtes geactiveerd"
 
-#: playlistbox.cpp:107
+#: playlistbox.cpp:108
 #, kde-format
 msgid "View Modes"
 msgstr "Weergavemodi"
 
-#: playlistbox.cpp:165
+#: playlistbox.cpp:168
 #, kde-format
 msgid "Show &History"
 msgstr "Gesc&hiedenis tonen"
 
-#: playlistbox.cpp:226 playlistcollection.cpp:424
+#: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Dupliceren"
 
-#: playlistbox.cpp:418
+#: playlistbox.cpp:424
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Wilt u deze bestanden ook van de schijf verwijderen?"
 
-#: playlistbox.cpp:419
+#: playlistbox.cpp:425
 #, kde-format
 msgid "Keep"
 msgstr "Behouden"
 
-#: playlistbox.cpp:431
+#: playlistbox.cpp:437
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Deze bestanden konden niet worden verwijderd"
 
-#: playlistbox.cpp:439
+#: playlistbox.cpp:445
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Wilt u deze afspeellijsten uit uw collectie verwijderen?"
 
-#: playlistbox.cpp:442
+#: playlistbox.cpp:448
 #, kde-format
 msgid "Remove Items?"
 msgstr "Items verwijderen?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:443 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "&Verwijderen"
 
-#: playlistbox.cpp:632
+#: playlistbox.cpp:653
 #, kde-format
 msgid "Hid&e"
 msgstr "V&erbergen"
 
-#: playlistbox.cpp:636 playlistcollection.cpp:946
+#: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
 msgstr "V&erwijderen"
