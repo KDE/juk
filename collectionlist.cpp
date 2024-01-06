@@ -319,6 +319,7 @@ void CollectionList::slotRemoveItem(const QString &file)
 {
     QWriteLocker lock(&m_itemsDictLock);
     delete m_itemsDict[file];
+    m_itemsDict.remove(file);
 }
 
 void CollectionList::slotRefreshItem(const QString &file)
