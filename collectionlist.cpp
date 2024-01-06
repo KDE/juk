@@ -106,11 +106,13 @@ void CollectionList::loadNextBatchCachedItems()
         }
     }
 
+    // Whatever gets done here cannot be done as a direct call since we have
+    // the items dict locked
     if(!done) {
         QTimer::singleShot(0, this, &CollectionList::loadNextBatchCachedItems);
     }
     else {
-        completedLoadingCachedItems();
+        QTimer::singleShot(0, this, &CollectionList::completedLoadingCachedItems);
     }
 }
 
