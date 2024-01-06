@@ -23,7 +23,7 @@
 
 #include <kiconloader.h>
 #include <KLocalizedString>
-#include <kio/job.h>
+#include <KIO/FileCopyJob>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
 #include <KSharedConfig>
