@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2019-12-27 16:18+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -75,12 +75,12 @@ msgstr ""
 "Muusikaandmete puhver on vigane. JuK peab nüüd selle uuesti sisse lugema. "
 "See võtab veidi aega."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Muusikakogu nimekiri"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -96,7 +96,7 @@ msgstr ""
 "skaneeritavate kataloogide hulka, lisatakse need elemendid käivitamisel "
 "uuesti."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Näita esitamist"

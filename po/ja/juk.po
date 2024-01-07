@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2011-06-11 23:54-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -78,12 +78,12 @@ msgstr ""
 "音楽データのキャッシュが壊れているため、データを再スキャンする必要がありま"
 "す。これにはしばらく時間がかかる場合があります。"
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "コレクションリスト"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -98,7 +98,7 @@ msgstr ""
 "しかし、これらのファイルを含むフォルダが「起動時にスキャンするフォルダ」のリ"
 "ストにある場合は、次回起動時に再び追加されます。"
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "再生を表示"

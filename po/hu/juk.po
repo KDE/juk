@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2014-11-05 22:51+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -72,12 +72,12 @@ msgstr ""
 "A hanganyagok gyorstárában hiba történt. A programnak újra kell a gyorstárat "
 "építenie, ami egy kis időbe telik."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Gyűjtemények"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -92,7 +92,7 @@ msgstr ""
 "Ha ezeknek a fájloknak a mappája szerepel az inicializálási mappák "
 "listájában, akkor a program indulásakor újból fel lesznek véve."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "A lejátszás megjelenítése"

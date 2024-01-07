@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdemultimedia/juk.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -73,12 +73,12 @@ msgstr ""
 "nglacfaidh sé seo roinnt ama."
 
 # list making up the collection or a list of collections?
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Liosta Bailiúchán"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -93,7 +93,7 @@ msgstr ""
 "Tabhair faoi deara, áfach, má tá an chomhadlann ina bhfuil na comhaid seo i "
 "do liosta \"scan ag am tosaithe\", cuirfear iad ar ais ag am tosaithe."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Taispeáin Amhrán Reatha"

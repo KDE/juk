@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2007-11-30 17:47+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -76,12 +76,12 @@ msgstr ""
 "Музичкиот податочен кеш е расипан. JuK треба повторно да го скенира. Ова ќе "
 "трае одредено време."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Листа на колекции"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -96,7 +96,7 @@ msgstr ""
 "Забележете дека, ако именикот во кој се наоѓаат овие датотеки е во вашата "
 "листа „скенирај при стартување“, тие повторно ќе се додадат при стартување."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Прикажи изведување"

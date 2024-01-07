@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2023-03-22 00:10+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -73,12 +73,12 @@ msgstr ""
 "Cache data musik sudah terkorupsi. JuK butuh memindai-ulangnya sekarang. Ini "
 "mungkin memakan beberapa waktu."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Daftar Koleksi"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -93,7 +93,7 @@ msgstr ""
 "Ingat, perhatikan bahwa jika direktori tempat file ini berada di dalam "
 "daftar \"pindai saat pemulaian\", mereka akan dibaca ulang saat pemulaian."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Tampilkan Pemutaran"

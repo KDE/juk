@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2019-09-29 12:26+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -78,12 +78,12 @@ msgstr ""
 "Ҳофизаи ниҳонии додаҳои мусиқавӣ шикастааст. JuK ба боз сканеркунӣ эҳтиёҷ "
 "дорад. Ин кам вақтро мегирад."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Рӯйхати Маҷмӯа"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -99,7 +99,7 @@ msgstr ""
 "\"дар оғозёбӣ\" ҷойгир шуда бошад, он ба таври худкор аз нав ҳангоми оғозёбӣ "
 "илова карда мешавад."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Намоиши Рӯйхати бозикуниҳо"

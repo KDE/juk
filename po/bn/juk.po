@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2006-04-24 02:01-0500\n"
 "Last-Translator: Deepayan Sarkar <deepayan@bengalinux.org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -72,12 +72,12 @@ msgstr ""
 "সঞ্চিত সঙ্গীত তথ্যের ক্যাশ কোন কারনে নষ্ট হয়ে গেছে, তাই জুক এখন সেটি নতুন করে তৈরি "
 "করবে। এতে কিছুটা সময় নিতে পারে। "
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "সংকলন তালিকা"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -92,7 +92,7 @@ msgstr ""
 "মনে রাখবেন, যে ফোল্ডারে এই ফাইলগুলি আছে সেগুলি যদি পরের বার শুরু করার সময় স্ক্যান "
 "করা হয়, তাহলে এই ফাইলগুলি তখন আবার আপনার সংকলনে যোগ করা হবে। "
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "চলন্ত বস্তু দেখাও"

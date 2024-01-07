@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2021-05-20 22:31+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -85,12 +85,12 @@ msgstr ""
 "Musiikkivälimuisti on korruptoitunut. JuKin täytyy luoda se uudestaan. Tässä "
 "voi kestää jonkun aikaa."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Kokoelmalista"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -105,7 +105,7 @@ msgstr ""
 "Huomioi, että nämä tiedostot lisätään joka tapauksessa kokoelmaasi seuraavan "
 "käynnistyksen yhteydessä, jos ne ovat skannattavissa hakemistoissa."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Näytä soiva kappale"

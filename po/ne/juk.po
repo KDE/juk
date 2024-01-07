@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2007-08-20 12:38+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -74,12 +74,12 @@ msgstr ""
 "सङ्गीत डेटा क्यास दूषित भयो । जुकले यसलाई फेरि पुन: स्क्यान गर्न चाहन्छ । यसले केही समय "
 "लिन सक्छ ।"
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "सङ्कलन सूची"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -94,7 +94,7 @@ msgstr ""
 "द्रष्टब्य, जे भएता पनि, यदि डाइरेक्टरी जसमा यी फाइलहरू \"सुरुआतमा स्क्यान गर्नुहोस्\" "
 "सूचीमा छन् भने, तिनीहरू सुरुआतमा पुन: थपिने छन् ।"
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "बजिरहेको देखाउनुहोस्"

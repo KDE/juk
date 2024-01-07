@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2022-11-10 01:32+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -71,12 +71,12 @@ msgid ""
 "may take some time."
 msgstr ""
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Liste de collectiones"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -86,7 +86,7 @@ msgid ""
 "\"scan on startup\" list, they will be readded on startup."
 msgstr ""
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, fuzzy, kde-format
 msgid "Show Playing"
 msgstr "_Monstrar li actual track"

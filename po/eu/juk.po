@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2024-01-01 09:53+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -80,12 +80,12 @@ msgstr ""
 "Musika datuen cachea hondatu da. JuKek berriro aztertu behar du. Prozesu hau "
 "luzea izan daiteke."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Bilduma zerrenda"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -100,7 +100,7 @@ msgstr ""
 "Kontuan izan, fitxategi hauek dauden direktorioa zure \"aztertu abiatzean\" "
 "zerrendan badago, abiatzean berriz irakurriko direla."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Erakutsi zer ari den jotzen"

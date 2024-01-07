@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2023-12-31 11:09+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -80,12 +80,12 @@ msgstr ""
 "Predpomnilnik glasbenih podatkov je poškodovan. JuK ga mora znova preiskati. "
 "To lahko traja nekaj časa."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Seznam zbirk"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -100,7 +100,7 @@ msgstr ""
 "Zapomnite si, da če je mapa, v kateri je ta datoteka, navedena v seznamu "
 "preišči ob zagonu«, se bo znova dodala ob zagonu."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Prikaži predvajanje"

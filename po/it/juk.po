@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2023-12-31 19:03+0100\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -77,12 +77,12 @@ msgstr ""
 "La cache dei dati musicali risulta danneggiata. È necessario che JuK la "
 "controlli ora. Ciò potrebbe richiedere un po' di tempo."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Raccolta"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -97,7 +97,7 @@ msgstr ""
 "Ricorda che, comunque, se la cartella che contiene questi file è nell'elenco "
 "«controlla all'avvio», i file verranno reinseriti all'avvio."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Mostra la riproduzione"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -73,12 +73,12 @@ msgstr ""
 "غەملەنگەن نەغمە سانلىق-مەلۇماتلىرى بۇزۇلغان. JuK ھازىر قايتىدىن تەكشۈرىدۇ. "
 "بۇنىڭغا ئازراق ۋاقىت كېتىشى مۇمكىن."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "تىزىملىك توپلىمى"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -93,7 +93,7 @@ msgstr ""
 "دىققەت، شۇنداقتىمۇ، ئەگەر بۇ ھۆججەتلەر سىز تەڭشىگەن «قوزغالغاندا تەكشۈر» "
 "تىزىمىدىكى ھۆججەت بولسا، قوزغالغاندا ئۇلار ئۆزلۈكىدىن توپلامغا قوشۇلىدۇ."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "چېلىۋاتقاننى كۆرسەت"

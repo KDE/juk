@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2010-03-14 19:08+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -73,12 +73,12 @@ msgstr ""
 "แคชของข้อมูลแทร็กเกิดความเสียหาย JuK จำเป็นที่จะต้องทำการตรวจหาข้อมูลซ้ำอีกครั้งในตอนนี้ "
 "ซึ่งอาจใช้เวลาสักครู่"
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "รายการชุดสะสม"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -93,7 +93,7 @@ msgstr ""
 "อย่างไรก็ตาม โปรดสังเกตว่า หากไดเรกทอรีที่แฟ้มเหล่านี้อยู่นั้น อยู่ในรายการ \"ค้นหา เมื่อเริ่มงาน"
 "\" แล้ว แฟ้มเหล่านี้จะถูกอ่านเข้ามาอีกครั้งเมื่อเริ่มโปรแกรม"
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "แสดงรายการเล่น"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2013-05-14 21:04+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -79,12 +79,12 @@ msgstr ""
 "Tónlistargagnagrunnurinn hefur skemmst. Juk þarf að skanna aftur. Þetta gæti "
 "tekið einhven tíma."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Safnlisti"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -99,7 +99,7 @@ msgstr ""
 "Athugaðu að séu þessar skrár eru í \"leit við ræsingu\" listanum þínum "
 "verður þeim aftur bætt í safnið þegar forritið er endurræst."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Sýna spilun"

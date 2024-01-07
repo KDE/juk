@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2023-12-31 06:07+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -73,12 +73,12 @@ msgstr ""
 "მუსიკის მონაცემების კეში დაზიანებულია. JuK ახლა სკანირებას თავიდან დაიწყებს. "
 "ამას საკმაო დრო შეიძლება დასჭირდეს."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "კოლექციების სია"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -93,7 +93,7 @@ msgstr ""
 "შენიშვნა: თუ საქაღალდე, სადაც ეს ფაილებია, თქვენს \"სკანირება გაშვებიდან\" "
 "სიაშია, გაშვებისას ისინი თავიდან ჩაემატება."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "ამჟამად დაკრულის ჩვენება"

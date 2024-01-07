@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2023-12-31 09:27+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -72,12 +72,12 @@ msgstr ""
 "La kaŝmemoro pri muzikdatumoj estis koruptita. JuK devas reskani ĝin nun. Ĉi "
 "tio povas preni iom da tempo."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Kolekta Listo"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -92,7 +92,7 @@ msgstr ""
 "Rimarku, tamen, ke se la dosierujo en kiu troviĝas ĉi tiuj dosieroj estas en "
 "via listo \"skanado ĉe ekfunkciigo\", ili estos legitaj dum ekfunkciigo."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Montri Ludantan"

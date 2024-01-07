@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2013-06-23 12:48-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -72,12 +72,12 @@ msgid ""
 msgstr ""
 "ਸੰਗੀਤ ਡਾਟਾ ਕੈਂਚੇ ਨਿਕਾਰਾ ਹੋ ਗਈ ਹੈ। ਜੂਕ(JuK) ਇਸ ਦੀ ਮੁੜ ਜਾਂਚ ਕਰੇਗਾ। ਇਸ ਨੂੰ ਕੁਝ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ।"
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "ਭੰਡਾਰ ਲਿਸਟ"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -87,7 +87,7 @@ msgid ""
 "\"scan on startup\" list, they will be readded on startup."
 msgstr ""
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "ਚੱਲ ਰਿਹਾ ਵੇਖੋ"

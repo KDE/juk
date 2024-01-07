@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2012-06-20 15:05+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -70,12 +70,12 @@ msgid ""
 msgstr ""
 "ទិន្នន័យ​តន្ត្រី​បាន​ត្រូវ​ធ្វើ​ឲ្យ​ខូច ។ Juk ត្រូវការ​វិភាគ​វា​ឡើង​វិញ​ឥឡូវ​នេះ ។ វា​ត្រូវ​ចំណាយ​ពេល​បន្តិច ។"
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "បញ្ជី​សម្រាំង"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -89,7 +89,7 @@ msgstr ""
 "ចំណាំ​ថា បើ​ថត​ដែល​ឯកសារ​ទាំងនេះ​នៅ​ក្នុង គឺ​នៅ​ក្នុង​បញ្ជី \"វិភាគ​ពេល​ចាប់ផ្ដើម\" ពួក​វា​នឹង​ត្រូវ​បាន​បន្ថែម​"
 "ឡើង​វិញ​ពេល​ចាប់ផ្ដើម ។"
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "បង្ហាញ​នៅពេល​ចាក់"

@@ -120,7 +120,7 @@
 >. La llista de col·leccions és específica de &juk; i no es comparteix amb altres aplicacions.</para>
 
 <para
->Independent de la llista de col·leccions, hi ha les llistes de reproducció. Podeu tenir tantes llistes de reproducció com vulgueu. Podeu utilitzar &juk; per crear llistes de reproducció per altres reproductors multimèdia (com &amarok; o <application
+>Independent de la llista de col·leccions, hi ha les llistes de reproducció. Podeu tenir tantes llistes de reproducció com vulgueu. Podeu utilitzar &juk; per a crear llistes de reproducció per altres reproductors multimèdia (com &amarok; o <application
 >xmms</application
 >) i podeu gestionar les llistes de reproducció creades en aquestes aplicacions des de &juk;.</para>
 
@@ -197,13 +197,13 @@
 >Quan esteu veient la llista de col·leccions, la subfinestra principal contindrà tots els fitxers que &juk; coneix. Quan esteu veient una llista de reproducció, només es mostraran les cançons que són en aquesta llista de reproducció. En qualsevol dels casos, l'aparença i el comportament de la llista serà el mateix.</para>
 
 <para
->Cada cançó prendrà una fila a la pantalla. Hi ha una columna per a cada camp de metadades com peces al &juk;. Aquestes columnes corresponen als camps disponibles per editar en l'editor de marques.</para>
+>Cada cançó prendrà una fila a la pantalla. Hi ha una columna per a cada camp de metadades com peces al &juk;. Aquestes columnes corresponen als camps disponibles per a editar en l'editor de marques.</para>
 
 <para
 >Podeu ordenar la llista en qualsevol moment fent clic amb el &BER; sobre la capçalera de la columna. El primer clic ordenarà els fitxers en ordre ascendent basant-se en el contingut d'aquesta columna. Si feu clic altra vegada sobre la capçalera amb el &BER;, els fitxers es tornaran a ordenar en ordre descendent.</para>
 
 <para
->Les columnes inicialment són prou amples per mostrar l'entrada més gran disponible. Podeu canviar la mida de les columnes, col·locant el cursor del ratolí sobre el divisor entre dues columnes. Quan el cursor canviï el punter, feu clic amb el &BER; i arrossegueu en la direcció cap on voleu canviar la mida de les columnes.</para>
+>Les columnes inicialment són prou amples per a mostrar l'entrada més gran disponible. Podeu canviar la mida de les columnes, col·locant el cursor del ratolí sobre el divisor entre dues columnes. Quan el cursor canviï el punter, feu clic amb el &BER; i arrossegueu en la direcció cap on voleu canviar la mida de les columnes.</para>
 
 <para
 >Podeu canviar l'ordre de les columnes fent clic amb el &BER; sobre una capçalera i arrossegant-la cap a l'esquerra o cap a la dreta. Quan feu això no podreu arrossegar més enllà de la vora de la finestra, de manera que possiblement haureu de desplaçar una mica cap a l'esquerra o cap a la dreta i repetir arrossegant la capçalera, fins que resti col·locada a la vostra posició preferida.</para>
@@ -314,7 +314,7 @@
 ></term>
 <listitem>
 <para
->Això farà que &juk; intenti endevinar la informació com l'artista i el títol d'una cançó. &juk; empra diferents mètodes per endevinar: <variablelist>
+>Això farà que &juk; intenti endevinar la informació com l'artista i el títol d'una cançó. &juk; empra diferents mètodes per a endevinar: <variablelist>
 
   <varlistentry
 ><term
@@ -360,7 +360,7 @@
 ></term>
 <listitem>
 <para
->Això canviarà el nom dels fitxers seleccionats per ajustar-se a un format determinat. Haureu d'escollir la manera com voleu que els fitxers siguin reanomenats seleccionant <menuchoice
+>Això canviarà el nom dels fitxers seleccionats per a ajustar-se a un format determinat. Haureu d'escollir la manera com voleu que els fitxers siguin reanomenats seleccionant <menuchoice
 > <guimenu
 >Arranjament</guimenu
 ><guimenuitem
@@ -399,7 +399,7 @@ Show Cover Manager
 >Això us permetrà crear amb rapidesa un projecte de gravació de &CD; de K3b des de les cançons seleccionades. &juk; us demanarà si voleu un projecte de &CD; d'àudio o un projecte de &CD; de dades, llevat que K3b ja tingui un projecte obert.</para>
 
 <para
->Si K3b no s'està executant, &juk; l'iniciarà. Després d'això, &juk; afegirà els fitxers seleccionats al projecte actual de K3b. A continuació, podreu desar el projecte a K3b per cremar-lo més tard, o gravar el &CD; immediatament. </para>
+>Si K3b no s'està executant, &juk; l'iniciarà. Després d'això, &juk; afegirà els fitxers seleccionats al projecte actual de K3b. A continuació, podreu desar el projecte a K3b per a cremar-lo més tard, o gravar el &CD; immediatament. </para>
 
 </listitem>
 </varlistentry>
@@ -513,7 +513,7 @@ Show Cover Manager
 <para
 >Aquest mode és el més poderós. Aquest mode és com el mode de vista compacte, llevat que la llista de col·leccions és ara l'arrel d'un arbre de llistes de reproducció virtuals. La llista de col·leccions té tres nodes fill: Artista, Àlbum i Gènere. Cadascun d'aquests nodes té fills que representen a totes les entrades d'aquesta categoria específica. Per exemple, si la llista de col·leccions conté música de 4 artistes diferents, tindríeu 4 entrades sota el node artista.</para>
 <para
->Una bona característica del mode de vista en arbre és quelcom anomenat arrossegar i deixar anar per tornar a marcar. Simplement haureu de seleccionar alguns fitxers a la llista de peces i arrossegar-los cap a un dels nodes Artista, Àlbum o Gènere sota la llista de col·leccions. Les cançons seran automàticament tornades a marcar de manera que coincideixin amb l'element sobre què s'han deixat anar. Per exemple, si arrossegueu un grup de peces sobre un gènere anomenat «Rock», totes les peces es tornaran a marcar amb una marca de gènere «Rock». </para>
+>Una bona característica del mode de vista en arbre és quelcom anomenat arrossegar i deixar anar per a tornar a marcar. Simplement haureu de seleccionar alguns fitxers a la llista de peces i arrossegar-los cap a un dels nodes Artista, Àlbum o Gènere sota la llista de col·leccions. Les cançons seran automàticament tornades a marcar de manera que coincideixin amb l'element sobre què s'han deixat anar. Per exemple, si arrossegueu un grup de peces sobre un gènere anomenat «Rock», totes les peces es tornaran a marcar amb una marca de gènere «Rock». </para>
 </listitem>
 </varlistentry>
 
@@ -537,17 +537,17 @@ Show Cover Manager
 >». Aquests no són molt pràctics, ni contenen tota la informació útil que es pot recopilar sobre la cançó. Afegir l'àlbum i el nombre de la peça a la primera, per exemple, el faria encara més llarg i difícil de manejar, mentre que no afegir-ho no us dirà res al cap d'un any, i un cop d'ull no us indicarà a quin estil de música pertany, a menys que esteu familiaritzat amb l'artista.</para>
 
 <para
->Llavors la solució, és emmagatzemar aquest tipus de metadades dins dels mateixos fitxers. Els fitxers MP3 i OGG també poden contenir petits fragments de text que es poden utilitzar per descriure el contingut del fitxer. Hi ha diversos formats, però &juk; oculta els detalls de les diferències entre ells, i proporciona una forma estàndard per editar un subconjunt de les marques estàndard ben conegudes per a tots els vostres fitxers d'àudio.</para>
+>Llavors la solució, és emmagatzemar aquest tipus de metadades dins dels mateixos fitxers. Els fitxers MP3 i OGG també poden contenir petits fragments de text que es poden utilitzar per a descriure el contingut del fitxer. Hi ha diversos formats, però &juk; oculta els detalls de les diferències entre ells, i proporciona una forma estàndard per a editar un subconjunt de les marques estàndard ben conegudes per a tots els vostres fitxers d'àudio.</para>
 
 <para
->&juk; és un complet editor de marques que permet editar-les tant en fitxers MP3 com OGG. Podeu editar fitxers individualment o múltiples fitxers, i podeu seleccionar una combinació de fitxers MP3 i OGG per editar. L'únic requisit és que tingueu accés d'escriptura. No podreu editar les marques d'un fitxer que es munta a partir d'un &CD-ROM;, per exemple.</para>
+>&juk; és un complet editor de marques que permet editar-les tant en fitxers MP3 com OGG. Podeu editar fitxers individualment o múltiples fitxers, i podeu seleccionar una combinació de fitxers MP3 i OGG a editar. L'únic requisit és que tingueu accés d'escriptura. No podreu editar les marques d'un fitxer que es munta a partir d'un &CD-ROM;, per exemple.</para>
 
 <sect2 id="tagging-a-single-file">
 <title
 >Editar les marques en un únic fitxer</title>
 
 <para
->Per editar la marca en un sol fitxer, seleccioneu-lo, sigui en la llista de col·leccions o a qualsevol entrada en qualsevol llista de reproducció. Si l'editor de marques no està visible, activeu-lo escollint <menuchoice
+>Per a editar la marca en un sol fitxer, seleccioneu-lo, sigui en la llista de col·leccions o a qualsevol entrada en qualsevol llista de reproducció. Si l'editor de marques no està visible, activeu-lo escollint <menuchoice
 ><guimenu
 >Visualitza</guimenu
 ><guimenuitem
@@ -556,7 +556,7 @@ Show Cover Manager
 >. L'editor de marques es mostrarà a la part inferior de la vista de llista.</para>
 
 <para
->Simplement escriviu en qualsevol dels camps editables per canviar la informació. En acabar, feu clic amb el &BER; de nou a la llista, i se us demanarà que deseu els vostres canvis.</para>
+>Simplement escriviu en qualsevol dels camps editables per a canviar la informació. En acabar, feu clic amb el &BER; de nou a la llista, i se us demanarà que deseu els vostres canvis.</para>
 
 <para
 >És possible que l'editor de marques romangui desactivat quan feu clic sobre un fitxer. Això succeeix quan &juk; ha detectat que la peça és de només lectura.</para>
@@ -698,7 +698,7 @@ Show Cover Manager
 >Podeu seleccionar múltiples fitxers a la vista de llista i editar un o més camps en les marques de tots els fitxers alhora.</para>
 
 <para
->Utilitzeu la tecla &Maj; i el &BER; per a seleccionar una llista contigua de fitxers, i la tecla &Ctrl; i el &BER; per seleccionar individualment cada fitxer no contigu.</para>
+>Utilitzeu la tecla &Maj; i el &BER; per a seleccionar una llista contigua de fitxers, i la tecla &Ctrl; i el &BER; per a seleccionar individualment cada fitxer no contigu.</para>
 
 <para
 >Si l'editor de marques no està visible, activeu-lo escollint <menuchoice
@@ -725,7 +725,7 @@ Show Cover Manager
 >Qualsevol camp que no coincideixi en tots els fitxers seleccionats no serà inicialment editable, i no mostrarà cap contingut.</para>
 
 <para
->Per canviar el contingut de qualsevol camp, marqueu la casella de selecció <guilabel
+>Per a canviar el contingut de qualsevol camp, marqueu la casella de selecció <guilabel
 >Activa</guilabel
 > si no està ja marcada i editeu el camp com ho faríeu normalment.</para>
 
@@ -751,31 +751,31 @@ Show Cover Manager
 
 <sect1 id="juk-rename-dialog">
 <title
->El diàleg per reanomenar el fitxer</title>
+>El diàleg per a reanomenar el fitxer</title>
 <para>
 <screenshot>
 <screeninfo
->El diàleg per reanomenar el fitxer</screeninfo>
+>El diàleg per a reanomenar el fitxer</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase
->Captura de pantalla del diàleg per reanomenar el fitxer.</phrase>
+>Captura de pantalla del diàleg per a reanomenar el fitxer.</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot>
 </para>
 
 <para
->El diàleg de configuració del reanomenador de fitxers s'utilitza per configurar l'acció de canvi de nom, el canvi de nom d'una cançó es basa en la informació continguda en les marques de les seves metadades. </para>
+>El diàleg de configuració del reanomenador de fitxers s'utilitza per a configurar l'acció de canvi de nom, el canvi de nom d'una cançó es basa en la informació continguda en les marques de les seves metadades. </para>
 <para
->Tota la funció reanomena el fitxer s'utilitza per obtenir noms de fitxer compatibles per a la vostra col·lecció de música (incloent-hi moure fitxers si cal). Per exemple, podeu tenir algunes cançons que apareixen al disc com a <filename
+>Tota la funció reanomena el fitxer s'utilitza per a obtenir noms de fitxer compatibles per a la vostra col·lecció de música (incloent-hi moure fitxers si cal). Per exemple, podeu tenir algunes cançons que apareixen al disc com a <filename
 >01 - Títol.mp3</filename
 > si els heu aconseguit des d'<ulink url="http://amazon.com"
 >Amazon</ulink
->, mentre que les cançons de <ulink url="http://ocremix.org/"
+>, mentre que les cançons d'<ulink url="http://ocremix.org/"
 >OCRemix</ulink
 > podrien ser <filename
 >Ailsean-Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename
@@ -785,7 +785,7 @@ Show Cover Manager
 >Ailsean - Mega Fire.mp3</filename
 > i <filename
 >The Strokes - Reptilia.mp3</filename
->. Encara podeu incloure camins per ordenar automàticament la música (&pex;, per any o àlbum), com <filename
+>. Encara podeu incloure camins per a ordenar automàticament la música (&pex;, per any o àlbum), com <filename
 >$HOME/Music/2003/The Strokes - Reptilia.mp3</filename
 >. </para>
 <para
@@ -807,7 +807,7 @@ Show Cover Manager
 >Afegeix la categoria</guilabel
 >. </para>
 <para
->Cada «peça del camí» tindrà una casella de selecció per indicar que permet afegir un separador de carpeta. </para>
+>Cada «peça del camí» tindrà una casella de selecció per a indicar que permet afegir un separador de carpeta. </para>
 <para
 >Les opcions per a cada peça, simplement controlen el que passarà si les metadades corresponents estan buides, permetent un prefix/sufix quan l'entrada és substituïda podreu ajudar a fer el procediment de reanomenar més eficaç. </para>
 </sect1>
@@ -845,7 +845,7 @@ Show Cover Manager
 >  
 
 <para
->Aquí podreu veure els esquemes de nom de fitxer configurats actualment que utilitza l'editor de marques per extreure informació per a la marca d'un nom de fitxer. Cada cadena pot contenir una de les següents variables:</para>
+>Aquí podreu veure els esquemes de nom de fitxer configurats actualment que utilitza l'editor de marques per a extreure informació per a la marca d'un nom de fitxer. Cada cadena pot contenir una de les següents variables:</para>
 
 <para
 ><itemizedlist>
@@ -876,12 +876,12 @@ Show Cover Manager
 >Per exemple, l'esquema de nom de fitxer «[%T] %a - %t» coincidirà amb «[01] Deep Purple - Smoke on the water», però no «(Deep Purple) Smoke on the water». Per a aquest segon nom, s'utilitza l'esquema «(%a) %t».</para>
 
 <para
->&juk; provarà els esquemes que heu llistat un a un, començant per la part superior de la llista. El primer esquema que coincideixi serà l'utilitzat per deduir les marques de la cançó. Algunes cançons poden coincidir amb més d'un esquema. Podeu assegurar-vos que coincideix amb l'esquema correcte per primera vegada seleccionant-lo en el quadre de llista i després utilitzant els botons de fletxa per moure'l a la part superior de la llista. </para>
+>&juk; provarà els esquemes que heu llistat un a un, començant per la part superior de la llista. El primer esquema que coincideixi serà l'utilitzat per a deduir les marques de la cançó. Algunes cançons poden coincidir amb més d'un esquema. Podeu assegurar-vos que coincideix amb l'esquema correcte per primera vegada seleccionant-lo en el quadre de llista i després utilitzant els botons de fletxa per a moure'l a la part superior de la llista. </para>
 
 <para
 >També podeu editar o eliminar un esquema de la llista. Simplement seleccioneu l'esquema de la llista, i utilitzeu el botó <guibutton
 >Modifica</guibutton
-> per canviar-lo, o el botó <guibutton
+> per a canviar-lo, o el botó <guibutton
 >Elimina</guibutton
 > per eliminar-lo de la llista. </para>
 </sect1>
@@ -906,7 +906,7 @@ Show Cover Manager
 </para>
 
 <para
->El diàleg de cerca avançada s'utilitza per crear <link linkend="juk-search-playlists"
+>El diàleg de cerca avançada s'utilitza per a crear <link linkend="juk-search-playlists"
 >llistes de reproducció de la cerca</link
 >. Això us permetrà realitzar una cerca refinada entre les diferents marques de la vostra col·lecció de cançons.</para>
 
@@ -922,7 +922,7 @@ Show Cover Manager
 >Coincideix amb qualsevol dels següents</guilabel
 > i <guilabel
 >Coincideix amb tots els següents</guilabel
->. Si seleccioneu el primer, després d'una coincidència per a qualsevol de les condicions definides s'inclourà la cançó a la llista de reproducció. En cas contrari, totes les condicions definides s'hauran de complir per incloure la cançó a la llista de reproducció. </para>
+>. Si seleccioneu el primer, després d'una coincidència per a qualsevol de les condicions definides s'inclourà la cançó a la llista de reproducció. En cas contrari, totes les condicions definides s'hauran de complir per a incloure la cançó a la llista de reproducció. </para>
 
 <para
 >Sota els botons d'opció es troben les definicions de condició. Hi podeu afegir més condicions utilitzant el botó <guibutton
@@ -934,7 +934,7 @@ Show Cover Manager
 > per a eliminar les condicions buides. </para>
 
 <para
->Cada definició de condició conté tres parts: la llista per escollir la marca es troba a l'esquerra, la llista d'estil de coincidències a la dreta, i la cerca de text al centre. El selector de marques permet que &juk; conegui quina marca voleu cercar pel text introduït. Si escolliu la marca especial «&lt;Tots visibles&gt;», llavors qualsevol etiqueta que pugueu veure al llistat llista de col·leccions serà candidata perquè realitzeu una cerca sobre seu. </para>
+>Cada definició de condició conté tres parts: la llista per a escollir la marca es troba a l'esquerra, la llista d'estil de coincidències a la dreta, i la cerca de text al centre. El selector de marques permet que &juk; conegui quina marca voleu cercar pel text introduït. Si escolliu la marca especial «&lt;Tots visibles&gt;», llavors qualsevol etiqueta que pugueu veure al llistat llista de col·leccions serà candidata perquè realitzeu una cerca sobre seu. </para>
 
 <para
 >La llista d'estils coincidents permet a &juk; saber quin mètode de cerca utilitzar. Els mètodes de cerca que podeu utilitzar són els següents: <variablelist>
@@ -972,7 +972,7 @@ Show Cover Manager
 <para
 >Simplement escolliu les condicions que voleu incloure en la vostra cerca, i feu clic a <guibutton
 >D'acord</guibutton
-> per crear la vostra llista de reproducció de la cerca! </para>
+> per a crear la vostra llista de reproducció de la cerca! </para>
 </sect1>
 <!-- is this still relevant?
 
@@ -1200,7 +1200,7 @@ write new for kde4
 ></term>
   <listitem
 ><para
->Això us demanarà una carpeta per obrir-la, i després crearà una llista de reproducció amb la música dins de la carpeta i qualsevol subcarpeta. El nom de la llista de reproducció creada serà el mateix que el nom de la carpeta seleccionada.</para
+>Això us demanarà una carpeta per a obrir-la, i després crearà una llista de reproducció amb la música dins de la carpeta i qualsevol subcarpeta. El nom de la llista de reproducció creada serà el mateix que el nom de la carpeta seleccionada.</para
 ></listitem>
   </varlistentry>
 
@@ -1237,7 +1237,7 @@ write new for kde4
 ></term>
 <listitem
 ><para
->Desa la llista de reproducció seleccionada. Per desar una marca que heu editat, seleccioneu un altre element o premeu <keycombo action="simul"
+>Desa la llista de reproducció seleccionada. Per a desar una marca que heu editat, seleccioneu un altre element o premeu <keycombo action="simul"
 >&Ctrl;<keycap
 >T</keycap
 ></keycombo
@@ -1323,7 +1323,7 @@ write new for kde4
 >Següent</guiicon
 >.</para>
 <para
->També hi ha una barra de control, que mostra el punt (relatiu) en el que es troba la reproducció de la cançó. Podeu arrossegar amb el ratolí aquest control lliscant per saltar cap endavant o cap enrere dins d'una peça.</para>
+>També hi ha una barra de control, que mostra el punt (relatiu) en el que es troba la reproducció de la cançó. Podeu arrossegar amb el ratolí aquest control lliscant per a saltar cap endavant o cap enrere dins d'una peça.</para>
 <para
 >Finalment, hi ha un control lliscant de volum. Com es pot esperar, aquest fa pujar i baixar el volum. «Alt» és a la dreta, i «Silenci» és a l'esquerra.</para
 ></listitem>
@@ -1343,7 +1343,7 @@ write new for kde4
 >Només cal escriure el text a la barra de cerca i es reduirà la llista visible de cançons que contenen un text en qualsevol columna visible. En prémer &Intro; s'iniciarà la reproducció de la cançó que es trobi a la part superior de la vista llista de reproducció.</para>
 
 <para
->La cerca començarà instantàniament quan s'introdueixi el text al camp de cerca. Hi ha cerca incremental, és a dir, quan escriviu cada caràcter en el camp de text, la cerca s'anirà reduint. Això és útil per trobar una cançó de la qual només recordeu una part del nom, per exemple.</para>
+>La cerca començarà instantàniament quan s'introdueixi el text al camp de cerca. Hi ha cerca incremental, és a dir, quan escriviu cada caràcter en el camp de text, la cerca s'anirà reduint. Això és útil per a trobar una cançó de la qual només recordeu una part del nom, per exemple.</para>
 
 <!-- Not here in KDE 4.11
 <para
@@ -1458,7 +1458,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 </term>
 <listitem
 ><para
->Selecciona un fitxer (o fitxers) per afegir a la llista de col·leccions. Si seleccioneu un fitxer de llista de reproducció, s'afegirà cada fitxer a la llista de reproducció.</para>
+>Selecciona un fitxer (o fitxers) per a afegir a la llista de col·leccions. Si seleccioneu un fitxer de llista de reproducció, s'afegirà cada fitxer a la llista de reproducció.</para>
 </listitem>
 </varlistentry>
 
@@ -1475,7 +1475,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 ><para
 >Aquest element de menú obre la mateixa finestra que es mostra en el primer inici de &juk;. </para>
 <para
->Selecciona una carpeta (o carpetes) per afegir a la llista de col·leccions. Aquestes carpetes també seran analitzades de nou cada vegada que s'iniciï &juk; o quan escolliu <menuchoice
+>Selecciona una carpeta (o carpetes) per a afegir a la llista de col·leccions. Aquestes carpetes també seran analitzades de nou cada vegada que s'iniciï &juk; o quan escolliu <menuchoice
 ><guimenu
 >Fitxer</guimenu
 ><guimenuitem
@@ -1483,7 +1483,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 > </menuchoice
 >.</para>
 <para
->També podeu seleccionar les carpetes sobre les quals no s'hauran de realitzar cerques de forma automàtica (el qual deixarà sense efecte la llista de carpetes per escanejar durant l'inici). D'aquesta manera podreu evitar haver de canviar completament la disposició de la vostra música al disc, per prevenir que &juk; reculli automàticament les cançons que no voleu o no us cal gestionar dins del &juk;. </para>
+>També podeu seleccionar les carpetes sobre les quals no s'hauran de realitzar cerques de forma automàtica (el qual deixarà sense efecte la llista de carpetes per a escanejar durant l'inici). D'aquesta manera podreu evitar haver de canviar completament la disposició de la vostra música al disc, per a prevenir que &juk; reculli automàticament les cançons que no voleu o no us cal gestionar dins del &juk;. </para>
 <para>
 <screenshot>
 <screeninfo
@@ -1503,7 +1503,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 <para
 >Si voleu eliminar els fitxers que ja estan a la llista de col·leccions, podeu activar la columna <guilabel
 >Nom de fitxer (camí sencer)</guilabel
-> en una llista de reproducció i aleshores utilitzar la barra de cerca per trobar el nom de camí que molesta, seleccionar i eliminar els fitxers que es mostren. </para>
+> en una llista de reproducció i aleshores utilitzar la barra de cerca per a trobar el nom de camí que molesta, seleccionar i eliminar els fitxers que es mostren. </para>
 </note>
 </listitem>
 </varlistentry>
@@ -1816,7 +1816,7 @@ Crossfade Between Tracks
 </term>
 <listitem
 ><para
->Aquesta ordre fa una pausa a la cançó que s'està reproduint. Utilitzeu l'ordre reprodueix per tornar a iniciar la reproducció.</para>
+>Aquesta ordre fa una pausa a la cançó que s'està reproduint. Utilitzeu l'ordre reprodueix per a tornar a iniciar la reproducció.</para>
 </listitem>
 </varlistentry>
 
@@ -1846,7 +1846,7 @@ Crossfade Between Tracks
 </term>
 <listitem
 ><para
->Aquesta ordre salta a la següent cançó per reproduir a la llista de reproducció.</para>
+>Aquesta ordre salta a la següent cançó per a reproduir a la llista de reproducció.</para>
 </listitem>
 </varlistentry>
 
@@ -1946,7 +1946,7 @@ Play Next Album
 </term>
 <listitem
 ><para
->Aquesta ordre intenta deduir les marques dels fitxers seleccionats mitjançant l'escaneig del nom de fitxer. Podeu configurar els patrons utilitzats per deduir seleccionant <menuchoice
+>Aquesta ordre intenta deduir les marques dels fitxers seleccionats mitjançant l'escaneig del nom de fitxer. Podeu configurar els patrons utilitzats per a deduir seleccionant <menuchoice
 ><guimenu
 >Arranjament</guimenu
 > <guimenuitem
@@ -2054,7 +2054,7 @@ Cover Manager
 </term>
 <listitem
 ><para
->Aquesta és una opció d'alternança. Si està activada, &juk; mostrarà una icona a la safata del sistema. La podreu utilitzar per saber si &juk; està reproduint, i controlar la reproducció.</para>
+>Aquesta és una opció d'alternança. Si està activada, &juk; mostrarà una icona a la safata del sistema. La podreu utilitzar per a saber si &juk; està reproduint, i controlar la reproducció.</para>
 </listitem>
 </varlistentry>
 
@@ -2071,7 +2071,7 @@ Cover Manager
 ><para
 >Aquesta és una opció d'alternança. Si està activada, &juk; seguirà funcionant si es tanca la finestra principal. L'opció <guimenuitem
 >Acobla a la safata del sistema</guimenuitem
-> també haurà d'estar activada. Per sortir de &juk;, utilitzeu l'ordre <menuchoice
+> també haurà d'estar activada. Per a sortir de &juk;, utilitzeu l'ordre <menuchoice
 ><guimenu
 >Fitxer</guimenu
 > <guimenuitem

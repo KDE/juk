@@ -13,20 +13,20 @@
 # Ayoze Hernández Díaz <ayoze12@gmail.com>, 2013.
 # Javier Viñal <fjvinal@gmail.com>, 2013.
 # David Paul <eodos0@gmail.com>, 2014.
-# Víctor Rodrigo Córdoba <vrcordoba@gmail.com>, 2017, 2018, 2019, 2020, 2021.
+# Víctor Rodrigo Córdoba <vrcordoba@gmail.com>, 2017, 2018, 2019, 2020, 2021, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
-"PO-Revision-Date: 2021-05-15 17:34+0200\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
+"PO-Revision-Date: 2024-01-06 17:07+0100\n"
 "Last-Translator: Víctor Rodrigo Córdoba <vrcordoba@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -88,12 +88,12 @@ msgstr ""
 "La caché de datos musicales se ha dañado. JuK necesita regenerarla. Puede "
 "que esto lleve algún tiempo."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Lista de colecciones"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -109,7 +109,7 @@ msgstr ""
 "archivos está en la lista de carpetas a explorar durante el inicio, se "
 "volverán a añadir cuando reinicie el programa."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Mostrar la reproducción"
@@ -872,10 +872,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Reproductor y gestor de música desarrollado por la comunidad KDE"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Derechos de autor © 2002–2021, Scott Wheeler, Michael Pyne y otros"
+msgstr "Derechos de autor © 2002–2023, Scott Wheeler, Michael Pyne y otros"
 
 #: main.cpp:44
 #, kde-format
@@ -900,13 +899,12 @@ msgstr "El ayudante superhéroe, arreglador de muchas cosas"
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE Frameworks 5 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Adaptación a la infraestructura KDE 5 cuando no había nadie más"
+msgstr "Adaptación a la infraestructura KDE 6 cuando no había nadie más"
 
 #: main.cpp:47
 #, kde-format
@@ -2000,88 +1998,3 @@ msgstr "Volumen: %1% (silenciado)"
 #, kde-format
 msgid "Volume: %1%"
 msgstr "Volumen: %1%"
-
-#~ msgid "<All Artists>"
-#~ msgstr "<Todos los artistas>"
-
-#~ msgid "Remove Cover"
-#~ msgstr "Eliminar la carátula"
-
-#~ msgid "Cover Manager"
-#~ msgstr "Gestor de carátulas"
-
-#~ msgid "Your album art failed to download."
-#~ msgstr "Fallo al descargar las imágenes de su álbum."
-
-#~ msgid "Your album art has finished downloading."
-#~ msgstr "Ha finalizado la descarga de las imágenes de su álbum."
-
-#~ msgid "Are you sure you want to delete these covers?"
-#~ msgstr "¿Seguro que desea borrar estas carátulas?"
-
-#~ msgid "&Delete Covers"
-#~ msgstr "&Borrar las carátulas"
-
-#~ msgid "Select Cover Image File"
-#~ msgstr "Seleccionar el archivo de imagen de la carátula"
-
-#~ msgid "Images (*.png *.jpg)"
-#~ msgstr "Imágenes (*.png *.jpg)"
-
-#~ msgid "Cover"
-#~ msgstr "Carátula"
-
-#~ msgid "&View Cover"
-#~ msgstr "&Ver la carátula"
-
-#~ msgid "Get Cover From &File..."
-#~ msgstr "Obtener la carátula de un &archivo..."
-
-#~ msgid "Get Cover From &Internet..."
-#~ msgstr "Obtener la carátula de &Internet..."
-
-#~ msgid "&Delete Cover"
-#~ msgstr "&Borrar la carátula"
-
-#~ msgid "Show Cover &Manager"
-#~ msgstr "&Mostrar el Gestor de carátulas"
-
-#~ msgid "Searching for cover. Please Wait..."
-#~ msgstr "Buscando carátula. Espere un momento..."
-
-#~ msgid "Album '%1' not found."
-#~ msgstr "No se encontró el álbum «%1»."
-
-#~ msgctxt "@title:window"
-#~ msgid "Album not Found"
-#~ msgstr "Álbum no encontrado"
-
-#~ msgid ""
-#~ "Error %1 when searching for cover:\n"
-#~ "%2"
-#~ msgstr ""
-#~ "Error %1 al buscar la portada:\n"
-#~ "%2"
-
-#~ msgid "No available cover for the album '%1'."
-#~ msgstr "No hay ninguna portada disponible para el álbum «%1»."
-
-#~ msgctxt "@title:window"
-#~ msgid "Cover not Available"
-#~ msgstr "Portada no disponible"
-
-#~ msgid "Downloading cover. Please Wait..."
-#~ msgstr "Descargando carátula. Espere un momento..."
-
-#~ msgid "Cover found"
-#~ msgstr "Carátula encontrada"
-
-#~ msgid "Failed to download requested cover art: %1"
-#~ msgstr "Error al descargar la portada: %1"
-
-#~ msgctxt "@title:window"
-#~ msgid "Could not download cover art"
-#~ msgstr "No se pudo descargar la portada"
-
-#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-#~ msgstr "Carátula obtenida de <a href='https://last.fm/'>last.fm</a>."

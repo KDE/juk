@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2012-01-11 22:34+0200\n"
 "Last-Translator: Rūdofls Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -76,12 +76,12 @@ msgstr ""
 "Mūzikas datu datubāze ir bojātu. JuK nepieciešams pārskenēt jūsu mūzikas "
 "failus. Tas prasīs kādu laiku."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Kolekcijas saraksts"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -96,7 +96,7 @@ msgstr ""
 "Piezīme: ja šie faili ir mapē, jas ir \"skenēt sākot darbu\" sarakstā, "
 "nākamreiz palaižot Juk tie tiks no jauna pievienoti."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Rādīt atskaņoto"

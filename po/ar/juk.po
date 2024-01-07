@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2022-02-14 20:58+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: Arabic <kde-l10n-ar@kde.org>\n"
@@ -76,12 +76,12 @@ msgstr ""
 "بيانات الموسيقى المخبئة قد تلفت. يحتاج JuK إلى إجراء مسح من جديد. قد يتطلب "
 "ذلك بعض الوقت."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "قائمة المجموعة"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -96,7 +96,7 @@ msgstr ""
 "ملاحظة، إذا كان المجلد الذي يحتوي على هذه الملفات موجود في قائمة \"مسح عند "
 "بدء التشغيل \" فسيتم قراءتهم عند بدء التشغيل."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "اعرض التشغيل"

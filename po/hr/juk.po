@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2004-04-20 13:21+CEST\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -78,12 +78,12 @@ msgstr ""
 "Keširani muzički podaci su oštećeni. JuK mora da ih ispregleda odmah, što "
 "može da potraje."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, fuzzy, kde-format
 msgid "Collection List"
 msgstr "Lista kolekcija"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, fuzzy, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -98,7 +98,7 @@ msgstr ""
 "Međutim, ako je direktorij u kome se ovi datoteke nalaze na vašoj listi "
 "„skeniraj na početku“, onda će oni biti ponovo dodati pri pokretanju."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, fuzzy, kde-format
 msgid "Show Playing"
 msgstr "Zaustavi puštanje"

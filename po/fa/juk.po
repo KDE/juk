@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2007-06-26 08:14+0330\n"
 "Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -73,12 +73,12 @@ msgstr ""
 "نهانگاه داده موسیقی خراب شده است. حالا لازم است که JuK آن را مجدداً پویش کند. "
 "ممکن است مقداری وقت‌گیر باشد."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "فهرست مجموعه"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -94,7 +94,7 @@ msgstr ""
 "هستند در فهرست »پویش هنگام راه‌اندازی« شما باشد، هنگام راه‌اندازی مجدد افزوده "
 "می‌شوند."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "نمایش پخش"

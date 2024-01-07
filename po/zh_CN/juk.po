@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
-"PO-Revision-Date: 2023-12-30 13:38\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
+"PO-Revision-Date: 2024-01-06 03:32\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -73,12 +73,12 @@ msgid ""
 "may take some time."
 msgstr "音乐数据缓存已损坏。JuK 现在需要重新扫描，这可能需要一些时间。"
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "收藏列表"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -93,7 +93,7 @@ msgstr ""
 "但是，请注意，如果这些文件所在的目录位于您的“启动时扫描”列表中，它们会被重新"
 "添加到媒体库中。"
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "显示播放中"
@@ -836,10 +836,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "为 KDE 设计的自动点唱机和音乐管理器"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+msgstr ""
 
 #: main.cpp:44
 #, kde-format
@@ -867,10 +866,9 @@ msgid "Carl Schwan"
 msgstr ""
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE Frameworks 5 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "独自移植到 KDE 5 框架"
+msgstr ""
 
 #: main.cpp:47
 #, kde-format
@@ -1937,88 +1935,3 @@ msgstr "音量：%1% (静音)"
 #, kde-format
 msgid "Volume: %1%"
 msgstr "音量：%1%"
-
-#~ msgid "<All Artists>"
-#~ msgstr "<所有艺人>"
-
-#~ msgid "Remove Cover"
-#~ msgstr "移除封面"
-
-#~ msgid "Cover Manager"
-#~ msgstr "封面管理器"
-
-#~ msgid "Your album art failed to download."
-#~ msgstr "您的专辑封面下载失败。"
-
-#~ msgid "Your album art has finished downloading."
-#~ msgstr "您的专辑封面下载完成。"
-
-#~ msgid "Are you sure you want to delete these covers?"
-#~ msgstr "您确定要删除这些封面吗？"
-
-#~ msgid "&Delete Covers"
-#~ msgstr "删除封面(&D)"
-
-#~ msgid "Select Cover Image File"
-#~ msgstr "选择封面图片文件"
-
-#~ msgid "Images (*.png *.jpg)"
-#~ msgstr "图像 (*.png *.jpg)"
-
-#~ msgid "Cover"
-#~ msgstr "封面"
-
-#~ msgid "&View Cover"
-#~ msgstr "查看封面(&V)"
-
-#~ msgid "Get Cover From &File..."
-#~ msgstr "从文件获取封面(&F)..."
-
-#~ msgid "Get Cover From &Internet..."
-#~ msgstr "从互联网获取封面(&I)... "
-
-#~ msgid "&Delete Cover"
-#~ msgstr "删除封面(&D)"
-
-#~ msgid "Show Cover &Manager"
-#~ msgstr "显示封面管理器(&M)"
-
-#~ msgid "Searching for cover. Please Wait..."
-#~ msgstr "封面搜索中。请稍候…"
-
-#~ msgid "Album '%1' not found."
-#~ msgstr "未找到专辑“%1”。"
-
-#~ msgctxt "@title:window"
-#~ msgid "Album not Found"
-#~ msgstr "未找到专辑"
-
-#~ msgid ""
-#~ "Error %1 when searching for cover:\n"
-#~ "%2"
-#~ msgstr ""
-#~ "搜索专辑封面时出错 %1：\n"
-#~ "%2"
-
-#~ msgid "No available cover for the album '%1'."
-#~ msgstr "专辑“%1”没有可用的封面。"
-
-#~ msgctxt "@title:window"
-#~ msgid "Cover not Available"
-#~ msgstr "封面不可用"
-
-#~ msgid "Downloading cover. Please Wait..."
-#~ msgstr "封面下载中。请稍候…"
-
-#~ msgid "Cover found"
-#~ msgstr "找到封面"
-
-#~ msgid "Failed to download requested cover art: %1"
-#~ msgstr "下载请求的专辑封面失败：%1"
-
-#~ msgctxt "@title:window"
-#~ msgid "Could not download cover art"
-#~ msgstr "无法下载专辑封面"
-
-#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-#~ msgstr "封面取自 <a href='https://last.fm/'>last.fm</a>."

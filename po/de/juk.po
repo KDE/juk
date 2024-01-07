@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2021-05-10 05:25+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -77,12 +77,12 @@ msgstr ""
 "Im Musikdaten-Zwischenspeicher sind Fehler aufgetreten. Der Zwischenspeicher "
 "muss neu eingelesen werden. Das kann einen Moment dauern."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Sammlungsliste"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -98,7 +98,7 @@ msgstr ""
 "JuK automatisch durchsucht, erscheint der Titel beim nächsten Start von JuK "
 "wieder in der Liste."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Spielenden anzeigen"

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 01:31+0000\n"
+"POT-Creation-Date: 2024-01-07 01:54+0000\n"
 "PO-Revision-Date: 2021-06-04 21:45+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -84,12 +84,12 @@ msgstr ""
 "Η λανθάνουσα μνήμη των μουσικών δεδομένων έχει καταστραφεί. Το JuK πρέπει να "
 "την ξανασαρώσει τώρα. Αυτό μπορεί να πάρει λίγη ώρα."
 
-#: collectionlist.cpp:146
+#: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
 msgstr "Λίστα συλλογής"
 
-#: collectionlist.cpp:287
+#: collectionlist.cpp:289
 #, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
@@ -105,7 +105,7 @@ msgstr ""
 "βρίσκεται στη λίστα \"σάρωσης στην εκκίνηση\", τα αρχεία θα προστεθούν ξανά "
 "κατά την εκκίνηση."
 
-#: collectionlist.cpp:340
+#: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
 msgstr "Εμφάνιση αναπαραγόμενου"
