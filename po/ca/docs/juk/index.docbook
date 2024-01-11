@@ -120,7 +120,7 @@
 >. La llista de col·leccions és específica de &juk; i no es comparteix amb altres aplicacions.</para>
 
 <para
->Independent de la llista de col·leccions, hi ha les llistes de reproducció. Podeu tenir tantes llistes de reproducció com vulgueu. Podeu utilitzar &juk; per a crear llistes de reproducció per altres reproductors multimèdia (com &amarok; o <application
+>Independent de la llista de col·leccions, hi ha les llistes de reproducció. Podeu tenir tantes llistes de reproducció com vulgueu. Podeu utilitzar les llistes de reproducció creades amb el &juk; amb altres reproductors multimèdia (com &amarok; o <application
 >xmms</application
 >) i podeu gestionar les llistes de reproducció creades en aquestes aplicacions des de &juk;.</para>
 
@@ -751,18 +751,18 @@ Show Cover Manager
 
 <sect1 id="juk-rename-dialog">
 <title
->El diàleg per a reanomenar el fitxer</title>
+>El diàleg de reanomenar el fitxer</title>
 <para>
 <screenshot>
 <screeninfo
->El diàleg per a reanomenar el fitxer</screeninfo>
+>El diàleg de reanomenar el fitxer</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase
->Captura de pantalla del diàleg per a reanomenar el fitxer.</phrase>
+>Captura de pantalla del diàleg de reanomenar el fitxer.</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot>
