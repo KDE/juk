@@ -2,30 +2,31 @@
 # Tamas Szanto <taszanto@gmail.com>, 2003.
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2012, 2014.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
+# SPDX-FileCopyrightText: 2024 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-24 00:56+0000\n"
-"PO-Revision-Date: 2014-11-05 22:51+0100\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"PO-Revision-Date: 2024-01-12 22:02+0100\n"
+"Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Kiszel Kristóf,Szántó Tamás"
+msgstr "Kiszel Kristóf,Úr Balázs"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "ulysses@kubuntu.org,tszanto@interware.hu"
+msgstr "ulysses@fsf.hu,urbalazs@fsf.hu"
 
 #: advancedsearchdialog.cpp:46
 #, kde-format
@@ -455,10 +456,9 @@ msgstr "Kategória beszúrása"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: filerenamerbase.ui:135
-#, fuzzy, kde-format
-#| msgid "Add category:"
+#, kde-format
 msgid "&Add category:"
-msgstr "Kategória hozzáadása:"
+msgstr "Kategória hozzá&adása:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #: filerenamerbase.ui:145
@@ -852,6 +852,8 @@ msgstr "<i>Betöltés…</i>"
 msgid ""
 "<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
 msgstr ""
+"<i>A dalszöveg jelenleg nem érhető el ehhez: %1 (nincs elérhető "
+"dalszövegszolgáltató)</i>"
 
 #: lyricswidget.cpp:129 lyricswidget.cpp:158
 #, kde-format
@@ -864,20 +866,15 @@ msgid "No lyrics available."
 msgstr "Nem érhető el dalszöveg."
 
 #: lyricswidget.cpp:183
-#, fuzzy, kde-format
-#| msgid ""
-#| "<br /><br /><i>Lyrics provided by <a href='http://lyrics.wikia.com/"
-#| "Lyrics_Wiki'>LyricWiki</a></i>"
+#, kde-format
 msgid "<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>"
 msgstr ""
-"<br /><br /><i>A dalszöveget a <a href='http://lyrics.wikia.com/"
-"Lyrics_Wiki'>LyricWiki</a> biztosítja</i>"
+"<br /><br /><i>A dalszöveget a <a href='%1'>LyricWiki</a> biztosítja</i>"
 
 #: main.cpp:39
-#, fuzzy, kde-format
-#| msgid "Jukebox and music manager by KDE"
+#, kde-format
 msgid "Jukebox and music manager by the KDE community"
-msgstr "Zenelejátszó és -szervező a KDE-hez"
+msgstr "Zenelejátszó és -szervező a KDE közösségtől"
 
 #: main.cpp:40
 #, fuzzy, kde-format
@@ -901,21 +898,19 @@ msgid "Michael Pyne"
 msgstr "Michael Pyne"
 
 #: main.cpp:45
-#, fuzzy, kde-format
-#| msgid "Assistant super-hero, fixer of many things"
+#, kde-format
 msgid "Assistant superhero, fixer of many things"
 msgstr "Elsőrangú segítő, sok apró javítás elvégzője"
 
 #: main.cpp:46
 #, kde-format
 msgid "Kacper Kasper"
-msgstr ""
+msgstr "Kacper Kasper"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 5 when no one else was around"
-msgstr "Elsőként kezdte el az átírást KDE 4-re"
+msgstr "Elsőként kezdte el az átírást KDE Frameworks 5-re"
 
 #: main.cpp:47
 #, kde-format
@@ -933,11 +928,10 @@ msgid "Martin Sandsmark"
 msgstr "Martin Sandsmark"
 
 #: main.cpp:48
-#, fuzzy, kde-format
-#| msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks."
+#, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
 msgstr ""
-"Last.fm továbbítás támogatása, dalszöveg, készülődés a KDE keretrendszerhez."
+"Last.fm továbbítás támogatása, dalszöveg, készülődés a KDE Frameworks 5-re."
 
 #: main.cpp:49
 #, kde-format
@@ -965,10 +959,9 @@ msgid "Laurent Montel"
 msgstr "Laurent Montel"
 
 #: main.cpp:51
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Platform 4 when no one else was around"
-msgstr "Elsőként kezdte el az átírást KDE 4-re"
+msgstr "Elsőként kezdte el az átírást KDE Platform 4-re"
 
 #: main.cpp:52
 #, kde-format
@@ -1130,17 +1123,15 @@ msgid "Open"
 msgstr "Megnyitás"
 
 #: mediafiles.cpp:116
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgid "Save Playlist"
-msgstr "Keresés a lejátszólistában"
+msgstr "Lejátszólista mentése"
 
 #: mediafiles.cpp:118
-#, fuzzy, kde-format
-#| msgid "Playlists"
+#, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
-msgstr "Lejátszólisták"
+msgstr "Lejátszólisták (*%1)"
 
 #: nowplaying.cpp:316
 #, kde-format
@@ -1171,24 +1162,17 @@ msgid "Could not save to file %1."
 msgstr "Nem sikerült menteni a(z) %1 fájlba."
 
 #: playlist.cpp:574
-#, fuzzy, kde-format
-#| msgid ""
-#| "You are about to rename the following files. Are you sure you want to "
-#| "continue?"
+#, kde-format
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
-msgstr[0] ""
-"A következő fájlok átnevezésére készül. Biztosan végre szeretné hajtani a "
-"műveletet?"
-msgstr[1] ""
-"A következő fájlok átnevezésére készül. Biztosan végre szeretné hajtani a "
-"műveletet?"
+msgstr[0] "Mappa megnyitására készül. Biztosan szeretné folytatni?"
+msgstr[1] "%1 mappa megnyitására. Biztosan szeretné folytatni?"
 
 #: playlist.cpp:577 playlistcollection.cpp:999
 #, kde-format
 msgid "Open Containing Folder"
-msgstr ""
+msgstr "Tartalmazó mappa megnyitása"
 
 #: playlist.cpp:644
 #, kde-format
@@ -1575,14 +1559,11 @@ msgid "Test login..."
 msgstr "Bejelentkezés tesztelése…"
 
 #: scrobbleconfigdlg.cpp:49
-#, fuzzy, kde-format
-#| msgid ""
-#| "Please enter your <a href=\"http://last.fm/\">last.fm</a> login "
-#| "credentials:"
+#, kde-format
 msgid ""
 "Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
 msgstr ""
-"Adja meg a <a href=\"http://last.fm/\">last.fm</a> bejelentkezési adatait:"
+"Adja meg a <a href=\"https://last.fm/\">last.fm</a> bejelentkezési adatait:"
 
 #: scrobbleconfigdlg.cpp:53
 #, kde-format
@@ -1644,10 +1625,9 @@ msgid "All Visible"
 msgstr "Minden látható"
 
 #: searchwidget.cpp:199
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgid "Search..."
-msgstr "A keresés szerkesztése…"
+msgstr "Keresés…"
 
 #: slider.cpp:126
 #, kde-format
