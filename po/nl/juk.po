@@ -5,14 +5,14 @@
 # R.F. Pels <ruurd@tiscali.nl>, 2004.
 # Rinse de Vries <rinsedevries@kde.nl>, 2004, 2005, 2007, 2008, 2010.
 # Bram Schoenmakers <bramschoenmakers@kde.nl>, 2004, 2006.
-# SPDX-FileCopyrightText: 2009, 2023 Freek de Kruijf <freekdekruijf@kde.nl>
+# SPDX-FileCopyrightText: 2009, 2023, 2024 Freek de Kruijf <freekdekruijf@kde.nl>
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-07 01:54+0000\n"
-"PO-Revision-Date: 2023-12-31 12:49+0100\n"
+"PO-Revision-Date: 2024-01-16 11:43+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1167,7 +1167,7 @@ msgstr[1] "U staat op het punt %1 mappen te openen. Wilt u toch doorgaan?"
 #: playlist.cpp:578 playlistcollection.cpp:957
 #, kde-format
 msgid "Open Containing Folder"
-msgstr "De map openen waarin het zich bevindt"
+msgstr "Map openen waarin het zich bevindt"
 
 #: playlist.cpp:802
 #, kde-format
