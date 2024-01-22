@@ -17,13 +17,13 @@
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
 # Yıldız KARDESLER <turkishprogram@xposta.com>, 2004.
 # Zerrin Cakmakkaya <zerrin@uludag.org.tr>, 2004.
-# SPDX-FileCopyrightText: 2022, 2023 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-07 01:54+0000\n"
-"PO-Revision-Date: 2023-12-31 11:26+0300\n"
+"PO-Revision-Date: 2024-01-21 17:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.01.85\n"
+"X-Generator: Lokalize 24.01.95\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -633,7 +633,7 @@ msgstr "&Sonraki"
 #: juk.cpp:295
 #, kde-format
 msgid "&Loop Playlist"
-msgstr "Çalma Listesini D&öndür"
+msgstr "Çalma Listesini D&öngüye Al"
 
 #: juk.cpp:299
 #, kde-format
@@ -1159,8 +1159,8 @@ msgstr "%1 dosyası kaydedilemedi."
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
-msgstr[0] "Dizini açmak üzeresiniz. Sürdürmek istediğinize emin misiniz?"
-msgstr[1] "%1 dizini açmak üzeresiniz. Sürdürmek istediğinize emin misiniz?"
+msgstr[0] "Dizini açmak üzeresiniz. Sürdürmek istediğinizden emin misiniz?"
+msgstr[1] "%1 dizini açmak üzeresiniz. Sürdürmek istediğinizden emin misiniz?"
 
 #: playlist.cpp:578 playlistcollection.cpp:957
 #, kde-format
@@ -1216,7 +1216,7 @@ msgstr "Dosya Adı"
 #: playlist.cpp:1290
 #, kde-format
 msgid "File Name (full path)"
-msgstr "Dosya Adı (tam yol)"
+msgstr "Dosya Adı (Tam Yol)"
 
 #: playlist.cpp:1471
 #, kde-format
@@ -1281,7 +1281,7 @@ msgstr "&Geçmişi Göster"
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
-msgstr "Kopyala"
+msgstr "Çoğalt"
 
 #: playlistbox.cpp:424
 #, kde-format
@@ -1291,7 +1291,7 @@ msgstr "Bu dosyaları diskinizden de silmek istiyor musunuz?"
 #: playlistbox.cpp:425
 #, kde-format
 msgid "Keep"
-msgstr "Sakla"
+msgstr "Tut"
 
 #: playlistbox.cpp:437
 #, kde-format
@@ -1301,7 +1301,8 @@ msgstr "Bu dosyalar silinemedi."
 #: playlistbox.cpp:445
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
-msgstr "Bu çalma listesini koleksiyonunuzdan silmek istediğinize emin misiniz?"
+msgstr ""
+"Bu çalma listesini koleksiyonunuzdan silmek istediğinizden emin misiniz?"
 
 #: playlistbox.cpp:448
 #, kde-format
@@ -1689,7 +1690,7 @@ msgstr "&Uzunluk:"
 #: tageditor.ui:106
 #, kde-format
 msgid "&Bitrate:"
-msgstr "&Bit oranı:"
+msgstr "&Bit hızı:"
 
 #. i18n: ectx: property (text), widget (QLabel, commentLabel)
 #: tageditor.ui:116
@@ -1926,7 +1927,7 @@ msgstr "Parça Etiketlerini Değiştirme"
 #: upcomingplaylist.cpp:31
 #, kde-format
 msgid "Play Queue"
-msgstr "Kuyruğu Çal"
+msgstr "Çalma Kuyruğu"
 
 #: viewmode.cpp:66
 #, kde-format
@@ -1979,89 +1980,3 @@ msgstr "Ses: %​%1 (sessiz)"
 #, kde-format
 msgid "Volume: %1%"
 msgstr "Ses: %​%1"
-
-#~ msgid "<All Artists>"
-#~ msgstr "<Tüm Sanatçılar>"
-
-#~ msgid "Remove Cover"
-#~ msgstr "Kapağı Kaldır"
-
-#~ msgid "Cover Manager"
-#~ msgstr "Kapak Yöneticisi"
-
-#~ msgid "Your album art failed to download."
-#~ msgstr "Albüm kapağı indirilemedi."
-
-#~ msgid "Your album art has finished downloading."
-#~ msgstr "Albüm kapağının indirilmesi işlemi tamamlandı."
-
-#~ msgid "Are you sure you want to delete these covers?"
-#~ msgstr "Bu kapakları silmek istediğinize emin misiniz?"
-
-#~ msgid "&Delete Covers"
-#~ msgstr "Kapakları &Sil"
-
-#~ msgid "Select Cover Image File"
-#~ msgstr "Kapak Görsel Dosyası Seç"
-
-#~ msgid "Images (*.png *.jpg)"
-#~ msgstr "Görseller (*.png *.jpg)"
-
-#~ msgid "Cover"
-#~ msgstr "Kapak"
-
-#~ msgid "&View Cover"
-#~ msgstr "Kapağı &Görüntüle"
-
-#~ msgid "Get Cover From &File..."
-#~ msgstr "Kapağı &Dosyadan Al..."
-
-#~ msgid "Get Cover From &Internet..."
-#~ msgstr "Kapağı &İnternetten Al..."
-
-#~ msgid "&Delete Cover"
-#~ msgstr "Kapağı Si&l"
-
-#~ msgid "Show Cover &Manager"
-#~ msgstr "Kapak Yöneticisi&ni Göster"
-
-#~ msgid "Searching for cover. Please Wait..."
-#~ msgstr "Albüm kapağı aranıyor. Lütfen bekleyin..."
-
-#~ msgid "Album '%1' not found."
-#~ msgstr "\"%1\" albümü bulunamadı."
-
-#~ msgctxt "@title:window"
-#~ msgid "Album not Found"
-#~ msgstr "Albüm Bulunamadı"
-
-#~ msgid ""
-#~ "Error %1 when searching for cover:\n"
-#~ "%2"
-#~ msgstr ""
-#~ "Kapak aranırken %1 hatası:\n"
-#~ "%2"
-
-#~ msgid "No available cover for the album '%1'."
-#~ msgstr "'%1' albümü için kullanılabilir kapak yok."
-
-#~ msgctxt "@title:window"
-#~ msgid "Cover not Available"
-#~ msgstr "Kapak Yok"
-
-#~ msgid "Downloading cover. Please Wait..."
-#~ msgstr "Albüm kapağı indiriliyor. Lütfen bekleyin..."
-
-#~ msgid "Cover found"
-#~ msgstr "Albüm kapağı bulundu"
-
-#~ msgid "Failed to download requested cover art: %1"
-#~ msgstr "İstenen kapak indirilemedi: %1"
-
-#~ msgctxt "@title:window"
-#~ msgid "Could not download cover art"
-#~ msgstr "Kapak indirilemedi"
-
-#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-#~ msgstr ""
-#~ "Albüm kapağı <a href='http://last.fm/'>last.fm</a> sitesinden alındı."
