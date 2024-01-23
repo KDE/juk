@@ -528,9 +528,9 @@ Show Cover Manager
 >L'editor de marques de &juk;</title>
 
 <para
->Per a molts formats de fitxer, és pràctic utilitzar el nom de fitxer per descriure el contingut del fitxer: «<filename
+>Per a molts formats de fitxer, és pràctic utilitzar el nom de fitxer per a descriure el contingut del fitxer: «<filename
 >Report for the board - June 2003.doc</filename
->», per exemple, pot ser tota la informació necessària per trobar aquest fitxer de nou. En mirar de capturar tota la informació útil sobre un tema en particular, però, podria donar com a resultat un nom de fitxer com aquest: «<filename
+>», per exemple, pot ser tota la informació necessària per a trobar aquest fitxer de nou. En mirar de capturar tota la informació útil sobre un tema en particular, però, podria donar com a resultat un nom de fitxer com aquest: «<filename
 >Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.mp3</filename
 >» o «<filename
 >Various Artists_15_The Smithsonian Collection of Classic Jazz Volume II_Jimmie Lunceford &amp; His Orchestra - Organ Grinder's Swing.mp3</filename
@@ -883,7 +883,7 @@ Show Cover Manager
 >Modifica</guibutton
 > per a canviar-lo, o el botó <guibutton
 >Elimina</guibutton
-> per eliminar-lo de la llista. </para>
+> per a eliminar-lo de la llista. </para>
 </sect1>
 
 <sect1 id="juk-advanced-search-dialog">
