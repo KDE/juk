@@ -29,7 +29,6 @@
 #include <QMimeDatabase>
 
 #include <taglib.h>
-#include <taglib_config.h>
 #include <tag.h>
 #include <tdebuglistener.h>
 #include <mpegfile.h>
