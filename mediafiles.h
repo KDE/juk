@@ -28,8 +28,6 @@ namespace TagLib {
     class File;
 }
 
-#include <taglib_config.h>
-
 /**
  * A namespace for file JuK's file related functions.  The goal is to hide
  * all specific knowledge of mimetypes and file extensions here.
