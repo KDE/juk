@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 01:54+0000\n"
+"POT-Creation-Date: 2024-01-30 02:27+0000\n"
 "PO-Revision-Date: 2023-12-31 19:03+0100\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -1100,18 +1100,18 @@ msgstr ""
 msgid "JuK Docked"
 msgstr "JuK nel vassoio di sistema"
 
-#: mediafiles.cpp:135
+#: mediafiles.cpp:134
 #, kde-format
 msgctxt "open audio file"
 msgid "Open"
 msgstr "Apri"
 
-#: mediafiles.cpp:148
+#: mediafiles.cpp:147
 #, kde-format
 msgid "Save Playlist"
 msgstr "Salva scaletta"
 
-#: mediafiles.cpp:150
+#: mediafiles.cpp:149
 #, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"

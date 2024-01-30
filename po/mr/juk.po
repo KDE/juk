@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 01:54+0000\n"
+"POT-Creation-Date: 2024-01-30 02:27+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -1088,19 +1088,19 @@ msgstr ""
 msgid "JuK Docked"
 msgstr ""
 
-#: mediafiles.cpp:135
+#: mediafiles.cpp:134
 #, kde-format
 msgctxt "open audio file"
 msgid "Open"
 msgstr "उघडा"
 
-#: mediafiles.cpp:148
+#: mediafiles.cpp:147
 #, fuzzy, kde-format
 #| msgid "Search Playlist"
 msgid "Save Playlist"
 msgstr "प्ले यादी शोधा"
 
-#: mediafiles.cpp:150
+#: mediafiles.cpp:149
 #, fuzzy, kde-format
 #| msgid "Playlists"
 msgctxt "For save dialog, %1 is always .m3u"

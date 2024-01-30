@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 01:54+0000\n"
+"POT-Creation-Date: 2024-01-30 02:27+0000\n"
 "PO-Revision-Date: 2023-12-31 09:20+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1104,18 +1104,18 @@ msgstr ""
 msgid "JuK Docked"
 msgstr "JuK acoblat"
 
-#: mediafiles.cpp:135
+#: mediafiles.cpp:134
 #, kde-format
 msgctxt "open audio file"
 msgid "Open"
 msgstr "Obre"
 
-#: mediafiles.cpp:148
+#: mediafiles.cpp:147
 #, kde-format
 msgid "Save Playlist"
 msgstr "Desa la llista de reproducció"
 
-#: mediafiles.cpp:150
+#: mediafiles.cpp:149
 #, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"

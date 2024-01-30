@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 01:54+0000\n"
+"POT-Creation-Date: 2024-01-30 02:27+0000\n"
 "PO-Revision-Date: 2023-12-31 06:07+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -1097,18 +1097,18 @@ msgstr ""
 msgid "JuK Docked"
 msgstr "JuK ჩაკეცილია"
 
-#: mediafiles.cpp:135
+#: mediafiles.cpp:134
 #, kde-format
 msgctxt "open audio file"
 msgid "Open"
 msgstr "გახსნა"
 
-#: mediafiles.cpp:148
+#: mediafiles.cpp:147
 #, kde-format
 msgid "Save Playlist"
 msgstr "დასაკრავი სიის შენახვა"
 
-#: mediafiles.cpp:150
+#: mediafiles.cpp:149
 #, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"

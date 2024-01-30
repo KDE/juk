@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdemultimedia/juk.pot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 01:54+0000\n"
+"POT-Creation-Date: 2024-01-30 02:27+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: br <LL@li.org>\n"
@@ -1076,20 +1076,20 @@ msgstr ""
 msgid "JuK Docked"
 msgstr ""
 
-#: mediafiles.cpp:135
+#: mediafiles.cpp:134
 #, fuzzy, kde-format
 #| msgid "Open"
 msgctxt "open audio file"
 msgid "Open"
 msgstr "Digeriñ"
 
-#: mediafiles.cpp:148
+#: mediafiles.cpp:147
 #, fuzzy, kde-format
 #| msgid "Search Playlist"
 msgid "Save Playlist"
 msgstr "Klask ur roll tonioù"
 
-#: mediafiles.cpp:150
+#: mediafiles.cpp:149
 #, fuzzy, kde-format
 #| msgid "Playlists"
 msgctxt "For save dialog, %1 is always .m3u"

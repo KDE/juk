@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 01:54+0000\n"
+"POT-Creation-Date: 2024-01-30 02:27+0000\n"
 "PO-Revision-Date: 2023-12-31 11:09+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1099,18 +1099,18 @@ msgstr ""
 msgid "JuK Docked"
 msgstr "JuK zasidran"
 
-#: mediafiles.cpp:135
+#: mediafiles.cpp:134
 #, kde-format
 msgctxt "open audio file"
 msgid "Open"
 msgstr "Odpri"
 
-#: mediafiles.cpp:148
+#: mediafiles.cpp:147
 #, kde-format
 msgid "Save Playlist"
 msgstr "Shrani seznam predvajanja"
 
-#: mediafiles.cpp:150
+#: mediafiles.cpp:149
 #, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
