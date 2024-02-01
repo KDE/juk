@@ -64,7 +64,7 @@
 
 <abstract>
 <para
->&juk; est un juke-box, un éditeur d'étiquettes et un gestionnaire de discothèque. </para>
+>&juk; est un jukebox, un éditeur d'étiquettes et un gestionnaire de discothèque. </para>
 </abstract>
 
 <keywordset>
@@ -79,7 +79,7 @@
 <keyword
 >lecteur</keyword>
 <keyword
->juke-box</keyword>
+>jukebox</keyword>
 <keyword
 >JuK</keyword>
 </keywordset>
@@ -370,7 +370,7 @@
 ><guimenuitem
 >Outil de renommage de fichier...</guimenuitem
 ></menuchoice
->. Le nom résultant pour chaque fichier est fondé sur ces étiquettes de méta-données. Par exemple, la chanson Ogg Vorbis <quote
+>. Le nom résultant pour chaque fichier est fondé sur ces étiquettes de méta-données. Par exemple, la chanson « Ogg Vorbis » <quote
 >The Theme (Metroid)</quote
 > par Stemage pourrait donner <filename
 >/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
@@ -2014,7 +2014,7 @@ Play Next Album
 <listitem
 ><para
 >Cette commande tente de deviner les étiquettes des fichiers sélectionnés en utilisant la bibliothèque <application
->tunePimp</application
+>TunePimp</application
 > fournie par <ulink url="http://www.musicbrainz.org/"
 >MusicBrainz</ulink
 >.</para>
