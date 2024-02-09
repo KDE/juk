@@ -1,7 +1,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010, 2011.
-# Vít Pelčák <vit@pelcak.org>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2024 Vít Pelčák <vit@pelcak.org>
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
 # Vit Pelcak <vit@pelcak.org>, 2021, 2023.
 #
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 02:27+0000\n"
-"PO-Revision-Date: 2023-02-22 14:30+0100\n"
+"PO-Revision-Date: 2024-01-19 15:55+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -849,10 +849,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Jukebox a správce hudby od komunity KDE"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Autorská práva © 2002–2021, Scott Wheeler, Michael Pyne a další"
+msgstr "Autorská práva © 2002–2023, Scott Wheeler, Michael Pyne a další"
 
 #: main.cpp:44
 #, kde-format
@@ -877,13 +876,12 @@ msgstr "Asistent superhrdina, opravář řady chyb"
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE Frameworks 5 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Když se nenašel nikdo jiný, port do KDE Frameworks 5"
+msgstr "Když se nenašel nikdo jiný, port do KDE Frameworks 6"
 
 #: main.cpp:47
 #, kde-format
@@ -1972,88 +1970,3 @@ msgstr "Hlasitost: %1% (ztlumeno)"
 #, kde-format
 msgid "Volume: %1%"
 msgstr "Hlasitost: %1%"
-
-#~ msgid "<All Artists>"
-#~ msgstr "<Všichni umělci>"
-
-#~ msgid "Remove Cover"
-#~ msgstr "Odstranit obal"
-
-#~ msgid "Cover Manager"
-#~ msgstr "Správce obalů"
-
-#~ msgid "Your album art failed to download."
-#~ msgstr "Vaše album se nepovedlo stáhnout"
-
-#~ msgid "Your album art has finished downloading."
-#~ msgstr "Vaše album bylo úspěšně staženo"
-
-#~ msgid "Are you sure you want to delete these covers?"
-#~ msgstr "Jste si jistí, že si přejete smazat tyto obaly?"
-
-#~ msgid "&Delete Covers"
-#~ msgstr "Smazat o&baly"
-
-#~ msgid "Select Cover Image File"
-#~ msgstr "Vybrat obrázek s obalem"
-
-#~ msgid "Images (*.png *.jpg)"
-#~ msgstr "Obrázky (*.png *.jpg)"
-
-#~ msgid "Cover"
-#~ msgstr "Obal"
-
-#~ msgid "&View Cover"
-#~ msgstr "Zo&brazit obal"
-
-#~ msgid "Get Cover From &File..."
-#~ msgstr "Získat oba&l ze souboru..."
-
-#~ msgid "Get Cover From &Internet..."
-#~ msgstr "Získat obal z &Internetu..."
-
-#~ msgid "&Delete Cover"
-#~ msgstr "S&mazat obal"
-
-#~ msgid "Show Cover &Manager"
-#~ msgstr "Zo&brazit správce obalů"
-
-#~ msgid "Searching for cover. Please Wait..."
-#~ msgstr "Hledám obaly. Prosím čekejte..."
-
-#~ msgid "Album '%1' not found."
-#~ msgstr "Album '%1' nebylo nalezeno."
-
-#~ msgctxt "@title:window"
-#~ msgid "Album not Found"
-#~ msgstr "Album nebylo nalezeno"
-
-#~ msgid ""
-#~ "Error %1 when searching for cover:\n"
-#~ "%2"
-#~ msgstr ""
-#~ "Chyba %1 při hledání obalu:\n"
-#~ "%2"
-
-#~ msgid "No available cover for the album '%1'."
-#~ msgstr "Pro album '%1' není dostupný žádný obal."
-
-#~ msgctxt "@title:window"
-#~ msgid "Cover not Available"
-#~ msgstr "Obal není k dispozici"
-
-#~ msgid "Downloading cover. Please Wait..."
-#~ msgstr "Stahuji obal. Prosím čekejte..."
-
-#~ msgid "Cover found"
-#~ msgstr "Obal nalezen"
-
-#~ msgid "Failed to download requested cover art: %1"
-#~ msgstr "Nepodařilo se stáhnout požadovaný obal: %1"
-
-#~ msgctxt "@title:window"
-#~ msgid "Could not download cover art"
-#~ msgstr "Obal nelze stáhnout"
-
-#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-#~ msgstr "Obal získán z <a href='https://last.fm/'>last.fm</a>."
