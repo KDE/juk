@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2024-01-21 17:35+0300\n"
+"PO-Revision-Date: 2024-02-09 17:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -728,7 +728,7 @@ msgid ""
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
 "<qt>Ana pencereyi kapattığınızda JuK sistem tepsisinde çalışmayı "
-"sürdürecektir. Programı kapatmak için Dosya menüsünden Çık'ı seçin.</qt>"
+"sürdürecektir. Programı kapatmak için Dosya menüsünden Çık’ı seçin.</qt>"
 
 #: juk.cpp:531
 #, kde-format
@@ -1058,7 +1058,7 @@ msgstr "Maks Orlovich"
 #: main.cpp:62
 #, kde-format
 msgid "Making JuK friendlier to people with terabytes of music"
-msgstr "JuK'u terabaytlarca müzikle birlikte insanlara daha dost yapmak"
+msgstr "JuK’u terabaytlarca müzikle birlikte insanlara daha dost yapmak"
 
 #: main.cpp:63
 #, kde-format
