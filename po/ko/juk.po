@@ -1,7 +1,7 @@
 # Korean messages for juk.
 # Copyright (C) 2004, 2007 Free Software Foundation, Inc.
 # Jeon Byeong Sik <jn1654@hanmail.net>, 2004.
-# Shinjo Park <kde@peremen.name>, 2007, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021.
+# SPDX-FileCopyrightText: 2007, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021, 2024 Shinjo Park <kde@peremen.name>
 # 이정희 <daemul72@gmail.com>, 2019, 2020, 2021.
 #
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 02:27+0000\n"
-"PO-Revision-Date: 2021-05-23 16:56+0200\n"
+"PO-Revision-Date: 2024-02-09 20:16+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 20.12.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -839,10 +839,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "KDE 커뮤니티의 주크박스 및 음악 관리자"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+msgstr "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
 
 #: main.cpp:44
 #, kde-format
@@ -867,13 +866,12 @@ msgstr "보조 슈퍼히어로, 많은 것의 해결사"
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE Frameworks 5 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "아무도 없을 때 KDE 프레임워크 5로 이식"
+msgstr "아무도 없을 때 KDE 프레임워크 6으로 이식"
 
 #: main.cpp:47
 #, kde-format
