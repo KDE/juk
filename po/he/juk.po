@@ -3,19 +3,20 @@
 # Diego Iastrubni <elcuco@kde.org>, 2004, 2012.
 # Assaf Gillat <gillata@gmail.com>, 2005.
 # tahmar1900 <tahmar1900@gmail.com>, 2008, 2009.
+# SPDX-FileCopyrightText: 2024 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2012-11-20 23:55+0200\n"
-"Last-Translator: Diego Iastrubni <elcuco@kde.org>\n"
-"Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2024-02-12 09:06+0200\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 
@@ -32,33 +33,33 @@ msgstr "kde-l10n-he@kde.org, koala@linux.net, gillata@gmail.com"
 #: advancedsearchdialog.cpp:48
 #, kde-format
 msgid "Create Search Playlist"
-msgstr "צור רשימת השמעה לחיפוש"
+msgstr "יצירת רשימת נגינה לחיפוש"
 
 #: advancedsearchdialog.cpp:57
 #, kde-format
 msgid "Playlist name:"
-msgstr "שם רשימת ההשמעה:"
+msgstr "שם רשימת הנגינה:"
 
 #: advancedsearchdialog.cpp:61
 #, kde-format
 msgid "Search Criteria"
-msgstr "קריטריון לחיפוש"
+msgstr "תנאי חיפוש"
 
 #: advancedsearchdialog.cpp:66
 #, kde-format
 msgid "Match any of the following"
-msgstr "התאם אחר מהבאים"
+msgstr "ללכוד אחד מהבאים"
 
 #: advancedsearchdialog.cpp:67
 #, kde-format
 msgid "Match all of the following"
-msgstr "התאם את כל הבאים"
+msgstr "ללכוד את כל הבאים"
 
 #: advancedsearchdialog.cpp:91
 #, kde-format
 msgctxt "additional search options"
 msgid "More"
-msgstr "עוד"
+msgstr "יותר"
 
 #: advancedsearchdialog.cpp:96
 #, kde-format
@@ -77,7 +78,7 @@ msgstr ""
 #: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
-msgstr "רשימת אוסף"
+msgstr "רשימת אוספים"
 
 #: collectionlist.cpp:289
 #, kde-format
@@ -88,52 +89,51 @@ msgid ""
 "Note, however, that if the directory that these files are in is in your "
 "\"scan on startup\" list, they will be readded on startup."
 msgstr ""
-"הסרת פריט מתוך האוסף תסיר אותו גם מתוך כל רשימות ההשמעה שלך. האם אתה בטוח "
-"שאתה רוצה להמשיך?\n"
+"הסרת פריט מהאוסף תסיר אותו גם מתוך כל רשימות הנגינה שלך.  להמשיך?\n"
 "\n"
-"לידיעתך, אם התיקיות שבהם נמצאים קבצים אלו נמצאות ב\"סריקה בהפעלה\", הם "
+"כדאי לשים לב, אם התיקיות שבהן נמצאים קבצים אלו נמצאות ב„סריקה בהתחלה”, הם "
 "יצורפו מחדש."
 
 #: collectionlist.cpp:343
 #, kde-format
 msgid "Show Playing"
-msgstr "הצג מתנגן"
+msgstr "הצגת מה שמתנגן"
 
 #: deletedialog.cpp:65
-#, fuzzy, kde-format
+#, kde-format
 msgid "<b>1</b> file selected."
 msgid_plural "<b>%1</b> files selected."
-msgstr[0] "קובץ <b>אחד</b> נבחר."
-msgstr[1] "<b>%1</b> קבצים נבחרו."
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<b>קובץ</b> נבחר."
+msgstr[1] "<b>שני</b> קבצים נבחרו."
+msgstr[2] "<b>%1</b> קבצים נבחרו."
+msgstr[3] "<b>%1</b> קבצים נבחרו."
 
 #: deletedialog.cpp:78
 #, kde-format
 msgid ""
 "<qt>These items will be <b>permanently deleted</b> from your hard disk.</qt>"
-msgstr "<qt>פריטים אלו <b>ימחקו לצמיתות</b> מהדיסק הקשיח שלך.</qt>"
+msgstr "<qt>פריטים אלו <b>יימחקו לצמיתות</b> מהכונן הקשיח שלך.</qt>"
 
 #: deletedialog.cpp:84
 #, kde-format
 msgid "<qt>These items will be moved to the Trash Bin.</qt>"
-msgstr "<qt>פריטים אלו יועברו אל פח האשפה.</qt>"
+msgstr "<qt>פריטים אלו יועברו לסל האשפה.</qt>"
 
 #: deletedialog.cpp:96
 #, kde-format
 msgid "&Send to Trash"
-msgstr "&שלח אל פח האשפה"
+msgstr "&שליחה לסל האשפה"
 
 #: deletedialog.cpp:100
 #, kde-format
 msgid "About to delete selected files"
-msgstr "עומד למחוק קבצים נבחרים"
+msgstr "הקבצים הנבחרים יימחקו"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
 #, kde-format
 msgid "Are you sure that you want to remove these items?"
-msgstr "האם אתה בטוח שברצונך למחוק פריטים אלו?"
+msgstr "למחוק פריטים אלו?"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:138
@@ -141,7 +141,7 @@ msgstr "האם אתה בטוח שברצונך למחוק פריטים אלו?"
 msgid ""
 "If checked, files will be permanently removed instead of being placed in the "
 "Trash Bin"
-msgstr "אם מסומן, קבצים ימחקו לצמיתות במקום להיות מועברים לפח האשפה"
+msgstr "אם מסומן, קבצים יימחקו לצמיתות במקום שיועברו לסל האשפה"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:143
@@ -153,17 +153,17 @@ msgid ""
 "<p><em>Use this option with caution</em>: Most filesystems are unable to "
 "reliably undelete deleted files.</p></qt>"
 msgstr ""
-"<qt><p>אם תיבת סימון זו סומנה, הקבצים <b>יוסרו לצמיתות</b> במקום להיות "
-"ממוקמים בפח האשפה.</p>\n"
+"<qt><p>אם התיבה הזאת מסומנת, הקבצים <b>יוסרו לצמיתות</b> במקום שיועברו לסל "
+"האשפה.</p>\n"
 "\n"
-"<p><em>השתמש באפשרות זו בזהירות</em>: רוב מערכות הקבצים לא מסוגלות לבטל "
-"מחיקת קבצים באופן אמין.</p></qt>"
+"<p><em>רצוי לנקוט במשנה זהירות עם ההגדרה הזאת</em>: רוב מערכות הקבצים לא "
+"יכולות לשחזר קבצים בצורה אמינה.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:146
 #, kde-format
 msgid "&Delete files instead of moving them to the trash"
-msgstr "&מחק קבצים במקום להעביר אותם לסל האשפה"
+msgstr "למ&חוק קבצים במקום להעביר אותם לסל האשפה"
 
 #: directorylist.cpp:55
 #, kde-format
@@ -174,40 +174,40 @@ msgstr "רשימת תיקיות"
 #: directorylistbase.ui:19
 #, kde-format
 msgid "Please choose the folders where you keep your music:"
-msgstr ""
+msgstr "נא לבחור את התיקיות בהן מאוחסנת המוזיקה שלך:"
 
 #. i18n: ectx: property (toolTip), widget (QListView, directoryListView)
 #. i18n: ectx: property (toolTip), widget (QListView, excludeDirectoryListView)
 #: directorylistbase.ui:34 directorylistbase.ui:117
 #, kde-format
 msgid "These folders will be scanned on startup for new files."
-msgstr "תיקיות אלו יעברו סריקת קבצים חדשים בהפעלה."
+msgstr "עם ההפעלה תיקיות אלו תיסרקנה לאיתור קבצים חדשים."
 
 #. i18n: ectx: property (text), widget (QPushButton, addDirectoryButton)
 #. i18n: ectx: property (text), widget (QPushButton, addExcludeDirectoryButton)
 #: directorylistbase.ui:64 directorylistbase.ui:147
 #, kde-format
 msgid "Add Folder..."
-msgstr "הוסף תיקייה..."
+msgstr "הוספת תיקייה…"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeDirectoryButton)
 #. i18n: ectx: property (text), widget (QPushButton, removeExcludeDirectoryButton)
 #: directorylistbase.ui:71 directorylistbase.ui:154
 #, kde-format
 msgid "Remove Folder"
-msgstr "הסר תיקייה"
+msgstr "הסרת תיקייה"
 
 #. i18n: ectx: property (text), widget (QLabel, ExcludeInformationLabel)
 #: directorylistbase.ui:102
 #, kde-format
 msgid "Please choose the folders that should be excluded from music search:"
-msgstr ""
+msgstr "נא לבחור תיקיות שיוחרגו מחיפוש המוזיקה:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, importPlaylistsCheckBox)
 #: directorylistbase.ui:183
 #, kde-format
 msgid "Import playlists"
-msgstr "ייבא רשימות השמעה"
+msgstr "ייבוא רשימות השמעה"
 
 #: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
@@ -226,19 +226,19 @@ msgstr "דוגמה"
 #: exampleoptionsbase.ui:37
 #, kde-format
 msgid "Example Tag Selection"
-msgstr "דוגמת בחירת תגית"
+msgstr "בחירת תגיות לדוגמה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_fileTagsButton)
 #: exampleoptionsbase.ui:58
 #, kde-format
 msgid "Get example tags from this file:"
-msgstr "השג תגיות דוגמה מקובץ זה:"
+msgstr "משיכת תגיות דוגמה מקובץ זה:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_manualTagsButton)
 #: exampleoptionsbase.ui:81
 #, kde-format
 msgid "Enter example tags manually:"
-msgstr "הכנס תגיות דוגמה ידנית:"
+msgstr "מילוי תגיות דוגמה ידנית:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_manualGroup)
 #: exampleoptionsbase.ui:91
@@ -257,7 +257,7 @@ msgstr "כותרת:"
 #: exampleoptionsbase.ui:145
 #, kde-format
 msgid "Artist:"
-msgstr "אמן:"
+msgstr "אומן:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: exampleoptionsbase.ui:155
@@ -294,7 +294,7 @@ msgstr "כותרת"
 #: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
-msgstr "אמן"
+msgstr "אומן"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
 #: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
@@ -319,8 +319,7 @@ msgstr "אזהרה"
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
 "continue?"
-msgstr ""
-"הנך עומד לשנות את השמות של הקבצים הבאים. האם אתה בטוח שאתה רוצה להמשיך?"
+msgstr "פעולה זו תשנה את שמות הקבצים הבאים. להמשיך?"
 
 #: filerenamer.cpp:105
 #, kde-format
@@ -341,7 +340,7 @@ msgstr "ללא שינוי"
 #, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
-msgstr "הסר"
+msgstr "הסרה"
 
 #: filerenamer.cpp:412
 #, kde-format
@@ -352,28 +351,28 @@ msgstr "אפשרויות"
 #: filerenamer.cpp:524
 #, kde-format
 msgid "Insert folder separator"
-msgstr "הכנס מפריד תיקייה"
+msgstr "הוספת מפריד תיקייה"
 
 #: filerenamer.cpp:595
 #, kde-format
 msgid "No file selected, or selected file has no tags."
-msgstr "לא נבחרו קבצים, או קבצים נבחרים הם ללא תגיות."
+msgstr "לא נבחרו קבצים, או שהקבצים שנבחרו נטולי תגיות."
 
 #: filerenamer.cpp:826
 #, kde-format
 msgid "Hide Renamer Test Dialog"
-msgstr "הסתר חלון דו־שיח של בדיקת שינוי שם"
+msgstr "הסתרץ חלונית בדיקת שינוי שם"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
 #: filerenamer.cpp:831 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
-msgstr "הצג חלון דו־שיח של בדיקת שינוי שם"
+msgstr "הצגת חלונית בדיקת שינוי שם"
 
 #: filerenamer.cpp:911
 #, kde-format
 msgid "%1 to %2"
-msgstr "%1 אל %2"
+msgstr "%1 לשם %2"
 
 #: filerenamer.cpp:916
 #, kde-format
@@ -402,7 +401,7 @@ msgstr "תגית אלבום"
 #: filerenamerbase.ui:95
 #, kde-format
 msgid "Artist Tag"
-msgstr "תגית אמן"
+msgstr "תגית אומן"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:100
@@ -432,14 +431,13 @@ msgstr "תגית שנה"
 #: filerenamerbase.ui:123
 #, kde-format
 msgid "Insert Category"
-msgstr "הכנס קטגוריה"
+msgstr "נא למלא קטגוריה"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: filerenamerbase.ui:135
-#, fuzzy, kde-format
-#| msgid "Add category:"
+#, kde-format
 msgid "&Add category:"
-msgstr "הוסף קטגוריה:"
+msgstr "הו&ספת קטגוריה:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #: filerenamerbase.ui:145
@@ -466,7 +464,7 @@ msgstr "תבנית %1"
 #: filerenameroptions.cpp:40
 #, kde-format
 msgid "When the Track's %1 is Empty"
-msgstr "כאשר הרצועה %1 ריקה"
+msgstr "כאשר ה%1 של הרצועה ריק"
 
 #: filerenameroptions.cpp:41
 #, kde-format
@@ -475,8 +473,8 @@ msgid ""
 "you have in your track's %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
-"כאשר משתמשים במשנה שמות קבצים, שמות הקבצים שלך ישונו לערכים שיש לך בתגית "
-"הרצועה %1 שלך, בתוספת של מידע נוסף שציינת למטה."
+"כאשר משתמשים במשנה שמות קבצים, שמות הקבצים שלך ישונו לערכים שיש בתגית הרצועה "
+"%1 שלך, בצירוף פרטים נוספים שציינת למטה."
 
 #: filerenameroptions.cpp:114
 #, kde-format
@@ -487,25 +485,25 @@ msgstr "משנה שמות קבצים"
 #: filerenameroptionsbase.ui:115
 #, kde-format
 msgid "Substitution Example"
-msgstr "דוגמת תוספת"
+msgstr "החלפה לדוגמה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_includeEmptyButton)
 #: filerenameroptionsbase.ui:137
 #, kde-format
 msgid "Include in the &filename anyways"
-msgstr "כלול בשם הקובץ בכל מקרה"
+msgstr "לכלול בשם הקובץ ב&כל מקרה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_ignoreTagButton)
 #: filerenameroptionsbase.ui:144
 #, kde-format
 msgid "&Ignore this tag when renaming the file"
-msgstr "ה&תעלם מתגית זאת בזמן שינוי שם הקובץ"
+msgstr "ה&תעלמות מתגית זאת בשינוי שם הקובץ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_useValueButton)
 #: filerenameroptionsbase.ui:162
 #, kde-format
 msgid "Use &this value:"
-msgstr "השתמש בערך &זה:"
+msgstr "להשתמש בערך ה&זה:"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_emptyTagValue)
 #: filerenameroptionsbase.ui:172
@@ -518,26 +516,23 @@ msgstr "ריק"
 #: filerenameroptionsbase.ui:184
 #, kde-format
 msgid "Track numbering"
-msgstr "מספור רצועה"
+msgstr "מספור רצועות"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: filerenameroptionsbase.ui:196
-#, fuzzy, kde-format
-#| msgid ""
-#| "JuK can force the track used in a file name to have a minimum number of "
-#| "digits.  You may want to do this for better sorting in file managers."
+#, kde-format
 msgid ""
 "JuK can force the track used in a file name to have a minimum number of "
 "digits. You may want to do this for better sorting in file managers."
 msgstr ""
-"היישום JuK יכול לכפות על רצועה שבשימוש בקובץ להיות בעלת מספר מינימלי של "
-"ספרות.  אתה עשוי לרצות לעשות זאת על מנת ליצור מיון יותר טוב במנהל הקבצים."
+"היישום JuK יכול לכפות שבשם הקובץ תהיה כמות מזערית של ספרות. עשוי לסייע "
+"בסידור נוח יותר במנהלי קבצים."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: filerenameroptionsbase.ui:228
 #, kde-format
 msgid "Minimum number of digits:"
-msgstr ""
+msgstr "מספר הספרות המזערי:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_doubleDigitExample)
 #: filerenameroptionsbase.ui:266
@@ -576,37 +571,37 @@ msgstr "&נגינה אקראית"
 #: juk.cpp:247
 #, kde-format
 msgid "&Disable Random Play"
-msgstr "&בטל נגינה אקראית"
+msgstr "ה&שבתת נגינה אקראית"
 
 #: juk.cpp:253
 #, kde-format
 msgid "Use &Random Play"
-msgstr "ה&שתמש בנגינה אקראית"
+msgstr "לה&שתמש בנגינה אקראית"
 
 #: juk.cpp:259
 #, kde-format
 msgid "Use &Album Random Play"
-msgstr "השתמש בנגינה אקראית של &אלבום"
+msgstr "להשתמש בנגינת &אלבום אקראית"
 
 #: juk.cpp:267
 #, kde-format
 msgid "Remove From Playlist"
-msgstr "הסר מרשימת השמעה"
+msgstr "הסרה מרשימת נגינה"
 
 #: juk.cpp:271
 #, kde-format
 msgid "&Play"
-msgstr "&נגן"
+msgstr "&ניגון"
 
 #: juk.cpp:276
 #, kde-format
 msgid "P&ause"
-msgstr "ה&שהה"
+msgstr "ה&שהיה"
 
 #: juk.cpp:281
 #, kde-format
 msgid "&Stop"
-msgstr "&עצור"
+msgstr "&עצירה"
 
 #: juk.cpp:284
 #, kde-format
@@ -623,83 +618,83 @@ msgstr "ה&באה"
 #: juk.cpp:295
 #, kde-format
 msgid "&Loop Playlist"
-msgstr "נגן רשימת השמעה ב&לולאה"
+msgstr "ניגון במ&חזוריות"
 
 #: juk.cpp:299
 #, kde-format
 msgid "&Resize Playlist Columns Manually"
-msgstr "שנה את ה&גודל של עמודות רשימת ההשמעה ידנית"
+msgstr "שינוי &גודל עמודות רשימת הנגינה ידנית"
 
 #: juk.cpp:304
 #, kde-format
 msgctxt "silence playback"
 msgid "Mute"
-msgstr "השתק"
+msgstr "השתקה"
 
 #: juk.cpp:308
 #, kde-format
 msgid "Volume Up"
-msgstr "הגבר עוצמת קול"
+msgstr "הגברת עוצמת קול"
 
 #: juk.cpp:312
 #, kde-format
 msgid "Volume Down"
-msgstr "הנמך עוצמת קול"
+msgstr "הנמכת עוצמת קול"
 
 #: juk.cpp:316
 #, kde-format
 msgid "Play / Pause"
-msgstr "נגן / השהה"
+msgstr "ניגון / השהיה"
 
 #: juk.cpp:320
 #, kde-format
 msgid "Seek Forward"
-msgstr "סרוק קדימה"
+msgstr "דילוג קדימה"
 
 #: juk.cpp:324
 #, kde-format
 msgid "Seek Back"
-msgstr "סרוק אחורה"
+msgstr "דילוג אחורה"
 
 #: juk.cpp:328
 #, kde-format
 msgid "Show / Hide"
-msgstr "הצג / הסתר"
+msgstr "הצגה / הסתרה"
 
 #: juk.cpp:335
 #, kde-format
 msgid "&Dock in System Tray"
-msgstr "&עגן למגש המערכת"
+msgstr "&עיגון למגש המערכת"
 
 #: juk.cpp:339
 #, kde-format
 msgid "&Stay in System Tray on Close"
-msgstr "&הישאר במגש המערכת לאחר הסגירה"
+msgstr "היישום יישאר במ&גש המערכת עם הסגירה"
 
 #: juk.cpp:342
 #, kde-format
 msgid "Popup &Track Announcement"
-msgstr "הקפץ הודעות &רצועה"
+msgstr "הקפצת הודעות &רצועה"
 
 #: juk.cpp:345
 #, kde-format
 msgid "Save &Play Queue on Exit"
-msgstr "שמור &תור השמעה ביציאה"
+msgstr "שמירת &תור הנגינה ביציאה"
 
 #: juk.cpp:348
 #, kde-format
 msgid "&Tag Guesser..."
-msgstr "&מנחש תגיות..."
+msgstr "מ&נחש תגיות…"
 
 #: juk.cpp:351
 #, kde-format
 msgid "&File Renamer..."
-msgstr "&משנה שמות הקבצים..."
+msgstr "מ&שנה שמות קבצים…"
 
 #: juk.cpp:354
 #, kde-format
 msgid "&Configure scrobbling..."
-msgstr ""
+msgstr "ה&גדרת התאמה מוזיקלית…"
 
 #: juk.cpp:361
 #, kde-format
@@ -707,10 +702,9 @@ msgid "Track Position"
 msgstr "מיקום הרצועה"
 
 #: juk.cpp:363 slider.cpp:127
-#, fuzzy, kde-format
-#| msgid "Volume Up"
+#, kde-format
 msgid "Volume"
-msgstr "הגבר עוצמת קול"
+msgstr "עוצמת שמע"
 
 #: juk.cpp:529
 #, kde-format
@@ -718,8 +712,8 @@ msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
-"<qt>סגירת חלון ראשי תשאיר את JuK פועלת במגש המערכת. השתמש ב-צא מתוך תפריט "
-"קובץ לסגירת היישום.</qt>"
+"<qt>סגירת החלון הראשי תשאיר את JuK פועלת במגש המערכת. יש להשתמש ביציאה "
+"שבתפריט קובץ כדי לסגור את היישום.</qt>"
 
 #: juk.cpp:531
 #, kde-format
@@ -727,11 +721,10 @@ msgid "Docking in System Tray"
 msgstr "מעוגן למגש המערכת"
 
 #: juktag.cpp:90
-#, fuzzy, kde-format
-#| msgid "%1 to %2"
+#, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
 msgid "%1 - <i>%2</i>"
-msgstr "%1 אל %2"
+msgstr "%1 - <i>%2</i>"
 
 #. i18n: ectx: Menu (file)
 #: jukui-rtl.rc:4 jukui.rc:6
@@ -761,7 +754,7 @@ msgstr "&עורך תגיות"
 #: jukui-rtl.rc:66 jukui.rc:68
 #, kde-format
 msgid "&Settings"
-msgstr "&הגדרות"
+msgstr "ה&גדרות"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: jukui-rtl.rc:79 jukui.rc:81
@@ -773,12 +766,12 @@ msgstr "סרגל כלים ראשי"
 #: jukui-rtl.rc:97 jukui.rc:99
 #, kde-format
 msgid "Play Toolbar"
-msgstr "סרגל כלים של ניגון"
+msgstr "סרגל כלים של נגינה"
 
 #: keydialog.cpp:102
 #, kde-format
 msgid "Configure Shortcuts"
-msgstr "הגדר קיצורי מקשים"
+msgstr "הגדרת קיצורי מקשים"
 
 #: keydialog.cpp:118
 #, kde-format
@@ -793,7 +786,7 @@ msgstr "&ללא מקשים"
 #: keydialog.cpp:128
 #, kde-format
 msgid "&Standard keys"
-msgstr "&מקשים סטנדרטיים"
+msgstr "&מקשים תקניים"
 
 #: keydialog.cpp:132
 #, kde-format
@@ -804,155 +797,149 @@ msgstr "&מקשי מולטימדיה"
 #, kde-format
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
-msgstr "כאן הנך יכול לבחור מקשים לשימוש כקיצורים כללים לשליטה על הנגן."
+msgstr "כאן אפשר לבחור מקשים לשימוש כקיצורים כלליים לשליטה על הנגן."
 
 #: lyricswidget.cpp:51
-#, fuzzy, kde-format
-#| msgid "Show &History"
+#, kde-format
 msgid "Show &Lyrics"
-msgstr "הצג &היסטוריה"
+msgstr "הצגת מילות ה&שיר"
 
 #: lyricswidget.cpp:78
 #, kde-format
 msgid "<i>No file playing.</i>"
-msgstr ""
+msgstr "<i>לא מתנגן אף קובץ.</i>"
 
 #: lyricswidget.cpp:83
 #, kde-format
 msgid "<i>Loading...</i>"
-msgstr ""
+msgstr "<i>בטעינה…</i>"
 
 #: lyricswidget.cpp:88
 #, kde-format
 msgid ""
 "<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
-msgstr ""
+msgstr "<i>אין מילים שזמינות לשיר %1 (אין ספק מילות שירים זמין)</i>"
 
 #: lyricswidget.cpp:129 lyricswidget.cpp:158
 #, kde-format
 msgid "<span style='color:red'>Error while retrieving lyrics!</span>"
-msgstr ""
+msgstr "<span style='color:red'>שגיאה במשיכת מילות השיר!</span>"
 
 #: lyricswidget.cpp:174
 #, kde-format
 msgid "No lyrics available."
-msgstr ""
+msgstr "אין מילים זמינות לשיר."
 
 #: lyricswidget.cpp:183
 #, kde-format
 msgid "<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>"
-msgstr ""
+msgstr "<br /><br /><i>מילות המילים סופקו על ידי<a href='%1'>LyricWiki</a></i>"
 
 #: main.cpp:39
-#, fuzzy, kde-format
-#| msgid "Jukebox and music manager for KDE"
+#, kde-format
 msgid "Jukebox and music manager by the KDE community"
-msgstr "תיבת תקליטים ומנהל מוזיקה ל-KDE"
+msgstr "תיבת מוזיקה ומנהל מוזיקלי מבית קהילת KDE"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "© 2002 - 2009, Scott Wheeler"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "© 2002 - 2009, Scott Wheeler"
+msgstr "כל הזכויות שמורות © 2002–2023 לסקוט וילר, מייקל פיין ועוד"
 
 #: main.cpp:44
 #, kde-format
 msgid "Scott Wheeler"
-msgstr "Scott Wheeler"
+msgstr "סקוט וילר"
 
 #: main.cpp:44
 #, kde-format
 msgid "Author, chief dork and keeper of the funk"
-msgstr "מחבר, חנון ראשי ושומר הפאנק"
+msgstr "מחבר, חנון ראשי ומגן הפאנק"
 
 #: main.cpp:45
 #, kde-format
 msgid "Michael Pyne"
-msgstr "Michael Pyne"
+msgstr "מייקל פיין"
 
 #: main.cpp:45
-#, fuzzy, kde-format
-#| msgid "Assistant super-hero, fixer of many things"
+#, kde-format
 msgid "Assistant superhero, fixer of many things"
-msgstr "עוזר לגיבור העל, מתקן דברים רבים"
+msgstr "עוזר לגיבור העל, תיקן דברים רבים"
 
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "קארל שוואן"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "הסברה ל־KDE 4 כאשר אף אחד אחר לא היה בסביבה"
+msgstr "הסבה ל־KDE 6 כאשר אף אחד אחר לא היה בסביבה"
 
 #: main.cpp:47
 #, kde-format
 msgid "Kacper Kasper"
-msgstr ""
+msgstr "קצפר קספר"
 
 #: main.cpp:47
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 5 when no one else was around"
-msgstr "הסברה ל־KDE 4 כאשר אף אחד אחר לא היה בסביבה"
+msgstr "הסבה ל־KDE 5 כאשר אף אחד אחר לא היה בסביבה"
 
 #: main.cpp:48
 #, kde-format
 msgid "Eike Hein"
-msgstr ""
+msgstr "אייק היין"
 
 #: main.cpp:48
 #, kde-format
 msgid "MPRIS2 Interface implementation."
-msgstr ""
+msgstr "מימוש ממשק MPRIS2."
 
 #: main.cpp:49
 #, kde-format
 msgid "Martin Sandsmark"
-msgstr ""
+msgstr "מרטין זנדסמרק"
 
 #: main.cpp:49
 #, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
 msgstr ""
+"תמיכה בהתאמה מוזיקלית מול Last.fm, מילות שירים והכנות לתמיכה בתשתית KDE 5."
 
 #: main.cpp:50
 #, kde-format
 msgid "Γιώργος Κυλάφας (Giorgos Kylafas)"
-msgstr ""
+msgstr "Γιώργος Κυλάφας (גיורגוס קילפאס)"
 
 #: main.cpp:50
 #, kde-format
 msgid "Badly-needed tag editor bugfixes."
-msgstr ""
+msgstr "תיקוני תקלות נחוצים בהחלט לעורך התגיות."
 
 #: main.cpp:51
 #, kde-format
 msgid "Georg Grabler"
-msgstr ""
+msgstr "גאורג גרבלר"
 
 #: main.cpp:51
 #, kde-format
 msgid "More KDE Platform 4 porting efforts"
-msgstr ""
+msgstr "מאמצים נוספים להסבה לפלטפורמת KDE4"
 
 #: main.cpp:52
 #, kde-format
 msgid "Laurent Montel"
-msgstr "Laurent Montel"
+msgstr "לורנט מונטל"
 
 #: main.cpp:52
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Platform 4 when no one else was around"
-msgstr "הסברה ל־KDE 4 כאשר אף אחד אחר לא היה בסביבה"
+msgstr "הסבה ל־KDE 4 כאשר אף אחד אחר לא היה בסביבה"
 
 #: main.cpp:53
 #, kde-format
 msgid "Nathan Toone"
-msgstr "Nathan Toone"
+msgstr "נתן טון"
 
 #: main.cpp:53
 #, kde-format
@@ -962,17 +949,17 @@ msgstr "מנהל עטיפות לאלבומים"
 #: main.cpp:54
 #, kde-format
 msgid "Matthias Kretz"
-msgstr "Matthias Kretz"
+msgstr "מתיאס קרץ"
 
 #: main.cpp:54
 #, kde-format
 msgid "Friendly, neighborhood aRts guru"
-msgstr "גורו aRts חברותי, שכן"
+msgstr "גורו aRts השכונתי החביב"
 
 #: main.cpp:55
 #, kde-format
 msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
+msgstr "דניאל מולקנטין"
 
 #: main.cpp:55
 #, kde-format
@@ -981,62 +968,62 @@ msgid ""
 "bug fixes, evangelism, moral support"
 msgstr ""
 "עגינה למגש המערכת, עריכת תגיות,\n"
-"תיקוני באגים, אוונגליזם, תמיכה מוסרית"
+"תיקוני באגים, אוונגליזם, תמיכה נפשית"
 
 #: main.cpp:56
 #, kde-format
 msgid "Tim Jansen"
-msgstr "Tim Jansen"
+msgstr "טים ג׳נסן"
 
 #: main.cpp:56
 #, kde-format
 msgid "GStreamer port"
-msgstr "הסבה ל-GStreamer"
+msgstr "הסבה ל־GStreamer"
 
 #: main.cpp:57
 #, kde-format
 msgid "Stefan Asserhäll"
-msgstr "Stefan Asserhäll"
+msgstr "סטפן אסרהול"
 
 #: main.cpp:57
 #, kde-format
 msgid "Global keybindings support"
-msgstr "תמיכה בקיצורי מקשים כללית"
+msgstr "תמיכה בקיצורי מקשים כלליים"
 
 #: main.cpp:58
 #, kde-format
 msgid "Stephen Douglas"
-msgstr "Stephen Douglas"
+msgstr "סטיבן דגלאס"
 
 #: main.cpp:58
 #, kde-format
 msgid "Track announcement popups"
-msgstr "הודעות קופצות של רצועות"
+msgstr "הכרזות קופצות של רצועות"
 
 #: main.cpp:59
 #, kde-format
 msgid "Frerich Raabe"
-msgstr "Frerich Raabe"
+msgstr "פרייריך ראב"
 
 #: main.cpp:59
 #, kde-format
 msgid "Automagic track data guessing, bugfixes"
-msgstr "ניחוש מידע רצועה אוטומטית, תיקוני באגים"
+msgstr "ניחוש פרטים על רצועה אוטומטית, תיקוני תקלות"
 
 #: main.cpp:60
 #, kde-format
 msgid "Zack Rusin"
-msgstr "Zack Rusin"
+msgstr "זק רוסין"
 
 #: main.cpp:60
 #, kde-format
 msgid "More automagical things, now using MusicBrainz"
-msgstr "עוד דברים אוטומטיים קסומים, שימוש ב-MusicBrainz"
+msgstr "עוד דברים אוטומטיים קסומים, עבר ל־MusicBrainz"
 
 #: main.cpp:61
 #, kde-format
 msgid "Adam Treat"
-msgstr "Adam Treat"
+msgstr "אדם טריט"
 
 #: main.cpp:61
 #, kde-format
@@ -1046,22 +1033,17 @@ msgstr "שותף לקנוניה של קסמי MusicBrainz"
 #: main.cpp:62
 #, kde-format
 msgid "Maks Orlovich"
-msgstr "Maks Orlovich"
+msgstr "מקס אורלוביץ׳"
 
 #: main.cpp:62
-#, fuzzy, kde-format
-#| msgid ""
-#| "Making JuK friendlier to people with\n"
-#| "terabytes of music"
+#, kde-format
 msgid "Making JuK friendlier to people with terabytes of music"
-msgstr ""
-"הפיכת JuK לחברותי לאנשים בעלי\n"
-"טרה־בתים של מוזיקה"
+msgstr "הפיכת JuK לידידותי לאנשים עם טרה־בתים של מוזיקה"
 
 #: main.cpp:63
 #, kde-format
 msgid "Antonio Larrosa Jimenez"
-msgstr "Antonio Larrosa Jimenez"
+msgstr "אנטוניו לרוסה חימנז"
 
 #: main.cpp:63
 #, kde-format
@@ -1071,22 +1053,22 @@ msgstr "ממשק DCOP"
 #: main.cpp:64
 #, kde-format
 msgid "Allan Sandfeld Jensen"
-msgstr "Allan Sandfeld Jensen"
+msgstr "אלן סנדפלד ג׳נסן"
 
 #: main.cpp:64
 #, kde-format
 msgid "FLAC and MPC support"
-msgstr "תמיכה ב-FLAC ו-MPC"
+msgstr "תמיכה ב־FLAC וב־MPC"
 
 #: main.cpp:65
 #, kde-format
 msgid "Pascal Klein"
-msgstr "Pascal Klein"
+msgstr "פסקל קליין"
 
 #: main.cpp:65
 #, kde-format
 msgid "Gimper of splash screen"
-msgstr "יצירת מסך פתיחה ב-Gimp"
+msgstr "צייר את מסך הפתיחה בגימפ"
 
 #: main.cpp:70
 #, kde-format
@@ -1099,50 +1081,44 @@ msgid ""
 "JuK running in docked mode\n"
 "Use context menu in system tray to restore."
 msgstr ""
+"JuK פועלת במצב מעוגן\n"
+"יש להשתמש בתפריט ההקשר במגש המערכת כדי לשחזר."
 
 #: main.cpp:88
 #, kde-format
 msgid "JuK Docked"
-msgstr ""
+msgstr "JuK מעוגן"
 
 #: mediafiles.cpp:134
 #, kde-format
 msgctxt "open audio file"
 msgid "Open"
-msgstr "פתח"
+msgstr "פתיחה"
 
 #: mediafiles.cpp:147
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgid "Save Playlist"
-msgstr "חפש רשימת השמעה"
+msgstr "שמירת רשימת נגינה"
 
 #: mediafiles.cpp:149
-#, fuzzy, kde-format
-#| msgid "Playlists"
+#, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
-msgstr "רשימות השמעה"
+msgstr "רשימות נגינה (*%1)"
 
 #: nowplaying.cpp:320
 #, kde-format
 msgid "back to playlist"
-msgstr "חזרה לרשימת השמעה"
+msgstr "חזרה לרשימת נגינה"
 
 #: playermanager.cpp:59
 #, kde-format
 msgctxt "%1 is the artist and %2 is the title of the currently playing track."
 msgid "%1 - %2 :: JuK"
-msgstr ""
+msgstr "%1 - %2 :: JuK"
 
 #: playermanager.cpp:367
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "%1 will be the /path/to/file, %2 will be some string from Phonon "
-#| "describing the error"
-#| msgid ""
-#| "JuK is unable to play the audio file<nl><filename>%1</filename><nl>for "
-#| "the following reason:<nl><message>%2</message>"
+#, kde-format
 msgctxt ""
 "%1 will be the /path/to/file, %2 will be some string from Phonon describing "
 "the error"
@@ -1150,43 +1126,38 @@ msgid ""
 "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
 "following reason:<nl/><message>%2</message>"
 msgstr ""
-"הנגן JuK לא הצליח לנגן את קובץ השמע <nl><filename>%1</filename><nl> מהסיבה "
-"הבאה: <nl><message>%2</message>"
+"היישום JuK לא הצליח לנגן את קובץ השמע <nl><filename>%1</filename><nl> בגלל: "
+"<nl><message>%2</message>"
 
 #: playlist.cpp:338
 #, kde-format
 msgid "Could not save to file %1."
-msgstr "לא הייתה אפשרות לשמור לקובץ %1."
+msgstr "לא ניתן לשמור לקובץ %1."
 
 #: playlist.cpp:575
-#, fuzzy, kde-format
-#| msgid ""
-#| "You are about to rename the following files. Are you sure you want to "
-#| "continue?"
+#, kde-format
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
-msgstr[0] ""
-"הנך עומד לשנות את השמות של הקבצים הבאים. האם אתה בטוח שאתה רוצה להמשיך?"
-msgstr[1] ""
-"הנך עומד לשנות את השמות של הקבצים הבאים. האם אתה בטוח שאתה רוצה להמשיך?"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "פעולה זו תפתח את התיקייה. להמשיך?"
+msgstr[1] "פעולה זו תפתח שתי תיקיות. להמשיך?"
+msgstr[2] "פעולה זו תפתח %1 תיקיות. להמשיך?"
+msgstr[3] "פעולה זו תפתח %1 תיקיות. להמשיך?"
 
 #: playlist.cpp:578 playlistcollection.cpp:957
 #, kde-format
 msgid "Open Containing Folder"
-msgstr ""
+msgstr "פתיחת התיקייה המכילה"
 
 #: playlist.cpp:802
 #, kde-format
 msgid "Could not delete these files"
-msgstr "לא הייתה אפשרות למחוק את הקבצים האלו"
+msgstr "לא ניתן למחוק את הקבצים האלו"
 
 #: playlist.cpp:803
 #, kde-format
 msgid "Could not move these files to the Trash"
-msgstr "לא הייתה אפשרות להעביר את הקבצים האלו אל פח האשפה"
+msgstr "לא ניתן להעביר את הקבצים האלו לפח האשפה"
 
 #: playlist.cpp:1280
 #, kde-format
@@ -1227,59 +1198,56 @@ msgstr "שם הקובץ"
 #: playlist.cpp:1290
 #, kde-format
 msgid "File Name (full path)"
-msgstr "שם הקובץ (נתיב מלא) "
+msgstr "שם הקובץ (נתיב מלא)"
 
 #: playlist.cpp:1471
 #, kde-format
 msgid "&Show Columns"
-msgstr "&הצג עמודות"
+msgstr "ה&צגת עמודות"
 
 #: playlist.cpp:1579
 #, kde-format
 msgid "Add to Play Queue"
-msgstr "הוסף לתור השמעה"
+msgstr "הוספה לתור הנגינה"
 
 #: playlist.cpp:1593 playlist.cpp:2049
 #, kde-format
 msgid "Edit"
-msgstr "ערוך"
+msgstr "עריכה"
 
 #: playlist.cpp:1607
 #, kde-format
 msgid "Create Playlist From Selected Items..."
-msgstr "צור רשימת השמעה מתוך הפריטים הנבחרים..."
+msgstr "יצירת רשימת נגינה מהפריטים הנבחרים…"
 
 #: playlist.cpp:1970
 #, kde-format
 msgid "Edit '%1'"
-msgstr "ערוך \"%1\""
+msgstr "עריכת „%1”"
 
 #: playlist.cpp:2047
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
-msgstr "זה יערוך קבצים רבים. האם אתה בטוח?"
+msgstr "פעולה זו תערוך קבצים רבים. להמשיך?"
 
 #: playlist.cpp:2106 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
-msgstr "צור רשימת השמעה חדשה"
+msgstr "יצירת רשימת נגינה חדשה"
 
 #: playlist.cpp:2115
-#, fuzzy, kde-format
-#| msgid ""
-#| "Manual column widths have been enabled.  You can switch back to automatic "
-#| "column sizes in the view menu."
+#, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr ""
-"רוחב ידני של עמודות הופעל. אתה יכול להחליף בחזרה לגודל עמודות אוטומטי בחלון "
+"רוחב ידני של עמודות הופעל. אפשר להחליף בחזרה לרוחב עמודות אוטומטי בתפריט  "
 "התצוגה."
 
 #: playlist.cpp:2118
 #, kde-format
 msgid "Manual Column Widths Enabled"
-msgstr "רוחב ידני של עמודות הופעל."
+msgstr "הופעל רוחב עמודות ידני"
 
 #: playlistbox.cpp:108
 #, kde-format
@@ -1289,33 +1257,33 @@ msgstr "מצבי תצוגה"
 #: playlistbox.cpp:168
 #, kde-format
 msgid "Show &History"
-msgstr "הצג &היסטוריה"
+msgstr "הצגת הי&סטוריה"
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
-msgstr "שכפל"
+msgstr "שכפול"
 
 #: playlistbox.cpp:424
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
-msgstr "האם ברצונך בנוסף למחוק קבצים אילו מתוך הדיסק?"
+msgstr "גם למחוק את הקבצים האלו מהכונן?"
 
 #: playlistbox.cpp:425
 #, kde-format
 msgid "Keep"
-msgstr "שמור"
+msgstr "לשמור"
 
 #: playlistbox.cpp:437
 #, kde-format
 msgid "Could not delete these files."
-msgstr "לא הייתה אפשרות למחוק את הקבצים האלו."
+msgstr "אי אפשר למחוק את הקבצים האלו."
 
 #: playlistbox.cpp:445
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
-msgstr "האם אתה בטוח שברצונך למחוק את רשימות ההשמעה הבאות מהאוסף שלך?"
+msgstr "למחוק את רשימות הנגינה הבאות מהאוסף שלך?"
 
 #: playlistbox.cpp:448
 #, kde-format
@@ -1326,22 +1294,22 @@ msgstr "להסיר פריטים?"
 #: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
-msgstr "&הסר"
+msgstr "ה&סרה"
 
 #: playlistbox.cpp:653
 #, kde-format
 msgid "Hid&e"
-msgstr "הס&תר"
+msgstr "הס&תרה"
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
 msgid "R&emove"
-msgstr "&הסר"
+msgstr "ה&סרה"
 
 #: playlistcollection.cpp:207
 #, kde-format
 msgid "Dynamic List"
-msgstr "רשימה דינאמית"
+msgstr "רשימה דינמית"
 
 #: playlistcollection.cpp:248
 #, kde-format
@@ -1352,7 +1320,7 @@ msgstr "מתנגן עכשיו"
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
-msgstr "האם ברצונך להוסיף פריטים אלו אל רשימה הנוכחית או אל רשימת האוסף?"
+msgstr "להוסיף פריטים אלו לרשימה הנוכחית או לרשימת האוסף?"
 
 #: playlistcollection.cpp:349
 #, kde-format
@@ -1368,17 +1336,17 @@ msgstr "אוסף"
 #: playlistcollection.cpp:412
 #, kde-format
 msgid "Rename"
-msgstr "שנה שם"
+msgstr "שינוי שם"
 
 #: playlistcollection.cpp:515
 #, kde-format
 msgid "Search Playlist"
-msgstr "חפש רשימת השמעה"
+msgstr "חיפוש רשימת נגינה"
 
 #: playlistcollection.cpp:540
 #, kde-format
 msgid "Create Folder Playlist"
-msgstr "צור תיקיית רשימת השמעה"
+msgstr "יצירת תיקיית רשימת נגינה"
 
 #: playlistcollection.cpp:580
 #, kde-format
@@ -1388,7 +1356,7 @@ msgstr "היסטוריה"
 #: playlistcollection.cpp:746
 #, kde-format
 msgid "Please enter a name for this playlist:"
-msgstr "אנא הכנס שם עבור רשימת השמעה זו:"
+msgstr "נא למלא לרשימת הנגינה הזו שם:"
 
 #: playlistcollection.cpp:890
 #, kde-format
@@ -1399,163 +1367,161 @@ msgstr "&חדשה"
 #: playlistcollection.cpp:893
 #, kde-format
 msgid "&Empty Playlist..."
-msgstr "&רוקן רשימת השמעה..."
+msgstr "&פינוי רשימת נגינה…"
 
 #: playlistcollection.cpp:897
 #, kde-format
 msgid "&Search Playlist..."
-msgstr "&חפש רשימת השמעה..."
+msgstr "&חיפוש ברשימת הנגינה…"
 
 #: playlistcollection.cpp:901
 #, kde-format
 msgid "Playlist From &Folder..."
-msgstr "רשימת השמעה מתוך &תיקייה..."
+msgstr "רשימת נגינה מ&תיקייה…"
 
 #: playlistcollection.cpp:909
 #, kde-format
 msgid "&Guess Tag Information"
-msgstr "&נחש מידע תגית"
+msgstr "&ניחוש פרטי תגית"
 
 #: playlistcollection.cpp:914
 #, kde-format
 msgid "From &File Name"
-msgstr "מתוך &שם קובץ "
+msgstr "מ&שם קובץ"
 
 #: playlistcollection.cpp:918
 #, kde-format
 msgid "From &Internet"
-msgstr "מתוך ה&אינטרנט"
+msgstr "מה&אינטרנט"
 
 #: playlistcollection.cpp:923
 #, kde-format
 msgid "Guess Tag Information From &File Name"
-msgstr "נחש מידע תגית מתוך שם &קובץ"
+msgstr "ניחוש פרטי תגית מתוך שם &קובץ"
 
 #: playlistcollection.cpp:930
 #, kde-format
 msgid "Play First Track"
-msgstr "נגן רצועה ראשונה"
+msgstr "ניגון רצועה ראשונה"
 
 #: playlistcollection.cpp:932
 #, kde-format
 msgid "Play Next Album"
-msgstr "נגן את האלבום הבא"
+msgstr "ניגון האלבום הבא"
 
 #: playlistcollection.cpp:939
-#, fuzzy, kde-format
-#| msgid "Add &Folder..."
+#, kde-format
 msgid "Manage &Folders..."
-msgstr "הוסף &תיקייה..."
+msgstr "ניהול &תיקיות…"
 
 #: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
-msgstr "&שנה שם..."
+msgstr "&שינוי שם…"
 
 #: playlistcollection.cpp:943
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
-msgstr "ש&כפל..."
+msgstr "ש&כפול…"
 
 #: playlistcollection.cpp:948
 #, kde-format
 msgid "Reload"
-msgstr "טען מחדש"
+msgstr "טעינה מחדש"
 
 #: playlistcollection.cpp:950
 #, kde-format
 msgid "Edit Search..."
-msgstr "ערוך חיפוש..."
+msgstr "עריכת חיפוש…"
 
 #: playlistcollection.cpp:953
 #, kde-format
 msgid "&Delete"
-msgstr "&מחק"
+msgstr "&מחיקה"
 
 #: playlistcollection.cpp:955
 #, kde-format
 msgid "Refresh"
-msgstr "רענן"
+msgstr "רענון"
 
 #: playlistcollection.cpp:959
 #, kde-format
 msgid "&Rename File"
-msgstr "&שנה שם קובץ"
+msgstr "&שינוי שם קובץ"
 
 #: playlistcollection.cpp:964
 #, kde-format
 msgid "Show &Play Queue"
-msgstr "הצג תור ה&שמעה"
+msgstr "הצגת תור &נגינה"
 
 #: playlistcollection.h:186
 #, kde-format
 msgid "Playlist"
-msgstr "רשימת השמעה"
+msgstr "רשימת נגינה"
 
 #: playlistsplitter.cpp:158
 #, kde-format
 msgid "Show &Search Bar"
-msgstr "הצג &סרגל חיפוש"
+msgstr "הצגת &סרגל חיפוש"
 
 #: playlistsplitter.cpp:161
 #, kde-format
 msgid "Edit Track Search"
-msgstr "ערוך חיפוש רצועה"
+msgstr "עריכת חיפוש רצועה"
 
 #: scrobbleconfigdlg.cpp:38
 #, kde-format
 msgid "Configure scrobbling..."
-msgstr ""
+msgstr "הגדרת התאמה מוזיקלית…"
 
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
 msgid "Test login..."
-msgstr ""
+msgstr "הכניסה נבדקת…"
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
 msgid ""
 "Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
-msgstr ""
+msgstr "נא למלא את פרטי הכניסה שלך ל־<a href=\"https://last.fm/\">last.fm</a>:"
 
 #: scrobbleconfigdlg.cpp:53
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Username:"
-msgstr "שנה שם"
+msgstr "שם משתמש:"
 
 #: scrobbleconfigdlg.cpp:54
 #, kde-format
 msgid "Password:"
-msgstr ""
+msgstr "סיסמה:"
 
 #: scrobbleconfigdlg.cpp:83
 #, kde-format
 msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
 "encryption."
-msgstr ""
+msgstr "KWallet לא זמין, פרטי הגישה שלך ל־Last.fm יאוחסנו ללא הצפנה."
 
 #: scrobbleconfigdlg.cpp:83
 #, kde-format
 msgid "KWallet is unavailable"
-msgstr ""
+msgstr "KWallet לא זמין"
 
 #: scrobbleconfigdlg.cpp:126
 #, kde-format
 msgid "Validating login..."
-msgstr ""
+msgstr "הכניסה מתוקפת…"
 
 #: scrobbleconfigdlg.cpp:136
 #, kde-format
 msgid "Login invalid."
-msgstr ""
+msgstr "הכניסה נכשלה."
 
 #: scrobbleconfigdlg.cpp:144
 #, kde-format
 msgid "Login valid."
-msgstr ""
+msgstr "הכניסה תקפה."
 
 #: searchwidget.cpp:73
 #, kde-format
@@ -1575,100 +1541,96 @@ msgstr "התאמה של תבנית"
 #: searchwidget.cpp:169
 #, kde-format
 msgid "All Visible"
-msgstr "הכל גלוי"
+msgstr "הכול גלוי"
 
 #: searchwidget.cpp:200
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgid "Search..."
-msgstr "ערוך חיפוש..."
+msgstr "חיפוש…"
 
 #: slider.cpp:128
 #, kde-format
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: slider.cpp:129
 #, kde-format
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: slider.cpp:130
 #, kde-format
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: slider.cpp:131
 #, kde-format
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: slider.cpp:132
 #, kde-format
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: slider.cpp:133
 #, kde-format
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: slideraction.cpp:73
 #, kde-format
 msgid "Seeking is not supported in this file with your audio settings."
-msgstr ""
+msgstr "אין תמיכה בקפיצה קדימה או אחורה בקובץ הזה עם הגדרות השמע שלך."
 
 #: statuslabel.cpp:85
 #, kde-format
 msgid "Jump to the currently playing item"
-msgstr "קפוץ לפריט המושמע כרגע"
+msgstr "קפיצה לפריט שמתנגן כרגע"
 
 #: statuslabel.cpp:115
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 item"
 msgid_plural "%1 items"
-msgstr[0] "פריט אחד"
-msgstr[1] "%1 פריטים"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "פריט"
+msgstr[1] "שני פריטים"
+msgstr[2] "%1 פריטים"
+msgstr[3] "%1 פריטים"
 
 #: systemtray.cpp:161
 #, kde-format
 msgid "Redisplay Popup"
-msgstr "הצג מחדש תיבה קופצת"
+msgstr "הצגת חלונית קופצת מחדש"
 
 #: tageditor.cpp:468
 #, kde-format
 msgid "Show &Tag Editor"
-msgstr "הצג &עורך תגיות"
+msgstr "הצגת &עורך תגיות"
 
 #: tageditor.cpp:472
 #, kde-format
 msgid "&Save"
-msgstr "&שמור"
+msgstr "&שמירה"
 
 #: tageditor.cpp:588
 #, kde-format
 msgid "Do you want to save your changes to:\n"
-msgstr "האם ברצונך לשמור את השינויים שלך אל:\n"
+msgstr "לשמור את השינויים שלך אל:\n"
 
 #: tageditor.cpp:590
 #, kde-format
 msgid "Save Changes"
-msgstr "שמור שינויים"
+msgstr "שמירת שינויים"
 
 #. i18n: ectx: property (text), widget (QLabel, fileNameLabel)
 #: tageditor.ui:19
-#, fuzzy, kde-format
-#| msgid "&File name:"
+#, kde-format
 msgid "F&ile name:"
 msgstr "שם ה&קובץ:"
 
 #. i18n: ectx: property (text), widget (QLabel, trackLabel)
 #: tageditor.ui:29
-#, fuzzy, kde-format
-#| msgctxt "cd track number"
-#| msgid "T&rack:"
+#, kde-format
 msgid "T&rack:"
 msgstr "ר&צועה:"
 
@@ -1676,13 +1638,13 @@ msgstr "ר&צועה:"
 #: tageditor.ui:39
 #, kde-format
 msgid "&Artist name:"
-msgstr "שם ה&אמן:"
+msgstr "שם ה&אומן:"
 
 #. i18n: ectx: property (text), widget (QLabel, albumNameLabel)
 #: tageditor.ui:49
 #, kde-format
 msgid "Album &name:"
-msgstr "שם ה&אלבום:"
+msgstr "שם הא&לבום:"
 
 #. i18n: ectx: property (text), widget (QLabel, genreLabel)
 #: tageditor.ui:59
@@ -1698,28 +1660,25 @@ msgstr "&שנה:"
 
 #. i18n: ectx: property (text), widget (QLabel, lengthLabel)
 #: tageditor.ui:96
-#, fuzzy, kde-format
-#| msgid "Length:"
+#, kde-format
 msgid "&Length:"
-msgstr "אורך:"
+msgstr "מ&שך:"
 
 #. i18n: ectx: property (text), widget (QLabel, bitrateLabel)
 #: tageditor.ui:106
-#, fuzzy, kde-format
-#| msgid "Bitrate:"
+#, kde-format
 msgid "&Bitrate:"
-msgstr "קצב סיביות:"
+msgstr "&קצב סיביות:"
 
 #. i18n: ectx: property (text), widget (QLabel, commentLabel)
 #: tageditor.ui:116
 #, kde-format
 msgid "&Comment:"
-msgstr "&הערה:"
+msgstr "ה&ערה:"
 
 #. i18n: ectx: property (text), widget (QLabel, trackNameLabel)
 #: tageditor.ui:184
-#, fuzzy, kde-format
-#| msgid "&Track name:"
+#, kde-format
 msgid "Trac&k name:"
 msgstr "שם ה&רצועה:"
 
@@ -1734,7 +1693,7 @@ msgstr "שם ה&רצועה:"
 #: tageditor.ui:237 tageditor.ui:247 tageditor.ui:257
 #, kde-format
 msgid "Enable"
-msgstr "אפשר"
+msgstr "הפעלה"
 
 #: tagguesserconfigdlg.cpp:39
 #, kde-format
@@ -1749,24 +1708,7 @@ msgstr "תבנית שמות הקבצים בשימוש נוכחי"
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:29
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "Here you can see the currently configured file name schemes which the "
-#| "\"Suggest\" button in the tag editor uses to extract tag information from "
-#| "a file name. Each string may contain one of the following placeholders:"
-#| "<ul>\n"
-#| "<li>%t: Title</li>\n"
-#| "<li>%a: Artist</li>\n"
-#| "<li>%A: Album</li>\n"
-#| "<li>%T: Track</li>\n"
-#| "<li>%c: Comment</li>\n"
-#| "</ul>\n"
-#| "For example, the file name scheme \"[%T] %a - %t\" would match \"[01] "
-#| "Deep Purple - Smoke on the water\" but not \"(Deep Purple) Smoke on the "
-#| "water\". For that second name, you would use the scheme \"(%a) %t\".<p/>\n"
-#| "Note that the order in which the schemes appear in the list is relevant, "
-#| "since the tag guesser will go through the list from the top to the "
-#| "bottom, and use the first matching scheme."
+#, no-c-format, kde-format
 msgid ""
 "Here you can see the currently configured file name schemes which the "
 "\"Guess Tag Information From File Name\" entry in the song's context menu "
@@ -1785,97 +1727,95 @@ msgid ""
 "since the tag guesser will go through the list from the top to the bottom, "
 "and use the first matching scheme."
 msgstr ""
-"כאן אתה יכול לראות את תבנית שמות הקבצים המוגדרות שכפתור ה\"הצא\" בעורך "
-"התגיות משתמש על מנת להוציא מידע תגיות משם קובץ. כל מחרוזת עשויה להכיל את "
-"שומרי המקום הבאים:<ul>\n"
+"כאן ניתן לראות את תבניות שמות הקבצים בהן משתמשת הרשומה „ניחוש פרטי תגיות משם "
+"הקובץ” בתפריט ההקשר של השיר כרגע כדי לחלץ מידע משם קובץ. כל מחרוזת יכול "
+"להכיל את אחד ממלאי המקום הבאים:<ul>\n"
 "<li>%t: כותרת</li>\n"
-"<li>%a: אמן</li>\n"
+"<li>%a: אומן</li>\n"
 "<li>%A: אלבום</li>\n"
 "<li>%T: רצועה</li>\n"
 "<li>%c: הערה</li>\n"
 "</ul>\n"
-"לדוגמה, תבנית שם הקובץ הבאה:\n"
-"\"[%T] %a - %t\" יכול להתאים ל- \n"
-"\"[01] Deep Purple - Smoke on the water\" אבל לא ל-\n"
-"\"(Deep Purple) Smoke on the water\". עבור השם השני, אתה יכול להשתמש בתבנית\n"
-"\"(%a) %t\".<p/>\n"
-"שם לב שמיקום התבנית ברשימה משנה, היות ומנחש התגיות יעבור על הרשימה מההתחלה "
-"עד הסוף, וישתמש בתבנית המתאימה הראשונה."
+"למשל, תבנית שם הקובץ „[%T] %a - %t” עשויה ללכוד קובץ עם השם „[01] שירי מימון "
+"- אהבה קטנה” אך לא את הקובץ „(שירי מימון) אהבה קטנה”.בשביל ללכוד את השם "
+"השני, צריך להשתמש בתבנית „(%a) %t”.<p/>\n"
+"ראוי לשים לב שיש משמעות לסדר בו מופיעות התבניות ברשימה, מאחר שמנחש התגיות "
+"יעבור על הרשימה מלמעלה ועד למטה, וישתמש בתבנית הראשונה שמתאימה."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, bMoveUp)
 #: tagguesserconfigdlgwidget.ui:42
 #, kde-format
 msgid "Move scheme up"
-msgstr "העבר תבנית למעלה"
+msgstr "העלאת תבנית למעלה"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveUp)
 #: tagguesserconfigdlgwidget.ui:45
 #, kde-format
 msgid ""
 "Press this button to move the currently selected scheme one step upwards."
-msgstr "לחץ על כפתור זה כדי להעביר תבנית נבחרת שלב אחד למעלה."
+msgstr "לחיצה על כפתור זה תעלה את התבנית הנבחרת שלב אחד למעלה."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, bMoveDown)
 #: tagguesserconfigdlgwidget.ui:55
 #, kde-format
 msgid "Move scheme down"
-msgstr "העבר תבנית למטה"
+msgstr "הורדת תבנית למטה"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveDown)
 #: tagguesserconfigdlgwidget.ui:58
 #, kde-format
 msgid ""
 "Press this button to move the currently selected scheme one step downwards."
-msgstr "לחץ על כפתור זה כדי להעביר תבנית נבחרת שלב אחד למטה."
+msgstr "לחיצה על כפתור זה תוריד את התבנית הנבחרת שלב אחד למטה."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, bAdd)
 #: tagguesserconfigdlgwidget.ui:68
 #, kde-format
 msgid "Add a new scheme"
-msgstr "הוסף תבנית חדשה"
+msgstr "הוספת תבנית חדשה"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, bAdd)
 #: tagguesserconfigdlgwidget.ui:71
 #, kde-format
 msgid "Press this button to add a new file name scheme to the end of the list."
-msgstr "לחץ על כפתור זה כדי להוסיף תבנית שם קובץ חדשה לסוף הרשימה."
+msgstr "לחיצה על כפתור זה תוסיף תבנית שם קובץ חדשה לסוף הרשימה."
 
 #. i18n: ectx: property (text), widget (QPushButton, bAdd)
 #: tagguesserconfigdlgwidget.ui:74
 #, kde-format
 msgid "&Add"
-msgstr "&הוסף"
+msgstr "הו&ספה"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, bModify)
 #: tagguesserconfigdlgwidget.ui:81
 #, kde-format
 msgid "Modify scheme"
-msgstr "שנה תבנית"
+msgstr "שינוי תבנית"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, bModify)
 #: tagguesserconfigdlgwidget.ui:84
 #, kde-format
 msgid "Press this button to modify the currently selected scheme."
-msgstr "לחץ על כפתור זה כדי לשנות תבנית נבחרת."
+msgstr "כדי לשנות את התבנית הנבחרת יש ללחוץ על הכפתור."
 
 #. i18n: ectx: property (text), widget (QPushButton, bModify)
 #: tagguesserconfigdlgwidget.ui:87
 #, kde-format
 msgid "&Modify"
-msgstr "&שנה"
+msgstr "&שינוי"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, bRemove)
 #: tagguesserconfigdlgwidget.ui:94
 #, kde-format
 msgid "Remove scheme"
-msgstr "הסר תבנית"
+msgstr "הסרת תבנית"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, bRemove)
 #: tagguesserconfigdlgwidget.ui:97
 #, kde-format
 msgid ""
 "Press this button to remove the currently selected scheme from the list."
-msgstr "לחץ על כפתור זה כדי להסיר תבנית נבחרת מתוך הרשימה."
+msgstr "לחיצה על כפתור זה תסיר תבנית נבחרת מהרשימה."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tagguesserconfigdlgwidget.ui:128
@@ -1888,6 +1828,12 @@ msgid ""
 "%T: Track\n"
 "%c: Comment"
 msgstr ""
+"אפשר להשתמש בממלאי המקום הבאים:\n"
+"%t: כותרת\n"
+"%A: אלבום\n"
+"%a: אומן\n"
+"%T: רצועה\n"
+"%c: הערה"
 
 #: tagrenameroptions.cpp:100
 msgctxt "song title"
@@ -1906,7 +1852,7 @@ msgid ""
 "Do you want to replace it?"
 msgstr ""
 "הקובץ כבר קיים.\n"
-"האם ברצונך להחליף אותו?"
+"להחליף אותו?"
 
 #: tagtransactionmanager.cpp:112
 #, kde-format
@@ -1916,12 +1862,12 @@ msgstr "הקובץ קיים"
 #: tagtransactionmanager.cpp:112
 #, kde-format
 msgid "Replace"
-msgstr "החלף"
+msgstr "החלפה"
 
 #: tagtransactionmanager.cpp:177
 #, kde-format
 msgid "The following files were unable to be changed."
-msgstr "אין אפשרות לשנות את הקבצים הבאים."
+msgstr "אי אפשר לשנות את הקבצים הבאים."
 
 #: tagtransactionmanager.cpp:179
 #, kde-format
@@ -1931,12 +1877,12 @@ msgstr "שגיאה"
 #: treeviewitemplaylist.cpp:48
 #, kde-format
 msgid "artist"
-msgstr "אמן "
+msgstr "אמן"
 
 #: treeviewitemplaylist.cpp:50
 #, kde-format
 msgid "genre"
-msgstr "סגנון "
+msgstr "סגנון"
 
 #: treeviewitemplaylist.cpp:52
 #, kde-format
@@ -1946,7 +1892,7 @@ msgstr "אלבום"
 #: treeviewitemplaylist.cpp:56
 #, kde-format
 msgid "You are about to change the %1 on these files."
-msgstr "אתה עומד לשנות את %1 בקבצים האלו."
+msgstr "פעולה זו תשנה את %1 בקבצים האלו."
 
 #: treeviewitemplaylist.cpp:58
 #, kde-format
@@ -1956,7 +1902,7 @@ msgstr "משנה תגיות רצועה"
 #: upcomingplaylist.cpp:31
 #, kde-format
 msgid "Play Queue"
-msgstr "נגן תור"
+msgstr "ניגון תור"
 
 #: viewmode.cpp:66
 #, kde-format
@@ -1993,24 +1939,22 @@ msgstr "סגנונות"
 #: volumepopupbutton.cpp:76
 #, kde-format
 msgid "Mute/Unmute"
-msgstr ""
+msgstr "(ביטול) השתקה"
 
 #: volumepopupbutton.cpp:114
 #, kde-format
 msgid "%1%"
-msgstr ""
+msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
-#, fuzzy, kde-format
-#| msgid "Volume Up"
+#, kde-format
 msgid "Volume: %1% (muted)"
-msgstr "הגבר עוצמת קול"
+msgstr "עוצמת שמע: %1% (מושתק)"
 
 #: volumepopupbutton.cpp:123
-#, fuzzy, kde-format
-#| msgid "Volume Up"
+#, kde-format
 msgid "Volume: %1%"
-msgstr "הגבר עוצמת קול"
+msgstr "עוצמת שמע: %1%"
 
 #, fuzzy
 #~| msgid "Artists"
