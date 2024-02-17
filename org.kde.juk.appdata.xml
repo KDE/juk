@@ -20,6 +20,7 @@
   <name xml:lang="fi">JuK</name>
   <name xml:lang="fr">JuK</name>
   <name xml:lang="gl">JuK</name>
+  <name xml:lang="he">JuK</name>
   <name xml:lang="hu">JuK</name>
   <name xml:lang="ia">JuK</name>
   <name xml:lang="id">JuK</name>
@@ -65,6 +66,7 @@
   <summary xml:lang="fi">Musiikkisoitin</summary>
   <summary xml:lang="fr">Lecteur de musique</summary>
   <summary xml:lang="gl">Reprodutor de música</summary>
+  <summary xml:lang="he">נגן מוזיקה</summary>
   <summary xml:lang="hu">Zenelejátszó</summary>
   <summary xml:lang="ia">Executor de musica</summary>
   <summary xml:lang="id">Pemutar Musik</summary>
@@ -110,6 +112,7 @@
     <p xml:lang="fi">JuK on musiikkia soittava jukeboksi, joka tukee MP3-, Ogg Vorbis- ja FLAC-äänitiedostoja. Sillä voi myös muokata äänitiedostojen tunnisteita sekä hallita musiikkikokoelmaa ja soittolistoja. Sen keskittyykin pääasiassa musiikkikirjaston hallitsemiseen.</p>
     <p xml:lang="fr">JuK est une application de jukebox audio, prenant en charge les collections de fichiers audio MP3, Ogg Vorbis et FLAC. Il permet de modifier les balises de vos fichiers audio, et gère votre collection et listes de lecture. En effet, il est principalement dédié à la gestion de musiques.</p>
     <p xml:lang="gl">JuK é un reprodutor de música compatíbel con coleccións de ficheiros de son MP3, Ogg Vorbis e FLAC. Permítelle editar as «etiquetas» dos ficheiros de son e xestionar a súa colección e as súas listas de reprodución. A aplicación está destinada principalmente á xestión de música.</p>
+    <p xml:lang="he">JuK זה יישום תיבת נגינה שתומך באוספי קובצי שמע מהסוגים MP3, Ogg Vorbis ו־FLAC. הוא מאפשר לערוך את „תגיות” קובצי השמע שלך, ולנהל את האוסף ואת רשימות הנגינה שלך. המיקוד העיקרי שלו הוא, למעשה, ניהול מוזיקה.ד</p>
     <p xml:lang="hu">A JuK egy zenedoboz alkalmazás, amely támogatja MP3, Ogg Vorbis és FLAC hangfájlok gyűjteményeit. Lehetővé teszi a hangfájlok „címkéinek” szerkesztését, és a gyűjtemények, illetve lejátszólisták kezelését. A fő célja valójában a zenekezelés.</p>
     <p xml:lang="ia">JuK es un application audio de jukebox application, supportante collectiones de files audio MP3, Ogg Vorbis, e FLAC. Il permitte que tu modifica le etiquettas "tags" de tu files audio, e gere tu collection e lista de reproduction. Su focus principal de facto, es sur gestion de musica.</p>
     <p xml:lang="id">JuK adalah sebuah aplikasi jukebox audio, mendukung koleksi file audio MP3, Ogg, dan FLAC. Yang memungkinkan kamu untuk mengedit "tag" pada file audio-mu, dan mengelola playlist koleksimu. Yang berfokus utama, dalam faktanya, adalah pada pengelolaan musik.</p>
@@ -153,6 +156,7 @@
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
+    <p xml:lang="he">יכולות:</p>
     <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
@@ -198,6 +202,7 @@
       <li xml:lang="fi">Kokoelmalista ja useita käyttäjän tekemiä soittolistoja</li>
       <li xml:lang="fr">Listes de collections et listes de lectures multiples</li>
       <li xml:lang="gl">Lista de coleccións e múltiplas listas de reprodución definidas polo usuario.</li>
+      <li xml:lang="he">רשימת אוספים ומגוון רשימות נגינה בהגדרת המשתמש</li>
       <li xml:lang="hu">Gyűjteménylista és több felhasználó által megadott lejátszólista</li>
       <li xml:lang="ia">Lista de collection e multiple listas de reproduction definite per le usator</li>
       <li xml:lang="id">Daftar koleksi dan playlist yang ditentukan pengguna multiple</li>
@@ -240,6 +245,7 @@
       <li xml:lang="fi">Kyky tarkkailla tiedostokansioita ja tuoda automaattisesti soittolistoja ja musiikkitiedostoja käynnistyessään</li>
       <li xml:lang="fr">Peut parcourir les dossiers pour importer automatiquement les listes de lecture et fichiers musicaux au démarrage</li>
       <li xml:lang="gl">Pode explorar directorios para importar automaticamente listas de reprodución e ficheiros de música ao iniciar o programa.</li>
+      <li xml:lang="he">אפשרות לסרוק תיקיות כדי לייבא רשימות נגינה וקובצי מוזיקה עם הפעלת הנגן אוטומטית</li>
       <li xml:lang="hu">Könyvtárak átvizsgálásának képessége zenefájlok és lejátszólisták automatikus importálásához a program indulásakor</li>
       <li xml:lang="ia">habilitate de scander directorios pro importar automaticamente listas de reproduction e files de musica quando on initia</li>
       <li xml:lang="id">Mampu memindai direktori untuk mengimpor playlist dan file-file musik secara otomatis saat dimulai</li>
@@ -282,6 +288,7 @@
       <li xml:lang="fi">Dynaamiset soittolistat, jotka päivittyvät automaattisesti, kun kappaleiden tiedot muuttuvat</li>
       <li xml:lang="fr">Des listes de lecture à recherche dynamique qui sont mises à jour automatiquement alors que les champs dans la collection changent</li>
       <li xml:lang="gl">Busca dinámica de listas de reprodución que se actualizan automaticamente tras cambias campos da colección.</li>
+      <li xml:lang="he">רשימות נגינה בחיפוש דינמי שמתעדכנות אוטומטית תוך כדי שינוי השדות באוסף</li>
       <li xml:lang="hu">Lejátszólisták dinamikus keresése, amelyek automatikusan frissítésre kerülnek mezőkként a gyűjtemény módosításban</li>
       <li xml:lang="ia">Listas de reproduction de cerca dynamic que es automaticamente actualisate como campos in le modification de collection</li>
       <li xml:lang="id">Pencarian dinamis playlist yang diperbarui secara otomatis sebagai bidang dalam perubahan koleksi</li>
@@ -324,6 +331,7 @@
       <li xml:lang="fi">Puunäkymä, jossa soittolistat luodaan automaattisesti levyjen, esittäjien ja tyylilajien mukaan</li>
       <li xml:lang="fr">Un mode d'aperçu en arbre dans lequel les listes de lecture sont générées automatiquement pour des ensembles d'albums, d'artistes et de genres</li>
       <li xml:lang="gl">Un modo de vista de árbore onde se xeran automaticamente listas de reprodución para grupos de álbums, intérpretes e estilos.</li>
+      <li xml:lang="he">מצב תצוגת עץ בו רשימות נגינה נוצרות אוטומטית לסדרות של אלבומים, אומנים וסגנונות מוזיקליים</li>
       <li xml:lang="hu">Egy fanézet mód, ahol a lejátszólisták automatikusan kerülnek előállításra albumok, előadók és műfajok halmazához</li>
       <li xml:lang="ia">Un modo de vista a arbore ubi le listas de reproduction es generate automaticamente pro insimul de albums, artistas e generes</li>
       <li xml:lang="id">Sebuah mode Tampilan Ranting dimana playlist yang dihasilkan secara otomatis untuk mengeset album, artis, dan genre</li>
@@ -366,6 +374,7 @@
       <li xml:lang="fi">Soittohistoria, joka kertoo, mitä tiedostoja on kuunneltu ja milloin</li>
       <li xml:lang="fr">Historique de la liste de lecture pour indiquer quels fichiers ont été joués et quand</li>
       <li xml:lang="gl">Historial de listas re reprodución para indicar que ficheiros se reproduciron e cando.</li>
+      <li xml:lang="he">היסטוריית רשימת הנגינה כדי לציין אילו קבצים נוגנו ומתי</li>
       <li xml:lang="hu">Lejátszólista előzmények annak jelölésére, hogy mely fájlok lettek már lejátszva és mikor</li>
       <li xml:lang="ia">Chronologia de lista de reproduction per indicar qual files ha essite reproducite e quando</li>
       <li xml:lang="id">Histori playlist untuk mengindikasi yang mana file sudah diputar dan sedang diputar</li>
@@ -408,6 +417,7 @@
       <li xml:lang="fi">Pikahaku, jolla voi tuoda esiin halutut kappaleet</li>
       <li xml:lang="fr">Recherche en ligne pour filtrer la liste des éléments visibles</li>
       <li xml:lang="gl">Permite filtrar a lista de elementos visíbeis mediante termos de busca.</li>
+      <li xml:lang="he">חיפוש כחלק מהשורה לסינון רשימת הפריטים הגלויים</li>
       <li xml:lang="hu">Beágyazott keresés a látható elemek listájának szűréséhez</li>
       <li xml:lang="ia">cerca interne pro filtrar le lista de elementos visibile</li>
       <li xml:lang="id">Dalam rangka pencarian untuk pemfilteran  daftar dari butir-butir yang terlihat</li>
@@ -450,6 +460,7 @@
       <li xml:lang="fi">Kyky arvata kappaleen tiedot tiedostonimen perusteella</li>
       <li xml:lang="fr">Possibilité de deviner les informations de balise en se référant au nom du fichier.</li>
       <li xml:lang="gl">Pode deducir información das etiquetas a partir do nome do ficheiro da pista de música.</li>
+      <li xml:lang="he">היכולת לנחש את פרטי התגיות לפי שם קובץ הרצועה</li>
       <li xml:lang="hu">Címkeinformációk kitalálásának képessége a szám fájlneve alapján</li>
       <li xml:lang="ia">Le habilitate de conjecturar information de etiquetta basate sur le nomine de file del tracia</li>
       <li xml:lang="id">Kemampuan untuk menebak informasi tag berdasarkan pada nama file track</li>
@@ -492,6 +503,7 @@
       <li xml:lang="fi">Tiedostojen uudelleennimeäjällä voi nimetä tiedostot tunnisteiden mukaan</li>
       <li xml:lang="fr">Renommage de fichier en se référant au contenu des balises.</li>
       <li xml:lang="gl">Permite renomear os ficheiros de acordo co contido das súas etiquetas.</li>
+      <li xml:lang="he">משנה שמות קבצים שיכול לשנות שמות של קבצים לפי תוכן התגיות</li>
       <li xml:lang="hu">Fájlátnevező, amely képes a címketartalom alapján átnevezni fájlokat</li>
       <li xml:lang="ia">Renominator de file que pote renominar files basate sur le contento de etiquetta</li>
       <li xml:lang="id">Pengubah nama file yang bisa mengubah nama berdasarkan pada konten tag</li>
@@ -534,6 +546,7 @@
       <li xml:lang="fi">Tunnisteiden lukemisen ja kirjoittamisen tuki monille eri muodoille, mm. ID3v1:lle, ID3v2:lle ja Ogg Vorbisille</li>
       <li xml:lang="fr">Prise en charge de la lecture et de la modification des balises pour de nombreux formats incluant ID3v1, ID3v2 et Ogg Vorbis</li>
       <li xml:lang="gl">Funcionalidade de ler e editar as etiquetas de ficheiros en diversos formatos, como ID3v1, ID3v2 ou Ogg Vorbis.</li>
+      <li xml:lang="he">תמיכה בקריאה ובעריכה של תגיות למגוון תסדירים כולל ID3v1,‏ ID3v2 ו־Ogg Vorbis</li>
       <li xml:lang="hu">Címkeolvasás és szerkesztés támogatás számos formátumhoz, beleértve az ID3v1, az ID3v2 és az Ogg Vorbis formátumokat</li>
       <li xml:lang="ia">Supporto de modification e lectura de etiquetta per multe formatos includente ID3v1, ID3v2 e Ogg Vorbis</li>
       <li xml:lang="id">Dukungan pengeditan dan pembacaan tag untuk berbagai format termasuk ID3v1, ID3v2 dan Ogg Vorbis</li>
