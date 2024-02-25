@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>JuK</name>
+  <name xml:lang="ar">جوك</name>
   <name xml:lang="bg">JuK</name>
   <name xml:lang="bs">JuK</name>
   <name xml:lang="ca">JuK</name>
@@ -50,6 +51,7 @@
   <name xml:lang="zh-CN">JuK</name>
   <name xml:lang="zh-TW">音樂播放_Juk</name>
   <summary>Music Player</summary>
+  <summary xml:lang="ar">مشغّل صوتي</summary>
   <summary xml:lang="bg">Програма за изпълнение на музика</summary>
   <summary xml:lang="bs">Muzički plejer</summary>
   <summary xml:lang="ca">Reproductor musical</summary>
@@ -140,6 +142,7 @@
     <p xml:lang="zh-CN">JuK 是一款音乐播放器和管理程序，支持 MP3、Ogg Vorbis 和 FLAC 等音频文件。它侧重于音乐管理功能，您可以用它编辑音频文件的标签、管理音乐和播放列表。</p>
     <p xml:lang="zh-TW">Juk 是一套類似自動唱機的應用程式，支援收藏 MP3，Ogg Vorbis 與 FLAC 音效檔。它能讓您編輯您的音效檔的「標籤」，並管理您的收藏與播放清單。它主要的焦點，在音樂管理。</p>
     <p>Features:</p>
+    <p xml:lang="ar">الميزات:</p>
     <p xml:lang="bg">Възможности:</p>
     <p xml:lang="bs">Svojstva:</p>
     <p xml:lang="ca">Característiques:</p>
