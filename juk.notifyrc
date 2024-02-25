@@ -2,6 +2,7 @@
 IconName=juk
 DesktopEntry=org.kde.juk
 Comment=Juk Music Player
+Comment[ar]=جوك مشغل صوتي
 Comment[bg]=Слушане на музика (Juk)
 Comment[bs]=Muzički plejer Juk
 Comment[ca]=Reproductor musical JuK
@@ -115,6 +116,7 @@ Name[zh_TW]=音樂播放_JuK
 
 [Event/coverDownloaded]
 Name=Cover Successfully Downloaded
+Name[ar]=نُزّل الغلاف بنجاح
 Name[bg]=Обложката е изтеглена
 Name[bs]=Omot uspješno preuzet
 Name[ca]=La caràtula ha baixat correctament
@@ -170,6 +172,7 @@ Name[x-test]=xxCover Successfully Downloadedxx
 Name[zh_CN]=下载封面成功
 Name[zh_TW]=已成功下載封面
 Comment=A requested cover has been downloaded
+Comment[ar]=نُزّل الغلاف المطلوب
 Comment[bg]=Поисканата обложка е изтеглена
 Comment[bs]=Zatraženi omot je preuzet
 Comment[ca]=S'ha baixat la caràtula sol·licitada
@@ -227,6 +230,7 @@ Action=Popup
 
 [Event/coverFailed]
 Name=Cover Failed to Download
+Name[ar]=فشل تنزيل الغلاف
 Name[bg]=Грешка при изтегляне на обложката
 Name[bs]=Omot se ne može preuzeti
 Name[ca]=Ha fallat la baixada de la caràtula
@@ -282,6 +286,7 @@ Name[x-test]=xxCover Failed to Downloadxx
 Name[zh_CN]=下载封面失败
 Name[zh_TW]=下載封面失敗
 Comment=A requested cover has failed to download
+Comment[ar]=فشل تنزيل الغلاف المطلوب
 Comment[bg]=Грешка при изтегляне на поисканата обложка
 Comment[bs]=Preuzimanje zatraženog omota nije uspjelo
 Comment[ca]=Una sol·licitud de baixada de caràtula ha fallat
@@ -339,6 +344,7 @@ Action=Popup
 
 [Event/dock_mode]
 Name=JuK running in dock mode
+Name[ar]=جوك يعمل في وضع الإرساء
 Name[bg]=JuK се изпълнява в режим на док
 Name[bs]=JuK radi u sidrišnom režimu
 Name[ca]=El JuK s'està executant en el mode acoblat
@@ -387,6 +393,7 @@ Name[x-test]=xxJuK running in dock modexx
 Name[zh_CN]=JuK 运行于任务栏模式
 Name[zh_TW]=JuK 以嵌入模式執行中
 Comment=Use context menu in system tray to restore.
+Comment[ar]=استخدم قائمة السياق في علبة النظام لاستعادتها.
 Comment[bg]=Може да възстановите от контекстното меню в системния поднос.
 Comment[bs]=Koristite kontekstsni meni u sistemskom uglu za obnovu
 Comment[ca]=Useu el menú contextual a la safata del sistema per a restaurar.
