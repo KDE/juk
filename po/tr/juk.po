@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 02:27+0000\n"
-"PO-Revision-Date: 2024-03-01 15:41+0300\n"
+"PO-Revision-Date: 2024-03-17 02:36+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -105,7 +105,7 @@ msgstr ""
 "Arşivden kaldırılan bir eleman tüm çalma listelerinden de kaldırılacaktır. "
 "Sürdürmek istiyor musunuz?\n"
 "\n"
-"Unutmayın ki eğer bu dosyalarınızın bulunduğu dizin, açılışta taranacaklar "
+"Unutmayın ki eğer bu dosyalarınızın bulunduğu dizin açılışta taranacaklar "
 "listenizdeyse açılışta yeniden eklenecektir."
 
 #: collectionlist.cpp:343
@@ -145,7 +145,7 @@ msgstr "Seçili dosyalar silinmek üzere"
 #: deletedialogbase.ui:88
 #, kde-format
 msgid "Are you sure that you want to remove these items?"
-msgstr "Bu ögeleri silmek istiyor musunuz?"
+msgstr "Bu ögeleri kaldırmak istiyor musunuz?"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:138
@@ -153,7 +153,7 @@ msgstr "Bu ögeleri silmek istiyor musunuz?"
 msgid ""
 "If checked, files will be permanently removed instead of being placed in the "
 "Trash Bin"
-msgstr "Seçiliyse periyodik olarak çöplükteki dosyalar silinir"
+msgstr "Seçiliyse periyodik olarak çöp kutusundaki dosyalar kaldırılır"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:143
@@ -165,11 +165,11 @@ msgid ""
 "<p><em>Use this option with caution</em>: Most filesystems are unable to "
 "reliably undelete deleted files.</p></qt>"
 msgstr ""
-"<qt><p>Bu kutunun seçilmesi halinde, çöpteki dosyalar <b>düzenli olarak </"
-"b>·silinir.</p>\n"
+"<qt><p>Bu kutu işaretlenirse dosyalar çöp kutusuna atılmak yerine <b>kalıcı "
+"olarak kaldırılır</b>.</p>\n"
 "\n"
-"<p><em>Bu seçimi çok dikkatli yapın</em>: Bazı dosya sistemleri silinen "
-"dosyaları yeniden geri oluşturma desteği vermeyebilir.</p></qt>"
+"<p><em>Bu seçeneği dikkatli kullanın</em>: Çoğu dosya sistemi, silinen "
+"dosyaları güvenilir bir şekilde geri getiremez.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:146
@@ -601,7 +601,7 @@ msgstr "&Albümü Rastgele Çal"
 #: juk.cpp:267
 #, kde-format
 msgid "Remove From Playlist"
-msgstr "Çalma Listesinden Çıkar"
+msgstr "Çalma Listesinden Kaldır"
 
 #: juk.cpp:271
 #, kde-format
@@ -1302,7 +1302,7 @@ msgstr "Bu dosyalar silinemedi."
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr ""
-"Bu çalma listesini koleksiyonunuzdan silmek istediğinizden emin misiniz?"
+"Koleksiyonunuzdan bu çalma listesini kaldırmak istediğinizden emin misiniz?"
 
 #: playlistbox.cpp:448
 #, kde-format
@@ -1833,14 +1833,14 @@ msgstr "&Değiştir"
 #: tagguesserconfigdlgwidget.ui:94
 #, kde-format
 msgid "Remove scheme"
-msgstr "Şemayı sil"
+msgstr "Şemayı kaldır"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, bRemove)
 #: tagguesserconfigdlgwidget.ui:97
 #, kde-format
 msgid ""
 "Press this button to remove the currently selected scheme from the list."
-msgstr "Seçili şemayı silmek için bu düğmeye basın."
+msgstr "Seçili şemayı kaldırmak için bu düğmeye basın."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tagguesserconfigdlgwidget.ui:128
