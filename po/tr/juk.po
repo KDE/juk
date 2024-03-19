@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2024-03-17 02:36+0300\n"
+"PO-Revision-Date: 2024-03-18 19:41+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -884,7 +884,7 @@ msgstr "Michael Pyne"
 #: main.cpp:45
 #, kde-format
 msgid "Assistant superhero, fixer of many things"
-msgstr "Yardımcı süper kahraman, bir çok şeyin düzelticisi"
+msgstr "Yardımcı süper kahraman, birçok şeyin düzelticisi"
 
 #: main.cpp:46
 #, kde-format
