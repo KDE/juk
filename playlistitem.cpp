@@ -103,8 +103,6 @@ QString PlaylistItem::text(int column) const
         return d->fileHandle.tag()->artist();
     case AlbumColumn:
         return d->fileHandle.tag()->album();
-    case CoverColumn:
-        return QString();
     case TrackNumberColumn:
         return d->fileHandle.tag()->track() > 0
             ? QString::number(d->fileHandle.tag()->track())
@@ -125,6 +123,8 @@ QString PlaylistItem::text(int column) const
         return d->fileHandle.fileInfo().fileName();
     case FullPathColumn:
         return d->fileHandle.fileInfo().absoluteFilePath();
+    case CoverColumn:
+        return QString();
     default:
         return QTreeWidgetItem::text(column);
     }
