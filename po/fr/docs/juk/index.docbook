@@ -971,7 +971,7 @@ Show Cover Manager
 >Correspondance normale</term>
 <listitem
 ><para
->Il s'agit du type de correspondance par défaut. Le texte donné est cherché dans toutes les étiquettes choisies, en ignorant la casse. Par exemple, une recherche de « mode » dans la balise artiste correspondrait à « Depeche Mode ».</para
+>Il s'agit du type de correspondance par défaut. Le texte donné est cherché dans toutes les étiquettes choisies, en ignorant la casse. Par exemple, une recherche de « police » dans la balise artiste correspondrait à « Police ».</para
 ></listitem>
 </varlistentry>
 
@@ -1241,7 +1241,7 @@ write new for kde4
 ><para
 >Ceci appelle la boîte de dialogue de recherche avancée, vous permettant de créer une <quote
 >liste de lecture virtuelle</quote
->. Toutes les chansons de votre liste de collection qui correspondent aux critères de recherche que vous avez spécifié dans cette boîte de dialogue seront ajoutées à la nouvelle liste de lecture. Si votre liste de collection change, la nouvelle liste de collection sera mise à jour également. Par exemple, si vous créez une liste de toutes vos chansons de Depeche Mode, et ensuite ajoutez une autre chanson de Depeche Mode à votre liste de collection, elle apparaîtra également dans la liste de lecture Depeche Mode sans qu'aucune action particulière de votre part ne soit nécessaire. </para
+>. Toutes les chansons de votre liste de collection qui correspondent aux critères de recherche que vous avez spécifié dans cette boîte de dialogue seront ajoutées à la nouvelle liste de lecture. Si votre liste de collection change, la nouvelle liste de collection sera mise à jour également. Par exemple, si vous créez une liste de toutes vos chansons de Police, et ensuite ajoutez une autre chanson de Police à votre liste de collection, elle apparaîtra également dans la liste de lecture de Police sans qu'aucune action particulière de votre part ne soit nécessaire. </para
 ></listitem>
   </varlistentry>
 
