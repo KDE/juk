@@ -144,8 +144,8 @@ msgid ""
 "If checked, files will be permanently removed instead of being placed in the "
 "Trash Bin"
 msgstr ""
-"Si se selecciona, els fitxers s'eliminaran definitivament en lloc de "
-"moure'ls cap a dins de la paperera"
+"Si està marcada, els fitxers s'eliminaran definitivament en lloc de moure'ls "
+"cap a dins de la paperera"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:143
@@ -157,7 +157,7 @@ msgid ""
 "<p><em>Use this option with caution</em>: Most filesystems are unable to "
 "reliably undelete deleted files.</p></qt>"
 msgstr ""
-"<qt><p>Si se selecciona, els fitxers <b>s'eliminaran definitivament</b> en "
+"<qt><p>Si està marcada, els fitxers <b>s'eliminaran definitivament</b> en "
 "lloc de moure'ls cap a dins de la paperera.</p>\n"
 "\n"
 "<p><em>Utilitzeu esta opció amb cura</em>: La majoria dels sistemes de "
@@ -193,7 +193,7 @@ msgstr "Estes carpetes s'exploraran per a buscar fitxers nous en iniciar."
 #: directorylistbase.ui:64 directorylistbase.ui:147
 #, kde-format
 msgid "Add Folder..."
-msgstr "Afig una carpeta..."
+msgstr "Afig una carpeta…"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeDirectoryButton)
 #. i18n: ectx: property (text), widget (QPushButton, removeExcludeDirectoryButton)
@@ -694,17 +694,17 @@ msgstr "Guarda la cua de re&producció en eixir"
 #: juk.cpp:348
 #, kde-format
 msgid "&Tag Guesser..."
-msgstr "Deducció de les &marques..."
+msgstr "Deducció de les &marques…"
 
 #: juk.cpp:351
 #, kde-format
 msgid "&File Renamer..."
-msgstr "Canviador de nom de fi&txers..."
+msgstr "Canviador de nom de fi&txers…"
 
 #: juk.cpp:354
 #, kde-format
 msgid "&Configure scrobbling..."
-msgstr "&Configura l'anàlisi musical..."
+msgstr "&Configura l'anàlisi musical…"
 
 #: juk.cpp:361
 #, kde-format
@@ -825,7 +825,7 @@ msgstr "<i>No s'està reproduint cap fitxer.</i>"
 #: lyricswidget.cpp:83
 #, kde-format
 msgid "<i>Loading...</i>"
-msgstr "<i>S'està carregant...</i>"
+msgstr "<i>S'està carregant…</i>"
 
 #: lyricswidget.cpp:88
 #, kde-format
@@ -931,7 +931,7 @@ msgstr "Γιώργος Κυλάφας (Giorgos Kylafas)"
 #: main.cpp:50
 #, kde-format
 msgid "Badly-needed tag editor bugfixes."
-msgstr "Correcció d'errors en l'editor de marques."
+msgstr "Esmena d'errors en l'editor de marques."
 
 #: main.cpp:51
 #, kde-format
@@ -1233,7 +1233,7 @@ msgstr "Edita"
 #: playlist.cpp:1607
 #, kde-format
 msgid "Create Playlist From Selected Items..."
-msgstr "Crea una llista de reproducció a partir dels elements seleccionats..."
+msgstr "Crea una llista de reproducció a partir dels elements seleccionats…"
 
 #: playlist.cpp:1970
 #, kde-format
@@ -1385,17 +1385,17 @@ msgstr "&Nova"
 #: playlistcollection.cpp:893
 #, kde-format
 msgid "&Empty Playlist..."
-msgstr "Llista de reproducció &buida..."
+msgstr "Llista de reproducció &buida…"
 
 #: playlistcollection.cpp:897
 #, kde-format
 msgid "&Search Playlist..."
-msgstr "Llista de reproducció de la &busca..."
+msgstr "Llista de reproducció de la &busca…"
 
 #: playlistcollection.cpp:901
 #, kde-format
 msgid "Playlist From &Folder..."
-msgstr "Llista de reproducció des d'una car&peta..."
+msgstr "Llista de reproducció des d'una car&peta…"
 
 #: playlistcollection.cpp:909
 #, kde-format
@@ -1430,18 +1430,18 @@ msgstr "Reproduïx l'àlbum següent"
 #: playlistcollection.cpp:939
 #, kde-format
 msgid "Manage &Folders..."
-msgstr "Gestiona les &carpetes..."
+msgstr "Gestiona les &carpetes…"
 
 #: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
-msgstr "Ca&nvia el nom..."
+msgstr "Ca&nvia el nom…"
 
 #: playlistcollection.cpp:943
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
-msgstr "D&uplica..."
+msgstr "D&uplica…"
 
 #: playlistcollection.cpp:948
 #, kde-format
@@ -1451,7 +1451,7 @@ msgstr "Torna a carregar"
 #: playlistcollection.cpp:950
 #, kde-format
 msgid "Edit Search..."
-msgstr "Edita la busca..."
+msgstr "Edita la busca…"
 
 #: playlistcollection.cpp:953
 #, kde-format
@@ -1491,12 +1491,12 @@ msgstr "Edita la busca de les peces"
 #: scrobbleconfigdlg.cpp:38
 #, kde-format
 msgid "Configure scrobbling..."
-msgstr "Configura l'anàlisi musical..."
+msgstr "Configura l'anàlisi musical…"
 
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
 msgid "Test login..."
-msgstr "Prova la identificació..."
+msgstr "Prova la identificació…"
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
@@ -1533,7 +1533,7 @@ msgstr "KWallet no està disponible"
 #: scrobbleconfigdlg.cpp:126
 #, kde-format
 msgid "Validating login..."
-msgstr "S'està validant l'inici de la sessió..."
+msgstr "S'està validant l'inici de la sessió…"
 
 #: scrobbleconfigdlg.cpp:136
 #, kde-format
@@ -1568,7 +1568,7 @@ msgstr "Tots visibles"
 #: searchwidget.cpp:200
 #, kde-format
 msgid "Search..."
-msgstr "Busca..."
+msgstr "Busca…"
 
 #: slider.cpp:128
 #, kde-format
@@ -1987,88 +1987,3 @@ msgstr "Volum: %1% (silenciat)"
 #, kde-format
 msgid "Volume: %1%"
 msgstr "Volum: %1%"
-
-#~ msgid "<All Artists>"
-#~ msgstr "<Tots els artistes>"
-
-#~ msgid "Remove Cover"
-#~ msgstr "Elimina la caràtula"
-
-#~ msgid "Cover Manager"
-#~ msgstr "Gestor de caràtules"
-
-#~ msgid "Your album art failed to download."
-#~ msgstr "Ha fallat la baixada de la caràtula."
-
-#~ msgid "Your album art has finished downloading."
-#~ msgstr "La baixada de la caràtula ha finalitzat."
-
-#~ msgid "Are you sure you want to delete these covers?"
-#~ msgstr "Segur que voleu suprimir estes caràtules?"
-
-#~ msgid "&Delete Covers"
-#~ msgstr "Sup&rimix les caràtules"
-
-#~ msgid "Select Cover Image File"
-#~ msgstr "Selecciona un fitxer d'imatge de caràtula"
-
-#~ msgid "Images (*.png *.jpg)"
-#~ msgstr "Imatges (*.png *.jpg)"
-
-#~ msgid "Cover"
-#~ msgstr "Caràtula"
-
-#~ msgid "&View Cover"
-#~ msgstr "Vi&sualitza la caràtula"
-
-#~ msgid "Get Cover From &File..."
-#~ msgstr "Recupera la caràtula des d'un fi&txer..."
-
-#~ msgid "Get Cover From &Internet..."
-#~ msgstr "Recupera la caràtula des d'&Internet..."
-
-#~ msgid "&Delete Cover"
-#~ msgstr "Sup&rimix la caràtula"
-
-#~ msgid "Show Cover &Manager"
-#~ msgstr "&Mostra el gestor de caràtules"
-
-#~ msgid "Searching for cover. Please Wait..."
-#~ msgstr "S'està buscant una caràtula. Espereu..."
-
-#~ msgid "Album '%1' not found."
-#~ msgstr "No s'ha trobat l'àlbum «%1»."
-
-#~ msgctxt "@title:window"
-#~ msgid "Album not Found"
-#~ msgstr "No s'ha trobat l'àlbum"
-
-#~ msgid ""
-#~ "Error %1 when searching for cover:\n"
-#~ "%2"
-#~ msgstr ""
-#~ "Error %1 en buscar la caràtula:\n"
-#~ "%2"
-
-#~ msgid "No available cover for the album '%1'."
-#~ msgstr "No hi ha cap caràtula disponible per a l'àlbum «%1»."
-
-#~ msgctxt "@title:window"
-#~ msgid "Cover not Available"
-#~ msgstr "La caràtula no està disponible"
-
-#~ msgid "Downloading cover. Please Wait..."
-#~ msgstr "S'està baixant la caràtula. Espereu..."
-
-#~ msgid "Cover found"
-#~ msgstr "S'ha trobat la caràtula"
-
-#~ msgid "Failed to download requested cover art: %1"
-#~ msgstr "No s'ha pogut baixar la caràtula sol·licitada: %1"
-
-#~ msgctxt "@title:window"
-#~ msgid "Could not download cover art"
-#~ msgstr "No s'han pogut baixar la caràtula"
-
-#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-#~ msgstr "Caràtula recuperada des de <a href='https://last.fm/'>last.fm</a>."
