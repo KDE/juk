@@ -1,14 +1,14 @@
 # Translation of juk into esperanto.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
-# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
+# Oliver Kellogg <olivermkellogg@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2023-12-31 09:27+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"PO-Revision-Date: 2024-05-05 18:09+0100\n"
+"Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Axel Rousseau,Oliver Kellogg"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "axel@esperanto-jeunes.org,okellogg@users.sourceforge.net"
+msgstr "axel@esperanto-jeunes.org,olivermkellogg@gmail.com"
 
 #: advancedsearchdialog.cpp:48
 #, kde-format
@@ -799,8 +799,8 @@ msgstr "Mult&mediaj klavoj"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
 msgstr ""
-"Ĉi tie vi povas elekti la klavojn uzatajn kiel ĉieajn ŝparvojojn por "
-"kontroli la ludanton"
+"Ĉi tie vi povas elekti la klavojn uzatajn kiel ĉieajn ŝparvojojn por regi la "
+"ludilon"
 
 #: lyricswidget.cpp:51
 #, kde-format
@@ -1970,88 +1970,3 @@ msgstr "Laŭteco: %1% (silentita)"
 #, kde-format
 msgid "Volume: %1%"
 msgstr "Laŭteco: %1%"
-
-#~ msgid "<All Artists>"
-#~ msgstr "<Ĉiuj Artistoj>"
-
-#~ msgid "Remove Cover"
-#~ msgstr "Forigi Kovrilon"
-
-#~ msgid "Cover Manager"
-#~ msgstr "Jaketa administrilo"
-
-#~ msgid "Your album art failed to download."
-#~ msgstr "Via albuma arto malsukcesis elŝuti."
-
-#~ msgid "Your album art has finished downloading."
-#~ msgstr "Finiĝis elŝutado de via album-arto."
-
-#~ msgid "Are you sure you want to delete these covers?"
-#~ msgstr "Ĉu vi certas, ke vi volas forigi ĉi tiujn kovrilojn?"
-
-#~ msgid "&Delete Covers"
-#~ msgstr "&Forigi Kovrilojn"
-
-#~ msgid "Select Cover Image File"
-#~ msgstr "Elektu jaketan bilddosieron"
-
-#~ msgid "Images (*.png *.jpg)"
-#~ msgstr "Bildoj (*.png *.jpg)"
-
-#~ msgid "Cover"
-#~ msgstr "Kovrilo"
-
-#~ msgid "&View Cover"
-#~ msgstr "&Vidi Kovrilon"
-
-#~ msgid "Get Cover From &File..."
-#~ msgstr "Akiri kovrilon El &Dosiero..."
-
-#~ msgid "Get Cover From &Internet..."
-#~ msgstr "Akiri kovrilon de &Interreto..."
-
-#~ msgid "&Delete Cover"
-#~ msgstr "Fori&gi Kovrilon"
-
-#~ msgid "Show Cover &Manager"
-#~ msgstr "Montri Kovril-&Mastrumilon"
-
-#~ msgid "Searching for cover. Please Wait..."
-#~ msgstr "Serĉante kovrilon. Bonvolu atendi..."
-
-#~ msgid "Album '%1' not found."
-#~ msgstr "Albumo '%1' ne trovita."
-
-#~ msgctxt "@title:window"
-#~ msgid "Album not Found"
-#~ msgstr "Albumo ne Trovita"
-
-#~ msgid ""
-#~ "Error %1 when searching for cover:\n"
-#~ "%2"
-#~ msgstr ""
-#~ "Eraro %1 dum serĉado de kovrilo:\n"
-#~ "%2"
-
-#~ msgid "No available cover for the album '%1'."
-#~ msgstr "Neniu disponebla kovrilo por la albumo '%1'."
-
-#~ msgctxt "@title:window"
-#~ msgid "Cover not Available"
-#~ msgstr "Kovrilo ne Havebla"
-
-#~ msgid "Downloading cover. Please Wait..."
-#~ msgstr "Elŝutante kovrilon. Bonvolu atendi..."
-
-#~ msgid "Cover found"
-#~ msgstr "Kovrilo trovita"
-
-#~ msgid "Failed to download requested cover art: %1"
-#~ msgstr "Malsukcesis elŝuti petitan kovrilon: %1"
-
-#~ msgctxt "@title:window"
-#~ msgid "Could not download cover art"
-#~ msgstr "Ne eblis elŝuti kovrilarton"
-
-#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-#~ msgstr "Kovro akirita de <a href='https://last.fm/'>last.fm</a>."
