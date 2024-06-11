@@ -1,12 +1,12 @@
 # translation of juk.po to Romanian
 # Copyright (C) 2004 Free Software Foundation, Inc.
-# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2022.
+# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2022, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2022-04-30 11:04+0100\n"
+"PO-Revision-Date: 2024-02-25 14:00+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -609,7 +609,7 @@ msgstr "&Următor"
 #: juk.cpp:295
 #, kde-format
 msgid "&Loop Playlist"
-msgstr ""
+msgstr "&Listă de redare în buclă"
 
 #: juk.cpp:299
 #, kde-format
@@ -834,10 +834,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr ""
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Drept de autor © 2002–2021, Scott Wheeler, Michael Pyne, și alții"
+msgstr "Drept de autor © 2002–2023, Scott Wheeler, Michael Pyne, și alții"
 
 #: main.cpp:44
 #, kde-format
@@ -847,7 +846,7 @@ msgstr "Scott Wheeler"
 #: main.cpp:44
 #, kde-format
 msgid "Author, chief dork and keeper of the funk"
-msgstr ""
+msgstr "Autor, păcălici șef și păstrător al distracției"
 
 #: main.cpp:45
 #, kde-format
@@ -855,21 +854,19 @@ msgid "Michael Pyne"
 msgstr "Michael Pyne"
 
 #: main.cpp:45
-#, fuzzy, kde-format
-#| msgid "Assistant super-hero, fixer of many things"
+#, kde-format
 msgid "Assistant superhero, fixer of many things"
 msgstr "Asistent supraerou, reparator a numeroase lucruri"
 
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Portarea pe KDE 4 cînd ceilalți dispăruseră"
+msgstr "Portarea pe KDE Frameworks 6 când ceilalți dispăruseră"
 
 #: main.cpp:47
 #, kde-format
@@ -877,10 +874,9 @@ msgid "Kacper Kasper"
 msgstr "Kacper Kasper"
 
 #: main.cpp:47
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 5 when no one else was around"
-msgstr "Portarea pe KDE 4 cînd ceilalți dispăruseră"
+msgstr "Portarea pe KDE Frameworks 5 când ceilalți dispăruseră"
 
 #: main.cpp:48
 #, kde-format
@@ -910,7 +906,7 @@ msgstr "Γιώργος Κυλάφας (Giorgos Kylafas)"
 #: main.cpp:50
 #, kde-format
 msgid "Badly-needed tag editor bugfixes."
-msgstr ""
+msgstr "Corecții de erori pentru redactorul de marcaje."
 
 #: main.cpp:51
 #, kde-format
@@ -920,7 +916,7 @@ msgstr "Georg Grabler"
 #: main.cpp:51
 #, kde-format
 msgid "More KDE Platform 4 porting efforts"
-msgstr ""
+msgstr "Efort adăugător pentru portarea la KDE Platform 4"
 
 #: main.cpp:52
 #, kde-format
@@ -928,10 +924,9 @@ msgid "Laurent Montel"
 msgstr "Laurent Montel"
 
 #: main.cpp:52
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Platform 4 when no one else was around"
-msgstr "Portarea pe KDE 4 cînd ceilalți dispăruseră"
+msgstr "Portarea pe KDE Platform 4 când ceilalți dispăruseră"
 
 #: main.cpp:53
 #, kde-format
@@ -1076,6 +1071,8 @@ msgid ""
 "JuK running in docked mode\n"
 "Use context menu in system tray to restore."
 msgstr ""
+"JuK rulează în regim andocat.\n"
+"Folosiți meniul contextual din tava de sistem pentru a-l restabili."
 
 #: main.cpp:88
 #, kde-format
@@ -1128,22 +1125,15 @@ msgid "Could not save to file %1."
 msgstr "Imposibil de salvat în fișierul %1."
 
 #: playlist.cpp:575
-#, fuzzy, kde-format
-#| msgid ""
-#| "You are about to rename the following files. Are you sure you want to "
-#| "continue?"
+#, kde-format
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
-msgstr[0] ""
-"Sînteți pe cale de a redenumi următoarele fișiere. Sigur doriți să "
-"continuați?"
+msgstr[0] "Sunteți pe cale de a deschide un dosar. Sigur doriți să continuați?"
 msgstr[1] ""
-"Sînteți pe cale de a redenumi următoarele fișiere. Sigur doriți să "
-"continuați?"
+"Sunteți pe cale de a deschide %1 dosare. Sigur doriți să continuați?"
 msgstr[2] ""
-"Sînteți pe cale de a redenumi următoarele fișiere. Sigur doriți să "
-"continuați?"
+"Sunteți pe cale de a deschide %1 de dosare. Sigur doriți să continuați?"
 
 #: playlist.cpp:578 playlistcollection.cpp:957
 #, kde-format
@@ -1237,10 +1227,7 @@ msgid "Create New Playlist"
 msgstr "Creează listă de redare nouă"
 
 #: playlist.cpp:2115
-#, fuzzy, kde-format
-#| msgid ""
-#| "Manual column widths have been enabled.  You can switch back to automatic "
-#| "column sizes in the view menu."
+#, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
