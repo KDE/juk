@@ -3,21 +3,21 @@
 # Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 #
 # Mattias Newzella <newzella@linux.nu>, 2003, 2004.
-# Stefan Asserhäll <stefan.asserhall@gmail.com>, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021.
+# SPDX-FileCopyrightText: 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021, 2024 Stefan Asserhäll <stefan.asserhall@gmail.com>
 # Arve Eriksson <031299870@telia.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2021-05-10 08:29+0200\n"
-"Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
+"PO-Revision-Date: 2024-06-16 22:50+0200\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.08.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -851,10 +851,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Jukebox och musikhanterare av KDE-gemenskapen"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Copyright © 2002-2021, Scott Wheeler, Michael Pyne med flera"
+msgstr "Copyright © 2002-2023, Scott Wheeler, Michael Pyne med flera"
 
 #: main.cpp:44
 #, kde-format
@@ -879,13 +878,12 @@ msgstr "Assisterande superhjälte, fixare av många saker"
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE Frameworks 5 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Konvertering till KDE Ramverk 5 när ingen annan fanns tillhands"
+msgstr "Konvertering till KDE Ramverk 6 när ingen annan fanns tillhands"
 
 #: main.cpp:47
 #, kde-format
