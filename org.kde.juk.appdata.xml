@@ -5,7 +5,6 @@
   <project_license>GPL-2.0+</project_license>
   <developer_name translate="no">KDE</developer_name>
   <name>JuK</name>
-  <launchable type="desktop-id">org.kde.juk.desktop</launchable>
   <name xml:lang="ar">جوك</name>
   <name xml:lang="ast">JuK</name>
   <name xml:lang="bg">JuK</name>
@@ -54,6 +53,7 @@
   <name xml:lang="x-test">xxJuKxx</name>
   <name xml:lang="zh-CN">JuK</name>
   <name xml:lang="zh-TW">音樂播放_Juk</name>
+  <launchable type="desktop-id">org.kde.juk.desktop</launchable>
   <summary>Music Player</summary>
   <summary xml:lang="ar">مشغّل صوتي</summary>
   <summary xml:lang="bg">Програма за изпълнение на музика</summary>
