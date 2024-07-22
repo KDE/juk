@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2024-03-22 01:05+0300\n"
+"PO-Revision-Date: 2024-07-21 20:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -200,7 +200,7 @@ msgstr "Bu klasörler başlangıçta yeni dosyalar için taranacak."
 #: directorylistbase.ui:64 directorylistbase.ui:147
 #, kde-format
 msgid "Add Folder..."
-msgstr "Klasör Ekle..."
+msgstr "Klasör Ekle…"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeDirectoryButton)
 #. i18n: ectx: property (text), widget (QPushButton, removeExcludeDirectoryButton)
@@ -238,25 +238,25 @@ msgstr "Örnek"
 #: exampleoptionsbase.ui:37
 #, kde-format
 msgid "Example Tag Selection"
-msgstr "Örnek Etiket Seçimi"
+msgstr "Örnek Künye Seçimi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_fileTagsButton)
 #: exampleoptionsbase.ui:58
 #, kde-format
 msgid "Get example tags from this file:"
-msgstr "Örnek etiketleri bu dosyadan al:"
+msgstr "Örnek künyeleri bu dosyadan al:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_manualTagsButton)
 #: exampleoptionsbase.ui:81
 #, kde-format
 msgid "Enter example tags manually:"
-msgstr "Örnek etiketleri elle gir:"
+msgstr "Örnek künyeleri elle gir:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_manualGroup)
 #: exampleoptionsbase.ui:91
 #, kde-format
 msgid "Example Tags"
-msgstr "Örnek Etiketler"
+msgstr "Örnek Künyeler"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: exampleoptionsbase.ui:135
@@ -370,7 +370,7 @@ msgstr "Klasör ayırıcı ekle"
 #: filerenamer.cpp:595
 #, kde-format
 msgid "No file selected, or selected file has no tags."
-msgstr "Hiçbir dosya seçilmemiş ya da seçili dosyanın etiketi yok."
+msgstr "Hiçbir dosya seçilmemiş veya seçili dosyada künye yok."
 
 #: filerenamer.cpp:826
 #, kde-format
@@ -409,37 +409,37 @@ msgstr "Müzik klasörü:"
 #: filerenamerbase.ui:90
 #, kde-format
 msgid "Album Tag"
-msgstr "Albüm Etiketi"
+msgstr "Albüm Künyesi"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:95
 #, kde-format
 msgid "Artist Tag"
-msgstr "Sanatçı Etiketi"
+msgstr "Sanatçı Künyesi"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:100
 #, kde-format
 msgid "Genre Tag"
-msgstr "Tarz Etiketi"
+msgstr "Tür Künyesi"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:105
 #, kde-format
 msgid "Title Tag"
-msgstr "Başlık Etiketi"
+msgstr "Başlık Künyesi"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:110
 #, kde-format
 msgid "Track Tag"
-msgstr "Parça Etiketi"
+msgstr "Parça Künyesi"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:115
 #, kde-format
 msgid "Year Tag"
-msgstr "Yıl Etiketi"
+msgstr "Yıl Künyesi"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_insertCategory)
 #: filerenamerbase.ui:123
@@ -511,7 +511,7 @@ msgstr "Dosya adı iç&inde yine de içer"
 #: filerenameroptionsbase.ui:144
 #, kde-format
 msgid "&Ignore this tag when renaming the file"
-msgstr "Dosyayı yeniden adlandırırken bu etiketi &yok say"
+msgstr "Dosyayı yeniden adlandırırken bu künyeyi &yok say"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_useValueButton)
 #: filerenameroptionsbase.ui:162
@@ -699,17 +699,17 @@ msgstr "Çı&kışta Çalma Kuyruğunu Kaydet"
 #: juk.cpp:348
 #, kde-format
 msgid "&Tag Guesser..."
-msgstr "&Etiket Tahmincisi..."
+msgstr "&Künye Tahmincisi…"
 
 #: juk.cpp:351
 #, kde-format
 msgid "&File Renamer..."
-msgstr "&Dosya Adı Değiştiricisi..."
+msgstr "&Dosya Adı Değiştiricisi…"
 
 #: juk.cpp:354
 #, kde-format
 msgid "&Configure scrobbling..."
-msgstr "Yayı&nlamayı Yapılandır..."
+msgstr "Yayı&nlamayı Yapılandır…"
 
 #: juk.cpp:361
 #, kde-format
@@ -763,7 +763,7 @@ msgstr "&Çalar"
 #: jukui-rtl.rc:56 jukui.rc:58
 #, kde-format
 msgid "&Tagger"
-msgstr "&Etiketçi"
+msgstr "&Künyeci"
 
 #. i18n: ectx: Menu (settings)
 #: jukui-rtl.rc:66 jukui.rc:68
@@ -829,7 +829,7 @@ msgstr "<i>Çalınan parça yok.</i>"
 #: lyricswidget.cpp:83
 #, kde-format
 msgid "<i>Loading...</i>"
-msgstr "<i>Yükleniyor...</i>"
+msgstr "<i>Yükleniyor…</i>"
 
 #: lyricswidget.cpp:88
 #, kde-format
@@ -934,7 +934,7 @@ msgstr "Γιώργος Κυλάφας (Giorgos Kylafas)"
 #: main.cpp:50
 #, kde-format
 msgid "Badly-needed tag editor bugfixes."
-msgstr "Çokça istenen etiket düzenleme hata düzeltmeleri."
+msgstr "Çokça istenen künye düzenleme hata düzeltmeleri."
 
 #: main.cpp:51
 #, kde-format
@@ -987,7 +987,7 @@ msgid ""
 "System tray docking, \"inline\" tag editing,\n"
 "bug fixes, evangelism, moral support"
 msgstr ""
-"Sistem tepsisine yerleşme, \"satır içi\" etiket düzenleme,\n"
+"Sistem tepsisine yerleşme, “satır içi” künye düzenleme,\n"
 "hata düzeltmeleri, misyonerlik, moral desteği"
 
 #: main.cpp:56
@@ -1135,7 +1135,7 @@ msgstr "çalma listesine geri dön"
 #, kde-format
 msgctxt "%1 is the artist and %2 is the title of the currently playing track."
 msgid "%1 - %2 :: JuK"
-msgstr "%1 - %2 :: JuK"
+msgstr "%1 — %2 :: JuK"
 
 #: playermanager.cpp:367
 #, kde-format
@@ -1236,12 +1236,12 @@ msgstr "Düzenle"
 #: playlist.cpp:1607
 #, kde-format
 msgid "Create Playlist From Selected Items..."
-msgstr "Seçilen Ögelerden Çalma Listesi Oluştur..."
+msgstr "Seçilen Ögelerden Çalma Listesi Oluştur…"
 
 #: playlist.cpp:1970
 #, kde-format
 msgid "Edit '%1'"
-msgstr "Düzenle: '%1'"
+msgstr "Düzenle: “%1”"
 
 #: playlist.cpp:2047
 #, kde-format
@@ -1387,17 +1387,17 @@ msgstr "&Yeni"
 #: playlistcollection.cpp:893
 #, kde-format
 msgid "&Empty Playlist..."
-msgstr "&Boş Çalma Listesi..."
+msgstr "&Boş Çalma Listesi…"
 
 #: playlistcollection.cpp:897
 #, kde-format
 msgid "&Search Playlist..."
-msgstr "&Çalma Listesinde Ara..."
+msgstr "&Çalma Listesinde Ara…"
 
 #: playlistcollection.cpp:901
 #, kde-format
 msgid "Playlist From &Folder..."
-msgstr "&Klasörden Çalma Listesi..."
+msgstr "&Klasörden Çalma Listesi…"
 
 #: playlistcollection.cpp:909
 #, kde-format
@@ -1432,18 +1432,18 @@ msgstr "Sonraki Albümü Çal"
 #: playlistcollection.cpp:939
 #, kde-format
 msgid "Manage &Folders..."
-msgstr "Klasörleri &Yönet..."
+msgstr "Klasörleri &Yönet…"
 
 #: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
-msgstr "&Yeniden Adlandır..."
+msgstr "&Yeniden Adlandır…"
 
 #: playlistcollection.cpp:943
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
-msgstr "Ko&pyala..."
+msgstr "Ko&pyala…"
 
 #: playlistcollection.cpp:948
 #, kde-format
@@ -1453,7 +1453,7 @@ msgstr "Yeniden Yükle"
 #: playlistcollection.cpp:950
 #, kde-format
 msgid "Edit Search..."
-msgstr "Aramayı Düzenle..."
+msgstr "Aramayı Düzenle…"
 
 #: playlistcollection.cpp:953
 #, kde-format
@@ -1498,7 +1498,7 @@ msgstr "Yayınlamayı Yapılandır"
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
 msgid "Test login..."
-msgstr "Sınama oturumu..."
+msgstr "Sınama oturumu…"
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
@@ -1535,7 +1535,7 @@ msgstr "K Cüzdan kullanılamıyor"
 #: scrobbleconfigdlg.cpp:126
 #, kde-format
 msgid "Validating login..."
-msgstr "Oturum açma bilgileri doğrulanıyor..."
+msgstr "Oturum açma bilgileri doğrulanıyor…"
 
 #: scrobbleconfigdlg.cpp:136
 #, kde-format
@@ -1570,7 +1570,7 @@ msgstr "Tümü Görünür"
 #: searchwidget.cpp:200
 #, kde-format
 msgid "Search..."
-msgstr "Ara..."
+msgstr "Ara…"
 
 #: slider.cpp:128
 #, kde-format
@@ -1720,7 +1720,7 @@ msgstr "Etkinleştir"
 #: tagguesserconfigdlg.cpp:39
 #, kde-format
 msgid "Tag Guesser Configuration"
-msgstr "Etiket Tahmincisi Yapılandırması"
+msgstr "Künye Tahmincisi Yapılandırması"
 
 #. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:18
@@ -1749,9 +1749,9 @@ msgid ""
 "since the tag guesser will go through the list from the top to the bottom, "
 "and use the first matching scheme."
 msgstr ""
-"Burada bir dosya adından çıkarılan etiket bilgisinin kullanılmak için "
-"şarkının bağlam menüsünden seçilen \"Dosya Adından Etiket Bilgisini Tahmin Et"
-"\" girişi için yapılandırılmış geçerli ad düzenini görebilirsiniz. Her dizi "
+"Burada bir dosya adından çıkarılan künye bilgisinin kullanılmak için "
+"şarkının bağlam menüsünden seçilen “Dosya Adından Künye Bilgisini Tahmin Et” "
+"girişi için yapılandırılmış geçerli ad düzenini görebilirsiniz. Her dizi "
 "aşağıdaki yer tutuculardan birini içerebilir:<ul>\n"
 "<li>%t: Başlık</li>\n"
 "<li>%a: Sanatçı</li>\n"
@@ -1759,12 +1759,12 @@ msgstr ""
 "<li>%T: Parça</li>\n"
 "<li>%c: Yorum</li>\n"
 "</ul>\n"
-"Örneğin \"[%T] %a - %t\" ad düzeni \"[01] Deep Purple - Smoke on the water\" "
-"parçasını eşleştirebilir ancak \"(Deep Purple) Smoke on the water\" "
-"eşleştirmesini yapmaz. İkincisi için \"(%a) %t\" kullanmanız gerekir.<p/>\n"
-"Listede görülen düzenin sırasının düzgün olmasına dikkat edin; çünkü etiket "
-"tahmincisi listenin başından sonuna doğru gidecek ve ilk eşleşen düzen "
-"kullanılacak."
+"Örneğin “[%T] %a — %t” ad düzeni “[01] Deep Purple — Smoke on the Water” "
+"parçasıyla eşleşir; ancak “(Deep Purple) Smoke on the Water” eşleştirmesini "
+"yapmaz. İkincisi için “(%a) %t” kullanmanız gerekir.<p/>\n"
+"Listede görülen düzenin sırasının düzgün olmasına dikkat edin; çünkü künye "
+"tahmincisi listenin başından sonuna doğru gider ve ilk eşleşen şema "
+"kullanılır."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, bMoveUp)
 #: tagguesserconfigdlgwidget.ui:42
@@ -1922,7 +1922,7 @@ msgstr "Bu dosyalar üzerinde %1 değiştirmek üzeresiniz."
 #: treeviewitemplaylist.cpp:58
 #, kde-format
 msgid "Changing Track Tags"
-msgstr "Parça Etiketlerini Değiştirme"
+msgstr "Parça Künyelerini Değiştirme"
 
 #: upcomingplaylist.cpp:31
 #, kde-format
