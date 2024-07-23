@@ -1,21 +1,20 @@
 # Translation of juk to Norwegian Nynorsk
 #
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 2004, 2005.
-# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2005, 2007, 2008, 2010, 2013, 2016, 2018, 2019, 2020, 2021, 2022.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2022-07-02 13:32+0200\n"
+"PO-Revision-Date: 2024-07-21 14:27+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.2\n"
+"X-Generator: Lokalize 24.05.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -847,10 +846,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "KDE-program for avspeling og organisering av musikk"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "© 2002–2021 Scott Wheeler, Michael Pyne og andre"
+msgstr "© 2002–2023 Scott Wheeler, Michael Pyne og andre"
 
 #: main.cpp:44
 #, kde-format
@@ -875,13 +873,12 @@ msgstr "Superhelt som har retta opp mykje"
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE Frameworks 5 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Porting til KDE Frameworks 5 når ingen andre var til stades"
+msgstr "Porting til KDE Frameworks 6 når ingen andre var til stades"
 
 #: main.cpp:47
 #, kde-format
