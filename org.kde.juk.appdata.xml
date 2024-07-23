@@ -105,9 +105,11 @@
   <description>
     <p>JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. Its main focus, in fact, is on music management.</p>
     <p xml:lang="ca">El JuK és una aplicació de màquina de discos musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
+    <p xml:lang="es">JuK es una aplicación jukebox de audio, que soporta colecciones de archivos MP3, Ogg Vorbis y FLAC. Le permite editar los "tags" de sus archivos de audio, y administrar sus colecciones y listas de reproducción. Su principal cometido, de hecho, es administrar la música.</p>
     <p xml:lang="eu">JuK audio jukebox aplikazio bat da, MP3, Ogg Vorbis, eta FLAC audio fitxategiak onartzen dituena. Zure audio fitxategien "etiketak" editatzen uzten dizu, eta zure bilduma eta jo-zerrendak kudeatzea. Bere helburu nagusia, izatez, musika kudeatzean datza.Jukebox bat musika jotzeko gailu automatizatu bat da, tabernatan, joko-aretoetan eta abarretan egon ohi zena. Txanponak sartuz jo nahi den abestia aukeratzen da.</p>
     <p xml:lang="sl">JuK je predvajalnik glasbe, ki podpira zbirke zvočnih datotek MP3, Ogg Vorbis in FLAC. Omogoča urejanje "oznak" vaših zvočnih datotek ter upravljanje zbirk in seznamov predvajanj. Glavni poudarek programa je dejansko upravljanje glasbe.</p>
     <p xml:lang="sv">Juk är ett Jukebox-program, som stöder samlingar av MP3, Ogg Vorbis och FLAC ljudfiler. Det låter dig redigera "taggarna" i ljudfilerna, och hantera samlingen och spellistor. Dess huvudfokus är just musikhantering.</p>
+    <p xml:lang="tr">JuK, MP3, Ogg Vorbis ve FLAC ses dosyalarını destekleyen bir müzik kutusu uygulamasıdır. Ses dosyalarının künyelerini” düzenlemenize ve koleksiyon ve çalma listelerini yönetmenize izin verir. Ana odak noktası müzik yönetimidir.</p>
     <p xml:lang="uk">JuK — програма для відтворення музики, у якій передбачено підтримку роботи зі звуковими файлами у форматах MP3, Ogg Vorbis та FLAC. Програма допоможе вам у редагуванні міток ваших звукових файлів, керуванні вашою збіркою та списками відтворення. Основним її призначенням, фактично, є керування музичними даними.</p>
     <p xml:lang="x-test">xxJuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. Its main focus, in fact, is on music management.xx</p>
     <p>Features:</p>
@@ -462,7 +464,7 @@
       <li xml:lang="sr-ijekavian">Могућност погађања ознака према имену фајла нумере.</li>
       <li xml:lang="sr-ijekavianlatin">Mogućnost pogađanja oznaka prema imenu fajla numere.</li>
       <li xml:lang="sv">Möjlighet att gissa tagginformation baserat på spårets filnamn</li>
-      <li xml:lang="tr">Parçanın dosya adına dayanarak etiket bilgisini tahmin etme</li>
+      <li xml:lang="tr">Parçanın dosya adına dayanarak künye bilgisini tahmin etme</li>
       <li xml:lang="uk">Можливість вгадування міток на основі даних щодо назви файла композиції.</li>
       <li xml:lang="x-test">xxThe ability to guess tag information based on the track's file namexx</li>
       <li xml:lang="zh-CN">能够根据音乐文件名猜测标签信息</li>
@@ -506,7 +508,7 @@
       <li xml:lang="sr-ijekavian">Преименовање фајлова на основу садржаја ознака.</li>
       <li xml:lang="sr-ijekavianlatin">Preimenovanje fajlova na osnovu sadržaja oznaka.</li>
       <li xml:lang="sv">Byte av filnamn som kan byta namn på filer baserat på tagginnehåll</li>
-      <li xml:lang="tr">Etiket içeriğine bağlı olarak dosyayı yeniden adlandırabilme</li>
+      <li xml:lang="tr">Künye içeriğine bağlı olarak dosyayı yeniden adlandırabilme</li>
       <li xml:lang="uk">Засіб перейменування файлів, який може перейменувати файли на основі даних міток.</li>
       <li xml:lang="x-test">xxFile renamer that can rename files based on the tag contentxx</li>
       <li xml:lang="zh-CN">文件重命名工具，能够根据标签内容重命名文件</li>
@@ -550,7 +552,7 @@
       <li xml:lang="sr-ijekavian">Подршка за читање и уређивање ознака за многе формате, укључујући ИД3 в1 и в2, и ОГГ Ворбис.</li>
       <li xml:lang="sr-ijekavianlatin">Podrška za čitanje i uređivanje oznaka za mnoge formate, uključujući ID3 v1 i v2, i OGG Vorbis.</li>
       <li xml:lang="sv">Stöd för taggläsning och redigering för många format inklusive ID3v1, ID3v2 och Ogg Vorbis</li>
-      <li xml:lang="tr">ID3v1, ID3v2 ve Ogg Vorbis dahil pek çok biçim için etiket okuma ve düzenleme desteği</li>
+      <li xml:lang="tr">ID3v1, ID3v2 ve Ogg Vorbis dahil pek çok biçim için künye okuma ve düzenleme desteği</li>
       <li xml:lang="uk">Підтримка читання та редагування міток у багатьох форматах, зокрема ID3v1, ID3v2 та Ogg Vorbis.</li>
       <li xml:lang="x-test">xxTag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbisxx</li>
       <li xml:lang="zh-CN">支持读取和编辑各种标签格式 (包括 ID3v1、ID3v2 和 Ogg Vorbis)</li>
