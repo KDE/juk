@@ -381,11 +381,10 @@ void JuK::slotSetupSystemTray()
 
         // since we need the information if the main window is visible
         // when quit was selected, we need to reroute the signal to our slot
-        QAction *quitAction = m_systemTray->action(QStringLiteral("quit"));
-        if (quitAction) {
-            quitAction->disconnect();
-            connect(quitAction, &QAction::triggered, this, &JuK::slotQuit);
-        }
+        connect(m_systemTray, &KStatusNotifierItem::quitRequested, this, [this]{
+            m_systemTray->abortQuit();
+            slotQuit();
+        });
 
         // If this flag gets set then JuK will quit if you click the cover on
         // the track announcement popup when JuK is only in the system tray
