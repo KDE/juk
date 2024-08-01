@@ -303,7 +303,7 @@
 ></term>
 <listitem>
 <para
->Això eliminarà el fitxer de la llista de col·leccions, eliminarà totes les entrades de la cançó en totes les llistes de reproducció i esborrarà el fitxer del disc. Això no es pot desfer, per bé que es demanarà que confirmeu la vostra elecció. Utilitzeu-ho amb precaució.</para>
+>Això eliminarà el fitxer de la llista de col·leccions, eliminarà totes les entrades de la cançó en totes les llistes de reproducció i suprimirà el fitxer del disc. Això no es pot desfer, per bé que es demanarà que confirmeu la vostra elecció. Utilitzeu-ho amb precaució.</para>
 </listitem>
 </varlistentry>
 
@@ -1908,7 +1908,7 @@ Play Next Album
 </term>
 <listitem
 ><para
->Aquesta ordre elimina els fitxers seleccionats de la llista de col·leccions i qualsevol llista de reproducció que el contingui, i després eliminarà el fitxer seleccionat del disc. </para>
+>Aquesta ordre suprimieix els fitxers seleccionats de la llista de col·leccions i qualsevol llista de reproducció que el contingui, i després suprimirà el fitxer seleccionat del disc. </para>
 </listitem>
 </varlistentry>
 
