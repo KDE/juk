@@ -51,7 +51,7 @@ parts:
       - libpulse0
       - libasound2-data
       - libasound2-plugins
-      - libtag1
+      - libtag1v5
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
