@@ -16,6 +16,8 @@ apps:
     command: usr/bin/juk
     slots:
       - mpris
+    plugs:
+      - home
     environment:
       ALSA_CONFIG_PATH: "$SNAP/kf6/etc/asound.conf"
 layout:
