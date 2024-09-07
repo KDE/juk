@@ -3,19 +3,20 @@
 # Nazanin Kazemi <kazemi@itland.ir>, 2006, 2007.
 # MaryamSadat Razavi <razavi@itland.ir>, 2006.
 # Tahereh Dadkhahfar <dadkhahfar@itland.ir>, 2006.
+# SPDX-FileCopyrightText: 2024 Mohi Mirdamadi <mohi.pub@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2007-06-26 08:14+0330\n"
-"Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
-"Language-Team: Persian <kde-i18n-fa@kde.org>\n"
+"PO-Revision-Date: 2024-09-06 22:32+0330\n"
+"Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
+"Language-Team: fa\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #, kde-format
@@ -156,7 +157,7 @@ msgstr ""
 "<qt><p>اگر این جعبه علامت زده شود، پرونده‌ها<b>به جای این که در لاوک زباله "
 "جای داده شوند</b>به طور دائم حذف می‌شوند.</p>\n"
 "\n"
-"<p><em>از این گزینه با احتیاط استفاده کنید</em>: اغلب سیستمهای پرونده قادر "
+"<p><em>از این گزینه با احتیاط استفاده کنید</em>: اغلب سامانههای پرونده قادر "
 "به بازگرداندن موثق پرونده‌های حذف‌شده نمی‌باشند.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ddShouldDelete)
@@ -675,12 +676,12 @@ msgstr "نمایش/ مخفی کردن"
 #: juk.cpp:335
 #, kde-format
 msgid "&Dock in System Tray"
-msgstr "&پیوستن به سینی سیستم‌"
+msgstr "&پیوستن به سینی سامانه‌"
 
 #: juk.cpp:339
 #, kde-format
 msgid "&Stay in System Tray on Close"
-msgstr "&ماندن در سینی سیستم هنگام بستن‌"
+msgstr "&ماندن در سینی سامانه هنگام بستن‌"
 
 #: juk.cpp:342
 #, kde-format
@@ -724,13 +725,13 @@ msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
-"<qt>بستن پنجره اصلی، اجرای JuK را در سینی سیستم نگه می‌دارد. برای خارج شدن از "
-"کاربرد، خروج از گزینگان پرونده را استفاده کنید.</qt>"
+"<qt>بستن پنجره اصلی، اجرای JuK را در سینی سامانه نگه می‌دارد. برای خارج شدن "
+"از کاربرد، خروج از گزینگان پرونده را استفاده کنید.</qt>"
 
 #: juk.cpp:531
 #, kde-format
 msgid "Docking in System Tray"
-msgstr "در حال پیوستن به سینی سیستم"
+msgstr "در حال پیوستن به سینی سامانه"
 
 #: juktag.cpp:90
 #, fuzzy, kde-format
@@ -985,7 +986,7 @@ msgid ""
 "System tray docking, \"inline\" tag editing,\n"
 "bug fixes, evangelism, moral support"
 msgstr ""
-"پیوند سینی سیستم، ویرایش برچسب »درون برنامه‌‌‌ای«،\n"
+"پیوند سینی سامانه، ویرایش برچسب »درون برنامه‌‌‌ای«،\n"
 "رفع اشکالها، تبلیغ مسیحیت، پشتیبانی معنوی"
 
 #: main.cpp:56
