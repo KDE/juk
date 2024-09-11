@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2024-02-09 20:16+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -1205,7 +1205,7 @@ msgstr "열 표시(&S)"
 msgid "Add to Play Queue"
 msgstr "재생 대기열에 추가"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "편집"
@@ -1215,22 +1215,22 @@ msgstr "편집"
 msgid "Create Playlist From Selected Items..."
 msgstr "선택한 곡으로 재생 목록 만들기..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "'%1' 편집"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "파일 여러 개를 편집하려고 합니다. 계속 진행하시겠습니까?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "새 재생 목록 만들기"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1239,7 +1239,7 @@ msgstr ""
 "수동 열 너비가 활성화되었습니다. 보기 메뉴에서 자동 열 크기로 다시 전환할 수 "
 "있습니다."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "수동 열 너비 사용"

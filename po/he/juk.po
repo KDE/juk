@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2024-03-07 15:10+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -1210,7 +1210,7 @@ msgstr "ה&צגת עמודות"
 msgid "Add to Play Queue"
 msgstr "הוספה לתור הנגינה"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "עריכה"
@@ -1220,22 +1220,22 @@ msgstr "עריכה"
 msgid "Create Playlist From Selected Items..."
 msgstr "יצירת רשימת נגינה מהפריטים הנבחרים…"
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "עריכת „%1”"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "פעולה זו תערוך קבצים רבים. להמשיך?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "יצירת רשימת נגינה חדשה"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1244,7 +1244,7 @@ msgstr ""
 "רוחב ידני של עמודות הופעל. אפשר להחליף בחזרה לרוחב עמודות אוטומטי בתפריט  "
 "התצוגה."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "הופעל רוחב עמודות ידני"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2024-06-22 11:48+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -1230,7 +1230,7 @@ msgstr "Kolommen &tonen"
 msgid "Add to Play Queue"
 msgstr "Toevoegen aan afspeelwachtrij"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "Bewerken"
@@ -1240,22 +1240,22 @@ msgstr "Bewerken"
 msgid "Create Playlist From Selected Items..."
 msgstr "Afspeellijst aanmaken van geselecteerde items..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "'%1' bewerken"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Dit zal meerdere bestanden bewerken. Weet u het zeker?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Nieuwe afspeellijst aanmaken"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1264,7 +1264,7 @@ msgstr ""
 "Handmatige kolombreedtes is geactiveerd. U kunt terug gaan naar de "
 "automatische kolombreedtes via het menu Beeld."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Handmatige kolombreedtes geactiveerd"

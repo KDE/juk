@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2009-02-26 17:14+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -1203,7 +1203,7 @@ msgstr "खंभा देखाव (&S)"
 msgid "Add to Play Queue"
 msgstr "बजाय बर कतार मं जोड़व "
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "संपादन"
@@ -1213,29 +1213,29 @@ msgstr "संपादन"
 msgid "Create Playlist From Selected Items..."
 msgstr "चुने गे चीज मन ल गीत-सूची बनाव..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "'%1' के संपादन करव"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "ये बहुत से फाइल मन ल संपादित करही. का आप मन सुनिस्चित हो?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "नवा गीत-सूची बनाव"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr ""
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "खंभा मन के चौड़ाई कमइया से समायोजन जा सकथे "

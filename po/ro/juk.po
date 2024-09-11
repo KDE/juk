@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2024-02-25 14:00+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -1201,7 +1201,7 @@ msgstr "&Afișează coloanele"
 msgid "Add to Play Queue"
 msgstr "Adaugă la coada de redare"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "Editează"
@@ -1211,22 +1211,22 @@ msgstr "Editează"
 msgid "Create Playlist From Selected Items..."
 msgstr "Creează listă de redare din elementele alese..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Editează „%1”"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Aceasta va edita multiple fișiere. Sînteți sigur?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Creează listă de redare nouă"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1235,7 +1235,7 @@ msgstr ""
 "Lățimile manuale ale coloanelor au fost activate. Puteți reveni la "
 "dimensiunile automate în meniul de vizualizare."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Dimensiuni manuale ale coloanelor activate"

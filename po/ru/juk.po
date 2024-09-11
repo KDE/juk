@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2024-01-10 22:06+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -1234,7 +1234,7 @@ msgstr "Показывать &столбцы"
 msgid "Add to Play Queue"
 msgstr "Добавить в очередь воспроизведения"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "Изменить"
@@ -1244,22 +1244,22 @@ msgstr "Изменить"
 msgid "Create Playlist From Selected Items..."
 msgstr "Создать список воспроизведения из выбранных элементов..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Изменить «%1»"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Это действие вызовет изменение нескольких файлов. Продолжить?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Создать новый список воспроизведения"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1268,7 +1268,7 @@ msgstr ""
 "Включена возможность ручного изменения ширины столбцов. Переключить "
 "изменение ширины столбцов на автоматическое можно в меню «Вид»."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Включена возможность ручного изменения ширины столбцов"

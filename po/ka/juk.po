@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2023-12-31 06:07+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -1219,7 +1219,7 @@ msgstr "&სვეტების ჩვენება"
 msgid "Add to Play Queue"
 msgstr "დასაკრავ რიგში ჩამატება"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "ჩასწორება"
@@ -1229,22 +1229,22 @@ msgstr "ჩასწორება"
 msgid "Create Playlist From Selected Items..."
 msgstr "დასაკრავი სიის შექმნა მონიშნული ელემენტებიდან..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "%1-ის ჩასწორება"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "ეს ერთზე მეტ ფაილს ჩაასწორებს. დარწმუნებული ბრძანდებით?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "ახალი დასაკრავი სიის შექმნა"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1253,7 +1253,7 @@ msgstr ""
 "ჩართულია სვეტის სიგანეების ხელით მითითება. ავტომატურ სვეტის ზომებზე "
 "დაბრუნება ხედის მენიუში შეგიძლიათ."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "სვეტების სიგანის ხელით მითითება ჩართულია"

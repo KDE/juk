@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2024-05-09 11:49+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1221,7 +1221,7 @@ msgstr "اعرض الأعمدة"
 msgid "Add to Play Queue"
 msgstr "أضف إلى طابور التشغيل"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "حرر"
@@ -1231,22 +1231,22 @@ msgstr "حرر"
 msgid "Create Playlist From Selected Items..."
 msgstr "أنشئ قائمة التشغيل من العناصر المختارة...."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "حرر '%1'"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "هذا سيقوم بتحرير عدة ملفات. هل أنت متأكد؟"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "أنشئ قائمة تشغيل جديدة"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1255,7 +1255,7 @@ msgstr ""
 "تم تفعيل تحجيم الأعمدة اليدوي. تستطيع العودة لأحجام الأعمدة التلقائية في "
 "قائمة عرض."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "تحجيم عرض الأعمدة اليدوي مفعل"

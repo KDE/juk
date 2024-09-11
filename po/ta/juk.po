@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2021-01-18 19:00+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -1235,7 +1235,7 @@ msgstr "நெடுவரிசைகளைக் காட்டு"
 msgid "Add to Play Queue"
 msgstr "வாசிப்பு வரிசைக்குச் சேர்"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, fuzzy, kde-format
 msgid "Edit"
 msgstr "தொகு '%1'"
@@ -1245,22 +1245,22 @@ msgstr "தொகு '%1'"
 msgid "Create Playlist From Selected Items..."
 msgstr "தேர்ந்தெடுத்தப்பட்ட விவரங்களிலிருந்து பாடல் பட்டியலை உருவாக்குக."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "தொகு '%1'"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "இது பல கோப்புகளை தொகுக்கும்.  உறுதியாகவா?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "புதிய பாடல் பட்டியலை உருவாக்கு "
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, fuzzy, kde-format
 #| msgid ""
 #| "Manual column widths have been enabled.  You can switch back to automatic "
@@ -1272,7 +1272,7 @@ msgstr ""
 "கைம்முறை நெடுவரிசை அகலங்கள் செயலாக்கப்பட்டது. காட்சி பட்டியலில் உள்ள தானியங்கி "
 "நெடுவரிசை அளவுகளுக்கு திரும்ப செல்லலாம்."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "கைம்முறை நெடுவரிசை அகலங்கள் செயலாக்கப்பட்டது"

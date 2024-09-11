@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2014-11-03 12:04+0000\n"
 "Last-Translator: Admira Husić <ahusic5@etf.unsa.ba>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -1245,7 +1245,7 @@ msgstr "Prikaži &kolone"
 msgid "Add to Play Queue"
 msgstr "Dodaj u red puštanja"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "Izmijeni"
@@ -1255,22 +1255,22 @@ msgstr "Izmijeni"
 msgid "Create Playlist From Selected Items..."
 msgstr "Napravi listu numera od označenih stavki..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Izmijeni '%1'"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Ovo će izmijeniti više datoteka! Jeste li sigurni?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Napravi novu listu"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1279,7 +1279,7 @@ msgstr ""
 "Ručne širine kolona su uključene. Možete se vratiti na automatske širine "
 "kolona u meniju pogleda."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Ručne širine kolona su uključene"

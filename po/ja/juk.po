@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2011-06-11 23:54-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -1235,7 +1235,7 @@ msgstr "表示するカラム(&S)"
 msgid "Add to Play Queue"
 msgstr "再生キューに追加"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "編集"
@@ -1245,22 +1245,22 @@ msgstr "編集"
 msgid "Create Playlist From Selected Items..."
 msgstr "選択したアイテムからプレイリストを作成..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "「%1」を編集"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "この操作は複数のファイルを編集します。よろしいですか？"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "新しいプレイリストを作成"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, fuzzy, kde-format
 #| msgid ""
 #| "Manual column widths have been enabled.  You can switch back to automatic "
@@ -1273,7 +1273,7 @@ msgstr ""
 "interface>メニューから<interface>プレイリストの列幅を自動調整</interface>を選"
 "択してください。"
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "カラム幅の手動調整が有効"

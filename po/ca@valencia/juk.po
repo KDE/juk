@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2023-12-31 09:20+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1225,7 +1225,7 @@ msgstr "Mo&stra en columnes"
 msgid "Add to Play Queue"
 msgstr "Afig a la cua de reproducció"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "Edita"
@@ -1235,22 +1235,22 @@ msgstr "Edita"
 msgid "Create Playlist From Selected Items..."
 msgstr "Crea una llista de reproducció a partir dels elements seleccionats…"
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Edita «%1»"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Editarà múltiples fitxers. N'esteu segur?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Crea una llista de reproducció nova"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1259,7 +1259,7 @@ msgstr ""
 "S'ha activat l'amplària manual de les columnes. Podeu retornar a l'amplària "
 "automàtica de les columnes en el menú Visualitza."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "S'ha activat l'amplària manual de les columnes"

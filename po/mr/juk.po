@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -1212,7 +1212,7 @@ msgstr "स्थंभ दर्शवा (&S)"
 msgid "Add to Play Queue"
 msgstr "प्ले रांगेत जोडा"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "संपादित करा"
@@ -1222,22 +1222,22 @@ msgstr "संपादित करा"
 msgid "Create Playlist From Selected Items..."
 msgstr "निवडलेल्या घटकांपासून प्ले यादी तयार करा..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "संपादित करा '%1'"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "हे अनेक फाईल्स संपादित करेल. तुम्हाला खात्री आहे का?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "नवीन प्ले यादी तयार करा"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, fuzzy, kde-format
 #| msgid ""
 #| "Manual column widths have been enabled.  You can switch back to automatic "
@@ -1249,7 +1249,7 @@ msgstr ""
 "स्वहस्ते स्तंभ रुंदी कार्यान्वित केली आहे. तुम्ही दृश्य मेन्यू द्वारे स्वयंचलित स्तंभ आकारास बदलू "
 "शकता."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "स्वहस्ते स्तंभ रुंदी कार्यान्वित केली"

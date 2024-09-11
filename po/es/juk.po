@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2024-01-11 02:13+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -1243,7 +1243,7 @@ msgstr "Mo&strar las columnas"
 msgid "Add to Play Queue"
 msgstr "Añadir a la cola de reproducción"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "Editar"
@@ -1253,22 +1253,22 @@ msgstr "Editar"
 msgid "Create Playlist From Selected Items..."
 msgstr "Crear una lista a partir de los elementos seleccionados..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Editar «%1»"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Esto editará múltiples archivos. ¿Está seguro?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Crear una nueva lista de reproducción"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1277,7 +1277,7 @@ msgstr ""
 "Se ha activado la anchura manual de las columnas. Puede volver a activar los "
 "tamaños de columna automáticos desde el menú Ver."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Anchura manual de las columnas activada"

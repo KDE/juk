@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2010-03-14 19:08+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -1226,7 +1226,7 @@ msgstr "&แสดงคอลัมน์"
 msgid "Add to Play Queue"
 msgstr "เพิ่มเข้าไปในคิวรอเล่น"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "แก้ไข"
@@ -1236,22 +1236,22 @@ msgstr "แก้ไข"
 msgid "Create Playlist From Selected Items..."
 msgstr "สร้างรายการเล่นจากรายการที่เลือก..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "แก้ไข '%1'"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "นี่จะเป็นการแก้ไขแฟ้มหลาย ๆ แฟ้ม คุณแน่ใจหรือไม่ ?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "สร้างรายการเล่นใหม่"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, fuzzy, kde-format
 #| msgid ""
 #| "Manual column widths have been enabled.  You can switch back to automatic "
@@ -1263,7 +1263,7 @@ msgstr ""
 "การปรับความกว้างของคอลัมน์ด้วยตัวเองถูกเปิดใช้งานอยู่ "
 "คุณสามารถเปลี่ยนกลับไปใช้การปรับขนาดคอลัมน์ให้โดยอัตโนมัติ ได้ในเมนูมุมมอง"
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "เปิดการปรับขนาดคอลัมน์ด้วยตนเอง"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2013-11-15 03:49+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -1229,7 +1229,7 @@ msgstr "Бағандар &көрсетілсін"
 msgid "Add to Play Queue"
 msgstr "Орындау кезегіне қосу"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "Өңдеу"
@@ -1239,22 +1239,22 @@ msgstr "Өңдеу"
 msgid "Create Playlist From Selected Items..."
 msgstr "Таңдап орындау тізімін құру..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "'%1' дегенді өңдеу"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Бұл бірнеше файлдарды өзгертеді. Жалғастырайық па?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Жаңа орындау тізімін құру"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, fuzzy, kde-format
 #| msgid ""
 #| "Manual column widths have been enabled.  You can switch back to automatic "
@@ -1266,7 +1266,7 @@ msgstr ""
 "Бағандар енін қолмен өзгерту рұқсат етілген.  Оларды автоматты күйіне "
 "\"Көрінісі\" мәзірі арқылы қайтаруға болады."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Бағандар енін қолмен өзгерту рұқсат етілген"

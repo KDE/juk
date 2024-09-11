@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2008-07-22 01:03+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -1232,7 +1232,7 @@ msgstr "&Papar Lajur"
 msgid "Add to Play Queue"
 msgstr "Tambah ke Baris Gilir Main"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, fuzzy, kde-format
 msgid "Edit"
 msgstr "Edit '%1'"
@@ -1242,22 +1242,22 @@ msgstr "Edit '%1'"
 msgid "Create Playlist From Selected Items..."
 msgstr "Cipta Senarai Siar daripada Item yang Dipilih..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Edit '%1'"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Ini akan mengedit banyak fail. Anda pasti?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Cipta Senarai Siar Baru"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, fuzzy, kde-format
 #| msgid ""
 #| "Manual column widths have been enabled.  You can switch back to automatic "
@@ -1269,7 +1269,7 @@ msgstr ""
 "Lebar lajur manual diaktifkan. Anda boleh menukarkannya semula ke saiz lajur "
 "automatik dalam menu paparan."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Lebar Lajur Manual Diaktifkan"

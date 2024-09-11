@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2024-01-12 22:02+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -1217,7 +1217,7 @@ msgstr "Az oszlopok meg&jelenítése"
 msgid "Add to Play Queue"
 msgstr "Hozzáadás a lejátszási sorhoz"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "Szerkesztés"
@@ -1227,22 +1227,22 @@ msgstr "Szerkesztés"
 msgid "Create Playlist From Selected Items..."
 msgstr "Lejátszólista létrehozása adott elemekkel…"
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "Szerkesztés - „%1”"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Több fájl szerkesztése fog megkezdődni. Biztosan ezt szeretné?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "Új lejátszólista"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
@@ -1251,7 +1251,7 @@ msgstr ""
 "Az oszlopszélességek kézi állítása engedélyezve lett. A Nézet menüben lehet "
 "automatikus oszlopméretezésre váltani."
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "Kézi oszlopszélesség-beállítás engedélyezve"

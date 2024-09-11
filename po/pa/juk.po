@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2013-06-23 12:48-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -1198,7 +1198,7 @@ msgstr "ਕਾਲਮ ਵੇਖੋ(&S)"
 msgid "Add to Play Queue"
 msgstr "ਸੰਗੀਤ ਕਤਾਰ ਵਿੱਚ ਸ਼ਾਮਿਲ"
 
-#: playlist.cpp:1593 playlist.cpp:2049
+#: playlist.cpp:1593 playlist.cpp:2052
 #, kde-format
 msgid "Edit"
 msgstr "ਸੋਧ"
@@ -1208,29 +1208,29 @@ msgstr "ਸੋਧ"
 msgid "Create Playlist From Selected Items..."
 msgstr "ਚੁਣੀਆਂ ਆਈਟਮਾਂ ਤੋਂ ਪਲੇਅ-ਲਿਸਟ ਬਣਾਓ..."
 
-#: playlist.cpp:1970
+#: playlist.cpp:1973
 #, kde-format
 msgid "Edit '%1'"
 msgstr "'%1' ਸੋਧ"
 
-#: playlist.cpp:2047
+#: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "ਇਹ ਕਈ ਫਾਇਲਾਂ ਨੂੰ ਸੋਧੇਗਾ। ਕੀ ਤੁਸੀਂ ਸਹਿਮਤ ਹੋ?"
 
-#: playlist.cpp:2106 playlistcollection.h:183
+#: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
 msgstr "ਨਵੀਂ ਪਲੇਅ-ਲਿਸਟ ਬਣਾਓ"
 
-#: playlist.cpp:2115
+#: playlist.cpp:2118
 #, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr ""
 
-#: playlist.cpp:2118
+#: playlist.cpp:2121
 #, kde-format
 msgid "Manual Column Widths Enabled"
 msgstr "ਖੁਦ ਕਾਲਮ ਚੌੜਾਈ ਯੋਗ ਕੀਤੀ"
