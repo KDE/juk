@@ -89,8 +89,7 @@ bool TagTransactionManager::undo()
 {
     qCDebug(JUK_LOG) << "Undoing " << m_undoList.size() << " changes.\n";
 
-    forget();  // Scrap our old changes (although the list should be empty
-               // anyways.
+    forget(); // Scrap our old changes (although the list should be empty anyway).
 
     bool result = processChangeList(true);
 

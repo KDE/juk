@@ -69,7 +69,7 @@ zypper install juk
     [extra]
     Include = /etc/pacman.d/mirrorlist
     ```
-1. Install the `juk` xz package:
+2. Install the `juk` xz package:
     ```
     # pacman -Sy juk
     ```
