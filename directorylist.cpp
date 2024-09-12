@@ -112,20 +112,15 @@ void DirectoryList::slotRemoveDirectory()
 {
     QItemSelectionModel *itemSelection = m_base->directoryListView->selectionModel();
 
-    // These will be used in the loop below
-    QModelIndexList indexes;
-    QModelIndex firstIndex;
-    QString dir;
-
     // The multiple indexes that are possibly present cannot be deleted one
     // after the other, as changing the layout of the model can change the
-    // indexes (similar to iterators and container remove methods).  So, just
+    // indexes (similar to iterators and container remove methods). So, just
     // loop deleting the first index until there is no selection.
 
     while(itemSelection->hasSelection()) {
-        indexes = itemSelection->selectedIndexes();
-        firstIndex = indexes.first();
-        dir = m_dirListModel->data(firstIndex, Qt::DisplayRole).toString();
+        QModelIndexList indexes = itemSelection->selectedIndexes();
+        QModelIndex firstIndex = indexes.first();
+        QString dir = m_dirListModel->data(firstIndex, Qt::DisplayRole).toString();
 
         m_dirListModel->removeRow(firstIndex.row());
 
@@ -156,18 +151,14 @@ void DirectoryList::slotRemoveExcludeDirectory()
 {
     QItemSelectionModel *itemSelection = m_base->excludeDirectoryListView->selectionModel();
 
-    // These will be used in the loop below
-    QModelIndexList indexes;
-    QModelIndex firstIndex;
-
     // The multiple indexes that are possibly present cannot be deleted one
     // after the other, as changing the layout of the model can change the
     // indexes (similar to iterators and container remove methods).  So, just
     // loop deleting the first index until there is no selection.
 
     while(itemSelection->hasSelection()) {
-        indexes = itemSelection->selectedIndexes();
-        firstIndex = indexes.first();
+        QModelIndexList indexes = itemSelection->selectedIndexes();
+        QModelIndex firstIndex = indexes.first();
 
         m_excludedDirListModel->removeRow(firstIndex.row());
     }

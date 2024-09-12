@@ -272,9 +272,9 @@ void TagEditor::slotRefresh()
             box->hide();
     }
 
-    // Yep, this is ugly.  Loop through all of the files checking to see
-    // if their fields are the same.  If not, disable their checkbox.
-    // But skip the check if there are more than 50 items
+    // Yep, this is ugly. Loop through all the files checking to see
+    // if their fields are the same. If not, disable their checkbox.
+    // But skip the check if there are more than 50 items.
 
     bool enable_artist  = m_items.count() <= 50;
     bool enable_title   = enable_artist;
@@ -535,7 +535,7 @@ void TagEditor::save(const PlaylistItemList &list)
         Tag *tag = TagTransactionManager::duplicateTag(item->file().tag(), fileName);
 
         // A bit more ugliness.  If there are multiple files that are
-        // being modified, they each have a "enabled" checkbox that
+        // being modified, they each have an "enabled" checkbox that
         // says if that field is to be respected for the multiple
         // files.  We have to check to see if that is enabled before
         // each field that we write.
