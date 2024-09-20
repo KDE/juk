@@ -13,20 +13,21 @@
 # Dimitrios Glentadakis <dglent@gmail.com>, 2011, 2016.
 # Stelios <sstavra@gmail.com>, 2012, 2014, 2017, 2019, 2020, 2021.
 # Dimitris Kardarakos <dimkard@gmail.com>, 2014.
+# SPDX-FileCopyrightText: 2024 Antonis Geralis <capoiosct@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-11 00:38+0000\n"
-"PO-Revision-Date: 2021-06-04 21:45+0300\n"
-"Last-Translator: Stelios <sstavra@gmail.com>\n"
+"PO-Revision-Date: 2024-09-19 15:07+0300\n"
+"Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -973,7 +974,7 @@ msgstr "Nathan Toone"
 #: main.cpp:53
 #, kde-format
 msgid "Album cover manager"
-msgstr "Διαχειριστής εξωφύλλων"
+msgstr "Διαχειριστής εξώφυλλων"
 
 #: main.cpp:54
 #, kde-format
