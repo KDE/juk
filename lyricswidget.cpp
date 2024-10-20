@@ -85,7 +85,7 @@ void LyricsWidget::makeLyricsRequest()
     // lyrics.fandom.com seems to be unavailable as well now so give a better error message
     // and stop pinging the server
     if(1) {
-        setHtml(i18n("<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>").arg(m_title));
+        setHtml(i18n("<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>", m_title));
         return;
     }
 
