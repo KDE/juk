@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 00:38+0000\n"
+"POT-Creation-Date: 2024-10-21 00:39+0000\n"
 "PO-Revision-Date: 2023-12-31 20:27+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -1879,7 +1879,7 @@ msgctxt "unknown renamer category"
 msgid "Unknown"
 msgstr "Descoñecido"
 
-#: tagtransactionmanager.cpp:111
+#: tagtransactionmanager.cpp:110
 #, kde-format
 msgid ""
 "This file already exists.\n"
@@ -1888,22 +1888,22 @@ msgstr ""
 "Este ficheiro xa existe.\n"
 "Quere substituílo?"
 
-#: tagtransactionmanager.cpp:112
+#: tagtransactionmanager.cpp:111
 #, kde-format
 msgid "File Exists"
 msgstr "O ficheiro xa existe"
 
-#: tagtransactionmanager.cpp:112
+#: tagtransactionmanager.cpp:111
 #, kde-format
 msgid "Replace"
 msgstr "Substituír"
 
-#: tagtransactionmanager.cpp:177
+#: tagtransactionmanager.cpp:176
 #, kde-format
 msgid "The following files were unable to be changed."
 msgstr "Non foi posíbel cambiar os seguintes ficheiros."
 
-#: tagtransactionmanager.cpp:179
+#: tagtransactionmanager.cpp:178
 #, kde-format
 msgid "Error"
 msgstr "Erro"

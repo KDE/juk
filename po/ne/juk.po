@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 00:38+0000\n"
+"POT-Creation-Date: 2024-10-21 00:39+0000\n"
 "PO-Revision-Date: 2007-08-20 12:38+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1893,7 +1893,7 @@ msgctxt "unknown renamer category"
 msgid "Unknown"
 msgstr "अज्ञात"
 
-#: tagtransactionmanager.cpp:111
+#: tagtransactionmanager.cpp:110
 #, kde-format
 msgid ""
 "This file already exists.\n"
@@ -1902,22 +1902,22 @@ msgstr ""
 "फाइल पहिल्यै अवस्थित छ ।\n"
 "तपाईँले यसलाई प्रतिस्थापन गर्नुहुन्छ ?"
 
-#: tagtransactionmanager.cpp:112
+#: tagtransactionmanager.cpp:111
 #, kde-format
 msgid "File Exists"
 msgstr "फाइल अवस्थित छ"
 
-#: tagtransactionmanager.cpp:112
+#: tagtransactionmanager.cpp:111
 #, fuzzy, kde-format
 msgid "Replace"
 msgstr "पुन: नामकरण गर्नुहोस्"
 
-#: tagtransactionmanager.cpp:177
+#: tagtransactionmanager.cpp:176
 #, kde-format
 msgid "The following files were unable to be changed."
 msgstr "निम्न फाइल परिवर्तन गर्न अक्षम भयो ।"
 
-#: tagtransactionmanager.cpp:179
+#: tagtransactionmanager.cpp:178
 #, kde-format
 msgid "Error"
 msgstr ""
