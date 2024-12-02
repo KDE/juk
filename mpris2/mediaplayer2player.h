@@ -25,8 +25,6 @@
 #include <QDBusObjectPath>
 #include <QPointer>
 
-#include <phonon/MediaSource>
-
 #include "playermanager.h"
 
 class MediaPlayer2Player : public QDBusAbstractAdaptor

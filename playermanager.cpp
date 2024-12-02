@@ -24,10 +24,7 @@
 #include <ktoggleaction.h>
 #include <KLocalizedString>
 
-#include <phonon/AudioOutput>
-#include <phonon/MediaObject>
-#include <phonon/MediaSource>
-
+#include <QAudioOutput>
 #include <QPixmap>
 #include <QUrl>
 
@@ -68,10 +65,10 @@ static void updateWindowTitle(const FileHandle &file)
 PlayerManager::PlayerManager() :
     QObject(),
     m_playlistInterface(nullptr),
-    m_output(new Phonon::AudioOutput(Phonon::MusicCategory, this)),
-    m_media( new Phonon::MediaObject(this)),
-    m_audioPath(Phonon::createPath(m_media, m_output))
+    m_output(new QAudioOutput(this)),
+    m_media(new QMediaPlayer(this))
 {
+    m_media->setAudioOutput(m_output);
     setupAudio();
     new PlayerAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/Player", this);
@@ -83,13 +80,12 @@ PlayerManager::PlayerManager() :
 
 bool PlayerManager::playing() const
 {
-    Phonon::State state = m_media->state();
-    return (state == Phonon::PlayingState || state == Phonon::BufferingState);
+    return m_media->playbackState() == QMediaPlayer::PlayingState;
 }
 
 bool PlayerManager::paused() const
 {
-    return m_media->state() == Phonon::PausedState;
+    return m_media->playbackState() == QMediaPlayer::PausedState;
 }
 
 bool PlayerManager::muted() const
@@ -125,12 +121,12 @@ int PlayerManager::currentTime() const
 
 int PlayerManager::totalTimeMSecs() const
 {
-    return m_media->totalTime();
+    return m_media->duration();
 }
 
 int PlayerManager::currentTimeMSecs() const
 {
-    return m_media->currentTime();
+    return m_media->position();
 }
 
 bool PlayerManager::seekable() const
@@ -193,7 +189,7 @@ void PlayerManager::play(const FileHandle &file)
 
     if(m_file != file) {
         emit signalItemChanged(file);
-        m_media->setCurrentSource(QUrl::fromLocalFile(file.absFilePath()));
+        m_media->setSource(QUrl::fromLocalFile(file.absFilePath()));
         m_media->play();
     }
 
@@ -216,7 +212,7 @@ void PlayerManager::play()
     if(paused())
         m_media->play();
     else if(playing()) {
-        m_media->seek(0);
+        m_media->setPosition(0);
         emit seeked(0);
     }
     else {
@@ -256,30 +252,30 @@ void PlayerManager::stop()
 
 void PlayerManager::seek(int seekTime)
 {
-    if(m_media->currentTime() == seekTime)
+    if(m_media->position() == seekTime)
         return;
 
-    m_media->seek(seekTime);
+    m_media->setPosition(seekTime);
     emit seeked(seekTime);
 }
 
 void PlayerManager::seekForward()
 {
-    const qint64 total = m_media->totalTime();
-    const qint64 newtime = m_media->currentTime() + total / 100;
+    const qint64 total = m_media->duration();
+    const qint64 newtime = m_media->position() + total / 100;
     const qint64 seekTo = qMin(total, newtime);
 
-    m_media->seek(seekTo);
+    m_media->setPosition(seekTo);
     emit seeked(seekTo);
 }
 
 void PlayerManager::seekBack()
 {
-    const qint64 total = m_media->totalTime();
-    const qint64 newtime = m_media->currentTime() - total / 100;
+    const qint64 total = m_media->duration();
+    const qint64 newtime = m_media->position() - total / 100;
     const qint64 seekTo = qMax(qint64(0), newtime);
 
-    m_media->seek(seekTo);
+    m_media->setPosition(seekTo);
     emit seeked(seekTo);
 }
 
@@ -358,12 +354,12 @@ void PlayerManager::slotTick(qint64 msec)
     emit tick(msec);
 }
 
-void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State)
+void PlayerManager::slotStateChanged(QMediaPlayer::PlaybackState newstate)
 {
-    if(newstate == Phonon::ErrorState) {
+    if(m_media->error() != QMediaPlayer::NoError) {
         QString errorMessage =
             i18nc(
-              "%1 will be the /path/to/file, %2 will be some string from Phonon describing the error",
+              "%1 will be the /path/to/file, %2 will be some string from QtMultimedia describing the error",
               "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>"
                 "for the following reason:<nl/><message>%2</message>",
               m_file.absFilePath(),
@@ -371,36 +367,24 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State)
             );
 
         qCWarning(JUK_LOG)
-                << "Phonon is in error state" << m_media->errorString()
+                << "QtMultimedia is in error state" << m_media->errorString()
                 << "while playing" << m_file.absFilePath();
 
-        switch(m_media->errorType()) {
-            case Phonon::NoError:
-                qCDebug(JUK_LOG) << "received a state change to ErrorState but errorType is NoError!?";
-                break;
-
-            case Phonon::NormalError:
-                KMessageBox::information(0, errorMessage);
-                break;
-
-            case Phonon::FatalError:
-                KMessageBox::error(0, errorMessage);
-                break;
-        }
+        KMessageBox::error(0, errorMessage);
 
         stop();
         return;
     }
 
     // "normal" path
-    if(newstate == Phonon::StoppedState && m_file.isNull()) {
+    if(newstate == QMediaPlayer::StoppedState && m_file.isNull()) {
         JuK::JuKInstance()->setWindowTitle(i18n("JuK"));
         emit signalStop();
     }
-    else if(newstate == Phonon::PausedState) {
+    else if(newstate == QMediaPlayer::PausedState) {
         emit signalPause();
     }
-    else { // PlayingState or BufferingState
+    else { // PlayingState
         action("pause")->setEnabled(true);
         action("stop")->setEnabled(true);
         action("forward")->setEnabled(true);
@@ -425,7 +409,7 @@ void PlayerManager::slotMutedChanged(bool muted)
 
 void PlayerManager::setVolume(qreal volume)
 {
-    if(!qIsFinite(volume) || qFuzzyCompare(m_output->volume(), volume)) {
+    if(!qIsFinite(volume) || qFuzzyCompare((qreal)m_output->volume(), volume)) {
         return;
     }
 
@@ -439,28 +423,27 @@ void PlayerManager::setVolume(qreal volume)
 
 void PlayerManager::setupAudio()
 {
-    using namespace Phonon;
-    m_output->setVolume(1.0); // sometimes Phonon loads it as NaN?
+    connect(m_output, &QAudioOutput::mutedChanged,
+        this, &PlayerManager::slotMutedChanged);
+    connect(m_output, &QAudioOutput::volumeChanged,
+        this, &PlayerManager::setVolume);
 
-    connect(m_output, &AudioOutput::mutedChanged,
-            this, &PlayerManager::slotMutedChanged);
-    connect(m_output, &AudioOutput::volumeChanged,
-            this, &PlayerManager::setVolume);
-
-    connect(m_media, &MediaObject::stateChanged,
-            this, &PlayerManager::slotStateChanged);
-    connect(m_media, &MediaObject::currentSourceChanged,
-            this, &PlayerManager::trackHasChanged);
-    connect(m_media, &MediaObject::totalTimeChanged,
-            this, &PlayerManager::slotLength);
-    connect(m_media, &MediaObject::tick,
-            this, &PlayerManager::slotTick);
-    connect(m_media, &MediaObject::finished,
-            this, &PlayerManager::slotFinished);
-    connect(m_media, &MediaObject::seekableChanged,
-            this, &PlayerManager::slotSeekableChanged);
-
-    m_media->setTickInterval(100);
+    connect(m_media, &QMediaPlayer::playbackStateChanged,
+        this, &PlayerManager::slotStateChanged);
+    connect(m_media, &QMediaPlayer::sourceChanged,
+        this, &PlayerManager::trackHasChanged);
+    connect(m_media, &QMediaPlayer::durationChanged,
+        this, &PlayerManager::slotLength);
+    connect(m_media, &QMediaPlayer::positionChanged,
+        this, &PlayerManager::slotTick);
+    connect(m_media, &QMediaPlayer::mediaStatusChanged, this,
+        [this](QMediaPlayer::MediaStatus newStatus) {
+            if (newStatus == QMediaPlayer::EndOfMedia) {
+                emit slotFinished();
+            }
+        });
+    connect(m_media, &QMediaPlayer::seekableChanged, this,
+        &PlayerManager::slotSeekableChanged);
 }
 
 QString PlayerManager::randomPlayMode() const
@@ -482,22 +465,17 @@ void PlayerManager::setRandomPlayMode(const QString &randomMode)
         action<KToggleAction>("disableRandomPlay")->setChecked(true);
 }
 
-void PlayerManager::trackHasChanged(const Phonon::MediaSource &newSource)
+void PlayerManager::trackHasChanged(const QUrl &newSource)
 {
-    if(newSource.type() == Phonon::MediaSource::Url) {
-        const auto item = CollectionList::instance()->lookup(newSource.url().path());
-        if(item) {
-            const auto newFile = item->file();
-            if(m_file != newFile)
-                emit signalItemChanged(newFile);
-            m_file = newFile;
-            updateWindowTitle(m_file);
-            emit signalPlay();
-            emit seeked(0);
-        }
-    } else {
-        qCWarning(JUK_LOG) << "Track has changed so something we didn't set???";
-        return;
+    const auto item = CollectionList::instance()->lookup(newSource.path());
+    if(item) {
+        const auto newFile = item->file();
+        if(m_file != newFile)
+            emit signalItemChanged(newFile);
+        m_file = newFile;
+        updateWindowTitle(m_file);
+        emit signalPlay();
+        emit seeked(0);
     }
 }
 

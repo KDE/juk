@@ -26,7 +26,7 @@ include(ECMInstallIcons)
 include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 
-find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Gui Svg Network Test Widgets)
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Gui Svg Multimedia Network Test Widgets)
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     CoreAddons
     Completion
@@ -47,7 +47,6 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     WindowSystem
     StatusNotifierItem
 )
-find_package(Phonon4Qt6 4.6.60 REQUIRED NO_MODULE)
 
 find_package(Taglib 1.6 REQUIRED)
 
@@ -154,8 +153,6 @@ ki18n_wrap_ui(juk
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*-apps-juk.png")
 ecm_add_app_icon(juk ICONS ${ICONS_SRCS})
 
-target_include_directories(juk SYSTEM PRIVATE ${CMAKE_BINARY_DIR} ${PHONON_INCLUDES})
-
 kde_target_enable_exceptions(juk PRIVATE)
 target_compile_definitions(juk PRIVATE QT_USE_QSTRINGBUILDER)
 set_target_properties(juk PROPERTIES
@@ -172,6 +169,7 @@ target_link_libraries(juk ${LIBMATH}
     Qt::Gui
     Qt::Svg
     Qt::Widgets
+    Qt::Multimedia
     Qt::Network
     KF6::ConfigCore
     KF6::CoreAddons
@@ -192,7 +190,6 @@ target_link_libraries(juk ${LIBMATH}
     KF6::WidgetsAddons
     KF6::Wallet
     KF6::StatusNotifierItem
-    Phonon::phonon4qt6
     Taglib::Taglib
 )
 
