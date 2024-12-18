@@ -1,6 +1,6 @@
 # translation of juk.po to galician
 #
-# SPDX-FileCopyrightText: 2023 Adrián Chaves (Gallaecio)
+# SPDX-FileCopyrightText: 2023, 2024 Adrián Chaves (Gallaecio)
 # Xabi G. Feal <xabigf@gmx.net>, 2006.
 # mvillarino <mvillarino@users.sourceforge.net>, 2007, 2008, 2009.
 # Manuel A. Vázquez <xixirei@yahoo.es>, 2009.
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2023-12-31 20:27+0100\n"
+"PO-Revision-Date: 2024-12-17 23:05+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -858,7 +858,7 @@ msgstr "<br /><br /><i>Letra fornecida por <a href='%1'>LyricWiki</a></i>"
 #: main.cpp:39
 #, kde-format
 msgid "Jukebox and music manager by the KDE community"
-msgstr "Xestor e reprodutor de música fornecido pola comunidade KDE."
+msgstr "Xestor e reprodutor de música da comunidade KDE."
 
 #: main.cpp:40
 #, kde-format
