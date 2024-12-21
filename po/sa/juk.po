@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2024-12-13 20:20+0530\n"
+"PO-Revision-Date: 2024-12-20 21:51+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -37,7 +37,7 @@ msgstr "अन्वेषणप्लेलिस्ट् रचयन्त�
 #: advancedsearchdialog.cpp:57
 #, kde-format
 msgid "Playlist name:"
-msgstr "प्लेलिस्ट् नाम : १."
+msgstr "प्लेलिस्ट् नाम :"
 
 #: advancedsearchdialog.cpp:61
 #, kde-format
@@ -263,7 +263,7 @@ msgstr "कलाकार:"
 #: exampleoptionsbase.ui:155
 #, kde-format
 msgid "Album:"
-msgstr "एल्बमः १."
+msgstr "एल्बमः"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: exampleoptionsbase.ui:165
@@ -275,7 +275,7 @@ msgstr "मातुर्:"
 #: exampleoptionsbase.ui:175
 #, kde-format
 msgid "Track number:"
-msgstr "पटलसङ्ख्या : १."
+msgstr "पटलसङ्ख्या :"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6)
 #: exampleoptionsbase.ui:185
@@ -391,7 +391,7 @@ msgstr "सञ्चिका पुनर्नामकरणविन्य�
 #: filerenamerbase.ui:65
 #, kde-format
 msgid "Music folder:"
-msgstr "संगीतपुटम् : १."
+msgstr "संगीतपुटम् :"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:90
@@ -445,7 +445,7 @@ msgstr "&वर्गं योजयतु:"
 #: filerenamerbase.ui:145
 #, kde-format
 msgid "Separator:"
-msgstr "विभाजक : १."
+msgstr "विभाजक :"
 
 #: filerenamerconfigdlg.cpp:29
 #, kde-format
@@ -534,7 +534,7 @@ msgstr ""
 #: filerenameroptionsbase.ui:228
 #, kde-format
 msgid "Minimum number of digits:"
-msgstr "अङ्कानां न्यूनतमसंख्या : १."
+msgstr "अङ्कानां न्यूनतमसंख्या :"
 
 #. i18n: ectx: property (text), widget (QLabel, m_doubleDigitExample)
 #: filerenameroptionsbase.ui:266
@@ -1201,7 +1201,7 @@ msgstr "सञ्चिकानाम"
 #: playlist.cpp:1290
 #, kde-format
 msgid "File Name (full path)"
-msgstr "सञ्चिकानाम (पूर्णमार्गः) २."
+msgstr "सञ्चिकानाम (पूर्णमार्गः)"
 
 #: playlist.cpp:1471
 #, kde-format
@@ -1494,7 +1494,7 @@ msgstr ""
 #: scrobbleconfigdlg.cpp:53
 #, kde-format
 msgid "Username:"
-msgstr "उपयोक्तृनाम : १."
+msgstr "उपयोक्तृनाम :"
 
 #: scrobbleconfigdlg.cpp:54
 #, kde-format
@@ -1558,32 +1558,32 @@ msgstr "अन्वेषण..."
 #: slider.cpp:128
 #, kde-format
 msgid "100%"
-msgstr "१००% २."
+msgstr "१००%"
 
 #: slider.cpp:129
 #, kde-format
 msgid "80%"
-msgstr "८०% २."
+msgstr "८०%"
 
 #: slider.cpp:130
 #, kde-format
 msgid "60%"
-msgstr "६०% २."
+msgstr "६०%"
 
 #: slider.cpp:131
 #, kde-format
 msgid "40%"
-msgstr "४०% २."
+msgstr "४०%"
 
 #: slider.cpp:132
 #, kde-format
 msgid "20%"
-msgstr "२०% २."
+msgstr "२०%"
 
 #: slider.cpp:133
 #, kde-format
 msgid "0%"
-msgstr "०% २."
+msgstr "०%"
 
 #: slideraction.cpp:73
 #, kde-format
@@ -1631,7 +1631,7 @@ msgstr "परिवर्तनं रक्षतु"
 #: tageditor.ui:19
 #, kde-format
 msgid "F&ile name:"
-msgstr "F&ile नाम : १."
+msgstr "F&ile नाम :"
 
 #. i18n: ectx: property (text), widget (QLabel, trackLabel)
 #: tageditor.ui:29
@@ -1643,7 +1643,7 @@ msgstr "मार्ग:"
 #: tageditor.ui:39
 #, kde-format
 msgid "&Artist name:"
-msgstr "&कलाकारस्य नाम: १."
+msgstr "&कलाकारस्य नाम:"
 
 #. i18n: ectx: property (text), widget (QLabel, albumNameLabel)
 #: tageditor.ui:49
@@ -1673,7 +1673,7 @@ msgstr "&दैर्घ्यम्‌:"
 #: tageditor.ui:106
 #, kde-format
 msgid "&Bitrate:"
-msgstr "&बिटरेट् : १."
+msgstr "&बिटरेट् :"
 
 #. i18n: ectx: property (text), widget (QLabel, commentLabel)
 #: tageditor.ui:116
@@ -1685,7 +1685,7 @@ msgstr "&टिप्पणी:"
 #: tageditor.ui:184
 #, kde-format
 msgid "Trac&k name:"
-msgstr "Trac&k नाम: १."
+msgstr "Trac&k नाम:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, artistNameEnable)
 #. i18n: ectx: property (text), widget (QCheckBox, trackNameEnable)
@@ -1945,7 +1945,7 @@ msgstr "मूक/अप्रसन्नता"
 #: volumepopupbutton.cpp:114
 #, kde-format
 msgid "%1%"
-msgstr "%1% २."
+msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, kde-format
