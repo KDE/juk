@@ -104,6 +104,7 @@
   <summary xml:lang="zh-TW">音樂播放器</summary>
   <description>
     <p>JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. Its main focus, in fact, is on music management.</p>
+    <p xml:lang="ar">جوك هو تطبيق لتشغيل ملفات الصوت، ويدعم مجموعات من ملفات الصوت بتنسيق MP3 وOgg Vorbis وFLAC. ويتيح لك تحرير "علامات" ملفات الصوت وإدارة مجموعتك وقوائم التشغيل. وينصب تركيزه الرئيسي في الواقع على إدارة الموسيقى.</p>
     <p xml:lang="bg">JuK е приложение за аудио джубокс, което поддържа колекции от MP3, Ogg Vorbis и FLAC аудиофайлове. То ви позволява да редактирате "таговете" на вашите аудиофайлове, както и да управлявате колекцията си и списъците за възпроизвеждане. Основният фокус на приложението е всъщност обработването на музика.</p>
     <p xml:lang="ca">El JuK és una aplicació de màquina de discos musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
     <p xml:lang="ca-valencia">JuK és una aplicació de màquina de discs musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
@@ -184,6 +185,7 @@
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Collection list and multiple user defined playlists</li>
+      <li xml:lang="ar">قائمة المجموعة وقوائم التشغيل المتعددة المحددة من قبل المستخدم</li>
       <li xml:lang="bg">Списък с колекции и множество дефинирани от потребителя списъци за възпроизвеждане</li>
       <li xml:lang="bs">Kolekcijska lista i više korisnički definisanih lista izvođenja</li>
       <li xml:lang="ca">Llista de col·leccions i múltiples llistes de reproducció definides per usuari</li>
@@ -228,6 +230,7 @@
       <li xml:lang="zh-CN">具有音乐列表，支持用户创建多个播放列表</li>
       <li xml:lang="zh-TW">收藏清單與多個使用者定義的播放清單</li>
       <li>Ability to scan directories to automatically import playlists and music files on start up</li>
+      <li xml:lang="ar">القدرة على مسح الدلائل لاستيراد قوائم التشغيل وملفات الموسيقى تلقائيًا عند بدء التشغيل</li>
       <li xml:lang="bg">Възможност за сканиране на директории за автоматично импортиране на списъци за изпълнение и музикални файлове при стартиране</li>
       <li xml:lang="bs">Mogućnost skeniranja direktorija da automatski uvezete liste izvođenja i muzičke datoteke pri pokretanju</li>
       <li xml:lang="ca">Capacitat d'explorar directoris per a importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
@@ -272,6 +275,7 @@
       <li xml:lang="zh-CN">支持在启动时扫描目录以自动导入播放列表与音乐文件</li>
       <li xml:lang="zh-TW">可以掃描目錄並於啟動時自動匯入播放清單與音樂檔</li>
       <li>Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
+      <li xml:lang="ar">قوائم التشغيل للبحث الديناميكي التي يتم تحديثها تلقائيًا عند تغيير الحقول في المجموعة</li>
       <li xml:lang="bg">Списъци за динамично търсене, които се актуализират автоматично когато полетата в колекцията се променят</li>
       <li xml:lang="bs">Dinamička pretraga listi izvođenja koja se automatski ažurira kao polja u promjeni kolekcije</li>
       <li xml:lang="ca">Llistes de cerques dinàmiques que s'actualitzen automàticament a mesura que canvien els camps a la col·lecció</li>
@@ -316,6 +320,7 @@
       <li xml:lang="zh-CN">动态搜索播放列表，根据输入框的当前内容自动过滤搜索结果</li>
       <li xml:lang="zh-TW">動態搜尋播放清單，收藏有變更時自動更新</li>
       <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
+      <li xml:lang="ar">وضع عرض الشجرة حيث يتم إنشاء قوائم التشغيل تلقائيًا لمجموعات من الألبومات والفنانين والأنواع</li>
       <li xml:lang="bg">Режим на дървовиден изглед, при който списъците за възпроизвеждане се генерират автоматично за колекции от албуми, изпълнители и жанрове</li>
       <li xml:lang="bs">Režim pogleda stabla gdje se liste automatski generišu kao skupovi albuma, izvođača i žanrova</li>
       <li xml:lang="ca">Un mode de vista en arbre quan es generen automàticament llistes de reproducció per a conjunts d'àlbums, artistes i gèneres</li>
@@ -360,6 +365,7 @@
       <li xml:lang="zh-CN">具有树形视图模式，其播放列表可以根据专辑、艺人和流派自动生成</li>
       <li xml:lang="zh-TW">播放清單自動產生樹狀檢視模式，顯示專輯、演出者與風格</li>
       <li>Playlist history to indicate which files have been played and when</li>
+      <li xml:lang="ar">سجل التشغيل للإشارة إلى الملفات التي تم تشغيلها ومتى</li>
       <li xml:lang="bg">История на списъка за възпроизвеждане, която показва кои файлове са били възпроизвеждани и кога</li>
       <li xml:lang="bs">Istorijat liste izvođenja da indicira koje su datoteke izvođene i kada</li>
       <li xml:lang="ca">Historial de les llistes de reproducció per a indicar quins fitxers s'han reproduït i quan</li>
@@ -404,6 +410,7 @@
       <li xml:lang="zh-CN">播放列表历史记录，能够标识已播放的文件以及上次播放时间</li>
       <li xml:lang="zh-TW">播放清單歷史，可以指示哪些檔案於何時被播放過</li>
       <li>Inline search for filtering the list of visible items</li>
+      <li xml:lang="ar">البحث المضمن لتصفية قائمة العناصر المرئية</li>
       <li xml:lang="bg">Вътрешно търсене за филтриране на списъка с видими елементи</li>
       <li xml:lang="bs">Linijska pretraga za filtriranje liste vidljivih objekata</li>
       <li xml:lang="ca">Cerca inclosa per a filtrar la llista dels elements visibles</li>
@@ -448,6 +455,7 @@
       <li xml:lang="zh-CN">内联搜索功能，用于对可见项目列表进行过滤显示</li>
       <li xml:lang="zh-TW">清單內搜尋與過濾</li>
       <li>The ability to guess tag information based on the track's file name</li>
+      <li xml:lang="ar">القدرة على تخمين معلومات الوسم بناءً على اسم ملف المسار</li>
       <li xml:lang="bg">Възможност за отгатване на информация за етикета въз основа на името на файла на песента</li>
       <li xml:lang="bs">Mogućnost pogađanja informacija o oznaci bazirano na imenu datoteke trake</li>
       <li xml:lang="ca">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça</li>
@@ -492,6 +500,7 @@
       <li xml:lang="zh-CN">能够根据音乐文件名猜测标签信息</li>
       <li xml:lang="zh-TW">根據曲目名稱猜測標籤的功能</li>
       <li>File renamer that can rename files based on the tag content</li>
+      <li xml:lang="ar">برنامج إعادة تسمية الملفات الذي يمكنه إعادة تسمية الملفات استنادًا إلى محتوى الوسم</li>
       <li xml:lang="bg">Преименуване на файлове, което може да преименува файлове въз основа на съдържанието на етикета</li>
       <li xml:lang="bs">Preimenovanje datoteka na bazi sadržaja oznake</li>
       <li xml:lang="ca">Reanomenador de fitxers que pot reanomenar els fitxers basant-se en el contingut de l'etiqueta</li>
@@ -536,6 +545,7 @@
       <li xml:lang="zh-CN">文件重命名工具，能够根据标签内容重命名文件</li>
       <li xml:lang="zh-TW">根據標籤內容來重新命名檔案</li>
       <li>Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
+      <li xml:lang="ar">دعم قراءة الوسوم وتحريرها للعديد من التنسيقات بما في ذلك ID3v1 وID3v2 وOgg Vorbis</li>
       <li xml:lang="bg">Поддръжка на четене и редактиране на етикети за много формати, включително ID3v1, ID3v2 и Ogg Vorbis</li>
       <li xml:lang="bs">Podrška za čitanje i uređivanje oznaka za mnoge formate uključujući ID3v1, ID3v2 i Ogg Vorbis</li>
       <li xml:lang="ca">Admet la lectura i edició de les etiquetes per a molts formats incloent ID3v1, ID3v2 i Ogg Vorbis</li>
