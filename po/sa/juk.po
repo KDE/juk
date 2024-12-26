@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2024-12-24 20:39+0530\n"
+"PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -1350,7 +1350,7 @@ msgstr "प्लेलिस्ट् अन्वेष्टुम्"
 #: playlistcollection.cpp:540
 #, kde-format
 msgid "Create Folder Playlist"
-msgstr "फोल्डर् प्लेलिस्ट् रचयन्तु"
+msgstr "समुच्चय प्लेलिस्ट् रचयन्तु"
 
 #: playlistcollection.cpp:580
 #, kde-format
