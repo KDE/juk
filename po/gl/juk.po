@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2025-01-19 12:58+0100\n"
+"PO-Revision-Date: 2025-01-26 20:04+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -734,7 +734,7 @@ msgstr ""
 #: juk.cpp:531
 #, kde-format
 msgid "Docking in System Tray"
-msgstr "Ancorar na área de notificación"
+msgstr "Acoplar na área de notificación"
 
 #: juktag.cpp:90
 #, kde-format
@@ -993,7 +993,7 @@ msgid ""
 "System tray docking, \"inline\" tag editing,\n"
 "bug fixes, evangelism, moral support"
 msgstr ""
-"Ancorado na área de notificacións, edición de etiquetas «en liña»,\n"
+"Acoplado na área de notificacións, edición de etiquetas «en liña»,\n"
 "corrección de fallos, evanxelización, e apoio moral."
 
 #: main.cpp:56
@@ -1113,7 +1113,7 @@ msgstr ""
 #: main.cpp:88
 #, kde-format
 msgid "JuK Docked"
-msgstr "JuK está na bandexa."
+msgstr "JuK acoplouse."
 
 #: mediafiles.cpp:134
 #, kde-format
