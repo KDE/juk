@@ -90,6 +90,7 @@ int main(int argc, char *argv[])
 
     a.setApplicationName("juk");
     a.setOrganizationDomain("kde.org");
+    a.setWindowIcon(QIcon::fromTheme(QStringLiteral("juk")));
     // Limit to only one instance
     KDBusService service(KDBusService::Unique);
 
