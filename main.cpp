@@ -94,6 +94,15 @@ int main(int argc, char *argv[])
     // Limit to only one instance
     KDBusService service(KDBusService::Unique);
 
+    QObject::connect(&service, &KDBusService::activateRequested, juk, [juk] {
+        if (juk->isHidden()) {
+            juk->setWindowState((juk->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+        }
+        juk->show();
+        juk->raise();
+        juk->activateWindow();
+    });
+
     return a.exec();
 }
 
