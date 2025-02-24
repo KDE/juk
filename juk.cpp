@@ -80,7 +80,7 @@ void deleteAndClear(T *&ptr)
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(const QStringList &filesToOpen, QWidget *parent)
-  : KXmlGuiWindow(parent, Qt::WindowFlags(Qt::WA_DeleteOnClose))
+  : KXmlGuiWindow(parent)
   , m_player(new PlayerManager)
   , m_filesToOpen(filesToOpen)
 {
