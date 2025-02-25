@@ -34,6 +34,7 @@
 #include <QVariant>
 #include <QFile>
 #include <QUrl>
+#include <QDir>
 
 static QByteArray idFromPlaylistItem(const PlaylistItem *item)
 {
@@ -236,15 +237,13 @@ QVariantMap MediaPlayer2Player::Metadata() const
             QUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
 
     if(playingFile.coverInfo()->hasCover()) {
-        const QString fallbackFileName =
-            QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
-            QStringLiteral("/") +
-            QString("juk-cover-%1.png").arg(item->trackId());
+        m_temporaryFile.reset(new QTemporaryFile(QDir::temp().absoluteFilePath("juk-cover-XXXXXX.png")));
 
-        QString path = fallbackFileName;
-        if(!QFile::exists(path)) {
-            path = playingFile.coverInfo()->localPathToCover(fallbackFileName);
-        }
+        m_temporaryFile->open();
+        QString fallbackFilePath = m_temporaryFile->fileName();
+        m_temporaryFile->close();
+
+        QString path = playingFile.coverInfo()->localPathToCover(fallbackFilePath);
 
         metaData["mpris:artUrl"] = QString::fromUtf8(
                 QUrl::fromLocalFile(path).toEncoded());

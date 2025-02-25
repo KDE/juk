@@ -24,6 +24,7 @@
 #include <QDBusAbstractAdaptor>
 #include <QDBusObjectPath>
 #include <QPointer>
+#include <QTemporaryFile>
 
 #include "playermanager.h"
 
@@ -107,6 +108,7 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
 
         int oldPos;
         QPointer<PlayerManager> m_player;
+        mutable QScopedPointer<QTemporaryFile> m_temporaryFile;
 };
 
 #endif
