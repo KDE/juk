@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:39+0000\n"
+"POT-Creation-Date: 2025-05-04 00:42+0000\n"
 "PO-Revision-Date: 2013-05-14 21:04+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -216,7 +216,7 @@ msgstr "Veldur möppurnar þar sem þú geymir tónlistina þína:"
 msgid "Import playlists"
 msgstr "Flytja inn lagalista"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:381 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -1132,17 +1132,23 @@ msgstr "Lagalistar"
 msgid "back to playlist"
 msgstr "aftur í lagalista"
 
-#: playermanager.cpp:59
+#: playermanager.cpp:56
 #, kde-format
 msgctxt "%1 is the artist and %2 is the title of the currently playing track."
 msgid "%1 - %2 :: JuK"
 msgstr "%1 - %2 :: JuK"
 
-#: playermanager.cpp:367
-#, kde-format
+#: playermanager.cpp:363
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "%1 will be the /path/to/file, %2 will be some string from Phonon "
+#| "describing the error"
+#| msgid ""
+#| "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for "
+#| "the following reason:<nl/><message>%2</message>"
 msgctxt ""
-"%1 will be the /path/to/file, %2 will be some string from Phonon describing "
-"the error"
+"%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
+"describing the error"
 msgid ""
 "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
 "following reason:<nl/><message>%2</message>"
