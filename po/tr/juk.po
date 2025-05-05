@@ -23,15 +23,15 @@ msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-04 00:42+0000\n"
-"PO-Revision-Date: 2025-01-30 16:57+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"PO-Revision-Date: 2025-05-04 19:36+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.03.70\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -854,7 +854,7 @@ msgstr "Şarkı sözü mevcut değil."
 msgid "<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>"
 msgstr ""
 "<br /><br /><i>Şarkı sözleri <a href='%1'>LyricWiki</a> tarafından "
-"sağlanmaktadır</i>"
+"sağlanmaktadır.</i>"
 
 #: main.cpp:39
 #, kde-format
@@ -1138,13 +1138,7 @@ msgid "%1 - %2 :: JuK"
 msgstr "%1 — %2 :: JuK"
 
 #: playermanager.cpp:363
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "%1 will be the /path/to/file, %2 will be some string from Phonon "
-#| "describing the error"
-#| msgid ""
-#| "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for "
-#| "the following reason:<nl/><message>%2</message>"
+#, kde-format
 msgctxt ""
 "%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
 "describing the error"
@@ -1152,7 +1146,7 @@ msgid ""
 "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
 "following reason:<nl/><message>%2</message>"
 msgstr ""
-"JuK <filename>%1</filename> ses dosyasını şu sebepten dolayı çalamadı:<nl/"
+"JuK, <filename>%1</filename> ses dosyasını şu nedenden dolayı çalamadı:<nl/"
 "><message>%2</message>"
 
 #: playlist.cpp:338
