@@ -99,7 +99,7 @@ KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
   : QDialog(parent)
   , m_actionCollection(actionCollection)
 {
-    setWindowTitle(i18n("Configure Shortcuts"));
+    setWindowTitle(i18nc("@title:window", "Configure Shortcuts"));
 
     // Read key group from configuration
 
@@ -115,27 +115,27 @@ KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
 
     // Create buttons to select key group
 
-    QGroupBox *buttonBox = new QGroupBox(i18n("Global Shortcuts"), this);
+    QGroupBox *buttonBox = new QGroupBox(i18nc("@title:group", "Global Shortcuts"), this);
     vboxLayout->addWidget(buttonBox);
 
     m_group = new QButtonGroup(buttonBox);
     QHBoxLayout *buttonLayout = new QHBoxLayout(buttonBox);
 
-    QRadioButton *radioButton = new QRadioButton(i18n("&No keys"), buttonBox);
+    QRadioButton *radioButton = new QRadioButton(i18nc("@option:radio", "&No keys"), buttonBox);
     m_group->addButton(radioButton, NoKeys);
     buttonLayout->addWidget(radioButton);
 
-    radioButton = new QRadioButton(i18n("&Standard keys"), buttonBox);
+    radioButton = new QRadioButton(i18nc("@option:radio", "&Standard keys"), buttonBox);
     m_group->addButton(radioButton, StandardKeys);
     buttonLayout->addWidget(radioButton);
 
-    radioButton = new QRadioButton(i18n("&Multimedia keys"), buttonBox);
+    radioButton = new QRadioButton(i18nc("@option:radio", "&Multimedia keys"), buttonBox);
     m_group->addButton(radioButton, MultimediaKeys);
     buttonLayout->addWidget(radioButton);
 
     connect(m_group, SIGNAL(buttonClicked(int)), SLOT(slotKeys(int)));
     buttonBox->setWhatsThis(
-        i18n("Here you can select the keys used as global shortcuts to control the player"));
+        i18nc("@info:whatsthis", "Here you can select the keys used as global shortcuts to control the player"));
 
     m_group->button(selectedButton)->setChecked(true);
 

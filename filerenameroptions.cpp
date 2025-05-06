@@ -35,10 +35,10 @@ FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
 
     QString tagText = m_options.tagTypeText();
 
-    setWindowTitle(i18nc("%1 will be a music tag category like Artist or Album", "%1 Options",tagText));
-    m_tagFormatGroup->setTitle(i18n("%1 Format",tagText));
-    m_emptyTagGroup->setTitle(i18n("When the Track's %1 is Empty",tagText));
-    m_description->setText(i18n("When using the file renamer your files will be renamed to the values that you have in your track's %1 tag, plus any additional text that you specify below.",tagText));
+    setWindowTitle(i18nc("@title:window, %1 will be a music tag category like Artist or Album", "%1 Options",tagText));
+    m_tagFormatGroup->setTitle(i18nc("@title:group, %1 is a tag", "%1 Format", tagText));
+    m_emptyTagGroup->setTitle(i18nc("@title:group", "When the Track’s %1 is Empty", tagText));
+    m_description->setText(i18n("When using the file renamer your files will be renamed to the values that you have in your track’s %1 tag, plus any additional text that you specify below.", tagText));
     m_tagLabel->setText(tagText);
 
     m_prefixText->setText(options.prefix());
@@ -111,7 +111,7 @@ TagOptionsDialog::TagOptionsDialog(QWidget *parent,
   , m_categoryNumber(categoryNumber)
 {
     setModal(true);
-    setWindowTitle(i18n("File Renamer"));
+    setWindowTitle(i18nc("@title:window", "File Renamer"));
 
     loadConfig();
 

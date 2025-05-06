@@ -155,10 +155,10 @@ void PlaylistSplitter::setupActions()
 
     KActionCollection* coll = ActionCollection::actions();
     KToggleAction *showSearch =
-        new KToggleAction("edit-find"_icon, i18n("Show &Search Bar"), this);
+        new KToggleAction("edit-find"_icon, i18nc("@action:inmenu", "Show &Search Bar"), this);
     coll->addAction("showSearch", showSearch);
 
-    QAction *act = new QAction("edit-clear"_icon, i18n("Edit Track Search"), this);
+    QAction *act = new QAction("edit-clear"_icon, i18nc("@action:inmenu", "Edit Track Search"), this);
     coll->addAction("editTrackSearch", act);
     coll->setDefaultShortcut(act, Qt::Key_F6);
     connect(act, &QAction::triggered,

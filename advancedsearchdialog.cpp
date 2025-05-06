@@ -45,7 +45,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     QDialog(parent),
     m_search(&defaultSearch)
 {
-    setWindowTitle(i18n("Create Search Playlist"));
+    setWindowTitle(i18nc("@title:window", "Create Search Playlist"));
     setObjectName(QStringLiteral("juk_advSrchDlg"));
 
     auto mw = new QVBoxLayout(this);
@@ -54,17 +54,17 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     auto box = new QHBoxLayout;
     mw->addLayout(box);
 
-    box->addWidget(new QLabel(i18n("Playlist name:")));
+    box->addWidget(new QLabel(i18nc("@label", "Playlist name:")));
     m_playlistNameLineEdit = new QLineEdit(defaultName);
     box->addWidget(m_playlistNameLineEdit);
 
-    auto criteriaGroupBox = new QGroupBox(i18n("Search Criteria"));
+    auto criteriaGroupBox = new QGroupBox(i18nc("@title:group", "Search Criteria"));
     mw->addWidget(criteriaGroupBox, 1);
     m_criteriaLayout = new QVBoxLayout(criteriaGroupBox);
 
     auto group = new QGroupBox;
-    m_matchAnyButton = new QRadioButton(i18n("Match any of the following"));
-    m_matchAllButton = new QRadioButton(i18n("Match all of the following"));
+    m_matchAnyButton = new QRadioButton(i18nc("@option:radio", "Match any of the following"));
+    m_matchAllButton = new QRadioButton(i18nc("@option:radio", "Match all of the following"));
 
     QHBoxLayout *hgroupbox = new QHBoxLayout(group);
     hgroupbox->addWidget(m_matchAnyButton);
@@ -88,12 +88,12 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
 
     l->addStretch(1);
 
-    m_moreButton = new QPushButton(i18nc("additional search options", "More"));
+    m_moreButton = new QPushButton(i18nc("@action:button, additional search options", "More"));
     connect(m_moreButton, &QPushButton::clicked,
             this, &AdvancedSearchDialog::more);
     l->addWidget(m_moreButton);
 
-    m_fewerButton = new QPushButton(i18n("Fewer"));
+    m_fewerButton = new QPushButton(i18nc("@action:button", "Fewer"));
     connect(m_fewerButton, &QPushButton::clicked,
             this, &AdvancedSearchDialog::fewer);
     l->addWidget(m_fewerButton);

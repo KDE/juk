@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
     KAboutData aboutData(QStringLiteral("juk"), i18n("JuK"),
                          QStringLiteral(JUK_VERSION), i18n("Jukebox and music manager by the KDE community"), KAboutLicense::GPL,
-                         i18n("Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"),
+                         i18nc("Use copyright sign, and en dash for the year range", "© 2002–2025, Scott Wheeler, Michael Pyne, and others"),
                          QLatin1String(""),
                          QStringLiteral("https://juk.kde.org/"));
 

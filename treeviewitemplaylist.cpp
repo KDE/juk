@@ -55,7 +55,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
            this,
            i18n("You are about to change the %1 on these files.", changedTag),
            files,
-           i18n("Changing Track Tags"),
+           i18nc("@title:window", "Change Track Tags"),
            KStandardGuiItem::cont(),
            KStandardGuiItem::cancel(),
            "dragDropRetagWarn"

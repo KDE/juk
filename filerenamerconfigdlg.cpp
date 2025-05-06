@@ -26,7 +26,7 @@ FileRenamerConfigDlg::FileRenamerConfigDlg(QWidget *parent)
 {
     setObjectName(QLatin1String("file renamer dialog"));
     setModal(true);
-    setWindowTitle(i18n("File Renamer Options"));
+    setWindowTitle(i18nc("@title:window", "File Renamer Options"));
 
     // TODO: HiDPI?  Is this even still needed today?
     m_renamerWidget->setMinimumSize(400, 300);

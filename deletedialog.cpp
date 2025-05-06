@@ -93,11 +93,11 @@ void DeleteWidget::slotShouldDelete(bool shouldDelete)
 
 DeleteDialog::DeleteDialog(QWidget *parent) :
     QDialog(parent),
-    m_trashGuiItem(i18n("&Send to Trash"), "user-trash-full")
+    m_trashGuiItem(i18nc("@action:button", "&Send to Trash"), "user-trash-full")
 {
     setObjectName(QLatin1String("juk_delete_dialog"));
     setModal(true);
-    setWindowTitle(i18n("About to delete selected files"));
+    setWindowTitle(i18nc("@title:window", "Delete Selected Files"));
 
     auto layout = new QVBoxLayout(this);
 

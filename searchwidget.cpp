@@ -70,9 +70,9 @@ SearchLine::SearchLine(QWidget *parent, bool simple)
     if(!m_simple) {
         m_caseSensitive = new QComboBox(this);
         layout->addWidget(m_caseSensitive);
-        m_caseSensitive->addItem(i18n("Normal Matching"));
-        m_caseSensitive->addItem(i18n("Case Sensitive"));
-        m_caseSensitive->addItem(i18n("Pattern Matching"));
+        m_caseSensitive->addItem(i18nc("@item:inlistbox", "Normal matching"));
+        m_caseSensitive->addItem(i18nc("@item:inlistbox", "Case sensitive"));
+        m_caseSensitive->addItem(i18nc("@item:inlistbox", "Pattern matching"));
         connect(m_caseSensitive, SIGNAL(activated(int)),
                 this, SIGNAL(signalQueryChanged()));
     }
@@ -166,7 +166,7 @@ void SearchLine::updateColumns()
 
     QStringList columnHeaders;
 
-    columnHeaders.append(QString("<%1>").arg(i18n("All Visible")));
+    columnHeaders.append(QString("<%1>").arg(i18nc("@title:column", "All Visible")));
 
     Playlist *playlist = CollectionList::instance();
 
@@ -197,7 +197,7 @@ SearchWidget::SearchWidget(QWidget *parent)
     new SearchAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/Search", this);
 
-    m_lineEdit->setPlaceholderText(i18n("Search..."));
+    m_lineEdit->setPlaceholderText(i18n("Search…"));
 
     connect(m_lineEdit, SIGNAL(returnPressed()), this, SIGNAL(returnPressed()));
     setFocusProxy(m_lineEdit);

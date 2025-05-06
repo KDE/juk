@@ -108,7 +108,7 @@ bool TagTransactionManager::renameFile(const QFileInfo &from, const QFileInfo &t
        KMessageBox::warningContinueCancel(
            static_cast<QWidget *>(parent()),
            i18n("This file already exists.\nDo you want to replace it?"),
-           i18n("File Exists"),KGuiItem(i18n("Replace"))) == KMessageBox::Continue)
+           i18nc("@title:window", "File Exists"), KGuiItem(i18nc("@action:button", "Replace"))) == KMessageBox::Continue)
    {
        qCDebug(JUK_LOG) << "Renaming " << from.absoluteFilePath() << " to " << to.absoluteFilePath();
        QDir currentDir;
@@ -175,7 +175,7 @@ bool TagTransactionManager::processChangeList(bool undo)
         KMessageBox::errorList(static_cast<QWidget *>(parent()),
                 i18n("The following files were unable to be changed."),
                 errorItems,
-                i18n("Error"));
+                i18nc("@title:window", "Error"));
 
     emit signalDoneModifyingTags();
     return errorItems.isEmpty();
