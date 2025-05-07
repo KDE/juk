@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-04 00:42+0000\n"
+"POT-Creation-Date: 2025-05-07 00:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -29,38 +29,52 @@ msgid "Your emails"
 msgstr "sahran.ug@gmail.com,  gheyret@gmail.com"
 
 #: advancedsearchdialog.cpp:48
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Create Search Playlist"
+msgctxt "@title:window"
 msgid "Create Search Playlist"
 msgstr "ئىزدەشكە چالىدىغان تىزىم قۇر"
 
 #: advancedsearchdialog.cpp:57
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Playlist name:"
+msgctxt "@label"
 msgid "Playlist name:"
 msgstr "قويۇش تىزىمىنىڭ ئاتى:"
 
 #: advancedsearchdialog.cpp:61
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search Criteria"
+msgctxt "@title:group"
 msgid "Search Criteria"
 msgstr "ئىزدەش شەرتى"
 
 #: advancedsearchdialog.cpp:66
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Match any of the following"
+msgctxt "@option:radio"
 msgid "Match any of the following"
 msgstr "تۆۋەندىكىلەردىن خالىغان بىرىگە ماس كېلىدۇ"
 
 #: advancedsearchdialog.cpp:67
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Match all of the following"
+msgctxt "@option:radio"
 msgid "Match all of the following"
 msgstr "تۆۋەندىكى تۈرلەرنىڭ ھەممىسىگە ماس كېلىدۇ"
 
 #: advancedsearchdialog.cpp:91
-#, kde-format
-msgctxt "additional search options"
+#, fuzzy, kde-format
+#| msgctxt "additional search options"
+#| msgid "More"
+msgctxt "@action:button, additional search options"
 msgid "More"
 msgstr "تېخىمۇ كۆپ"
 
 #: advancedsearchdialog.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Fewer"
+msgctxt "@action:button"
 msgid "Fewer"
 msgstr "ئازراق"
 
@@ -79,13 +93,19 @@ msgid "Collection List"
 msgstr "تىزىملىك توپلىمى"
 
 #: collectionlist.cpp:289
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Removing an item from the collection will also remove it from all of your "
+#| "playlists. Are you sure you want to continue?\n"
+#| "\n"
+#| "Note, however, that if the directory that these files are in is in your "
+#| "\"scan on startup\" list, they will be readded on startup."
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
 "playlists. Are you sure you want to continue?\n"
 "\n"
 "Note, however, that if the directory that these files are in is in your "
-"\"scan on startup\" list, they will be readded on startup."
+"“scan on startup” list, they will be readded on startup."
 msgstr ""
 "توپلامدىن تۈر ئۆچۈرۈلسە چالىدىغان تىزىمدىكى مۇناسىپ مەزمۇنمۇ چىقىرىۋېتىلىدۇ، "
 "داۋاملاشتۇرامسىز؟\n"
@@ -94,7 +114,9 @@ msgstr ""
 "تىزىمىدىكى ھۆججەت بولسا، قوزغالغاندا ئۇلار ئۆزلۈكىدىن توپلامغا قوشۇلىدۇ."
 
 #: collectionlist.cpp:343
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Show Playing"
+msgctxt "@action:button"
 msgid "Show Playing"
 msgstr "چېلىۋاتقاننى كۆرسەت"
 
@@ -116,13 +138,17 @@ msgid "<qt>These items will be moved to the Trash Bin.</qt>"
 msgstr "<qt>بۇ تۈرلەر ئەخلەتخانىغا يۆتكىلىدۇ.</qt>"
 
 #: deletedialog.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Send to Trash"
+msgctxt "@action:button"
 msgid "&Send to Trash"
 msgstr "ئەخلەتخانىغا ئەۋەت(&S)"
 
 #: deletedialog.cpp:100
-#, kde-format
-msgid "About to delete selected files"
+#, fuzzy, kde-format
+#| msgid "About to delete selected files"
+msgctxt "@title:window"
+msgid "Delete Selected Files"
 msgstr "تاللانغان ھۆججەتلەرنى ئۆچۈرۈش ھەققىدە"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -162,7 +188,9 @@ msgid "&Delete files instead of moving them to the trash"
 msgstr "ھۆججەتلەرنى ئەخلەتخانىغا يۆتكەشنىڭ ئورنىغا ئۆچۈر(&D)"
 
 #: directorylist.cpp:55
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Folder List"
+msgctxt "@title:window"
 msgid "Folder List"
 msgstr "قىسقۇچ تىزىملىكى"
 
@@ -287,26 +315,28 @@ msgid "Title"
 msgstr "ماۋزۇ"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "ئورۇنلىغۇچى"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "ئالبوم"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "ئېقىم"
 
 #: filerenamer.cpp:87
-#, kde-format
-msgctxt "warning about mass file rename"
+#, fuzzy, kde-format
+#| msgctxt "warning about mass file rename"
+#| msgid "Warning"
+msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
 msgstr "ئاگاھلاندۇرۇش"
 
@@ -335,19 +365,25 @@ msgid "No Change"
 msgstr "ئۆزگىرىش يوق"
 
 #: filerenamer.cpp:409
-#, kde-format
-msgctxt "remove music genre from file renamer"
+#, fuzzy, kde-format
+#| msgctxt "remove music genre from file renamer"
+#| msgid "Remove"
+msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
 msgstr "چىقىرىۋەت"
 
 #: filerenamer.cpp:412
-#, kde-format
-msgctxt "file renamer genre options"
+#, fuzzy, kde-format
+#| msgctxt "file renamer genre options"
+#| msgid "Options"
+msgctxt "@action:button, file renamer genre options"
 msgid "Options"
 msgstr "تاللانما"
 
 #: filerenamer.cpp:524
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Insert folder separator"
+msgctxt "@option:check"
 msgid "Insert folder separator"
 msgstr "قىسقۇچ ئايرىغۇچ قىستۇر"
 
@@ -357,18 +393,23 @@ msgid "No file selected, or selected file has no tags."
 msgstr "ھۆججەت تاللانمىدى ياكى تاللانغان ھۆججەتنىڭ بەلگىسى يوق."
 
 #: filerenamer.cpp:826
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Hide Renamer Test Dialog"
+msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
 msgstr "ئات ئۆزگەرتكۈچنى سىناش سۆزلەشكۈسىنى يوشۇر"
 
-#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:831 filerenamerbase.ui:257
-#, kde-format
+#: filerenamer.cpp:831
+#, fuzzy, kde-format
+#| msgid "Show Renamer Test Dialog"
+msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
 msgstr "ئات ئۆزگەرتكۈچنى سىناش سۆزلەشكۈسىنى كۆرسەت"
 
 #: filerenamer.cpp:911
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "%1 to %2"
+msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
 msgstr "%1 دىن %2"
 
@@ -444,32 +485,50 @@ msgstr "تۈر قوش:"
 msgid "Separator:"
 msgstr "ئايرىش بەلگىسى:"
 
-#: filerenamerconfigdlg.cpp:29
+#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
+#: filerenamerbase.ui:257
 #, kde-format
+msgid "Show Renamer Test Dialog"
+msgstr "ئات ئۆزگەرتكۈچنى سىناش سۆزلەشكۈسىنى كۆرسەت"
+
+#: filerenamerconfigdlg.cpp:29
+#, fuzzy, kde-format
+#| msgid "File Renamer Options"
+msgctxt "@title:window"
 msgid "File Renamer Options"
 msgstr "ھۆججەت ئاتىنى ئۆزگەرتىش تاللانمىسى"
 
 #: filerenameroptions.cpp:38
-#, kde-format
-msgctxt "%1 will be a music tag category like Artist or Album"
+#, fuzzy, kde-format
+#| msgctxt "%1 will be a music tag category like Artist or Album"
+#| msgid "%1 Options"
+msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
 msgstr "%1 تاللانما"
 
 #: filerenameroptions.cpp:39
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "%1 Format"
+msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
 msgstr "%1 پىچىمى"
 
 #: filerenameroptions.cpp:40
-#, kde-format
-msgid "When the Track's %1 is Empty"
+#, fuzzy, kde-format
+#| msgid "When the Track's %1 is Empty"
+msgctxt "@title:group"
+msgid "When the Track’s %1 is Empty"
 msgstr "نەغمىنىڭ %1 بوش بولغاندا"
 
 #: filerenameroptions.cpp:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When using the file renamer your files will be renamed to the values that "
+#| "you have in your track's %1 tag, plus any additional text that you "
+#| "specify below."
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
-"you have in your track's %1 tag, plus any additional text that you specify "
+"you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
 "ھۆججەت ئاتىنى ئۆزگەرتىش قورالىنى ئىشلەتكەندە ھۆججىتىڭىز سىز نەغمىنىڭ %1 "
@@ -477,7 +536,9 @@ msgstr ""
 "بەلگىلەنگەن قوشۇمچە تېكىست قوشۇلىدۇ."
 
 #: filerenameroptions.cpp:114
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "File Renamer"
+msgctxt "@title:window"
 msgid "File Renamer"
 msgstr "ھۆججەت ئاتىنى ئۆزگەرتكۈچ"
 
@@ -568,145 +629,200 @@ msgid "Time"
 msgstr "ۋاقىت"
 
 #: juk.cpp:240 systemtray.cpp:184
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Random Play"
+msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "ئىختىيارىي چال(&R)"
 
 #: juk.cpp:247
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Disable Random Play"
+msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "ئىختىيارىي چېلىشنى چەكلە(&D)"
 
 #: juk.cpp:253
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Use &Random Play"
+msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "ئىختىيارىي چېلىشنى ئىشلەت(&R)"
 
 #: juk.cpp:259
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Use &Album Random Play"
+msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "پلاستىنكىنى ئىختىيارىي چېلىشنى ئىشلەت(&A)"
 
 #: juk.cpp:267
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Remove From Playlist"
+msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "قويۇش تىزىمىدىن چىقىرىۋېتىش"
 
 #: juk.cpp:271
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Play"
+msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "قوي(&P)"
 
 #: juk.cpp:276
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "P&ause"
+msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "ۋاقىتلىق توختىتىش(&A)"
 
 #: juk.cpp:281
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Stop"
+msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "توختا(&S)"
 
 #: juk.cpp:284
-#, kde-format
-msgctxt "previous track"
+#, fuzzy, kde-format
+#| msgctxt "previous track"
+#| msgid "Previous"
+msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "ئالدىنقى"
 
 #: juk.cpp:291
-#, kde-format
-msgctxt "next track"
+#, fuzzy, kde-format
+#| msgctxt "next track"
+#| msgid "&Next"
+msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "كېيىنكى(&N)"
 
 #: juk.cpp:295
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Loop Playlist"
+msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "قويۇش تىزىمنى قايتىلا(&L)"
 
 #: juk.cpp:299
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Resize Playlist Columns Manually"
+msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "قويۇش تىزىم ئىستونىنى قولدا ئۆزگەرت(&R)"
 
 #: juk.cpp:304
-#, kde-format
-msgctxt "silence playback"
+#, fuzzy, kde-format
+#| msgctxt "silence playback"
+#| msgid "Mute"
+msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "ئۈنسىز"
 
 #: juk.cpp:308
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Volume Up"
+msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "ئاۋازنى يۇقىرىلات"
 
 #: juk.cpp:312
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Volume Down"
+msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "ئاۋازنى تۆۋەنلەت"
 
 #: juk.cpp:316
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Play / Pause"
+msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "قويۇش/توختىتىش"
 
 #: juk.cpp:320
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Seek Forward"
+msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "ئالدىغا ئىزدە"
 
 #: juk.cpp:324
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Seek Back"
+msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "كەينىگە ئىزدە"
 
 #: juk.cpp:328
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Show / Hide"
+msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "كۆرسەت/يوشۇر"
 
 #: juk.cpp:335
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Dock in System Tray"
+msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "سىستېما قونداقتا توختات(&D)"
 
 #: juk.cpp:339
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Stay in System Tray on Close"
+msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "ياپقاندا سىستېما قونداقتا قالدۇر(&S)"
 
 #: juk.cpp:342
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Popup &Track Announcement"
+msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "چېلىشنى باشلىغاندا نەغمە ئۇقتۇرۇشىنى قاڭقىت(&T)"
 
 #: juk.cpp:345
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Save &Play Queue on Exit"
+msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "چېكىنگەندە چالىدىغان قاتارنى ساقلا(&P)"
 
 #: juk.cpp:348
-#, kde-format
-msgid "&Tag Guesser..."
+#, fuzzy, kde-format
+#| msgid "&Tag Guesser..."
+msgctxt "@action:inmenu"
+msgid "&Tag Guesser…"
 msgstr "بەلگە مۆلچەرچى(&T)…"
 
 #: juk.cpp:351
-#, kde-format
-msgid "&File Renamer..."
-msgstr "ھۆججەت ئاتىنى ئۆزگەرتكۈچ(&F)…"
+#, fuzzy, kde-format
+#| msgid "File Renamer"
+msgctxt "@action:inmenu"
+msgid "&File Renamer…"
+msgstr "ھۆججەت ئاتىنى ئۆزگەرتكۈچ"
 
 #: juk.cpp:354
 #, kde-format
-msgid "&Configure scrobbling..."
+msgctxt "@action:inmenu"
+msgid "&Configure Scrobbling…"
 msgstr ""
 
 #: juk.cpp:361
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Track Position"
+msgctxt "@action:button"
 msgid "Track Position"
 msgstr "نەغمە ئورنى"
 
-#: juk.cpp:363 slider.cpp:127
-#, kde-format
+#: juk.cpp:363
+#, fuzzy, kde-format
+#| msgid "Volume"
+msgctxt "@action:button"
 msgid "Volume"
 msgstr "ئاۋاز مىقدارى"
 
@@ -720,14 +836,18 @@ msgstr ""
 "پروگراممىدىن چېكىنىشتە ھۆججەت تىزىملىكىدىن چېكىنىڭ.</qt>"
 
 #: juk.cpp:531
-#, kde-format
-msgid "Docking in System Tray"
-msgstr "سىستېما قونداققا توختىتىۋاتىدۇ"
+#, fuzzy, kde-format
+#| msgid "&Dock in System Tray"
+msgctxt "@title:window"
+msgid "Dock in System Tray"
+msgstr "سىستېما قونداقتا توختات(&D)"
 
 #: juktag.cpp:90
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "a playing track, %1 is artist, %2 is song title"
+#| msgid "%1 - <i>%2</i>"
 msgctxt "a playing track, %1 is artist, %2 is song title"
-msgid "%1 - <i>%2</i>"
+msgid "%1 — <i>%2</i>"
 msgstr "%1 - <i>%2</i>"
 
 #. i18n: ectx: Menu (file)
@@ -773,32 +893,46 @@ msgid "Play Toolbar"
 msgstr "چالىدىغان قورال بالداق"
 
 #: keydialog.cpp:102
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Configure Shortcuts"
+msgctxt "@title:window"
 msgid "Configure Shortcuts"
 msgstr "تېزلەتمە سەپلىمە"
 
 #: keydialog.cpp:118
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Global Shortcuts"
+msgctxt "@title:group"
 msgid "Global Shortcuts"
 msgstr "ئومۇمىيەت تېزلەتمە"
 
 #: keydialog.cpp:124
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&No keys"
+msgctxt "@option:radio"
 msgid "&No keys"
 msgstr "كۇنۇپكا يوق(&N)"
 
 #: keydialog.cpp:128
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Standard keys"
+msgctxt "@option:radio"
 msgid "&Standard keys"
 msgstr "ئۆلچەملىك كۇنۇپكا(&S)"
 
 #: keydialog.cpp:132
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Multimedia keys"
+msgctxt "@option:radio"
 msgid "&Multimedia keys"
 msgstr "كۆپ ۋاسىتە كۇنۇپكا(&M)"
 
 #: keydialog.cpp:138
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Here you can select the keys used as global shortcuts to control the "
+#| "player"
+msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
 msgstr ""
@@ -849,7 +983,8 @@ msgstr "KDE نىڭ Jukebox ۋە نەغمە باشقۇرغۇچ"
 #: main.cpp:40
 #, fuzzy, kde-format
 #| msgid "© 2002–2013, Scott Wheeler, Michael Pyne, and others"
-msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
+msgctxt "Use copyright sign, and en dash for the year range"
+msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
 msgstr "© 2002–2013, Scott Wheeler, Michael Pyne, ۋە باشقىلار"
 
 #: main.cpp:44
@@ -1100,18 +1235,21 @@ msgid "JuK Docked"
 msgstr ""
 
 #: mediafiles.cpp:134
-#, kde-format
-msgctxt "open audio file"
+#, fuzzy, kde-format
+#| msgctxt "open audio file"
+#| msgid "Open"
+msgctxt "@title:window, open audio file"
 msgid "Open"
 msgstr "ئاچ"
 
-#: mediafiles.cpp:147
+#: mediafiles.cpp:146
 #, fuzzy, kde-format
 #| msgid "Search Playlist"
-msgid "Save Playlist"
+msgctxt "@title:window"
+msgid "Save Playlist %1"
 msgstr "قويۇش تىزىمنى ئىزدە"
 
-#: mediafiles.cpp:149
+#: mediafiles.cpp:148
 #, fuzzy, kde-format
 #| msgid "Playlists"
 msgctxt "For save dialog, %1 is always .m3u"
@@ -1164,8 +1302,9 @@ msgstr[0] ""
 "تۆۋەندىكى ھۆججەتلەرنىڭ ئاتىنى ئۆزگەرتمەكچى بولۇۋاتىسىز. راستلا "
 "داۋاملاشتۇرامسىز؟"
 
-#: playlist.cpp:578 playlistcollection.cpp:957
+#: playlist.cpp:578
 #, kde-format
+msgctxt "@title:window"
 msgid "Open Containing Folder"
 msgstr ""
 
@@ -1180,69 +1319,116 @@ msgid "Could not move these files to the Trash"
 msgstr "بۇ ھۆججەتلەرنى ئەخلەتخانىغا يۆتكىيەلمەيدۇ"
 
 #: playlist.cpp:1280
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Track Name"
+msgctxt "@title:column"
 msgid "Track Name"
 msgstr "نەغمە ئاتى"
 
-#: playlist.cpp:1283 tagrenameroptions.cpp:112
-#, kde-format
-msgctxt "cd track number"
+#: playlist.cpp:1281
+#, fuzzy, kde-format
+#| msgid "Artist"
+msgctxt "@title:column"
+msgid "Artist"
+msgstr "ئورۇنلىغۇچى"
+
+#: playlist.cpp:1282
+#, fuzzy, kde-format
+#| msgid "Album"
+msgctxt "@title:column"
+msgid "Album"
+msgstr "ئالبوم"
+
+#: playlist.cpp:1283
+#, fuzzy, kde-format
+#| msgctxt "cd track number"
+#| msgid "Track"
+msgctxt "@title:column, CD track number"
 msgid "Track"
 msgstr "نەغمە"
 
-#: playlist.cpp:1285 tagrenameroptions.cpp:120
-#, kde-format
+#: playlist.cpp:1284
+#, fuzzy, kde-format
+#| msgid "Genre"
+msgctxt "@title:column"
+msgid "Genre"
+msgstr "ئېقىم"
+
+#: playlist.cpp:1285
+#, fuzzy, kde-format
+#| msgid "Year"
+msgctxt "@title:column"
 msgid "Year"
 msgstr "يىل"
 
 #: playlist.cpp:1286
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Length"
+msgctxt "@title:column"
 msgid "Length"
 msgstr "ئۇزۇنلۇقى"
 
 #: playlist.cpp:1287
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Bitrate"
+msgctxt "@title:column"
 msgid "Bitrate"
 msgstr "بايت نىسبىتى"
 
 #: playlist.cpp:1288
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Comment"
+msgctxt "@title:column"
 msgid "Comment"
 msgstr "ئىزاھات"
 
 #: playlist.cpp:1289
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "File Name"
+msgctxt "@title:column"
 msgid "File Name"
 msgstr "ھۆججەت ئاتى"
 
 #: playlist.cpp:1290
-#, kde-format
-msgid "File Name (full path)"
+#, fuzzy, kde-format
+#| msgid "File Name (full path)"
+msgctxt "@title:column"
+msgid "File Name (Full Path)"
 msgstr "ھۆججەت ئاتى (تولۇق يولى)"
 
 #: playlist.cpp:1471
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Show Columns"
+msgctxt "@action:inmenu"
 msgid "&Show Columns"
 msgstr "ئىستون كۆرسەت(&S)"
 
 #: playlist.cpp:1579
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Add to Play Queue"
+msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
 msgstr "قويۇش قاتارىغا قوشۇش"
 
-#: playlist.cpp:1593 playlist.cpp:2052
-#, kde-format
+#: playlist.cpp:1593
+#, fuzzy, kde-format
+#| msgid "Edit"
+msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "تەھرىرلەش"
 
 #: playlist.cpp:1607
-#, kde-format
-msgid "Create Playlist From Selected Items..."
+#, fuzzy, kde-format
+#| msgid "Create Playlist From Selected Items..."
+msgctxt "@action:inmenu"
+msgid "Create Playlist From Selected Items…"
 msgstr "تاللانغان تۈرلەردىن قويۇش تىزىمى قۇرۇش…"
 
 #: playlist.cpp:1973
-#, kde-format
-msgid "Edit '%1'"
+#, fuzzy, kde-format
+#| msgid "Edit '%1'"
+msgctxt "@action:inmenu"
+msgid "Edit “%1”"
 msgstr "'%1' تەھرىر"
 
 #: playlist.cpp:2050
@@ -1250,8 +1436,15 @@ msgstr "'%1' تەھرىر"
 msgid "This will edit multiple files. Are you sure?"
 msgstr "كۆپ ھۆججەت تەھرىرلىنىدۇ. راستلا مۇشۇنداق قىلامسىز؟"
 
-#: playlist.cpp:2109 playlistcollection.h:183
+#: playlist.cpp:2052
 #, kde-format
+msgid "Edit"
+msgstr "تەھرىرلەش"
+
+#: playlist.cpp:2109
+#, fuzzy, kde-format
+#| msgid "Create New Playlist"
+msgctxt "@action:inmenu"
 msgid "Create New Playlist"
 msgstr "يېڭى چالىدىغان تىزىم قۇر"
 
@@ -1268,23 +1461,31 @@ msgstr ""
 "ئىستون كەڭلىكىگە ئالماشتۇرالايسىز."
 
 #: playlist.cpp:2121
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Manual Column Widths Enabled"
+msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
 msgstr "قولدا تەڭشەيدىغان ئىستون كەڭلىكى قوزغىتىلدى"
 
 #: playlistbox.cpp:108
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "View Modes"
+msgctxt "@action:inmenu"
 msgid "View Modes"
 msgstr "كۆرۈنۈش ھالىتى"
 
 #: playlistbox.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Show &History"
+msgctxt "@action:inmenu"
 msgid "Show &History"
 msgstr "تارىخنى كۆرسەت(&H)"
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
-#, kde-format
-msgctxt "verb, copy the playlist"
+#, fuzzy, kde-format
+#| msgctxt "verb, copy the playlist"
+#| msgid "Duplicate"
+msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
 msgstr "كۆچۈر"
 
@@ -1294,7 +1495,9 @@ msgid "Do you want to delete these files from the disk as well?"
 msgstr "بۇ ھۆججەتلەرنى دىسكىدىنمۇ ئۆچۈرەمسىز؟"
 
 #: playlistbox.cpp:425
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Keep"
+msgctxt "@action:button"
 msgid "Keep"
 msgstr "تەگمە"
 
@@ -1309,23 +1512,30 @@ msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "سىز راستلا چالىدىغان تىزىمنى توپلامدىن چىقىرىۋېتەمسىز؟"
 
 #: playlistbox.cpp:448
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Remove Items?"
+msgctxt "@title:window"
 msgid "Remove Items?"
 msgstr "تۈرلەرنى چىقىرىۋەت؟"
 
-#. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
-#, kde-format
+#: playlistbox.cpp:449
+#, fuzzy, kde-format
+#| msgid "&Remove"
+msgctxt "@action:button"
 msgid "&Remove"
 msgstr "چىقىرىۋەت(&R)"
 
 #: playlistbox.cpp:653
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Hid&e"
+msgctxt "@action:inmenu"
 msgid "Hid&e"
 msgstr "يوشۇر(&E)"
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "R&emove"
+msgctxt "@action:inmenu"
 msgid "R&emove"
 msgstr "چىقىرىۋەت(&E)"
 
@@ -1346,28 +1556,38 @@ msgid ""
 msgstr "بۇ تۈرلەرنى نۆۋەتتىكى تىزىم ياكى توپلانما تىزىمغا قوشامسىز؟"
 
 #: playlistcollection.cpp:349
-#, kde-format
-msgctxt "current playlist"
+#, fuzzy, kde-format
+#| msgctxt "current playlist"
+#| msgid "Current"
+msgctxt "@action:button, current playlist"
 msgid "Current"
 msgstr "نۆۋەتتىكى"
 
 #: playlistcollection.cpp:350
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Collection"
+msgctxt "@action:button"
 msgid "Collection"
 msgstr "توپلام"
 
 #: playlistcollection.cpp:412
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Rename"
+msgctxt "@action:button"
 msgid "Rename"
 msgstr "ئات ئۆزگەرت"
 
 #: playlistcollection.cpp:515
-#, kde-format
-msgid "Search Playlist"
-msgstr "قويۇش تىزىمنى ئىزدە"
+#, fuzzy, kde-format
+#| msgid "Create Search Playlist"
+msgctxt "@action:button"
+msgid "Create Search Playlist"
+msgstr "ئىزدەشكە چالىدىغان تىزىم قۇر"
 
 #: playlistcollection.cpp:540
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Create Folder Playlist"
+msgctxt "@action:button"
 msgid "Create Folder Playlist"
 msgstr "قىسقۇچتىن قويۇش تىزىمى قۇر"
 
@@ -1382,101 +1602,150 @@ msgid "Please enter a name for this playlist:"
 msgstr "بۇ قويۇش تىزىمغا ئات كىرگۈزۈڭ:"
 
 #: playlistcollection.cpp:890
-#, kde-format
-msgctxt "new playlist"
+#, fuzzy, kde-format
+#| msgctxt "new playlist"
+#| msgid "&New"
+msgctxt "@action:inmenu, new playlist"
 msgid "&New"
 msgstr "يېڭى(&N)"
 
 #: playlistcollection.cpp:893
-#, kde-format
-msgid "&Empty Playlist..."
+#, fuzzy, kde-format
+#| msgid "&Empty Playlist..."
+msgctxt "@action:inmenu"
+msgid "&Empty Playlist…"
 msgstr "بوش قويۇش تىزىمى(&E)…"
 
 #: playlistcollection.cpp:897
-#, kde-format
-msgid "&Search Playlist..."
-msgstr "قويۇش تىزىمنى ئىزدە(&S)…"
+#, fuzzy, kde-format
+#| msgid "Search Playlist"
+msgctxt "@action:inmenu"
+msgid "&Search Playlist…"
+msgstr "قويۇش تىزىمنى ئىزدە"
 
 #: playlistcollection.cpp:901
-#, kde-format
-msgid "Playlist From &Folder..."
+#, fuzzy, kde-format
+#| msgid "Playlist From &Folder..."
+msgctxt "@action:inmenu"
+msgid "Playlist From &Folder…"
 msgstr "قىسقۇچتىن كەلگەن قويۇش تىزىمى(&F)…"
 
 #: playlistcollection.cpp:909
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Guess Tag Information"
+msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
 msgstr "مۆلچەر بەلگە ئۇچۇرى(&G)"
 
 #: playlistcollection.cpp:914
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "From &File Name"
+msgctxt "@action:inmenu"
 msgid "From &File Name"
 msgstr "ھۆججەت ئاتىدىن(&F)"
 
 #: playlistcollection.cpp:918
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "From &Internet"
+msgctxt "@action:inmenu"
 msgid "From &Internet"
 msgstr "ئىنتېرنېتتىن(&I)"
 
 #: playlistcollection.cpp:923
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Guess Tag Information From &File Name"
+msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
 msgstr "ھۆججەت ئاتىدىن بەلگە ئۇچۇرىنى مۆلچەرلە(&F)"
 
 #: playlistcollection.cpp:930
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Play First Track"
+msgctxt "@action:inmenu"
 msgid "Play First Track"
 msgstr "بىرىنچى نەغمىنى چال"
 
 #: playlistcollection.cpp:932
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Play Next Album"
+msgctxt "@action:inmenu"
 msgid "Play Next Album"
 msgstr "كېيىنكى پلاستىنكىنى چال"
 
 #: playlistcollection.cpp:939
-#, kde-format
-msgid "Manage &Folders..."
+#, fuzzy, kde-format
+#| msgid "Manage &Folders..."
+msgctxt "@action:inmenu"
+msgid "Manage &Folders…"
 msgstr "قىسقۇچ باشقۇر(&F)…"
 
 #: playlistcollection.cpp:941
-#, kde-format
-msgid "&Rename..."
-msgstr "ئات ئۆزگەرت(&R)…"
+#, fuzzy, kde-format
+#| msgid "Rename"
+msgctxt "@action:inmenu"
+msgid "&Rename…"
+msgstr "ئات ئۆزگەرت"
 
 #: playlistcollection.cpp:943
-#, kde-format
-msgctxt "verb, copy the playlist"
-msgid "D&uplicate..."
-msgstr "كۆپەيت(&U)…"
+#, fuzzy, kde-format
+#| msgctxt "verb, copy the playlist"
+#| msgid "Duplicate"
+msgctxt "@action:inmenu, verb, copy the playlist"
+msgid "D&uplicate…"
+msgstr "كۆچۈر"
 
 #: playlistcollection.cpp:948
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Reload"
+msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "قايتا يۈكلە"
 
 #: playlistcollection.cpp:950
-#, kde-format
-msgid "Edit Search..."
+#, fuzzy, kde-format
+#| msgid "Edit Search..."
+msgctxt "@action:inmenu"
+msgid "Edit Search…"
 msgstr "ئىزدەش تەھرىر…"
 
 #: playlistcollection.cpp:953
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Delete"
+msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "ئۆچۈر(&D)"
 
 #: playlistcollection.cpp:955
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Refresh"
+msgctxt "@action:inmenu"
 msgid "Refresh"
 msgstr "يېڭىلا"
 
-#: playlistcollection.cpp:959
+#: playlistcollection.cpp:957
 #, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Containing Folder"
+msgstr ""
+
+#: playlistcollection.cpp:959
+#, fuzzy, kde-format
+#| msgid "&Rename File"
+msgctxt "@action:inmenu"
 msgid "&Rename File"
 msgstr "ھۆججەت ئاتىنى ئۆزگەرت(&R)"
 
 #: playlistcollection.cpp:964
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Show &Play Queue"
+msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
 msgstr "قويىدىغان قاتارنى كۆرسەت(&P)"
+
+#: playlistcollection.h:183
+#, kde-format
+msgid "Create New Playlist"
+msgstr "يېڭى چالىدىغان تىزىم قۇر"
 
 #: playlistcollection.h:186
 #, kde-format
@@ -1484,23 +1753,31 @@ msgid "Playlist"
 msgstr "قويۇش تىزىمى"
 
 #: playlistsplitter.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Show &Search Bar"
+msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
 msgstr "ئىزدەش بالداقنى كۆرسەت(&S)"
 
 #: playlistsplitter.cpp:161
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Edit Track Search"
+msgctxt "@action:inmenu"
 msgid "Edit Track Search"
 msgstr "نەغمە ئىزدەش تەھرىر"
 
 #: scrobbleconfigdlg.cpp:38
-#, kde-format
-msgid "Configure scrobbling..."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Configure Shortcuts"
+msgctxt "@title:window"
+msgid "Configure Scrobbling"
+msgstr "تېزلەتمە سەپلىمە"
 
 #: scrobbleconfigdlg.cpp:42
-#, kde-format
-msgid "Test login..."
+#, fuzzy, kde-format
+#| msgid "Test login..."
+msgctxt "@action:button"
+msgid "Test Login…"
 msgstr "تىزىمغا كىرىشنى سىنا…"
 
 #: scrobbleconfigdlg.cpp:49
@@ -1524,58 +1801,73 @@ msgstr "ئىشلەتكۈچى ئاتى:"
 msgid "Password:"
 msgstr "ئىم:"
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:84
 #, kde-format
 msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
 "encryption."
 msgstr ""
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:85
 #, kde-format
-msgid "KWallet is unavailable"
+msgctxt "@title:window"
+msgid "KWallet Unavailable"
 msgstr ""
 
-#: scrobbleconfigdlg.cpp:126
-#, kde-format
-msgid "Validating login..."
+#: scrobbleconfigdlg.cpp:128
+#, fuzzy, kde-format
+#| msgid "Validating login..."
+msgid "Validating login…"
 msgstr "تىزىمغا كىرىشنى دەلىللەۋاتىدۇ…"
 
-#: scrobbleconfigdlg.cpp:136
+#: scrobbleconfigdlg.cpp:138
 #, kde-format
 msgid "Login invalid."
 msgstr "تىزىمغا كىرىش ئىناۋەتسىز."
 
-#: scrobbleconfigdlg.cpp:144
+#: scrobbleconfigdlg.cpp:146
 #, kde-format
 msgid "Login valid."
 msgstr "تىزىمغا كىرىش ئىناۋەتلىك."
 
 #: searchwidget.cpp:73
-#, kde-format
-msgid "Normal Matching"
+#, fuzzy, kde-format
+#| msgid "Normal Matching"
+msgctxt "@item:inlistbox"
+msgid "Normal matching"
 msgstr "ئادەتتىكى ماس كەلگىنى"
 
 #: searchwidget.cpp:74
-#, kde-format
-msgid "Case Sensitive"
+#, fuzzy, kde-format
+#| msgid "Case Sensitive"
+msgctxt "@item:inlistbox"
+msgid "Case sensitive"
 msgstr "چوڭ-كىچىك يېزىلىشى پەرقلەندۈر"
 
 #: searchwidget.cpp:75
-#, kde-format
-msgid "Pattern Matching"
+#, fuzzy, kde-format
+#| msgid "Pattern Matching"
+msgctxt "@item:inlistbox"
+msgid "Pattern matching"
 msgstr "ماس كەلگەن لايىھە"
 
 #: searchwidget.cpp:169
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "All Visible"
+msgctxt "@title:column"
 msgid "All Visible"
 msgstr "كۆرۈنگەن ھەممىسى"
 
 #: searchwidget.cpp:200
 #, fuzzy, kde-format
-#| msgid "Edit Search..."
-msgid "Search..."
-msgstr "ئىزدەش تەھرىر…"
+#| msgid "Search:"
+msgid "Search…"
+msgstr "ئىزدە:"
+
+#: slider.cpp:127
+#, kde-format
+msgid "Volume"
+msgstr "ئاۋاز مىقدارى"
 
 #: slider.cpp:128
 #, kde-format
@@ -1613,7 +1905,9 @@ msgid "Seeking is not supported in this file with your audio settings."
 msgstr "نۆۋەتتىكى ئۈن تەڭشىكىدە بۇ ھۆججەت ئاتلاشنى قوللىمايدۇ."
 
 #: statuslabel.cpp:85
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Jump to the currently playing item"
+msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
 msgstr "نۆۋەتتە چېلىۋاتقان تۈرگە يۆتكەل"
 
@@ -1624,7 +1918,9 @@ msgid_plural "%1 items"
 msgstr[0] "%1 تۈر"
 
 #: systemtray.cpp:161
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Redisplay Popup"
+msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
 msgstr "قاڭقىش كۆزنەكنى قايتا كۆرسەت"
 
@@ -1644,7 +1940,9 @@ msgid "Do you want to save your changes to:\n"
 msgstr "ئۆزگەرتىشلىرىڭىزنى ساقلامسىز:\n"
 
 #: tageditor.cpp:590
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Save Changes"
+msgctxt "@title:window"
 msgid "Save Changes"
 msgstr "ئۆزگەرتكەننى ساقلا"
 
@@ -1722,7 +2020,9 @@ msgid "Enable"
 msgstr "قوزغات"
 
 #: tagguesserconfigdlg.cpp:39
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Tag Guesser Configuration"
+msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
 msgstr "بەلگە مۆلچەرچى سەپلىمىسى"
 
@@ -1847,6 +2147,12 @@ msgid ""
 "Press this button to remove the currently selected scheme from the list."
 msgstr "بۇ توپچا چېكىلسە تىزىمدىن نۆۋەتتە تاللانغان لايىھىنى چىقىرىۋېتىدۇ."
 
+#. i18n: ectx: property (text), widget (QPushButton, bRemove)
+#: tagguesserconfigdlgwidget.ui:100
+#, kde-format
+msgid "&Remove"
+msgstr "چىقىرىۋەت(&R)"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tagguesserconfigdlgwidget.ui:128
 #, no-c-format, kde-format
@@ -1870,6 +2176,15 @@ msgctxt "song title"
 msgid "Title"
 msgstr "ماۋزۇ"
 
+#: tagrenameroptions.cpp:112
+msgctxt "cd track number"
+msgid "Track"
+msgstr "نەغمە"
+
+#: tagrenameroptions.cpp:120
+msgid "Year"
+msgstr "يىل"
+
 #: tagrenameroptions.cpp:126
 msgctxt "unknown renamer category"
 msgid "Unknown"
@@ -1885,12 +2200,16 @@ msgstr ""
 "ئۇنى ئالماشتۇرامسىز؟"
 
 #: tagtransactionmanager.cpp:111
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "File Exists"
+msgctxt "@title:window"
 msgid "File Exists"
 msgstr "ھۆججەت مەۋجۇت"
 
 #: tagtransactionmanager.cpp:111
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Replace"
+msgctxt "@action:button"
 msgid "Replace"
 msgstr "ئالماشتۇر"
 
@@ -1900,7 +2219,9 @@ msgid "The following files were unable to be changed."
 msgstr "تۆۋەندىكى ھۆججەتلەرنى ئۆزگەرتەلمەيدۇ."
 
 #: tagtransactionmanager.cpp:178
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Error"
+msgctxt "@title:window"
 msgid "Error"
 msgstr "خاتالىق"
 
@@ -1925,8 +2246,10 @@ msgid "You are about to change the %1 on these files."
 msgstr "سىز بۇ ھۆججەتلەردىكى %1 نى ئالماشتۇرىسىز."
 
 #: treeviewitemplaylist.cpp:58
-#, kde-format
-msgid "Changing Track Tags"
+#, fuzzy, kde-format
+#| msgid "Changing Track Tags"
+msgctxt "@title:window"
+msgid "Change Track Tags"
 msgstr "نەغمە بەلگىسىنى ئۆزگەرتىۋاتىدۇ"
 
 #: upcomingplaylist.cpp:31
@@ -1967,7 +2290,9 @@ msgid "Genres"
 msgstr "ئېقىم"
 
 #: volumepopupbutton.cpp:76
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Mute/Unmute"
+msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
 msgstr "ئۈنلۈك/ئۈنسىز"
 
@@ -1979,14 +2304,37 @@ msgstr ""
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, fuzzy, kde-format
 #| msgid "Volume: %1% %2"
+msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
 msgstr "ئاۋاز مىقدارى: %1% %2"
 
 #: volumepopupbutton.cpp:123
 #, fuzzy, kde-format
 #| msgid "Volume: %1% %2"
+msgctxt "@info:tooltip"
 msgid "Volume: %1%"
 msgstr "ئاۋاز مىقدارى: %1% %2"
+
+#~ msgid "&File Renamer..."
+#~ msgstr "ھۆججەت ئاتىنى ئۆزگەرتكۈچ(&F)…"
+
+#~ msgid "Docking in System Tray"
+#~ msgstr "سىستېما قونداققا توختىتىۋاتىدۇ"
+
+#~ msgid "&Search Playlist..."
+#~ msgstr "قويۇش تىزىمنى ئىزدە(&S)…"
+
+#~ msgid "&Rename..."
+#~ msgstr "ئات ئۆزگەرت(&R)…"
+
+#~ msgctxt "verb, copy the playlist"
+#~ msgid "D&uplicate..."
+#~ msgstr "كۆپەيت(&U)…"
+
+#, fuzzy
+#~| msgid "Edit Search..."
+#~ msgid "Search..."
+#~ msgstr "ئىزدەش تەھرىر…"
 
 #, fuzzy
 #~| msgid "Artists"
@@ -2050,9 +2398,6 @@ msgstr "ئاۋاز مىقدارى: %1% %2"
 
 #~ msgid "&lt;All Artists&gt;"
 #~ msgstr "&lt;ھەممە سەنئەتكارلار&gt;"
-
-#~ msgid "Search:"
-#~ msgstr "ئىزدە:"
 
 #, fuzzy
 #~| msgid "Porting to KDE 4 when no one else was around"
