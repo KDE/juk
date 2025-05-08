@@ -2300,19 +2300,3 @@ msgstr "Lydstyrke: %1 % (dempa)"
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
 msgstr "Lydstyrke: %1 %"
-
-#~ msgid "&File Renamer..."
-#~ msgstr "&Endra filnamn …"
-
-#~ msgid "Docking in System Tray"
-#~ msgstr "Legg i systemtrauet"
-
-#~ msgid "&Search Playlist..."
-#~ msgstr "&Søkjeliste …"
-
-#~ msgid "&Rename..."
-#~ msgstr "&Endra namn …"
-
-#~ msgctxt "verb, copy the playlist"
-#~ msgid "D&uplicate..."
-#~ msgstr "Lag &kopi …"
