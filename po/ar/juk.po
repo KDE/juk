@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2024-05-09 11:49+0400\n"
+"PO-Revision-Date: 2025-05-07 18:26+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1049,7 +1049,7 @@ msgstr ""
 #: main.cpp:63
 #, kde-format
 msgid "Antonio Larrosa Jimenez"
-msgstr "Antonio Larrosa Jimenez"
+msgstr "أنطونيو لاروسا خيمينيز"
 
 #: main.cpp:63
 #, kde-format
@@ -1348,7 +1348,7 @@ msgstr "المجموعة"
 #: playlistcollection.cpp:412
 #, kde-format
 msgid "Rename"
-msgstr "أعد تسمية"
+msgstr "غيّر الاسم"
 
 #: playlistcollection.cpp:515
 #, kde-format
@@ -1429,7 +1429,7 @@ msgstr "أدر&المجلّدات..."
 #: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
-msgstr "أ&عد التسمية..."
+msgstr "&غيّر الاسم..."
 
 #: playlistcollection.cpp:943
 #, kde-format
@@ -1460,7 +1460,7 @@ msgstr "أنعش"
 #: playlistcollection.cpp:959
 #, kde-format
 msgid "&Rename File"
-msgstr "أ&عد تسمية ملف"
+msgstr "&غير تسمية ملف"
 
 #: playlistcollection.cpp:964
 #, kde-format
