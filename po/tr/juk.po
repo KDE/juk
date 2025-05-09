@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2025-05-04 19:36+0300\n"
+"PO-Revision-Date: 2025-05-08 13:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -117,14 +117,14 @@ msgstr "Çalınanı Göster"
 #, kde-format
 msgid "<b>1</b> file selected."
 msgid_plural "<b>%1</b> files selected."
-msgstr[0] "<b>%1</b> dosya seçili."
+msgstr[0] "<b>1</b> dosya seçili."
 msgstr[1] "<b>%1</b> dosya seçili."
 
 #: deletedialog.cpp:78
 #, kde-format
 msgid ""
 "<qt>These items will be <b>permanently deleted</b> from your hard disk.</qt>"
-msgstr "<qt>Bu ögeler sabit diskinizden <b>silinecek</b>.</qt>"
+msgstr "<qt>Bu ögeler sabit diskinizden kalıcı olarak <b>silinecek</b>.</qt>"
 
 #: deletedialog.cpp:84
 #, kde-format
@@ -145,7 +145,7 @@ msgstr "Seçili dosyalar silinmek üzere"
 #: deletedialogbase.ui:88
 #, kde-format
 msgid "Are you sure that you want to remove these items?"
-msgstr "Bu ögeleri kaldırmak istiyor musunuz?"
+msgstr "Bu ögeleri kaldırmak istediğinizden emin misiniz?"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:138
@@ -153,7 +153,9 @@ msgstr "Bu ögeleri kaldırmak istiyor musunuz?"
 msgid ""
 "If checked, files will be permanently removed instead of being placed in the "
 "Trash Bin"
-msgstr "Seçiliyse periyodik olarak çöp kutusundaki dosyalar kaldırılır"
+msgstr ""
+"İşaretliyse dosyalar çöp kutusuna atılmak yerine doğrudan kalıcı olarak "
+"silinirler."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:143
@@ -219,7 +221,7 @@ msgstr "Lütfen müzik aramasında içerilmeyecek klasörleri seçin:"
 #: directorylistbase.ui:183
 #, kde-format
 msgid "Import playlists"
-msgstr "Çalma listelerini al"
+msgstr "Çalma listesi içe aktar"
 
 #: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
@@ -332,8 +334,8 @@ msgid ""
 "You are about to rename the following files. Are you sure you want to "
 "continue?"
 msgstr ""
-"Aşağıdaki dosyaları yeniden adlandırmak üzeresiniz. Sürdürmek istiyor "
-"musunuz?"
+"Aşağıdaki dosyaları yeniden adlandırmak üzeresiniz. Sürdürmek istediğinizden "
+"emin misiniz?"
 
 #: filerenamer.cpp:105
 #, kde-format
@@ -381,7 +383,7 @@ msgstr "Yeniden Adlandırıcı Sınama Penceresini Gizle"
 #: filerenamer.cpp:831 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
-msgstr "Yeniden Adlandırıcı Sınama Penceresini Göster"
+msgstr "Adlandırıcı Sınama İletişim Kutusunu Göster"
 
 #: filerenamer.cpp:911
 #, kde-format
@@ -836,8 +838,8 @@ msgstr "<i>Yükleniyor…</i>"
 msgid ""
 "<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
 msgstr ""
-"<i>%1 için şarkı sözleri şu anda kullanılamıyor (kullanılabilir söz "
-"sağlayıcısı yok)</i>"
+"<i>%1 için şarkı sözleri şu anda kullanılamıyor (kullanılabilir şarkı sözü "
+"sağlayıcısı yok).</i>"
 
 #: lyricswidget.cpp:129 lyricswidget.cpp:158
 #, kde-format
@@ -847,13 +849,13 @@ msgstr "<span style='color:red'>Şarkı sözleri alınırken hata!</span>"
 #: lyricswidget.cpp:174
 #, kde-format
 msgid "No lyrics available."
-msgstr "Şarkı sözü mevcut değil."
+msgstr "Kullanılabilir şarkı sözü yok"
 
 #: lyricswidget.cpp:183
 #, kde-format
 msgid "<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>"
 msgstr ""
-"<br /><br /><i>Şarkı sözleri <a href='%1'>LyricWiki</a> tarafından "
+"<br /><br /><i>Şarkı sözleri, <a href='%1'>LyricWiki</a> tarafından "
 "sağlanmaktadır.</i>"
 
 #: main.cpp:39
@@ -914,7 +916,7 @@ msgstr "Eike Hein"
 #: main.cpp:48
 #, kde-format
 msgid "MPRIS2 Interface implementation."
-msgstr "MPRIS2 arayüzü gerçeklemesi."
+msgstr "MPRIS2 arayüzü gerçeklemesi"
 
 #: main.cpp:49
 #, kde-format
@@ -924,7 +926,7 @@ msgstr "Martin Sandsmark"
 #: main.cpp:49
 #, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
-msgstr "Last.fm yayınlama desteği, sözler ve KDE Frameworks 5 için hazırlık."
+msgstr "Last.fm yayınlama desteği, sözler ve KDE Frameworks 5 için hazırlık"
 
 #: main.cpp:50
 #, kde-format
@@ -934,7 +936,7 @@ msgstr "Γιώργος Κυλάφας (Giorgos Kylafas)"
 #: main.cpp:50
 #, kde-format
 msgid "Badly-needed tag editor bugfixes."
-msgstr "Çokça istenen künye düzenleme hata düzeltmeleri."
+msgstr "Çokça istenen künye düzenleme hata düzeltmeleri"
 
 #: main.cpp:51
 #, kde-format
@@ -1088,7 +1090,7 @@ msgstr "Pascal Klein"
 #: main.cpp:65
 #, kde-format
 msgid "Gimper of splash screen"
-msgstr "Gimp ile açılış resmini oluşturan"
+msgstr "GIMP ile açılış resmini oluşturan"
 
 #: main.cpp:70
 #, kde-format
@@ -1101,7 +1103,7 @@ msgid ""
 "JuK running in docked mode\n"
 "Use context menu in system tray to restore."
 msgstr ""
-"JuK yerleşik kipte çalışıyor\n"
+"JuK yerleşik kipte çalışıyor.\n"
 "Geri yüklemek için sistem tepsisindeki bağlam menüsünü kullanın."
 
 #: main.cpp:88
@@ -1246,7 +1248,7 @@ msgstr "Düzenle: “%1”"
 #: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
-msgstr "Bu işlem çoklu dosyaları düzenleyecek. Emin misiniz?"
+msgstr "Bu işlem birden çok dosyayı düzenleyecek. Emin misiniz?"
 
 #: playlist.cpp:2109 playlistcollection.h:183
 #, kde-format
@@ -1328,7 +1330,7 @@ msgstr "&Kaldır"
 #: playlistcollection.cpp:207
 #, kde-format
 msgid "Dynamic List"
-msgstr "Değişken Liste"
+msgstr "Devingen Liste"
 
 #: playlistcollection.cpp:248
 #, kde-format
@@ -1340,7 +1342,7 @@ msgstr "Şu Anda Çalınıyor"
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr ""
-"Bu ögeleri mevcut listeye veya arşiv listesine eklemek istiyor musunuz?"
+"Bu ögeleri geçerli listeye veya koleksiyon listesine eklemek istiyor musunuz?"
 
 #: playlistcollection.cpp:349
 #, kde-format
@@ -1616,7 +1618,7 @@ msgstr "Şu anda çalınan ögeye atla"
 #, kde-format
 msgid "1 item"
 msgid_plural "%1 items"
-msgstr[0] "%1 öge"
+msgstr[0] "1 öge"
 msgstr[1] "%1 öge"
 
 #: systemtray.cpp:161
@@ -1627,7 +1629,7 @@ msgstr "Açılır pencereyi yeniden görüntüle"
 #: tageditor.cpp:468
 #, kde-format
 msgid "Show &Tag Editor"
-msgstr "B&aşlık Düzenleyicisini Göster"
+msgstr "&Künye Düzenleyicisini Göster"
 
 #: tageditor.cpp:472
 #, kde-format
@@ -1637,7 +1639,7 @@ msgstr "&Kaydet"
 #: tageditor.cpp:588
 #, kde-format
 msgid "Do you want to save your changes to:\n"
-msgstr "Değişiklikler buraya kaydedilsin mi? :\n"
+msgstr "Değişiklikler buraya kaydedilsin mi:\n"
 
 #: tageditor.cpp:590
 #, kde-format
