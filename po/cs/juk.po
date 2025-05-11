@@ -745,8 +745,7 @@ msgid "Play / Pause"
 msgstr "Přehrát/Pozastavit"
 
 #: juk.cpp:320
-#, fuzzy, kde-format
-#| msgid "Seek Forward"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Rychle vpřed"
@@ -822,8 +821,7 @@ msgid "Track Position"
 msgstr "Pozice skladby"
 
 #: juk.cpp:363
-#, fuzzy, kde-format
-#| msgid "Volume"
+#, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Hlasitost"
@@ -895,8 +893,7 @@ msgid "Play Toolbar"
 msgstr "Panel nástrojů pro přehrávání"
 
 #: keydialog.cpp:102
-#, fuzzy, kde-format
-#| msgid "Configure Shortcuts"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Shortcuts"
 msgstr "Nastavit zkratky"
@@ -1331,8 +1328,7 @@ msgid "Artist"
 msgstr "Umělec"
 
 #: playlist.cpp:1282
-#, fuzzy, kde-format
-#| msgid "Album"
+#, kde-format
 msgctxt "@title:column"
 msgid "Album"
 msgstr "Album"
@@ -1374,8 +1370,7 @@ msgid "Bitrate"
 msgstr "Datový tok"
 
 #: playlist.cpp:1288
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgctxt "@title:column"
 msgid "Comment"
 msgstr "Komentář"
@@ -1409,8 +1404,7 @@ msgid "Add to Play Queue"
 msgstr "Přidat do fronty přehrávání"
 
 #: playlist.cpp:1593
-#, fuzzy, kde-format
-#| msgid "Edit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "Upravit"
@@ -1490,8 +1484,7 @@ msgid "Do you want to delete these files from the disk as well?"
 msgstr "Přejete si tyto soubory také smazat z disku?"
 
 #: playlistbox.cpp:425
-#, fuzzy, kde-format
-#| msgid "Keep"
+#, kde-format
 msgctxt "@action:button"
 msgid "Keep"
 msgstr "Ponechat"
@@ -1514,8 +1507,7 @@ msgid "Remove Items?"
 msgstr "Odstranit položky?"
 
 #: playlistbox.cpp:449
-#, fuzzy, kde-format
-#| msgid "&Remove"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Remove"
 msgstr "Odst&ranit"
@@ -1567,8 +1559,7 @@ msgid "Collection"
 msgstr "Sbírka"
 
 #: playlistcollection.cpp:412
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Přejmenovat"
@@ -1691,8 +1682,7 @@ msgid "D&uplicate…"
 msgstr "Duplikovat"
 
 #: playlistcollection.cpp:948
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "Obnovit"
@@ -1705,22 +1695,19 @@ msgid "Edit Search…"
 msgstr "Upravit hledání..."
 
 #: playlistcollection.cpp:953
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "&Smazat"
 
 #: playlistcollection.cpp:955
-#, fuzzy, kde-format
-#| msgid "Refresh"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Refresh"
 msgstr "Obnovit"
 
 #: playlistcollection.cpp:957
-#, fuzzy, kde-format
-#| msgid "Open Containing Folder"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Containing Folder"
 msgstr "Otevřít odpovídající složku"
@@ -1856,10 +1843,9 @@ msgid "All Visible"
 msgstr "Vše viditelné"
 
 #: searchwidget.cpp:200
-#, fuzzy, kde-format
-#| msgid "Search..."
+#, kde-format
 msgid "Search…"
-msgstr "Hledat..."
+msgstr "Hledat…"
 
 #: slider.cpp:127
 #, kde-format
@@ -1939,8 +1925,7 @@ msgid "Do you want to save your changes to:\n"
 msgstr "Přejete si uložit změny do:\n"
 
 #: tageditor.cpp:590
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Changes"
 msgstr "Uložit změny"
@@ -2198,15 +2183,13 @@ msgstr ""
 "Přejete si jej nahradit?"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "File Exists"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Soubor existuje"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "Replace"
+#, kde-format
 msgctxt "@action:button"
 msgid "Replace"
 msgstr "Nahradit"
@@ -2217,8 +2200,7 @@ msgid "The following files were unable to be changed."
 msgstr "Toto soubory nelze změnit."
 
 #: tagtransactionmanager.cpp:178
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgctxt "@title:window"
 msgid "Error"
 msgstr "Chyba"
