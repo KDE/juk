@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2025-04-07 15:40+0900\n"
+"PO-Revision-Date: 2025-05-29 17:53+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.07.70\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -267,7 +267,7 @@ msgstr "曲風："
 #: exampleoptionsbase.ui:175
 #, kde-format
 msgid "Track number:"
-msgstr "音軌編號："
+msgstr "曲目編號："
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6)
 #: exampleoptionsbase.ui:185
@@ -411,7 +411,7 @@ msgstr "標題標籤"
 #: filerenamerbase.ui:110
 #, kde-format
 msgid "Track Tag"
-msgstr "音軌標籤"
+msgstr "曲目標籤"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:115
@@ -508,7 +508,7 @@ msgstr "空的"
 #: filerenameroptionsbase.ui:184
 #, kde-format
 msgid "Track numbering"
-msgstr "音軌編號"
+msgstr "曲目編號"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: filerenameroptionsbase.ui:196
@@ -516,7 +516,7 @@ msgstr "音軌編號"
 msgid ""
 "JuK can force the track used in a file name to have a minimum number of "
 "digits. You may want to do this for better sorting in file managers."
-msgstr "JuK 能讓音軌編號固定為最少幾位數。這樣能方便您管理檔案。"
+msgstr "JuK 能讓曲目編號固定為最少幾位數。這樣能方便您管理檔案。"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: filerenameroptionsbase.ui:228
@@ -987,7 +987,7 @@ msgstr "Stephen Douglas"
 #: main.cpp:58
 #, kde-format
 msgid "Track announcement popups"
-msgstr "音軌宣告彈出視窗"
+msgstr "曲目宣告彈出視窗"
 
 #: main.cpp:59
 #, kde-format
@@ -997,7 +997,7 @@ msgstr "Frerich Raabe"
 #: main.cpp:59
 #, kde-format
 msgid "Automagic track data guessing, bugfixes"
-msgstr "自動音軌資料猜測，錯誤修正"
+msgstr "自動曲目資料猜測，錯誤修正"
 
 #: main.cpp:60
 #, kde-format
@@ -1154,12 +1154,12 @@ msgstr "音軌名稱"
 #, kde-format
 msgctxt "cd track number"
 msgid "Track"
-msgstr "音軌"
+msgstr "曲目"
 
 #: playlist.cpp:1285 tagrenameroptions.cpp:120
 #, kde-format
 msgid "Year"
-msgstr "年"
+msgstr "年份"
 
 #: playlist.cpp:1286
 #, kde-format
@@ -1613,7 +1613,7 @@ msgstr "檔名(&I)："
 #: tageditor.ui:29
 #, kde-format
 msgid "T&rack:"
-msgstr "音軌(&R)："
+msgstr "曲目(&R)："
 
 #. i18n: ectx: property (text), widget (QLabel, artistNameLabel)
 #: tageditor.ui:39
@@ -1661,7 +1661,7 @@ msgstr "註解(&C)："
 #: tageditor.ui:184
 #, kde-format
 msgid "Trac&k name:"
-msgstr "音軌名稱(&K)："
+msgstr "曲目名稱(&K)："
 
 #. i18n: ectx: property (text), widget (QCheckBox, artistNameEnable)
 #. i18n: ectx: property (text), widget (QCheckBox, trackNameEnable)
@@ -1712,7 +1712,7 @@ msgstr ""
 "能會包含以下的符號： <ul> <li>%t：標題</li>\n"
 "<li>%a：演唱者</li>\n"
 "<li>%A：專輯名稱</li>\n"
-"<li>%T：音軌編號</li>\n"
+"<li>%T：曲目編號</li>\n"
 "<li>%c：註解</li>\n"
 "</ul> 例如，檔名機制為 \"[%T] %a - %t\" 的話，則檔名為 \"[01] Deep Purple - "
 "Smoke on the water\" 會符合此機制，但 \"(Deep Purple) Smoke on the water\" 則"
@@ -1809,7 +1809,7 @@ msgstr ""
 "%t: 標題\n"
 "%A: 專輯\n"
 "%a: 演出者\n"
-"%T: 音軌\n"
+"%T: 曲目\n"
 "%c: 註解"
 
 #: tagrenameroptions.cpp:100
