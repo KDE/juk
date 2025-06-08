@@ -587,7 +587,7 @@ void TagEditor::saveChangesPrompt()
                 this,
                 i18n("Do you want to save your changes to:\n"),
                 files,
-                i18n("Save Changes"),
+                i18nc("@title:window", "Save Changes"),
                 KStandardGuiItem::save(),
                 KStandardGuiItem::discard(),
                 QStringLiteral("tagEditor_showSaveChangesBox"),

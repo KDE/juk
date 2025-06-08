@@ -575,7 +575,7 @@ void Playlist::slotOpenItemDir()
             i18np("You are about to open directory. Are you sure you want to continue?",
                   "You are about to open %1 directories. Are you sure you want to continue?",
                   pathList.length()),
-            i18n("Open Containing Folder")
+            i18nc("@title:window", "Open Containing Folder")
         ) == KMessageBox::Cancel)
         {
             return;
@@ -1277,17 +1277,17 @@ void Playlist::slotInitialize(int numColumnsToReserve)
     // columnOffset()) and then supplement with columns that apply to every
     // playlist.
     const QStringList standardColHeaders = {
-        i18n("Track Name"),
-        i18n("Artist"),
-        i18n("Album"),
-        i18nc("cd track number", "Track"),
-        i18n("Genre"),
-        i18n("Year"),
-        i18n("Length"),
-        i18n("Bitrate"),
-        i18n("Comment"),
-        i18n("File Name"),
-        i18n("File Name (full path)"),
+        i18nc("@title:column", "Track Name"),
+        i18nc("@title:column", "Artist"),
+        i18nc("@title:column", "Album"),
+        i18nc("@title:column, CD track number", "Track"),
+        i18nc("@title:column", "Genre"),
+        i18nc("@title:column", "Year"),
+        i18nc("@title:column", "Length"),
+        i18nc("@title:column", "Bitrate"),
+        i18nc("@title:column", "Comment"),
+        i18nc("@title:column", "File Name"),
+        i18nc("@title:column", "File Name (Full Path)"),
     };
 
     QStringList allColHeaders;
@@ -1468,7 +1468,7 @@ void Playlist::setup(int numColumnsToReserve)
 
     // This apparently must be created very early in initialization for other
     // Playlist code requiring m_headerMenu.
-    m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), this);
+    m_columnVisibleAction = new KActionMenu(i18nc("@action:inmenu", "&Show Columns"), this);
     ActionCollection::actions()->addAction("showColumns", m_columnVisibleAction);
 
     m_headerMenu = m_columnVisibleAction->menu();
@@ -1576,7 +1576,7 @@ void Playlist::createPlaylistRMBMenu()
 
     m_rmbMenu = new QMenu(this);
 
-    m_rmbMenu->addAction("go-jump-today"_icon, i18n("Add to Play Queue"),
+    m_rmbMenu->addAction("go-jump-today"_icon, i18nc("@action:inmenu", "Add to Play Queue"),
             this, &Playlist::slotAddToUpcoming);
     m_rmbMenu->addSeparator();
 
@@ -1590,7 +1590,7 @@ void Playlist::createPlaylistRMBMenu()
     else
         m_rmbMenu->addAction(action("edit_copy"));
 
-    m_rmbEdit = m_rmbMenu->addAction(i18n("Edit"));
+    m_rmbEdit = m_rmbMenu->addAction(i18nc("@action:inmenu", "Edit"));
 
     m_rmbMenu->addAction(action("refresh"));
     m_rmbMenu->addAction(action("openItemDir"));
@@ -1604,7 +1604,7 @@ void Playlist::createPlaylistRMBMenu()
     m_rmbMenu->addSeparator();
 
     m_rmbMenu->addAction("folder-new"_icon,
-        i18n("Create Playlist From Selected Items..."),
+        i18nc("@action:inmenu", "Create Playlist From Selected Items…"),
         this, &Playlist::slotCreateGroup);
 }
 
@@ -1970,7 +1970,7 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
             labelText.append(QStringLiteral("..."));
         }
 
-        m_rmbEdit->setText(i18n("Edit '%1'", labelText));
+        m_rmbEdit->setText(i18nc("@action:inmenu", "Edit “%1”", labelText));
 
         m_rmbEdit->disconnect(this);
         connect(m_rmbEdit, &QAction::triggered, this, [this, item, column]() {
@@ -2106,7 +2106,7 @@ void Playlist::slotToggleColumnVisible(QAction *action)
 
 void Playlist::slotCreateGroup()
 {
-    QString name = m_collection->playlistNameDialog(i18n("Create New Playlist"));
+    QString name = m_collection->playlistNameDialog(i18nc("@action:inmenu", "Create New Playlist"));
 
     if(!name.isEmpty())
         new Playlist(m_collection, selectedItems(), name);
@@ -2118,7 +2118,7 @@ void Playlist::notifyUserColumnWidthModeChanged()
                              i18n("Manual column widths have been enabled. You can "
                                   "switch back to automatic column sizes in the view "
                                   "menu."),
-                             i18n("Manual Column Widths Enabled"),
+                             i18nc("@title:window", "Manual Column Widths Enabled"),
                              "ShowManualColumnWidthInformation");
 }
 

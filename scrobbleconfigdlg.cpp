@@ -35,11 +35,11 @@ ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent)
   : QDialog(parent)
   , m_wallet(Scrobbler::openKWallet())
 {
-    setWindowTitle(i18n("Configure scrobbling..."));
+    setWindowTitle(i18nc("@title:window", "Configure Scrobbling"));
 
     m_passwordEdit = new KPasswordLineEdit(this);
     m_usernameEdit = new KLineEdit(this);
-    m_testButton = new QPushButton(i18n("Test login..."), this);
+    m_testButton = new QPushButton(i18nc("@action:button", "Test Login…"), this);
     m_testFeedbackLabel = new QLabel("");
 
     auto vboxLayout = new QVBoxLayout(this);
@@ -80,7 +80,9 @@ ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent)
         }
     } else {
         // Warning message, KWallet is safer than KConfig.
-        KMessageBox::information(this, i18n("KWallet is unavailable, your Last.fm credentials will be stored without encryption."), i18n("KWallet is unavailable"));
+        KMessageBox::information(this,
+        i18n("KWallet is unavailable, your Last.fm credentials will be stored without encryption."),
+        i18nc("@title:window", "KWallet Unavailable"));
 
         KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         m_usernameEdit->setText(config.readEntry("Username", ""));
@@ -123,7 +125,7 @@ void ScrobbleConfigDlg::save()
 
 void ScrobbleConfigDlg::testLogin()
 {
-    m_testFeedbackLabel->setText(i18n("Validating login..."));
+    m_testFeedbackLabel->setText(i18n("Validating login…"));
     Scrobbler *scrobbler = new Scrobbler(this);
     connect(scrobbler, SIGNAL(validAuth()), this, SLOT(validLogin()));
     connect(scrobbler, SIGNAL(invalidAuth()), this, SLOT(invalidLogin()));

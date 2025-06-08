@@ -36,7 +36,7 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
 
     setObjectName(QLatin1String(name));
     setModal(true);
-    setWindowTitle(i18n("Tag Guesser Configuration"));
+    setWindowTitle(i18nc("@title:window", "Tag Guesser Configuration"));
 
     auto vboxLayout = new QVBoxLayout(this);
     vboxLayout->addWidget(m_child);

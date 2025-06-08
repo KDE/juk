@@ -4,20 +4,20 @@
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
 # Franklin Weng <franklin@goodhorse.idv.tw>, 2010, 2011, 2012, 2013, 2014.
 # pan93412 <pan93412@gmail.com>, 2018, 2019.
-# SPDX-FileCopyrightText: 2023, 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2023, 2024, 2025 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2024-07-23 22:42+0900\n"
+"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"PO-Revision-Date: 2025-05-29 17:53+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.04.70\n"
+"X-Generator: Lokalize 25.07.70\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -28,41 +28,47 @@ msgstr "Franklin Weng, Kisaragi Hiu"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "franklin@goodhorse.idv.tw, mail@kisaragi-hiu"
+msgstr "franklin@goodhorse.idv.tw, mail@kisaragi-hiu.com"
 
 #: advancedsearchdialog.cpp:48
 #, kde-format
+msgctxt "@title:window"
 msgid "Create Search Playlist"
 msgstr "產生搜尋播放清單"
 
 #: advancedsearchdialog.cpp:57
 #, kde-format
+msgctxt "@label"
 msgid "Playlist name:"
 msgstr "播放清單名稱："
 
 #: advancedsearchdialog.cpp:61
 #, kde-format
+msgctxt "@title:group"
 msgid "Search Criteria"
 msgstr "搜尋條件"
 
 #: advancedsearchdialog.cpp:66
 #, kde-format
+msgctxt "@option:radio"
 msgid "Match any of the following"
 msgstr "符合下列任一條件"
 
 #: advancedsearchdialog.cpp:67
 #, kde-format
+msgctxt "@option:radio"
 msgid "Match all of the following"
 msgstr "符合下列所有條件"
 
 #: advancedsearchdialog.cpp:91
 #, kde-format
-msgctxt "additional search options"
+msgctxt "@action:button, additional search options"
 msgid "More"
 msgstr "更多"
 
 #: advancedsearchdialog.cpp:96
 #, kde-format
+msgctxt "@action:button"
 msgid "Fewer"
 msgstr "較少"
 
@@ -85,7 +91,7 @@ msgid ""
 "playlists. Are you sure you want to continue?\n"
 "\n"
 "Note, however, that if the directory that these files are in is in your "
-"\"scan on startup\" list, they will be readded on startup."
+"“scan on startup” list, they will be readded on startup."
 msgstr ""
 "移除收藏中的項目時，在您播放清單中的此項目也會跟著被移除。您確定要繼續嗎？\n"
 "\n"
@@ -94,8 +100,9 @@ msgstr ""
 
 #: collectionlist.cpp:343
 #, kde-format
+msgctxt "@action:button"
 msgid "Show Playing"
-msgstr "顯示播放"
+msgstr "顯示播放中"
 
 #: deletedialog.cpp:65
 #, kde-format
@@ -116,13 +123,15 @@ msgstr "<qt>這些項目會被移到垃圾桶。</qt>"
 
 #: deletedialog.cpp:96
 #, kde-format
+msgctxt "@action:button"
 msgid "&Send to Trash"
-msgstr "丟到垃圾桶(&S)"
+msgstr "移至垃圾桶(&S)"
 
 #: deletedialog.cpp:100
 #, kde-format
-msgid "About to delete selected files"
-msgstr "準備刪除所選的檔案"
+msgctxt "@title:window"
+msgid "Delete Selected Files"
+msgstr "刪除所選的檔案"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -159,6 +168,7 @@ msgstr "刪除檔案，而不是丟到垃圾桶(&D)"
 
 #: directorylist.cpp:55
 #, kde-format
+msgctxt "@title:window"
 msgid "Folder List"
 msgstr "資料夾清單"
 
@@ -201,7 +211,7 @@ msgstr "請選擇音樂搜尋時要排除的資料夾："
 msgid "Import playlists"
 msgstr "匯入播放清單"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:381 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -267,7 +277,7 @@ msgstr "曲風："
 #: exampleoptionsbase.ui:175
 #, kde-format
 msgid "Track number:"
-msgstr "音軌編號："
+msgstr "曲目編號："
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6)
 #: exampleoptionsbase.ui:185
@@ -283,26 +293,26 @@ msgid "Title"
 msgstr "標題"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "演唱者"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "專輯"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "曲風"
 
 #: filerenamer.cpp:87
 #, kde-format
-msgctxt "warning about mass file rename"
+msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
 msgstr "警告"
 
@@ -330,18 +340,19 @@ msgstr "不改變"
 
 #: filerenamer.cpp:409
 #, kde-format
-msgctxt "remove music genre from file renamer"
+msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
 msgstr "移除"
 
 #: filerenamer.cpp:412
 #, kde-format
-msgctxt "file renamer genre options"
+msgctxt "@action:button, file renamer genre options"
 msgid "Options"
 msgstr "選項"
 
 #: filerenamer.cpp:524
 #, kde-format
+msgctxt "@option:check"
 msgid "Insert folder separator"
 msgstr "插入資料夾分隔符號"
 
@@ -352,17 +363,19 @@ msgstr "沒有選擇檔案，或是所選擇的檔案中沒有標籤。"
 
 #: filerenamer.cpp:826
 #, kde-format
+msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
 msgstr "隱藏重新命名測試對話框"
 
-#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:831 filerenamerbase.ui:257
+#: filerenamer.cpp:831
 #, kde-format
+msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
 msgstr "顯示重新命名測試對話框"
 
 #: filerenamer.cpp:911
 #, kde-format
+msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
 msgstr "%1 到 %2"
 
@@ -411,7 +424,7 @@ msgstr "標題標籤"
 #: filerenamerbase.ui:110
 #, kde-format
 msgid "Track Tag"
-msgstr "音軌標籤"
+msgstr "曲目標籤"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:115
@@ -437,39 +450,49 @@ msgstr "新增類別 (&A)："
 msgid "Separator:"
 msgstr "分隔符號："
 
+#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
+#: filerenamerbase.ui:257
+#, kde-format
+msgid "Show Renamer Test Dialog"
+msgstr "顯示重新命名測試對話框"
+
 #: filerenamerconfigdlg.cpp:29
 #, kde-format
+msgctxt "@title:window"
 msgid "File Renamer Options"
 msgstr "檔案重新命名選項"
 
 #: filerenameroptions.cpp:38
 #, kde-format
-msgctxt "%1 will be a music tag category like Artist or Album"
+msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
 msgstr "%1 選項"
 
 #: filerenameroptions.cpp:39
 #, kde-format
+msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
 msgstr "%1 格式"
 
 #: filerenameroptions.cpp:40
 #, kde-format
-msgid "When the Track's %1 is Empty"
-msgstr "當音軌 %1 空的時候"
+msgctxt "@title:group"
+msgid "When the Track’s %1 is Empty"
+msgstr "當曲目 %1 為空的時候"
 
 #: filerenameroptions.cpp:41
 #, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
-"you have in your track's %1 tag, plus any additional text that you specify "
+"you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
-"使用檔案重新命名功能，您的檔案會根據您的音軌 %1 標籤，外加您在底下指定的文字"
+"使用檔案重新命名功能，您的檔案會根據您的曲目 %1 標籤，外加您在底下指定的文字"
 "而重新命名。"
 
 #: filerenameroptions.cpp:114
 #, kde-format
+msgctxt "@title:window"
 msgid "File Renamer"
 msgstr "檔案重新命名"
 
@@ -508,7 +531,7 @@ msgstr "空的"
 #: filerenameroptionsbase.ui:184
 #, kde-format
 msgid "Track numbering"
-msgstr "音軌編號"
+msgstr "曲目編號"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: filerenameroptionsbase.ui:196
@@ -516,7 +539,7 @@ msgstr "音軌編號"
 msgid ""
 "JuK can force the track used in a file name to have a minimum number of "
 "digits. You may want to do this for better sorting in file managers."
-msgstr "JuK 能讓音軌編號固定為最少幾位數。這樣能方便您管理檔案。"
+msgstr "JuK 能讓曲目編號固定為最少幾位數。這樣能方便您管理檔案。"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: filerenameroptionsbase.ui:228
@@ -555,144 +578,169 @@ msgstr "時間"
 
 #: juk.cpp:240 systemtray.cpp:184
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "隨機播放(&R)"
 
 #: juk.cpp:247
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "關閉隨機播放(&D)"
 
 #: juk.cpp:253
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "使用隨機播放(&R)"
 
 #: juk.cpp:259
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "使用專輯隨機播放(&A)"
 
 #: juk.cpp:267
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "從清單中移除"
 
 #: juk.cpp:271
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "播放(&P)"
 
 #: juk.cpp:276
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "暫停(&A)"
 
 #: juk.cpp:281
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "停止(&S)"
 
 #: juk.cpp:284
 #, kde-format
-msgctxt "previous track"
+msgctxt "@action:inmenu, previous track"
 msgid "Previous"
-msgstr "前一首"
+msgstr "上一首"
 
 #: juk.cpp:291
 #, kde-format
-msgctxt "next track"
+msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "下一首(&N)"
 
 #: juk.cpp:295
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "循環播放清單(&L)"
 
 #: juk.cpp:299
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "手動調整播放清單欄位大小(&R)"
 
 #: juk.cpp:304
 #, kde-format
-msgctxt "silence playback"
+msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "靜音"
 
 #: juk.cpp:308
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "提高音量"
 
 #: juk.cpp:312
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "降低音量"
 
 #: juk.cpp:316
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "播放/暫停"
 
 #: juk.cpp:320
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "往前尋找"
 
 #: juk.cpp:324
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "往後尋找"
 
 #: juk.cpp:328
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "顯示/隱藏"
 
 #: juk.cpp:335
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "顯示系統匣圖示(&D)"
 
 #: juk.cpp:339
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "關閉視窗時仍然留在系統匣內(&S)"
 
 #: juk.cpp:342
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
-msgstr "跳出音軌宣告(&T)"
+msgstr "跳出曲目宣告(&T)"
 
 #: juk.cpp:345
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "離開時儲存播放佇列(&P)"
 
 #: juk.cpp:348
 #, kde-format
-msgid "&Tag Guesser..."
+msgctxt "@action:inmenu"
+msgid "&Tag Guesser…"
 msgstr "標籤猜測器(&T)..."
 
 #: juk.cpp:351
 #, kde-format
-msgid "&File Renamer..."
-msgstr "檔案重新命名器(&F)..."
+msgctxt "@action:inmenu"
+msgid "&File Renamer…"
+msgstr "檔案重新命名(&F)…"
 
 #: juk.cpp:354
 #, kde-format
-msgid "&Configure scrobbling..."
-msgstr "設定使用者音樂歷史資料傳送(scrobbling)(&C)"
+msgctxt "@action:inmenu"
+msgid "&Configure Scrobbling…"
+msgstr "設定使用者音樂歷史資料傳送(scrobbling)(&C)…"
 
 #: juk.cpp:361
 #, kde-format
+msgctxt "@action:button"
 msgid "Track Position"
-msgstr "音軌位置"
+msgstr "曲目位置"
 
-#: juk.cpp:363 slider.cpp:127
+#: juk.cpp:363
 #, kde-format
+msgctxt "@action:button"
 msgid "Volume"
 msgstr "音量"
 
@@ -707,14 +755,15 @@ msgstr ""
 
 #: juk.cpp:531
 #, kde-format
-msgid "Docking in System Tray"
+msgctxt "@title:window"
+msgid "Dock in System Tray"
 msgstr "顯示系統匣圖示"
 
 #: juktag.cpp:90
 #, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
-msgid "%1 - <i>%2</i>"
-msgstr "%1 - <i>%2</i>"
+msgid "%1 — <i>%2</i>"
+msgstr "%1 — <i>%2</i>"
 
 #. i18n: ectx: Menu (file)
 #: jukui-rtl.rc:4 jukui.rc:6
@@ -760,34 +809,40 @@ msgstr "播放工具列"
 
 #: keydialog.cpp:102
 #, kde-format
+msgctxt "@title:window"
 msgid "Configure Shortcuts"
-msgstr "設定捷徑"
+msgstr "設定快捷鍵"
 
 #: keydialog.cpp:118
 #, kde-format
+msgctxt "@title:group"
 msgid "Global Shortcuts"
-msgstr "全域快速鍵"
+msgstr "全域快捷鍵"
 
 #: keydialog.cpp:124
 #, kde-format
+msgctxt "@option:radio"
 msgid "&No keys"
 msgstr "沒有按鍵(&N)"
 
 #: keydialog.cpp:128
 #, kde-format
+msgctxt "@option:radio"
 msgid "&Standard keys"
 msgstr "標準按鍵(&S)"
 
 #: keydialog.cpp:132
 #, kde-format
+msgctxt "@option:radio"
 msgid "&Multimedia keys"
 msgstr "多媒體按鍵(&M)"
 
 #: keydialog.cpp:138
 #, kde-format
+msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
-msgstr "您可以選擇控制播放器的全域快速鍵"
+msgstr "您可以選擇控制播放器的全域快捷鍵"
 
 #: lyricswidget.cpp:51
 #, kde-format
@@ -832,8 +887,9 @@ msgstr "來自 KDE 社區的音樂管理與播放器"
 
 #: main.cpp:40
 #, kde-format
-msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "版權所有 © 2002–2023, Scott Wheeler, Michael Pyne，以及其他人"
+msgctxt "Use copyright sign, and en dash for the year range"
+msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
+msgstr "© 2002–2025, Scott Wheeler, Michael Pyne，以及其他人"
 
 #: main.cpp:44
 #, kde-format
@@ -987,7 +1043,7 @@ msgstr "Stephen Douglas"
 #: main.cpp:58
 #, kde-format
 msgid "Track announcement popups"
-msgstr "音軌宣告彈出視窗"
+msgstr "曲目宣告彈出視窗"
 
 #: main.cpp:59
 #, kde-format
@@ -997,7 +1053,7 @@ msgstr "Frerich Raabe"
 #: main.cpp:59
 #, kde-format
 msgid "Automagic track data guessing, bugfixes"
-msgstr "自動音軌資料猜測，錯誤修正"
+msgstr "自動曲目資料猜測，錯誤修正"
 
 #: main.cpp:60
 #, kde-format
@@ -1080,16 +1136,17 @@ msgstr "在系統匣啟動 Juk"
 
 #: mediafiles.cpp:134
 #, kde-format
-msgctxt "open audio file"
+msgctxt "@title:window, open audio file"
 msgid "Open"
 msgstr "開啟"
 
-#: mediafiles.cpp:147
+#: mediafiles.cpp:146
 #, kde-format
-msgid "Save Playlist"
-msgstr "儲存播放清單"
+msgctxt "@title:window"
+msgid "Save Playlist %1"
+msgstr "儲存播放清單 %1"
 
-#: mediafiles.cpp:149
+#: mediafiles.cpp:148
 #, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
@@ -1100,17 +1157,17 @@ msgstr "播放清單 (*%1)"
 msgid "back to playlist"
 msgstr "回到播放清單"
 
-#: playermanager.cpp:59
+#: playermanager.cpp:56
 #, kde-format
 msgctxt "%1 is the artist and %2 is the title of the currently playing track."
 msgid "%1 - %2 :: JuK"
 msgstr "%1 - %2 :: JuK"
 
-#: playermanager.cpp:367
+#: playermanager.cpp:363
 #, kde-format
 msgctxt ""
-"%1 will be the /path/to/file, %2 will be some string from Phonon describing "
-"the error"
+"%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
+"describing the error"
 msgid ""
 "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
 "following reason:<nl/><message>%2</message>"
@@ -1130,8 +1187,9 @@ msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
 msgstr[0] "您即將開啟 %1 個目錄。您確定要繼續嗎？"
 
-#: playlist.cpp:578 playlistcollection.cpp:957
+#: playlist.cpp:578
 #, kde-format
+msgctxt "@title:window"
 msgid "Open Containing Folder"
 msgstr "開啟所在資料夾"
 
@@ -1147,77 +1205,113 @@ msgstr "無法將這些檔案丟到垃圾桶"
 
 #: playlist.cpp:1280
 #, kde-format
+msgctxt "@title:column"
 msgid "Track Name"
-msgstr "音軌名稱"
+msgstr "曲目名稱"
 
-#: playlist.cpp:1283 tagrenameroptions.cpp:112
+#: playlist.cpp:1281
 #, kde-format
-msgctxt "cd track number"
+msgctxt "@title:column"
+msgid "Artist"
+msgstr "藝人"
+
+#: playlist.cpp:1282
+#, kde-format
+msgctxt "@title:column"
+msgid "Album"
+msgstr "專輯"
+
+#: playlist.cpp:1283
+#, kde-format
+msgctxt "@title:column, CD track number"
 msgid "Track"
-msgstr "音軌"
+msgstr "曲目"
 
-#: playlist.cpp:1285 tagrenameroptions.cpp:120
+#: playlist.cpp:1284
 #, kde-format
+msgctxt "@title:column"
+msgid "Genre"
+msgstr "曲風"
+
+#: playlist.cpp:1285
+#, kde-format
+msgctxt "@title:column"
 msgid "Year"
-msgstr "年"
+msgstr "年份"
 
 #: playlist.cpp:1286
 #, kde-format
+msgctxt "@title:column"
 msgid "Length"
 msgstr "長度"
 
 #: playlist.cpp:1287
 #, kde-format
+msgctxt "@title:column"
 msgid "Bitrate"
-msgstr "位元速率"
+msgstr "位元率"
 
 #: playlist.cpp:1288
 #, kde-format
+msgctxt "@title:column"
 msgid "Comment"
 msgstr "註解"
 
 #: playlist.cpp:1289
 #, kde-format
+msgctxt "@title:column"
 msgid "File Name"
 msgstr "檔名"
 
 #: playlist.cpp:1290
 #, kde-format
-msgid "File Name (full path)"
-msgstr "絕對路徑檔名"
+msgctxt "@title:column"
+msgid "File Name (Full Path)"
+msgstr "檔名（絕對路徑）"
 
 #: playlist.cpp:1471
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Show Columns"
 msgstr "顯示欄位(&S)"
 
 #: playlist.cpp:1579
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
 msgstr "加到播放佇列"
 
-#: playlist.cpp:1593 playlist.cpp:2052
+#: playlist.cpp:1593
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "編輯"
 
 #: playlist.cpp:1607
 #, kde-format
-msgid "Create Playlist From Selected Items..."
-msgstr "用選擇的項目建立播放清單..."
+msgctxt "@action:inmenu"
+msgid "Create Playlist From Selected Items…"
+msgstr "用選擇的項目建立播放清單…"
 
 #: playlist.cpp:1973
 #, kde-format
-msgid "Edit '%1'"
-msgstr "編輯 %1"
+msgctxt "@action:inmenu"
+msgid "Edit “%1”"
+msgstr "編輯「%1」"
 
 #: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "這樣會編輯多個檔案。您確定嗎？"
 
-#: playlist.cpp:2109 playlistcollection.h:183
+#: playlist.cpp:2052
 #, kde-format
+msgid "Edit"
+msgstr "編輯"
+
+#: playlist.cpp:2109
+#, kde-format
+msgctxt "@action:inmenu"
 msgid "Create New Playlist"
 msgstr "建立新的播放清單"
 
@@ -1230,24 +1324,27 @@ msgstr "已開啟「手動調整欄位寬度」。您可以在選單中將它關
 
 #: playlist.cpp:2121
 #, kde-format
+msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
 msgstr "手動調整欄位寬度"
 
 #: playlistbox.cpp:108
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "View Modes"
-msgstr "顯示模式"
+msgstr "檢視模式"
 
 #: playlistbox.cpp:168
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &History"
 msgstr "顯示歷史(&H)"
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
-msgctxt "verb, copy the playlist"
+msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
-msgstr "複製"
+msgstr "建立複本"
 
 #: playlistbox.cpp:424
 #, kde-format
@@ -1256,6 +1353,7 @@ msgstr "您確定也要從磁碟中刪除這些檔案嗎？"
 
 #: playlistbox.cpp:425
 #, kde-format
+msgctxt "@action:button"
 msgid "Keep"
 msgstr "保留"
 
@@ -1271,22 +1369,25 @@ msgstr "您確定您要從收藏中移除這些播放清單嗎？"
 
 #: playlistbox.cpp:448
 #, kde-format
+msgctxt "@title:window"
 msgid "Remove Items?"
 msgstr "移除項目？"
 
-#. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449
 #, kde-format
+msgctxt "@action:button"
 msgid "&Remove"
 msgstr "移除(&R)"
 
 #: playlistbox.cpp:653
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Hid&e"
 msgstr "隱藏(&E)"
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "R&emove"
 msgstr "移除(&E)"
 
@@ -1308,27 +1409,31 @@ msgstr "您要將這些項目加入目前的清單，還是要加入收藏清單
 
 #: playlistcollection.cpp:349
 #, kde-format
-msgctxt "current playlist"
+msgctxt "@action:button, current playlist"
 msgid "Current"
 msgstr "目前的清單"
 
 #: playlistcollection.cpp:350
 #, kde-format
+msgctxt "@action:button"
 msgid "Collection"
 msgstr "收藏清單"
 
 #: playlistcollection.cpp:412
 #, kde-format
+msgctxt "@action:button"
 msgid "Rename"
 msgstr "重新命名"
 
 #: playlistcollection.cpp:515
 #, kde-format
-msgid "Search Playlist"
-msgstr "搜尋播放清單"
+msgctxt "@action:button"
+msgid "Create Search Playlist"
+msgstr "產生搜尋播放清單"
 
 #: playlistcollection.cpp:540
 #, kde-format
+msgctxt "@action:button"
 msgid "Create Folder Playlist"
 msgstr "建立資料夾播放清單"
 
@@ -1344,100 +1449,128 @@ msgstr "請輸入這個播放清單的名稱："
 
 #: playlistcollection.cpp:890
 #, kde-format
-msgctxt "new playlist"
+msgctxt "@action:inmenu, new playlist"
 msgid "&New"
 msgstr "新增(&N)"
 
 #: playlistcollection.cpp:893
 #, kde-format
-msgid "&Empty Playlist..."
+msgctxt "@action:inmenu"
+msgid "&Empty Playlist…"
 msgstr "清空播放清單(&E)..."
 
 #: playlistcollection.cpp:897
 #, kde-format
-msgid "&Search Playlist..."
-msgstr "搜尋播放清單(&S)..."
+msgctxt "@action:inmenu"
+msgid "&Search Playlist…"
+msgstr "搜尋播放清單(&S)…"
 
 #: playlistcollection.cpp:901
 #, kde-format
-msgid "Playlist From &Folder..."
-msgstr "從資料夾中取得播放清單(&F)..."
+msgctxt "@action:inmenu"
+msgid "Playlist From &Folder…"
+msgstr "從資料夾建立播放清單(&F)…"
 
 #: playlistcollection.cpp:909
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
 msgstr "猜測標籤資訊(&G)"
 
 #: playlistcollection.cpp:914
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "From &File Name"
 msgstr "從檔名(&F)"
 
 #: playlistcollection.cpp:918
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "From &Internet"
 msgstr "從網路(&I)"
 
 #: playlistcollection.cpp:923
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
 msgstr "從檔名中猜測標籤資訊(&F)"
 
 #: playlistcollection.cpp:930
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play First Track"
 msgstr "播放第一首歌"
 
 #: playlistcollection.cpp:932
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play Next Album"
 msgstr "播放下一個專輯"
 
 #: playlistcollection.cpp:939
 #, kde-format
-msgid "Manage &Folders..."
+msgctxt "@action:inmenu"
+msgid "Manage &Folders…"
 msgstr "管理資料夾(&F)..."
 
 #: playlistcollection.cpp:941
 #, kde-format
-msgid "&Rename..."
-msgstr "重新命名(&R)..."
+msgctxt "@action:inmenu"
+msgid "&Rename…"
+msgstr "重新命名(&R)…"
 
 #: playlistcollection.cpp:943
 #, kde-format
-msgctxt "verb, copy the playlist"
-msgid "D&uplicate..."
-msgstr "複製(&U)..."
+msgctxt "@action:inmenu, verb, copy the playlist"
+msgid "D&uplicate…"
+msgstr "建立複本(&U)…"
 
 #: playlistcollection.cpp:948
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "重新載入"
 
 #: playlistcollection.cpp:950
 #, kde-format
-msgid "Edit Search..."
+msgctxt "@action:inmenu"
+msgid "Edit Search…"
 msgstr "編輯搜尋..."
 
 #: playlistcollection.cpp:953
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "刪除(&D)"
 
 #: playlistcollection.cpp:955
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Refresh"
-msgstr "刷新"
+msgstr "重新整理"
+
+#: playlistcollection.cpp:957
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Containing Folder"
+msgstr "開啟所在資料夾"
 
 #: playlistcollection.cpp:959
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Rename File"
 msgstr "重新命名檔案(&R)"
 
 #: playlistcollection.cpp:964
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
 msgstr "顯示播放佇列(&P)"
+
+#: playlistcollection.h:183
+#, kde-format
+msgid "Create New Playlist"
+msgstr "建立新的播放清單"
 
 #: playlistcollection.h:186
 #, kde-format
@@ -1446,22 +1579,26 @@ msgstr "播放清單"
 
 #: playlistsplitter.cpp:158
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
 msgstr "顯示搜尋工具列(&S)"
 
 #: playlistsplitter.cpp:161
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Edit Track Search"
-msgstr "編輯音軌搜尋"
+msgstr "編輯曲目搜尋"
 
 #: scrobbleconfigdlg.cpp:38
 #, kde-format
-msgid "Configure scrobbling..."
+msgctxt "@title:window"
+msgid "Configure Scrobbling"
 msgstr "設定使用者音樂歷史資料傳送..."
 
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
-msgid "Test login..."
+msgctxt "@action:button"
+msgid "Test Login…"
 msgstr "測試登入..."
 
 #: scrobbleconfigdlg.cpp:49
@@ -1480,57 +1617,67 @@ msgstr "使用者名稱："
 msgid "Password:"
 msgstr "密碼："
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:84
 #, kde-format
 msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
 "encryption."
 msgstr "沒有 KWallet，您的 Last.fm 的帳號密碼將以未加密形式儲存。"
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:85
 #, kde-format
-msgid "KWallet is unavailable"
-msgstr "沒有 KWallet"
+msgctxt "@title:window"
+msgid "KWallet Unavailable"
+msgstr "KWallet 無法使用"
 
-#: scrobbleconfigdlg.cpp:126
+#: scrobbleconfigdlg.cpp:128
 #, kde-format
-msgid "Validating login..."
+msgid "Validating login…"
 msgstr "驗證登入中..."
 
-#: scrobbleconfigdlg.cpp:136
+#: scrobbleconfigdlg.cpp:138
 #, kde-format
 msgid "Login invalid."
 msgstr "登入資訊不正確。"
 
-#: scrobbleconfigdlg.cpp:144
+#: scrobbleconfigdlg.cpp:146
 #, kde-format
 msgid "Login valid."
 msgstr "登入正確。"
 
 #: searchwidget.cpp:73
 #, kde-format
-msgid "Normal Matching"
+msgctxt "@item:inlistbox"
+msgid "Normal matching"
 msgstr "一般比對"
 
 #: searchwidget.cpp:74
 #, kde-format
-msgid "Case Sensitive"
+msgctxt "@item:inlistbox"
+msgid "Case sensitive"
 msgstr "區分大小寫"
 
 #: searchwidget.cpp:75
 #, kde-format
-msgid "Pattern Matching"
+msgctxt "@item:inlistbox"
+msgid "Pattern matching"
 msgstr "樣式比對"
 
 #: searchwidget.cpp:169
 #, kde-format
+msgctxt "@title:column"
 msgid "All Visible"
 msgstr "所有可見的"
 
 #: searchwidget.cpp:200
 #, kde-format
-msgid "Search..."
-msgstr "搜尋..."
+msgid "Search…"
+msgstr "搜尋…"
+
+#: slider.cpp:127
+#, kde-format
+msgid "Volume"
+msgstr "音量"
 
 #: slider.cpp:128
 #, kde-format
@@ -1569,6 +1716,7 @@ msgstr "您的音效設定無法支援在此檔中做搜尋。"
 
 #: statuslabel.cpp:85
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
 msgstr "跳到目前播放的項目"
 
@@ -1580,6 +1728,7 @@ msgstr[0] "%1 個項目"
 
 #: systemtray.cpp:161
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
 msgstr "重新顯示彈出視窗"
 
@@ -1600,6 +1749,7 @@ msgstr "您要儲存到：\n"
 
 #: tageditor.cpp:590
 #, kde-format
+msgctxt "@title:window"
 msgid "Save Changes"
 msgstr "儲存變更"
 
@@ -1613,7 +1763,7 @@ msgstr "檔名(&I)："
 #: tageditor.ui:29
 #, kde-format
 msgid "T&rack:"
-msgstr "音軌(&R)："
+msgstr "曲目(&R)："
 
 #. i18n: ectx: property (text), widget (QLabel, artistNameLabel)
 #: tageditor.ui:39
@@ -1661,7 +1811,7 @@ msgstr "註解(&C)："
 #: tageditor.ui:184
 #, kde-format
 msgid "Trac&k name:"
-msgstr "音軌名稱(&K)："
+msgstr "曲目名稱(&K)："
 
 #. i18n: ectx: property (text), widget (QCheckBox, artistNameEnable)
 #. i18n: ectx: property (text), widget (QCheckBox, trackNameEnable)
@@ -1678,6 +1828,7 @@ msgstr "開啟"
 
 #: tagguesserconfigdlg.cpp:39
 #, kde-format
+msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
 msgstr "標籤猜測器設定"
 
@@ -1712,7 +1863,7 @@ msgstr ""
 "能會包含以下的符號： <ul> <li>%t：標題</li>\n"
 "<li>%a：演唱者</li>\n"
 "<li>%A：專輯名稱</li>\n"
-"<li>%T：音軌編號</li>\n"
+"<li>%T：曲目編號</li>\n"
 "<li>%c：註解</li>\n"
 "</ul> 例如，檔名機制為 \"[%T] %a - %t\" 的話，則檔名為 \"[01] Deep Purple - "
 "Smoke on the water\" 會符合此機制，但 \"(Deep Purple) Smoke on the water\" 則"
@@ -1794,6 +1945,12 @@ msgid ""
 "Press this button to remove the currently selected scheme from the list."
 msgstr "按下此按鍵將檔名機制自清單中移除。"
 
+#. i18n: ectx: property (text), widget (QPushButton, bRemove)
+#: tagguesserconfigdlgwidget.ui:100
+#, kde-format
+msgid "&Remove"
+msgstr "移除(&R)"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tagguesserconfigdlgwidget.ui:128
 #, no-c-format, kde-format
@@ -1809,13 +1966,22 @@ msgstr ""
 "%t: 標題\n"
 "%A: 專輯\n"
 "%a: 演出者\n"
-"%T: 音軌\n"
+"%T: 曲目\n"
 "%c: 註解"
 
 #: tagrenameroptions.cpp:100
 msgctxt "song title"
 msgid "Title"
 msgstr "標題"
+
+#: tagrenameroptions.cpp:112
+msgctxt "cd track number"
+msgid "Track"
+msgstr "曲目"
+
+#: tagrenameroptions.cpp:120
+msgid "Year"
+msgstr "年份"
 
 #: tagrenameroptions.cpp:126
 msgctxt "unknown renamer category"
@@ -1833,11 +1999,13 @@ msgstr ""
 
 #: tagtransactionmanager.cpp:111
 #, kde-format
+msgctxt "@title:window"
 msgid "File Exists"
 msgstr "檔案已存在"
 
 #: tagtransactionmanager.cpp:111
 #, kde-format
+msgctxt "@action:button"
 msgid "Replace"
 msgstr "取代"
 
@@ -1848,6 +2016,7 @@ msgstr "以下的檔案無法變更。"
 
 #: tagtransactionmanager.cpp:178
 #, kde-format
+msgctxt "@title:window"
 msgid "Error"
 msgstr "錯誤"
 
@@ -1873,8 +2042,9 @@ msgstr "您要改變這些檔案的 %1。"
 
 #: treeviewitemplaylist.cpp:58
 #, kde-format
-msgid "Changing Track Tags"
-msgstr "改變音軌標籤"
+msgctxt "@title:window"
+msgid "Change Track Tags"
+msgstr "改變曲目標籤"
 
 #: upcomingplaylist.cpp:31
 #, kde-format
@@ -1915,8 +2085,9 @@ msgstr "曲風"
 
 #: volumepopupbutton.cpp:76
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
-msgstr "靜音切換"
+msgstr "靜音/取消靜音 "
 
 #: volumepopupbutton.cpp:114
 #, kde-format
@@ -1925,13 +2096,34 @@ msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
 msgstr "音量：%1% (已靜音)"
 
 #: volumepopupbutton.cpp:123
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Volume: %1%"
 msgstr "音量：%1%"
+
+#~ msgid "&File Renamer..."
+#~ msgstr "檔案重新命名器(&F)..."
+
+#~ msgid "Docking in System Tray"
+#~ msgstr "顯示系統匣圖示"
+
+#~ msgid "&Search Playlist..."
+#~ msgstr "搜尋播放清單(&S)..."
+
+#~ msgid "&Rename..."
+#~ msgstr "重新命名(&R)..."
+
+#~ msgctxt "verb, copy the playlist"
+#~ msgid "D&uplicate..."
+#~ msgstr "複製(&U)..."
+
+#~ msgid "Search..."
+#~ msgstr "搜尋..."
 
 #~ msgid "<All Artists>"
 #~ msgstr "<所有演唱者>"
@@ -2020,6 +2212,3 @@ msgstr "音量：%1%"
 
 #~ msgid "&lt;All Artists&gt;"
 #~ msgstr "&lt;所有演唱者&gt;"
-
-#~ msgid "Search:"
-#~ msgstr "搜尋："

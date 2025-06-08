@@ -80,7 +80,7 @@ void deleteAndClear(T *&ptr)
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(const QStringList &filesToOpen, QWidget *parent)
-  : KXmlGuiWindow(parent, Qt::WindowFlags(Qt::WA_DeleteOnClose))
+  : KXmlGuiWindow(parent)
   , m_player(new PlayerManager)
   , m_filesToOpen(filesToOpen)
 {
@@ -237,26 +237,26 @@ void JuK::setupActions()
 
     // Setup the menu which handles the random play options.
     KActionMenu *actionMenu = collection->add<KActionMenu>("actionMenu");
-    actionMenu->setText(i18n("&Random Play"));
+    actionMenu->setText(i18nc("@action:inmenu", "&Random Play"));
     actionMenu->setIcon("media-playlist-shuffle"_icon);
     actionMenu->setPopupMode(QToolButton::InstantPopup);
 
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
     QAction *act = collection->add<KToggleAction>("disableRandomPlay");
-    act->setText(i18n("&Disable Random Play"));
+    act->setText(i18nc("@action:inmenu", "&Disable Random Play"));
     act->setIcon("go-down"_icon);
     act->setActionGroup(randomPlayGroup);
     actionMenu->addAction(act);
 
     m_randomPlayAction = collection->add<KToggleAction>("randomPlay");
-    m_randomPlayAction->setText(i18n("Use &Random Play"));
+    m_randomPlayAction->setText(i18nc("@action:inmenu", "Use &Random Play"));
     m_randomPlayAction->setIcon("media-playlist-shuffle"_icon);
     m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->addAction(m_randomPlayAction);
 
     act = collection->add<KToggleAction>("albumRandomPlay");
-    act->setText(i18n("Use &Album Random Play"));
+    act->setText(i18nc("@action:inmenu", "Use &Album Random Play"));
     act->setIcon("media-playlist-shuffle"_icon);
     act->setActionGroup(randomPlayGroup);
     connect(act, &QAction::toggled,
@@ -264,103 +264,103 @@ void JuK::setupActions()
     actionMenu->addAction(act);
 
     act = collection->addAction("removeFromPlaylist", clear, SLOT(clear()));
-    act->setText(i18n("Remove From Playlist"));
+    act->setText(i18nc("@action:inmenu", "Remove From Playlist"));
     act->setIcon("list-remove"_icon);
 
     act = collection->addAction("play", m_player, SLOT(play()));
-    act->setText(i18n("&Play"));
+    act->setText(i18nc("@action:inmenu", "&Play"));
     act->setIcon("media-playback-start"_icon);
 
     act = collection->addAction("pause", m_player, SLOT(pause()));
     act->setEnabled(false);
-    act->setText(i18n("P&ause"));
+    act->setText(i18nc("@action:inmenu", "P&ause"));
     act->setIcon("media-playback-pause"_icon);
 
     act = collection->addAction("stop", m_player, SLOT(stop()));
     act->setEnabled(false);
-    act->setText(i18n("&Stop"));
+    act->setText(i18nc("@action:inmenu", "&Stop"));
     act->setIcon("media-playback-stop"_icon);
 
-    auto *popup = new KToolBarPopupAction("media-skip-backward"_icon, i18nc("previous track", "Previous" ), collection);
+    auto *popup = new KToolBarPopupAction("media-skip-backward"_icon, i18nc("@action:inmenu, previous track", "Previous" ), collection);
     popup->setEnabled(false);
     collection->addAction("back", popup);
     connect(popup, SIGNAL(triggered(bool)), m_player, SLOT(back()));
 
     act = collection->addAction("forward", m_player, SLOT(forward()));
     act->setEnabled(false);
-    act->setText(i18nc("next track", "&Next"));
+    act->setText(i18nc("@action:inmenu, next track", "&Next"));
     act->setIcon("media-skip-forward"_icon);
 
     act = collection->addAction("loopPlaylist");
-    act->setText(i18n("&Loop Playlist"));
+    act->setText(i18nc("@action:inmenu", "&Loop Playlist"));
     act->setCheckable(true);
 
     act = collection->add<KToggleAction>("resizeColumnsManually");
-    act->setText(i18n("&Resize Playlist Columns Manually"));
+    act->setText(i18nc("@action:inmenu", "&Resize Playlist Columns Manually"));
 
     // the following are not visible by default
 
     act = collection->addAction("mute", m_player, SLOT(mute()));
-    act->setText(i18nc("silence playback", "Mute"));
+    act->setText(i18nc("@action:inmenu, silence playback", "Mute"));
     act->setIcon("audio-volume-muted"_icon);
 
     act = collection->addAction("volumeUp", m_player, SLOT(volumeUp()));
-    act->setText(i18n("Volume Up"));
+    act->setText(i18nc("@action:inmenu", "Volume Up"));
     act->setIcon("audio-volume-high"_icon);
 
     act = collection->addAction("volumeDown", m_player, SLOT(volumeDown()));
-    act->setText(i18n("Volume Down"));
+    act->setText(i18nc("@action:inmenu", "Volume Down"));
     act->setIcon("audio-volume-low"_icon);
 
     act = collection->addAction("playPause", m_player, SLOT(playPause()));
-    act->setText(i18n("Play / Pause"));
+    act->setText(i18nc("@action:inmenu", "Play / Pause"));
     act->setIcon("media-playback-start"_icon);
 
     act = collection->addAction("seekForward", m_player, SLOT(seekForward()));
-    act->setText(i18n("Seek Forward"));
+    act->setText(i18nc("@action:inmenu", "Seek Forward"));
     act->setIcon("media-seek-forward"_icon);
 
     act = collection->addAction("seekBack", m_player, SLOT(seekBack()));
-    act->setText(i18n("Seek Back"));
+    act->setText(i18nc("@action:inmenu", "Seek Back"));
     act->setIcon("media-seek-backward"_icon);
 
     act = collection->addAction("showHide", this, SLOT(slotShowHide()));
-    act->setText(i18n("Show / Hide"));
+    act->setText(i18nc("@action:inmenu", "Show / Hide"));
 
     //////////////////////////////////////////////////
     // settings menu
     //////////////////////////////////////////////////
 
     m_toggleSystemTrayAction = collection->add<KToggleAction>("toggleSystemTray");
-    m_toggleSystemTrayAction->setText(i18n("&Dock in System Tray"));
+    m_toggleSystemTrayAction->setText(i18nc("@action:inmenu", "&Dock in System Tray"));
     connect(m_toggleSystemTrayAction, SIGNAL(triggered(bool)), SLOT(slotToggleSystemTray(bool)));
 
     m_toggleDockOnCloseAction = collection->add<KToggleAction>("dockOnClose");
-    m_toggleDockOnCloseAction->setText(i18n("&Stay in System Tray on Close"));
+    m_toggleDockOnCloseAction->setText(i18nc("@action:inmenu", "&Stay in System Tray on Close"));
 
     m_togglePopupsAction = collection->add<KToggleAction>("togglePopups");
-    m_togglePopupsAction->setText(i18n("Popup &Track Announcement"));
+    m_togglePopupsAction->setText(i18nc("@action:inmenu", "Popup &Track Announcement"));
 
     act = collection->add<KToggleAction>("saveUpcomingTracks");
-    act->setText(i18n("Save &Play Queue on Exit"));
+    act->setText(i18nc("@action:inmenu", "Save &Play Queue on Exit"));
 
     act = collection->addAction("tagGuesserConfig", this, SLOT(slotConfigureTagGuesser()));
-    act->setText(i18n("&Tag Guesser..."));
+    act->setText(i18nc("@action:inmenu", "&Tag Guesser…"));
 
     act = collection->addAction("fileRenamerConfig", this, SLOT(slotConfigureFileRenamer()));
-    act->setText(i18n("&File Renamer..."));
+    act->setText(i18nc("@action:inmenu", "&File Renamer…"));
 
     act = collection->addAction("scrobblerConfig", this, SLOT(slotConfigureScrobbling()));
-    act->setText(i18n("&Configure scrobbling..."));
+    act->setText(i18nc("@action:inmenu", "&Configure Scrobbling…"));
 
     //////////////////////////////////////////////////
     // just in the toolbar
     //////////////////////////////////////////////////
 
     collection->addAction("trackPositionAction",
-                          new TrackPositionAction(i18n("Track Position"), this));
+                          new TrackPositionAction(i18nc("@action:button", "Track Position"), this));
     collection->addAction("volumeAction",
-                          new VolumeAction(i18n("Volume"), this));
+                          new VolumeAction(i18nc("@action:button", "Volume"), this));
 
     ActionCollection::actions()->addAssociatedWidget(this);
 
@@ -528,7 +528,7 @@ bool JuK::queryClose()
         KMessageBox::information(this,
             i18n("<qt>Closing the main window will keep JuK running in the system tray. "
                  "Use Quit from the File menu to quit the application.</qt>"),
-            i18n("Docking in System Tray"), "hideOnCloseInfo");
+            i18nc("@title:window", "Dock in System Tray"), "hideOnCloseInfo");
 
         showMinimized(); // Avoid confusing Qt / KWin
         hide();          // Remove icon in taskbar

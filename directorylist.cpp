@@ -52,7 +52,7 @@ DirectoryList::DirectoryList(const QStringList &directories,
         m_result.addedDirs = defaultDirs;
     }
 
-    setWindowTitle(i18n("Folder List"));
+    setWindowTitle(i18nc("@title:window", "Folder List"));
     setModal(true);
 
     m_base = new DirectoryListBase(this);

@@ -21,7 +21,6 @@ Dependencies:
     'frameworks/kwidgetsaddons': '@latest-kf6'
     'frameworks/kwindowsystem': '@latest-kf6'
     'frameworks/kstatusnotifieritem': '@latest-kf6'
-    'libraries/phonon': '@latest-kf6'
 
 Options:
   require-passing-tests-on: ['Linux', 'FreeBSD', 'Windows']

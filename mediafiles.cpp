@@ -131,7 +131,7 @@ QStringList MediaFiles::openDialog(QWidget *parent)
     // limit to only file:// for now
     dialog.setSupportedSchemes(QStringList() << QStringLiteral("file"));
     dialog.setDirectory(getMusicDir());
-    dialog.setWindowTitle(i18nc("open audio file", "Open"));
+    dialog.setWindowTitle(i18nc("@title:window, open audio file", "Open"));
 
     if(dialog.exec()) {
         return dialog.selectedFiles();
@@ -143,11 +143,9 @@ QStringList MediaFiles::openDialog(QWidget *parent)
 QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *parent)
 {
     QString fileName = QFileDialog::getSaveFileName(
-        parent,
-        i18n("Save Playlist") + QStringLiteral(" ") + playlistName,
+        parent, i18nc("@title:window", "Save Playlist %1", playlistName),
         getMusicDir(),
-        i18nc("For save dialog, %1 is always .m3u", "Playlists (*%1)", playlistExtension)
-    );
+        i18nc("For save dialog, %1 is always .m3u", "Playlists (*%1)", playlistExtension));
     return fileName;
 }
 

@@ -19,22 +19,15 @@
 #ifndef JUK_PLAYERMANAGER_H
 #define JUK_PLAYERMANAGER_H
 
+#include <QMediaPlayer>
 #include <QObject>
 
 #include "filehandle.h"
 
-#include <phonon/Global>
-#include <phonon/Path>
-
 class PlaylistInterface;
+class QAudioOutput;
 class QPixmap;
-
-namespace Phonon
-{
-    class AudioOutput;
-    class MediaObject;
-    class MediaSource;
-}
+class QUrl;
 
 /**
  * This class serves as a proxy to the Player interface and handles managing
@@ -96,7 +89,7 @@ public slots:
     void setMuted(bool m);
     bool mute();
 
-    void trackHasChanged(const Phonon::MediaSource &newSource);
+    void trackHasChanged(const QUrl &newSource);
 
     void setRandomPlayMode(const QString &randomMode);
 
@@ -120,7 +113,7 @@ private slots:
     void slotFinished();
     void slotLength(qint64);
     void slotTick(qint64);
-    void slotStateChanged(Phonon::State, Phonon::State);
+    void slotStateChanged(QMediaPlayer::PlaybackState);
     void slotSeekableChanged(bool);
     void slotMutedChanged(bool);
 
@@ -132,9 +125,8 @@ private:
 
     static const int m_pollInterval = 800;
 
-    Phonon::AudioOutput *m_output;
-    Phonon::MediaObject *m_media;
-    Phonon::Path m_audioPath;
+    QAudioOutput *m_output;
+    QMediaPlayer *m_media;
 };
 
 #endif

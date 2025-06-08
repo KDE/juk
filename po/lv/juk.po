@@ -5,14 +5,14 @@
 # Viesturs Zarins <viesturs.zarins@mii.lu.lv>, 2008, 2010.
 # Viesturs Zariņš <viesturs.zarins@mii.lu.lv>, 2009.
 # Rūdofls Mazurs <rudolfs.mazurs@gmail.com>, 2012.
-# SPDX-FileCopyrightText: 2024 Toms Trasūns <toms.trasuns@posteo.net>
+# SPDX-FileCopyrightText: 2024, 2025 Toms Trasūns <toms.trasuns@posteo.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2024-02-29 12:30+0200\n"
-"Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
+"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"PO-Revision-Date: 2025-05-26 16:37+0300\n"
+"Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -34,37 +34,43 @@ msgstr "viesturs.zarins@mi.lu.lv, toms.trasuns@posteo.net"
 
 #: advancedsearchdialog.cpp:48
 #, kde-format
+msgctxt "@title:window"
 msgid "Create Search Playlist"
 msgstr "Izveidot meklēšanas repertuāru"
 
 #: advancedsearchdialog.cpp:57
 #, kde-format
+msgctxt "@label"
 msgid "Playlist name:"
 msgstr "Repertuāra nosaukums:"
 
 #: advancedsearchdialog.cpp:61
 #, kde-format
+msgctxt "@title:group"
 msgid "Search Criteria"
 msgstr "Meklēšanas kritērijs"
 
 #: advancedsearchdialog.cpp:66
 #, kde-format
+msgctxt "@option:radio"
 msgid "Match any of the following"
 msgstr "Atbilst jebkam no šī"
 
 #: advancedsearchdialog.cpp:67
 #, kde-format
+msgctxt "@option:radio"
 msgid "Match all of the following"
 msgstr "Atbilst visam no šī"
 
 #: advancedsearchdialog.cpp:91
 #, kde-format
-msgctxt "additional search options"
+msgctxt "@action:button, additional search options"
 msgid "More"
 msgstr "Vairāk"
 
 #: advancedsearchdialog.cpp:96
 #, kde-format
+msgctxt "@action:button"
 msgid "Fewer"
 msgstr "Mazāk"
 
@@ -89,7 +95,7 @@ msgid ""
 "playlists. Are you sure you want to continue?\n"
 "\n"
 "Note, however, that if the directory that these files are in is in your "
-"\"scan on startup\" list, they will be readded on startup."
+"“scan on startup” list, they will be readded on startup."
 msgstr ""
 "Izņemot vienību no kolekcijas, tas tiks izņemts arī no visiem repertuāriem. "
 "Vai tiešām vēlaties to darīt?\n"
@@ -99,6 +105,7 @@ msgstr ""
 
 #: collectionlist.cpp:343
 #, kde-format
+msgctxt "@action:button"
 msgid "Show Playing"
 msgstr "Rādīt atskaņoto"
 
@@ -125,12 +132,14 @@ msgstr "<qt>Šīs vienības tiks izmestas atkritnē.</qt>"
 
 #: deletedialog.cpp:96
 #, kde-format
+msgctxt "@action:button"
 msgid "&Send to Trash"
 msgstr "&Pārvietot uz atkritni"
 
 #: deletedialog.cpp:100
 #, kde-format
-msgid "About to delete selected files"
+msgctxt "@title:window"
+msgid "Delete Selected Files"
 msgstr "Atlasīto datņu dzēšana"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -172,6 +181,7 @@ msgstr "&Datnes dzēst, apejot atkritni"
 
 #: directorylist.cpp:55
 #, kde-format
+msgctxt "@title:window"
 msgid "Folder List"
 msgstr "Mapju saraksts"
 
@@ -214,7 +224,7 @@ msgstr "Norādiet mapes, kurās skenēšanu ignorēt:"
 msgid "Import playlists"
 msgstr "Importēt repertuārus"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:381 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -296,26 +306,26 @@ msgid "Title"
 msgstr "Nosaukums"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "Izpildītājs"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "Albums"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "Žanrs"
 
 #: filerenamer.cpp:87
 #, kde-format
-msgctxt "warning about mass file rename"
+msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
 msgstr "Brīdinājums"
 
@@ -343,18 +353,19 @@ msgstr "Neizmainīt"
 
 #: filerenamer.cpp:409
 #, kde-format
-msgctxt "remove music genre from file renamer"
+msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
 msgstr "Noņemt"
 
 #: filerenamer.cpp:412
 #, kde-format
-msgctxt "file renamer genre options"
+msgctxt "@action:button, file renamer genre options"
 msgid "Options"
 msgstr "Opcijas"
 
 #: filerenamer.cpp:524
 #, kde-format
+msgctxt "@option:check"
 msgid "Insert folder separator"
 msgstr "Ievietot mapes atdalītāju"
 
@@ -365,17 +376,19 @@ msgstr "Nav atlasīta neviena datne vai arī izvēlētajai datnei nav birku."
 
 #: filerenamer.cpp:826
 #, kde-format
+msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
 msgstr "Slēpt pārdēvētāja pārbaudes logu"
 
-#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:831 filerenamerbase.ui:257
+#: filerenamer.cpp:831
 #, kde-format
+msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
 msgstr "Rādīt pārdēvētāja pārbaudes logu"
 
 #: filerenamer.cpp:911
 #, kde-format
+msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
 msgstr "No „%1“ uz „%2“"
 
@@ -450,39 +463,49 @@ msgstr "&Pievienot kategoriju:"
 msgid "Separator:"
 msgstr "Atdalītājs:"
 
+#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
+#: filerenamerbase.ui:257
+#, kde-format
+msgid "Show Renamer Test Dialog"
+msgstr "Rādīt pārdēvētāja pārbaudes logu"
+
 #: filerenamerconfigdlg.cpp:29
 #, kde-format
+msgctxt "@title:window"
 msgid "File Renamer Options"
 msgstr "Datņu pārdēvēšanas opcijas"
 
 #: filerenameroptions.cpp:38
 #, kde-format
-msgctxt "%1 will be a music tag category like Artist or Album"
+msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
 msgstr "„%1“ opcijas"
 
 #: filerenameroptions.cpp:39
 #, kde-format
+msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
 msgstr "„%1“ formāts"
 
 #: filerenameroptions.cpp:40
 #, kde-format
-msgid "When the Track's %1 is Empty"
+msgctxt "@title:group"
+msgid "When the Track’s %1 is Empty"
 msgstr "Ja celiņa „%1“ ir tukšs"
 
 #: filerenameroptions.cpp:41
 #, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
-"you have in your track's %1 tag, plus any additional text that you specify "
+"you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
-"Datņu pārdēvētājs jūsu datnes pārdēvēs uz vērtību, kas ir ierakstīta celiņa "
-"„%1“ birkā, kā arī pievienos papildu jūsu norādīto tekstu."
+"Datņu pārdēvētājs datnes pārdēvēs uz vērtību, kas ir ierakstīta celiņa „%1“ "
+"birkā, kā arī pievienos jūsu papildus norādīto tekstu."
 
 #: filerenameroptions.cpp:114
 #, kde-format
+msgctxt "@title:window"
 msgid "File Renamer"
 msgstr "Datņu pārdēvētājs"
 
@@ -570,144 +593,169 @@ msgstr "Laiks"
 
 #: juk.cpp:240 systemtray.cpp:184
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "&Nejauša atskaņošana"
 
 #: juk.cpp:247
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "I&zslēgt nejaušu atskaņošanu"
 
 #: juk.cpp:253
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Lietot &nejaušu atskaņošanu"
 
 #: juk.cpp:259
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Lietot &albuma nejaušu atskaņošanu"
 
 #: juk.cpp:267
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Izņemt no repertuāra"
 
 #: juk.cpp:271
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "Ats&kaņot"
 
 #: juk.cpp:276
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "&Pauze"
 
 #: juk.cpp:281
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "&Stop"
 
 #: juk.cpp:284
 #, kde-format
-msgctxt "previous track"
+msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Iepriekšējais"
 
 #: juk.cpp:291
 #, kde-format
-msgctxt "next track"
+msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Nākamais"
 
 #: juk.cpp:295
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "Atkārtot &repertuāru"
 
 #: juk.cpp:299
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Manuāli repertuāru kolonnu izmēri"
 
 #: juk.cpp:304
 #, kde-format
-msgctxt "silence playback"
+msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Apklusināt"
 
 #: juk.cpp:308
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Palielināt skaļumu"
 
 #: juk.cpp:312
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Samazināt skaļumu"
 
 #: juk.cpp:316
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play / Pause"
-msgstr "Atskaņot / Pauze"
+msgstr "Atskaņot / pauzēt"
 
 #: juk.cpp:320
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Pārlēkt uz priekšu"
 
 #: juk.cpp:324
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Pārlēkt atpakaļ"
 
 #: juk.cpp:328
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show / Hide"
-msgstr "Parādīt / Paslēpt"
+msgstr "Parādīt / paslēpt"
 
 #: juk.cpp:335
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "&Pievienot sistēmas ikonu joslai"
 
 #: juk.cpp:339
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "Pēc aizvēršanas palikt &sistēmas ikonu joslā"
 
 #: juk.cpp:342
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Rādīt &celiņa paziņojumu"
 
 #: juk.cpp:345
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Izejot &saglabāt atskaņošanas rindu"
 
 #: juk.cpp:348
 #, kde-format
-msgid "&Tag Guesser..."
-msgstr "&Birku minētājs..."
+msgctxt "@action:inmenu"
+msgid "&Tag Guesser…"
+msgstr "&Birku minētājs…"
 
 #: juk.cpp:351
 #, kde-format
-msgid "&File Renamer..."
-msgstr "&Datņu pārdēvētājs..."
+msgctxt "@action:inmenu"
+msgid "&File Renamer…"
+msgstr "&Datņu pārdēvētājs…"
 
 #: juk.cpp:354
 #, kde-format
-msgid "&Configure scrobbling..."
-msgstr "&Konfigurēt sūtīšanu uz „Last.fm“..."
+msgctxt "@action:inmenu"
+msgid "&Configure Scrobbling…"
+msgstr "&Konfigurēt „Last.fm“ sasaisti…"
 
 #: juk.cpp:361
 #, kde-format
+msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Celiņa pozīcija"
 
-#: juk.cpp:363 slider.cpp:127
+#: juk.cpp:363
 #, kde-format
+msgctxt "@action:button"
 msgid "Volume"
 msgstr "Skaļums"
 
@@ -722,13 +770,14 @@ msgstr ""
 
 #: juk.cpp:531
 #, kde-format
-msgid "Docking in System Tray"
-msgstr "Paliek sistēmas ikonu joslā"
+msgctxt "@title:window"
+msgid "Dock in System Tray"
+msgstr "Pievienot sistēmas ikonu joslai"
 
 #: juktag.cpp:90
 #, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
-msgid "%1 - <i>%2</i>"
+msgid "%1 — <i>%2</i>"
 msgstr "%1 — <i>%2</i>"
 
 #. i18n: ectx: Menu (file)
@@ -775,31 +824,37 @@ msgstr "Atskaņošanas rīkjosla"
 
 #: keydialog.cpp:102
 #, kde-format
+msgctxt "@title:window"
 msgid "Configure Shortcuts"
 msgstr "Konfigurēt saīsnes"
 
 #: keydialog.cpp:118
 #, kde-format
+msgctxt "@title:group"
 msgid "Global Shortcuts"
 msgstr "Globālās saīsnes"
 
 #: keydialog.cpp:124
 #, kde-format
+msgctxt "@option:radio"
 msgid "&No keys"
 msgstr "&Nav taustiņu"
 
 #: keydialog.cpp:128
 #, kde-format
+msgctxt "@option:radio"
 msgid "&Standard keys"
 msgstr "&Standarta taustiņi"
 
 #: keydialog.cpp:132
 #, kde-format
+msgctxt "@option:radio"
 msgid "&Multimedia keys"
 msgstr "&Multivides taustiņi"
 
 #: keydialog.cpp:138
 #, kde-format
+msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
 msgstr ""
@@ -850,8 +905,9 @@ msgstr "KDE kopienas veidots mūzikas atskaņotājs un pārvaldnieks"
 
 #: main.cpp:40
 #, kde-format
-msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Autortiesības © 2002—2023, Scott Wheeler, Michael Pyne un citi"
+msgctxt "Use copyright sign, and en dash for the year range"
+msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
+msgstr "© 2002—2025, Scott Wheeler, Michael Pyne un citi"
 
 #: main.cpp:44
 #, kde-format
@@ -1098,16 +1154,17 @@ msgstr "„JuK“ novietots ikonu joslā"
 
 #: mediafiles.cpp:134
 #, kde-format
-msgctxt "open audio file"
+msgctxt "@title:window, open audio file"
 msgid "Open"
 msgstr "Atvērt"
 
-#: mediafiles.cpp:147
+#: mediafiles.cpp:146
 #, kde-format
-msgid "Save Playlist"
-msgstr "Saglabāt repertuāru"
+msgctxt "@title:window"
+msgid "Save Playlist %1"
+msgstr "Saglabāt repertuāru „%1“"
 
-#: mediafiles.cpp:149
+#: mediafiles.cpp:148
 #, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
@@ -1118,17 +1175,17 @@ msgstr "Repertuāri (*%1)"
 msgid "back to playlist"
 msgstr "atpakaļ uz repertuāru"
 
-#: playermanager.cpp:59
+#: playermanager.cpp:56
 #, kde-format
 msgctxt "%1 is the artist and %2 is the title of the currently playing track."
 msgid "%1 - %2 :: JuK"
 msgstr "%1 — „%2“ :: „JuK“"
 
-#: playermanager.cpp:367
+#: playermanager.cpp:363
 #, kde-format
 msgctxt ""
-"%1 will be the /path/to/file, %2 will be some string from Phonon describing "
-"the error"
+"%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
+"describing the error"
 msgid ""
 "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
 "following reason:<nl/><message>%2</message>"
@@ -1150,8 +1207,9 @@ msgstr[0] "Grasāties atvērt %1 mapi. Vai turpināt?"
 msgstr[1] "Grasāties atvērt %1 mapes. Vai turpināt?"
 msgstr[2] "Grasāties atvērt %1 mapju. Vai turpināt?"
 
-#: playlist.cpp:578 playlistcollection.cpp:957
+#: playlist.cpp:578
 #, kde-format
+msgctxt "@title:window"
 msgid "Open Containing Folder"
 msgstr "Atvērt saturošo mapi"
 
@@ -1167,68 +1225,98 @@ msgstr "Neizdevās pārvietot datnes uz atkritni"
 
 #: playlist.cpp:1280
 #, kde-format
+msgctxt "@title:column"
 msgid "Track Name"
 msgstr "Celiņa nosaukums"
 
-#: playlist.cpp:1283 tagrenameroptions.cpp:112
+#: playlist.cpp:1281
 #, kde-format
-msgctxt "cd track number"
+msgctxt "@title:column"
+msgid "Artist"
+msgstr "Izpildītājs"
+
+#: playlist.cpp:1282
+#, kde-format
+msgctxt "@title:column"
+msgid "Album"
+msgstr "Albums"
+
+#: playlist.cpp:1283
+#, kde-format
+msgctxt "@title:column, CD track number"
 msgid "Track"
 msgstr "Celiņš"
 
-#: playlist.cpp:1285 tagrenameroptions.cpp:120
+#: playlist.cpp:1284
 #, kde-format
+msgctxt "@title:column"
+msgid "Genre"
+msgstr "Žanrs"
+
+#: playlist.cpp:1285
+#, kde-format
+msgctxt "@title:column"
 msgid "Year"
 msgstr "Gads"
 
 #: playlist.cpp:1286
 #, kde-format
+msgctxt "@title:column"
 msgid "Length"
 msgstr "Garums"
 
 #: playlist.cpp:1287
 #, kde-format
+msgctxt "@title:column"
 msgid "Bitrate"
-msgstr "Bitu ātrums"
+msgstr "Bitātrums"
 
 #: playlist.cpp:1288
 #, kde-format
+msgctxt "@title:column"
 msgid "Comment"
 msgstr "Komentārs"
 
 #: playlist.cpp:1289
 #, kde-format
+msgctxt "@title:column"
 msgid "File Name"
 msgstr "Datnes nosaukums"
 
 #: playlist.cpp:1290
 #, kde-format
-msgid "File Name (full path)"
+msgctxt "@title:column"
+msgid "File Name (Full Path)"
 msgstr "Datnes nosaukums (pilns ceļš)"
 
 #: playlist.cpp:1471
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Show Columns"
-msgstr "&Rādīt kolonas"
+msgstr "&Rādīt kolonnas"
 
 #: playlist.cpp:1579
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
 msgstr "Pievienot atskaņošanas rindai"
 
-#: playlist.cpp:1593 playlist.cpp:2052
+#: playlist.cpp:1593
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "Rediģēt"
 
 #: playlist.cpp:1607
 #, kde-format
-msgid "Create Playlist From Selected Items..."
-msgstr "Izveidot repertuāru no atlasītajiem..."
+msgctxt "@action:inmenu"
+msgid "Create Playlist From Selected Items…"
+msgstr "Izveidot repertuāru no atlasītajiem…"
 
 #: playlist.cpp:1973
 #, kde-format
-msgid "Edit '%1'"
+msgctxt "@action:inmenu"
+msgid "Edit “%1”"
 msgstr "Rediģēt „%1“"
 
 #: playlist.cpp:2050
@@ -1236,8 +1324,14 @@ msgstr "Rediģēt „%1“"
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Rediģēsiet vairākas datnes. Vai turpināt?"
 
-#: playlist.cpp:2109 playlistcollection.h:183
+#: playlist.cpp:2052
 #, kde-format
+msgid "Edit"
+msgstr "Rediģēt"
+
+#: playlist.cpp:2109
+#, kde-format
+msgctxt "@action:inmenu"
 msgid "Create New Playlist"
 msgstr "Izveidot jaunu repertuāru"
 
@@ -1252,22 +1346,25 @@ msgstr ""
 
 #: playlist.cpp:2121
 #, kde-format
+msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
-msgstr "Ieslēgti manuāli kolonnu platumi"
+msgstr "Manuāli kolonnu platumi ir ieslēgti"
 
 #: playlistbox.cpp:108
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "View Modes"
 msgstr "Skata režīmi"
 
 #: playlistbox.cpp:168
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &History"
 msgstr "Rādīt &vēsturi"
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
-msgctxt "verb, copy the playlist"
+msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Dublēt"
 
@@ -1278,6 +1375,7 @@ msgstr "Vai vēlaties dzēst šīs datnes arī no diska?"
 
 #: playlistbox.cpp:425
 #, kde-format
+msgctxt "@action:button"
 msgid "Keep"
 msgstr "Paturēt"
 
@@ -1293,22 +1391,25 @@ msgstr "Vai tiešām vēlaties dzēst šos repertuārus no jūsu kolekcijas?"
 
 #: playlistbox.cpp:448
 #, kde-format
+msgctxt "@title:window"
 msgid "Remove Items?"
 msgstr "Vai noņemt vienības?"
 
-#. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449
 #, kde-format
+msgctxt "@action:button"
 msgid "&Remove"
 msgstr "&Noņemt"
 
 #: playlistbox.cpp:653
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Hid&e"
 msgstr "&Slēpt"
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "R&emove"
 msgstr "N&oņemt"
 
@@ -1332,27 +1433,31 @@ msgstr ""
 
 #: playlistcollection.cpp:349
 #, kde-format
-msgctxt "current playlist"
+msgctxt "@action:button, current playlist"
 msgid "Current"
 msgstr "Aktīvajam"
 
 #: playlistcollection.cpp:350
 #, kde-format
+msgctxt "@action:button"
 msgid "Collection"
 msgstr "Kolekcijai"
 
 #: playlistcollection.cpp:412
 #, kde-format
+msgctxt "@action:button"
 msgid "Rename"
 msgstr "Pārdēvēt"
 
 #: playlistcollection.cpp:515
 #, kde-format
-msgid "Search Playlist"
-msgstr "Meklēšanas repertuārs"
+msgctxt "@action:button"
+msgid "Create Search Playlist"
+msgstr "Izveidot meklēšanas repertuāru"
 
 #: playlistcollection.cpp:540
 #, kde-format
+msgctxt "@action:button"
 msgid "Create Folder Playlist"
 msgstr "Izveidot mapes repertuāru"
 
@@ -1368,100 +1473,128 @@ msgstr "Ievadiet repertuāra nosaukumu:"
 
 #: playlistcollection.cpp:890
 #, kde-format
-msgctxt "new playlist"
+msgctxt "@action:inmenu, new playlist"
 msgid "&New"
-msgstr "&Jauns..."
+msgstr "&Jauns"
 
 #: playlistcollection.cpp:893
 #, kde-format
-msgid "&Empty Playlist..."
-msgstr "&Tukšs repertuārs..."
+msgctxt "@action:inmenu"
+msgid "&Empty Playlist…"
+msgstr "&Tukšs repertuārs…"
 
 #: playlistcollection.cpp:897
 #, kde-format
-msgid "&Search Playlist..."
-msgstr "&Meklēšanas repertuārs..."
+msgctxt "@action:inmenu"
+msgid "&Search Playlist…"
+msgstr "&Meklēt repertuārā…"
 
 #: playlistcollection.cpp:901
 #, kde-format
-msgid "Playlist From &Folder..."
-msgstr "&Repertuārs no mapes..."
+msgctxt "@action:inmenu"
+msgid "Playlist From &Folder…"
+msgstr "&Repertuārs no mapes…"
 
 #: playlistcollection.cpp:909
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
-msgstr "&Uzminēt birkas saturu"
+msgstr "&Minēt birkas informāciju"
 
 #: playlistcollection.cpp:914
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "From &File Name"
 msgstr "No &datnes nosaukuma"
 
 #: playlistcollection.cpp:918
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "From &Internet"
 msgstr "No &interneta"
 
 #: playlistcollection.cpp:923
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
-msgstr "Minēt birku saturu no &datnes nosaukuma"
+msgstr "Minēt birku informāciju no &datnes nosaukuma"
 
 #: playlistcollection.cpp:930
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play First Track"
 msgstr "Atskaņot pirmo celiņu"
 
 #: playlistcollection.cpp:932
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play Next Album"
 msgstr "Atskaņot nākamo albumu"
 
 #: playlistcollection.cpp:939
 #, kde-format
-msgid "Manage &Folders..."
-msgstr "Pārvaldīt &mapes..."
+msgctxt "@action:inmenu"
+msgid "Manage &Folders…"
+msgstr "Pārvaldīt &mapes…"
 
 #: playlistcollection.cpp:941
 #, kde-format
-msgid "&Rename..."
-msgstr "&Pārdēvēt..."
+msgctxt "@action:inmenu"
+msgid "&Rename…"
+msgstr "&Pārdēvēt…"
 
 #: playlistcollection.cpp:943
 #, kde-format
-msgctxt "verb, copy the playlist"
-msgid "D&uplicate..."
-msgstr "D&ublēt..."
+msgctxt "@action:inmenu, verb, copy the playlist"
+msgid "D&uplicate…"
+msgstr "…D&ublēt"
 
 #: playlistcollection.cpp:948
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "Pārlādēt"
 
 #: playlistcollection.cpp:950
 #, kde-format
-msgid "Edit Search..."
-msgstr "Rediģēt meklēšanu..."
+msgctxt "@action:inmenu"
+msgid "Edit Search…"
+msgstr "Rediģēt meklēšanu…"
 
 #: playlistcollection.cpp:953
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "&Dzēst"
 
 #: playlistcollection.cpp:955
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Refresh"
 msgstr "Pārlādēt"
 
+#: playlistcollection.cpp:957
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Containing Folder"
+msgstr "Atvērt saturošo mapi"
+
 #: playlistcollection.cpp:959
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Rename File"
 msgstr "&Pārdēvēt datni"
 
 #: playlistcollection.cpp:964
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
 msgstr "&Rādīt atskaņošanas rindu"
+
+#: playlistcollection.h:183
+#, kde-format
+msgid "Create New Playlist"
+msgstr "Izveidot jaunu repertuāru"
 
 #: playlistcollection.h:186
 #, kde-format
@@ -1470,30 +1603,34 @@ msgstr "Repertuārs"
 
 #: playlistsplitter.cpp:158
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
 msgstr "Rādīt &meklēšanas joslu"
 
 #: playlistsplitter.cpp:161
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Edit Track Search"
 msgstr "Rediģēt celiņa meklēšanu"
 
 #: scrobbleconfigdlg.cpp:38
 #, kde-format
-msgid "Configure scrobbling..."
+msgctxt "@title:window"
+msgid "Configure Scrobbling"
 msgstr "Konfigurēt „Last.fm“ sasaisti..."
 
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
-msgid "Test login..."
-msgstr "Testēt ierakstīšanos..."
+msgctxt "@action:button"
+msgid "Test Login…"
+msgstr "Testēt ierakstīšanos…"
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
 msgid ""
 "Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
 msgstr ""
-"Ievadiet savu <a href=\"https://last.fm/\">last.fm</a> ierakstīšanās "
+"Norādiet savu <a href=\"https://last.fm/\">last.fm</a> ierakstīšanās "
 "informāciju:"
 
 #: scrobbleconfigdlg.cpp:53
@@ -1506,7 +1643,7 @@ msgstr "Lietotājvārds:"
 msgid "Password:"
 msgstr "Parole:"
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:84
 #, kde-format
 msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
@@ -1515,90 +1652,101 @@ msgstr ""
 "„KWallet“ nav pieejams, tāpēc „Last.fm“ ierakstīšanās informācija tiks "
 "saglabāta bez šifrēšanas."
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:85
 #, kde-format
-msgid "KWallet is unavailable"
+msgctxt "@title:window"
+msgid "KWallet Unavailable"
 msgstr "„KWallet“ nav pieejams"
 
-#: scrobbleconfigdlg.cpp:126
+#: scrobbleconfigdlg.cpp:128
 #, kde-format
-msgid "Validating login..."
-msgstr "Pārbauda ierakstīšanos..."
+msgid "Validating login…"
+msgstr "Pārbauda ierakstīšanos…"
 
-#: scrobbleconfigdlg.cpp:136
+#: scrobbleconfigdlg.cpp:138
 #, kde-format
 msgid "Login invalid."
 msgstr "Ierakstīšanās neizdevās."
 
-#: scrobbleconfigdlg.cpp:144
+#: scrobbleconfigdlg.cpp:146
 #, kde-format
 msgid "Login valid."
 msgstr "Ierakstīts ir derīgs."
 
 #: searchwidget.cpp:73
 #, kde-format
-msgid "Normal Matching"
+msgctxt "@item:inlistbox"
+msgid "Normal matching"
 msgstr "Normālas meklēšana"
 
 #: searchwidget.cpp:74
 #, kde-format
-msgid "Case Sensitive"
+msgctxt "@item:inlistbox"
+msgid "Case sensitive"
 msgstr "Reģistrjutīga"
 
 #: searchwidget.cpp:75
 #, kde-format
-msgid "Pattern Matching"
+msgctxt "@item:inlistbox"
+msgid "Pattern matching"
 msgstr "Šablona meklēšana"
 
 #: searchwidget.cpp:169
 #, kde-format
+msgctxt "@title:column"
 msgid "All Visible"
 msgstr "Visi redzamie"
 
 #: searchwidget.cpp:200
 #, kde-format
-msgid "Search..."
-msgstr "Meklēt..."
+msgid "Search…"
+msgstr "Meklēt…"
+
+#: slider.cpp:127
+#, kde-format
+msgid "Volume"
+msgstr "Skaļums"
 
 #: slider.cpp:128
 #, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 #: slider.cpp:129
 #, kde-format
 msgid "80%"
-msgstr "80%"
+msgstr "80 %"
 
 #: slider.cpp:130
 #, kde-format
 msgid "60%"
-msgstr "60%"
+msgstr "60 %"
 
 #: slider.cpp:131
 #, kde-format
 msgid "40%"
-msgstr "40%"
+msgstr "40 %"
 
 #: slider.cpp:132
 #, kde-format
 msgid "20%"
-msgstr "20%"
+msgstr "20 %"
 
 #: slider.cpp:133
 #, kde-format
 msgid "0%"
-msgstr "0%"
+msgstr "0 %"
 
 #: slideraction.cpp:73
 #, kde-format
 msgid "Seeking is not supported in this file with your audio settings."
-msgstr "Meklēšana šajā datnē nav atbalstīta ar jūsu audio iestatījumiem."
+msgstr "Sistēmas audio iestatījumi neatbalsta pārvietošanos šajā datnē."
 
 #: statuslabel.cpp:85
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
-msgstr "Pārlēkt uz šobrīd atskaņoto celiņu"
+msgstr "Pārlēkt uz šobrīd atskaņoto vienumu"
 
 #: statuslabel.cpp:115
 #, kde-format
@@ -1610,6 +1758,7 @@ msgstr[2] "%1 vienību"
 
 #: systemtray.cpp:161
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
 msgstr "Vēlreiz parādīt logu"
 
@@ -1630,6 +1779,7 @@ msgstr "Vai vēlaties saglabāt šīs izmaiņas:\n"
 
 #: tageditor.cpp:590
 #, kde-format
+msgctxt "@title:window"
 msgid "Save Changes"
 msgstr "Saglabāt izmaiņas"
 
@@ -1708,6 +1858,7 @@ msgstr "Ieslēgt"
 
 #: tagguesserconfigdlg.cpp:39
 #, kde-format
+msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
 msgstr "Birku minētāja konfigurācija"
 
@@ -1828,6 +1979,12 @@ msgid ""
 "Press this button to remove the currently selected scheme from the list."
 msgstr "Spiediet, lai noņemtu izvēlēto shēmu no saraksta."
 
+#. i18n: ectx: property (text), widget (QPushButton, bRemove)
+#: tagguesserconfigdlgwidget.ui:100
+#, kde-format
+msgid "&Remove"
+msgstr "&Noņemt"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tagguesserconfigdlgwidget.ui:128
 #, no-c-format, kde-format
@@ -1851,6 +2008,15 @@ msgctxt "song title"
 msgid "Title"
 msgstr "Nosaukums"
 
+#: tagrenameroptions.cpp:112
+msgctxt "cd track number"
+msgid "Track"
+msgstr "Celiņš"
+
+#: tagrenameroptions.cpp:120
+msgid "Year"
+msgstr "Gads"
+
 #: tagrenameroptions.cpp:126
 msgctxt "unknown renamer category"
 msgid "Unknown"
@@ -1867,11 +2033,13 @@ msgstr ""
 
 #: tagtransactionmanager.cpp:111
 #, kde-format
+msgctxt "@title:window"
 msgid "File Exists"
-msgstr "Datne pastāv"
+msgstr "Datne jau pastāv"
 
 #: tagtransactionmanager.cpp:111
 #, kde-format
+msgctxt "@action:button"
 msgid "Replace"
 msgstr "Aizvietot"
 
@@ -1882,6 +2050,7 @@ msgstr "Šīs datnes neizdevās izmainīt."
 
 #: tagtransactionmanager.cpp:178
 #, kde-format
+msgctxt "@title:window"
 msgid "Error"
 msgstr "Kļūda"
 
@@ -1907,7 +2076,8 @@ msgstr "Jūs grasāties mainīt „%1“ šajā datnēs."
 
 #: treeviewitemplaylist.cpp:58
 #, kde-format
-msgid "Changing Track Tags"
+msgctxt "@title:window"
+msgid "Change Track Tags"
 msgstr "Maina celiņu birkas"
 
 #: upcomingplaylist.cpp:31
@@ -1949,6 +2119,7 @@ msgstr "Žanri"
 
 #: volumepopupbutton.cpp:76
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
 msgstr "Apklusināt/atjaunot skaņu"
 
@@ -1959,13 +2130,34 @@ msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
-msgstr "Skaļums: %1% (apklusināts)"
+msgstr "Skaļums: %1 % (apklusināts)"
 
 #: volumepopupbutton.cpp:123
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Volume: %1%"
-msgstr "Skaļums: %1%"
+msgstr "Skaļums: %1 %"
+
+#~ msgid "&File Renamer..."
+#~ msgstr "&Datņu pārdēvētājs..."
+
+#~ msgid "Docking in System Tray"
+#~ msgstr "Paliek sistēmas ikonu joslā"
+
+#~ msgid "&Search Playlist..."
+#~ msgstr "&Meklēšanas repertuārs..."
+
+#~ msgid "&Rename..."
+#~ msgstr "&Pārdēvēt..."
+
+#~ msgctxt "verb, copy the playlist"
+#~ msgid "D&uplicate..."
+#~ msgstr "D&ublēt..."
+
+#~ msgid "Search..."
+#~ msgstr "Meklēt..."
 
 #, fuzzy
 #~| msgid "Artists"
@@ -2028,9 +2220,6 @@ msgstr "Skaļums: %1%"
 
 #~ msgid "&lt;All Artists&gt;"
 #~ msgstr "&lt;Visi mākslinieki&gt;"
-
-#~ msgid "Search:"
-#~ msgstr "Meklēt:"
 
 #, fuzzy
 #~| msgid "Porting to KDE 4 when no one else was around"

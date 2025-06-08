@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:39+0000\n"
+"POT-Creation-Date: 2025-05-07 00:41+0000\n"
 "PO-Revision-Date: 2024-01-19 15:55+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -34,39 +34,45 @@ msgstr ""
 
 #: advancedsearchdialog.cpp:48
 #, kde-format
+msgctxt "@title:window"
 msgid "Create Search Playlist"
-msgstr "Vytvořit seznam skladeb z hledání"
+msgstr ""
 
 #: advancedsearchdialog.cpp:57
 #, kde-format
+msgctxt "@label"
 msgid "Playlist name:"
-msgstr "Jméno seznamu skladeb:"
+msgstr ""
 
 #: advancedsearchdialog.cpp:61
 #, kde-format
+msgctxt "@title:group"
 msgid "Search Criteria"
-msgstr "Kritéria pro vyhledávání"
+msgstr ""
 
 #: advancedsearchdialog.cpp:66
 #, kde-format
+msgctxt "@option:radio"
 msgid "Match any of the following"
-msgstr "Porovnat cokoliv z následujícího"
+msgstr ""
 
 #: advancedsearchdialog.cpp:67
 #, kde-format
+msgctxt "@option:radio"
 msgid "Match all of the following"
-msgstr "Porovnat vše následující"
+msgstr ""
 
 #: advancedsearchdialog.cpp:91
 #, kde-format
-msgctxt "additional search options"
+msgctxt "@action:button, additional search options"
 msgid "More"
-msgstr "Více"
+msgstr ""
 
 #: advancedsearchdialog.cpp:96
 #, kde-format
+msgctxt "@action:button"
 msgid "Fewer"
-msgstr "Méně"
+msgstr ""
 
 #: cache.cpp:301
 #, kde-format
@@ -89,18 +95,14 @@ msgid ""
 "playlists. Are you sure you want to continue?\n"
 "\n"
 "Note, however, that if the directory that these files are in is in your "
-"\"scan on startup\" list, they will be readded on startup."
+"“scan on startup” list, they will be readded on startup."
 msgstr ""
-"Odstranění všech položek ze sbírky je odstraní také ze všech vašich seznamů "
-"skladeb. Jste si jistí, že si přejete pokračovat?\n"
-"\n"
-"Pokud je adresář s těmito soubory v \"skenování při spuštění\", budou "
-"soubory při startu načteny."
 
 #: collectionlist.cpp:343
 #, kde-format
+msgctxt "@action:button"
 msgid "Show Playing"
-msgstr "Zobrazit přehrávání"
+msgstr ""
 
 #: deletedialog.cpp:65
 #, kde-format
@@ -123,13 +125,15 @@ msgstr "<qt>Tyto položky budou přesunuty do koše.</qt>"
 
 #: deletedialog.cpp:96
 #, kde-format
+msgctxt "@action:button"
 msgid "&Send to Trash"
-msgstr "Po&slat do koše"
+msgstr ""
 
 #: deletedialog.cpp:100
 #, kde-format
-msgid "About to delete selected files"
-msgstr "Mazání vybraných souborů"
+msgctxt "@title:window"
+msgid "Delete Selected Files"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -170,8 +174,9 @@ msgstr "Smazat soubory místo přesunu &do koše"
 
 #: directorylist.cpp:55
 #, kde-format
+msgctxt "@title:window"
 msgid "Folder List"
-msgstr "Seznam složek"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, informationLabel)
 #: directorylistbase.ui:19
@@ -212,7 +217,7 @@ msgstr "Prosím, zvolte složky, jež mají být vyřazeny z vyhledávání hudb
 msgid "Import playlists"
 msgstr "Importovat seznamy skladeb"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:381 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -294,28 +299,28 @@ msgid "Title"
 msgstr "Název"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "Umělec"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "Album"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "Žánr"
 
 #: filerenamer.cpp:87
 #, kde-format
-msgctxt "warning about mass file rename"
+msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
-msgstr "Varování"
+msgstr ""
 
 #: filerenamer.cpp:98
 #, kde-format
@@ -343,20 +348,21 @@ msgstr "Žádná změna"
 
 #: filerenamer.cpp:409
 #, kde-format
-msgctxt "remove music genre from file renamer"
+msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
-msgstr "Odstranit"
+msgstr ""
 
 #: filerenamer.cpp:412
 #, kde-format
-msgctxt "file renamer genre options"
+msgctxt "@action:button, file renamer genre options"
 msgid "Options"
-msgstr "Možnosti"
+msgstr ""
 
 #: filerenamer.cpp:524
 #, kde-format
+msgctxt "@option:check"
 msgid "Insert folder separator"
-msgstr "Vložit oddělovač složek"
+msgstr ""
 
 #: filerenamer.cpp:595
 #, kde-format
@@ -365,19 +371,21 @@ msgstr "Není vybrán žádný soubor nebo soubor neobsahuje štítky."
 
 #: filerenamer.cpp:826
 #, kde-format
+msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
-msgstr "Skrýt testovací dialog přejmenování"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:831 filerenamerbase.ui:257
+#: filerenamer.cpp:831
 #, kde-format
+msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
-msgstr "Zobrazit testovací dialog přejmenování"
+msgstr ""
 
 #: filerenamer.cpp:911
 #, kde-format
+msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
-msgstr "%1 na %2"
+msgstr ""
 
 #: filerenamer.cpp:916
 #, kde-format
@@ -450,41 +458,49 @@ msgstr "Přid&at kategorii:"
 msgid "Separator:"
 msgstr "Oddělovač:"
 
+#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
+#: filerenamerbase.ui:257
+#, kde-format
+msgid "Show Renamer Test Dialog"
+msgstr "Zobrazit testovací dialog přejmenování"
+
 #: filerenamerconfigdlg.cpp:29
 #, kde-format
+msgctxt "@title:window"
 msgid "File Renamer Options"
-msgstr "Možnosti přejmenování souborů"
+msgstr ""
 
 #: filerenameroptions.cpp:38
 #, kde-format
-msgctxt "%1 will be a music tag category like Artist or Album"
+msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
-msgstr "Volby %1"
+msgstr ""
 
 #: filerenameroptions.cpp:39
 #, kde-format
+msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
-msgstr "Formát %1"
+msgstr ""
 
 #: filerenameroptions.cpp:40
 #, kde-format
-msgid "When the Track's %1 is Empty"
-msgstr "Pokud je %1 skladby prázdné"
+msgctxt "@title:group"
+msgid "When the Track’s %1 is Empty"
+msgstr ""
 
 #: filerenameroptions.cpp:41
 #, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
-"you have in your track's %1 tag, plus any additional text that you specify "
+"you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
-"Při použití tohoto nástroje budou soubory přejmenovány na hodnoty, které "
-"obsahuje štítek '%1' vaší skladby spolu s dalším textem, který zadáte níže."
 
 #: filerenameroptions.cpp:114
 #, kde-format
+msgctxt "@title:window"
 msgid "File Renamer"
-msgstr "Přejmenovávač souborů"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_substitution)
 #: filerenameroptionsbase.ui:115
@@ -570,144 +586,169 @@ msgstr "Čas"
 
 #: juk.cpp:240 systemtray.cpp:184
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Random Play"
-msgstr "Náhodné přeh&rávání"
+msgstr ""
 
 #: juk.cpp:247
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
-msgstr "Zakázat náho&dné přehrávání"
+msgstr ""
 
 #: juk.cpp:253
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Use &Random Play"
-msgstr "Používat náhodné přeh&rávání"
+msgstr ""
 
 #: juk.cpp:259
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
-msgstr "Používat náhodné přehrávání &alba"
+msgstr ""
 
 #: juk.cpp:267
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
-msgstr "Odstranit ze seznamu skladeb"
+msgstr ""
 
 #: juk.cpp:271
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Play"
-msgstr "&Přehrát"
+msgstr ""
 
 #: juk.cpp:276
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "P&ause"
-msgstr "Poz&astavit"
+msgstr ""
 
 #: juk.cpp:281
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Stop"
-msgstr "Za&stavit"
+msgstr ""
 
 #: juk.cpp:284
 #, kde-format
-msgctxt "previous track"
+msgctxt "@action:inmenu, previous track"
 msgid "Previous"
-msgstr "Předchozí"
+msgstr ""
 
 #: juk.cpp:291
 #, kde-format
-msgctxt "next track"
+msgctxt "@action:inmenu, next track"
 msgid "&Next"
-msgstr "&Následující"
+msgstr ""
 
 #: juk.cpp:295
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
-msgstr "Opakovat seznam sk&ladeb"
+msgstr ""
 
 #: juk.cpp:299
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
-msgstr "Měnit velikost sloupců &ručně"
+msgstr ""
 
 #: juk.cpp:304
 #, kde-format
-msgctxt "silence playback"
+msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
-msgstr "Ztlumit"
+msgstr ""
 
 #: juk.cpp:308
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Volume Up"
-msgstr "Zvýšit hlasitost"
+msgstr ""
 
 #: juk.cpp:312
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Volume Down"
-msgstr "Snížit hlasitost"
+msgstr ""
 
 #: juk.cpp:316
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play / Pause"
-msgstr "Přehrát/Pozastavit"
+msgstr ""
 
 #: juk.cpp:320
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Rychle vpřed"
 
 #: juk.cpp:324
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Seek Back"
-msgstr "Rychle zpět"
+msgstr ""
 
 #: juk.cpp:328
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show / Hide"
-msgstr "Zobrazit / Skrýt"
+msgstr ""
 
 #: juk.cpp:335
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
-msgstr "Pohltit &do panelu"
+msgstr ""
 
 #: juk.cpp:339
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
-msgstr "Po uzavření zů&stat v systémovém panelu"
+msgstr ""
 
 #: juk.cpp:342
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
-msgstr "Oznamova&t skladbu vyskakovacím oknem"
+msgstr ""
 
 #: juk.cpp:345
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
-msgstr "Uložit frontu &přehrávání při ukončení"
+msgstr ""
 
 #: juk.cpp:348
 #, kde-format
-msgid "&Tag Guesser..."
-msgstr "O&dhad štítků..."
+msgctxt "@action:inmenu"
+msgid "&Tag Guesser…"
+msgstr ""
 
 #: juk.cpp:351
 #, kde-format
-msgid "&File Renamer..."
-msgstr "&Přejmenovávač souborů..."
+msgctxt "@action:inmenu"
+msgid "&File Renamer…"
+msgstr ""
 
 #: juk.cpp:354
 #, kde-format
-msgid "&Configure scrobbling..."
-msgstr "&Nastavit zasílání přehrání skladeb..."
+msgctxt "@action:inmenu"
+msgid "&Configure Scrobbling…"
+msgstr ""
 
 #: juk.cpp:361
 #, kde-format
+msgctxt "@action:button"
 msgid "Track Position"
-msgstr "Pozice skladby"
+msgstr ""
 
-#: juk.cpp:363 slider.cpp:127
+#: juk.cpp:363
 #, kde-format
+msgctxt "@action:button"
 msgid "Volume"
 msgstr "Hlasitost"
 
@@ -722,14 +763,15 @@ msgstr ""
 
 #: juk.cpp:531
 #, kde-format
-msgid "Docking in System Tray"
-msgstr "Ukotvení v systémovém panelu"
+msgctxt "@title:window"
+msgid "Dock in System Tray"
+msgstr ""
 
 #: juktag.cpp:90
 #, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
-msgid "%1 - <i>%2</i>"
-msgstr "%1 - <i>%2</i>"
+msgid "%1 — <i>%2</i>"
+msgstr ""
 
 #. i18n: ectx: Menu (file)
 #: jukui-rtl.rc:4 jukui.rc:6
@@ -775,36 +817,40 @@ msgstr "Panel nástrojů pro přehrávání"
 
 #: keydialog.cpp:102
 #, kde-format
+msgctxt "@title:window"
 msgid "Configure Shortcuts"
 msgstr "Nastavit zkratky"
 
 #: keydialog.cpp:118
 #, kde-format
+msgctxt "@title:group"
 msgid "Global Shortcuts"
-msgstr "Globální zkratky"
+msgstr ""
 
 #: keydialog.cpp:124
 #, kde-format
+msgctxt "@option:radio"
 msgid "&No keys"
-msgstr "Žád&né klávesy"
+msgstr ""
 
 #: keydialog.cpp:128
 #, kde-format
+msgctxt "@option:radio"
 msgid "&Standard keys"
-msgstr "&Standardní klávesy"
+msgstr ""
 
 #: keydialog.cpp:132
 #, kde-format
+msgctxt "@option:radio"
 msgid "&Multimedia keys"
-msgstr "&Multimediální klávesy"
+msgstr ""
 
 #: keydialog.cpp:138
 #, kde-format
+msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
 msgstr ""
-"Zde si můžete zvolit, které klávesy se mají použít jako globální zkratky pro "
-"přehrávač"
 
 #: lyricswidget.cpp:51
 #, kde-format
@@ -850,8 +896,9 @@ msgstr "Jukebox a správce hudby od komunity KDE"
 
 #: main.cpp:40
 #, kde-format
-msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Autorská práva © 2002–2023, Scott Wheeler, Michael Pyne a další"
+msgctxt "Use copyright sign, and en dash for the year range"
+msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
+msgstr ""
 
 #: main.cpp:44
 #, kde-format
@@ -1100,16 +1147,17 @@ msgstr "JuK dokován"
 
 #: mediafiles.cpp:134
 #, kde-format
-msgctxt "open audio file"
+msgctxt "@title:window, open audio file"
 msgid "Open"
-msgstr "Otevřít"
+msgstr ""
 
-#: mediafiles.cpp:147
+#: mediafiles.cpp:146
 #, kde-format
-msgid "Save Playlist"
-msgstr "Uložit seznam skladeb"
+msgctxt "@title:window"
+msgid "Save Playlist %1"
+msgstr ""
 
-#: mediafiles.cpp:149
+#: mediafiles.cpp:148
 #, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
@@ -1120,23 +1168,21 @@ msgstr "Seznamy skladeb (*%1)"
 msgid "back to playlist"
 msgstr "zpět na seznam skladeb"
 
-#: playermanager.cpp:59
+#: playermanager.cpp:56
 #, kde-format
 msgctxt "%1 is the artist and %2 is the title of the currently playing track."
 msgid "%1 - %2 :: JuK"
 msgstr "%1 - %2 :: JuK"
 
-#: playermanager.cpp:367
+#: playermanager.cpp:363
 #, kde-format
 msgctxt ""
-"%1 will be the /path/to/file, %2 will be some string from Phonon describing "
-"the error"
+"%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
+"describing the error"
 msgid ""
 "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
 "following reason:<nl/><message>%2</message>"
 msgstr ""
-"Z následujícího důvodu nemůže JuK přehrát soubor<nl/><filename>%1</filename>:"
-"<nl/><message>%2</message>"
 
 #: playlist.cpp:338
 #, kde-format
@@ -1152,10 +1198,11 @@ msgstr[0] "Chystáte se otevřít adresář. Opravdu si přejete pokračovat?"
 msgstr[1] "Chystáte se otevřít %1 adresáře. Opravdu si přejete pokračovat?"
 msgstr[2] "Chystáte se otevřít %1 adresářů. Opravdu si přejete pokračovat?"
 
-#: playlist.cpp:578 playlistcollection.cpp:957
+#: playlist.cpp:578
 #, kde-format
+msgctxt "@title:window"
 msgid "Open Containing Folder"
-msgstr "Otevřít odpovídající složku"
+msgstr ""
 
 #: playlist.cpp:802
 #, kde-format
@@ -1169,79 +1216,115 @@ msgstr "Nelze přesunout tyto soubory do koše"
 
 #: playlist.cpp:1280
 #, kde-format
+msgctxt "@title:column"
 msgid "Track Name"
-msgstr "Jméno skladby"
+msgstr ""
 
-#: playlist.cpp:1283 tagrenameroptions.cpp:112
+#: playlist.cpp:1281
 #, kde-format
-msgctxt "cd track number"
+msgctxt "@title:column"
+msgid "Artist"
+msgstr ""
+
+#: playlist.cpp:1282
+#, kde-format
+msgctxt "@title:column"
+msgid "Album"
+msgstr "Album"
+
+#: playlist.cpp:1283
+#, kde-format
+msgctxt "@title:column, CD track number"
 msgid "Track"
-msgstr "Stopa"
+msgstr ""
 
-#: playlist.cpp:1285 tagrenameroptions.cpp:120
+#: playlist.cpp:1284
 #, kde-format
+msgctxt "@title:column"
+msgid "Genre"
+msgstr ""
+
+#: playlist.cpp:1285
+#, kde-format
+msgctxt "@title:column"
 msgid "Year"
-msgstr "Rok"
+msgstr ""
 
 #: playlist.cpp:1286
 #, kde-format
+msgctxt "@title:column"
 msgid "Length"
-msgstr "Délka"
+msgstr ""
 
 #: playlist.cpp:1287
 #, kde-format
+msgctxt "@title:column"
 msgid "Bitrate"
-msgstr "Datový tok"
+msgstr ""
 
 #: playlist.cpp:1288
 #, kde-format
+msgctxt "@title:column"
 msgid "Comment"
 msgstr "Komentář"
 
 #: playlist.cpp:1289
 #, kde-format
+msgctxt "@title:column"
 msgid "File Name"
-msgstr "Název souboru"
+msgstr ""
 
 #: playlist.cpp:1290
 #, kde-format
-msgid "File Name (full path)"
-msgstr "Název souboru (celá cesta)"
+msgctxt "@title:column"
+msgid "File Name (Full Path)"
+msgstr ""
 
 #: playlist.cpp:1471
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Show Columns"
-msgstr "Zobrazit &sloupce"
+msgstr ""
 
 #: playlist.cpp:1579
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
-msgstr "Přidat do fronty přehrávání"
+msgstr ""
 
-#: playlist.cpp:1593 playlist.cpp:2052
+#: playlist.cpp:1593
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "Upravit"
 
 #: playlist.cpp:1607
 #, kde-format
-msgid "Create Playlist From Selected Items..."
-msgstr "Vytvořit seznam skladeb z vybraných položek..."
+msgctxt "@action:inmenu"
+msgid "Create Playlist From Selected Items…"
+msgstr ""
 
 #: playlist.cpp:1973
 #, kde-format
-msgid "Edit '%1'"
-msgstr "Upravit '%1'"
+msgctxt "@action:inmenu"
+msgid "Edit “%1”"
+msgstr ""
 
 #: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "Toto upraví několik souborů. Jste si jisti?"
 
-#: playlist.cpp:2109 playlistcollection.h:183
+#: playlist.cpp:2052
 #, kde-format
+msgid "Edit"
+msgstr "Upravit"
+
+#: playlist.cpp:2109
+#, kde-format
+msgctxt "@action:inmenu"
 msgid "Create New Playlist"
-msgstr "Vytvořit nový seznam skladeb"
+msgstr ""
 
 #: playlist.cpp:2118
 #, kde-format
@@ -1254,24 +1337,27 @@ msgstr ""
 
 #: playlist.cpp:2121
 #, kde-format
+msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
-msgstr "Ruční šířky sloupců povoleny"
+msgstr ""
 
 #: playlistbox.cpp:108
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "View Modes"
-msgstr "Režimy pohledu"
+msgstr ""
 
 #: playlistbox.cpp:168
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &History"
-msgstr "Zobrazit &historii"
+msgstr ""
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
-msgctxt "verb, copy the playlist"
+msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
-msgstr "Duplikovat"
+msgstr ""
 
 #: playlistbox.cpp:424
 #, kde-format
@@ -1280,6 +1366,7 @@ msgstr "Přejete si tyto soubory také smazat z disku?"
 
 #: playlistbox.cpp:425
 #, kde-format
+msgctxt "@action:button"
 msgid "Keep"
 msgstr "Ponechat"
 
@@ -1295,24 +1382,27 @@ msgstr "Opravdu si přejete odebrat tyto seznamy z vaší sbírky?"
 
 #: playlistbox.cpp:448
 #, kde-format
+msgctxt "@title:window"
 msgid "Remove Items?"
-msgstr "Odstranit položky?"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449
 #, kde-format
+msgctxt "@action:button"
 msgid "&Remove"
 msgstr "Odst&ranit"
 
 #: playlistbox.cpp:653
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Hid&e"
-msgstr "Sk&rýt"
+msgstr ""
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "R&emove"
-msgstr "O&dstranit"
+msgstr ""
 
 #: playlistcollection.cpp:207
 #, kde-format
@@ -1333,29 +1423,33 @@ msgstr ""
 
 #: playlistcollection.cpp:349
 #, kde-format
-msgctxt "current playlist"
+msgctxt "@action:button, current playlist"
 msgid "Current"
-msgstr "Aktuální"
+msgstr ""
 
 #: playlistcollection.cpp:350
 #, kde-format
+msgctxt "@action:button"
 msgid "Collection"
-msgstr "Sbírka"
+msgstr ""
 
 #: playlistcollection.cpp:412
 #, kde-format
+msgctxt "@action:button"
 msgid "Rename"
 msgstr "Přejmenovat"
 
 #: playlistcollection.cpp:515
 #, kde-format
-msgid "Search Playlist"
-msgstr "Seznam skladeb z hledání"
+msgctxt "@action:button"
+msgid "Create Search Playlist"
+msgstr ""
 
 #: playlistcollection.cpp:540
 #, kde-format
+msgctxt "@action:button"
 msgid "Create Folder Playlist"
-msgstr "Vytvořit seznam skladeb ze složky"
+msgstr ""
 
 #: playlistcollection.cpp:580
 #, kde-format
@@ -1369,100 +1463,128 @@ msgstr "Zadejte název pro tento seznam skladeb:"
 
 #: playlistcollection.cpp:890
 #, kde-format
-msgctxt "new playlist"
+msgctxt "@action:inmenu, new playlist"
 msgid "&New"
-msgstr "&Nový"
+msgstr ""
 
 #: playlistcollection.cpp:893
 #, kde-format
-msgid "&Empty Playlist..."
-msgstr "Prázdný s&eznam skladeb..."
+msgctxt "@action:inmenu"
+msgid "&Empty Playlist…"
+msgstr ""
 
 #: playlistcollection.cpp:897
 #, kde-format
-msgid "&Search Playlist..."
-msgstr "&Seznam skladeb z hledání..."
+msgctxt "@action:inmenu"
+msgid "&Search Playlist…"
+msgstr ""
 
 #: playlistcollection.cpp:901
 #, kde-format
-msgid "Playlist From &Folder..."
-msgstr "Seznam sklade&b ze složky..."
+msgctxt "@action:inmenu"
+msgid "Playlist From &Folder…"
+msgstr ""
 
 #: playlistcollection.cpp:909
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
-msgstr "Odhadnou&t informace ze značek"
+msgstr ""
 
 #: playlistcollection.cpp:914
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "From &File Name"
-msgstr "Z názvu &souboru"
+msgstr ""
 
 #: playlistcollection.cpp:918
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "From &Internet"
-msgstr "Z &Internetu"
+msgstr ""
 
 #: playlistcollection.cpp:923
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
-msgstr "Od&hadnout značky z názvu souboru"
+msgstr ""
 
 #: playlistcollection.cpp:930
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play First Track"
-msgstr "Přehrát první skladbu"
+msgstr ""
 
 #: playlistcollection.cpp:932
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play Next Album"
-msgstr "Přehrát následující album"
+msgstr ""
 
 #: playlistcollection.cpp:939
 #, kde-format
-msgid "Manage &Folders..."
-msgstr "Spravovat s&ložky..."
+msgctxt "@action:inmenu"
+msgid "Manage &Folders…"
+msgstr ""
 
 #: playlistcollection.cpp:941
 #, kde-format
-msgid "&Rename..."
-msgstr "Pře&jmenovat..."
+msgctxt "@action:inmenu"
+msgid "&Rename…"
+msgstr ""
 
 #: playlistcollection.cpp:943
 #, kde-format
-msgctxt "verb, copy the playlist"
-msgid "D&uplicate..."
-msgstr "D&uplikovat..."
+msgctxt "@action:inmenu, verb, copy the playlist"
+msgid "D&uplicate…"
+msgstr ""
 
 #: playlistcollection.cpp:948
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "Obnovit"
 
 #: playlistcollection.cpp:950
 #, kde-format
-msgid "Edit Search..."
-msgstr "Upravit hledání..."
+msgctxt "@action:inmenu"
+msgid "Edit Search…"
+msgstr ""
 
 #: playlistcollection.cpp:953
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "&Smazat"
 
 #: playlistcollection.cpp:955
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Refresh"
 msgstr "Obnovit"
 
+#: playlistcollection.cpp:957
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Containing Folder"
+msgstr "Otevřít odpovídající složku"
+
 #: playlistcollection.cpp:959
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Rename File"
-msgstr "Přejmenovat soubo&r"
+msgstr ""
 
 #: playlistcollection.cpp:964
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
-msgstr "Zobrazit frontu &přehrávání"
+msgstr ""
+
+#: playlistcollection.h:183
+#, kde-format
+msgid "Create New Playlist"
+msgstr "Vytvořit nový seznam skladeb"
 
 #: playlistcollection.h:186
 #, kde-format
@@ -1471,23 +1593,27 @@ msgstr "Seznam skladeb"
 
 #: playlistsplitter.cpp:158
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
-msgstr "Zobrazit panel &s hledáním"
+msgstr ""
 
 #: playlistsplitter.cpp:161
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Edit Track Search"
-msgstr "Upravit hledání skladeb"
+msgstr ""
 
 #: scrobbleconfigdlg.cpp:38
 #, kde-format
-msgid "Configure scrobbling..."
-msgstr "Nastavit scrobbling..."
+msgctxt "@title:window"
+msgid "Configure Scrobbling"
+msgstr ""
 
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
-msgid "Test login..."
-msgstr "Vyzkoušet přihlášení..."
+msgctxt "@action:button"
+msgid "Test Login…"
+msgstr ""
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
@@ -1507,7 +1633,7 @@ msgstr "Uživatelské jméno:"
 msgid "Password:"
 msgstr "Heslo:"
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:84
 #, kde-format
 msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
@@ -1516,50 +1642,60 @@ msgstr ""
 "KWallet není dostupná. Vaše přihlašovací údaje do Last.fm budou uloženy "
 "nešifrované."
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:85
 #, kde-format
-msgid "KWallet is unavailable"
-msgstr "KWallet je nedostupná"
+msgctxt "@title:window"
+msgid "KWallet Unavailable"
+msgstr ""
 
-#: scrobbleconfigdlg.cpp:126
+#: scrobbleconfigdlg.cpp:128
 #, kde-format
-msgid "Validating login..."
-msgstr "Ověřuji přihlášení..."
+msgid "Validating login…"
+msgstr ""
 
-#: scrobbleconfigdlg.cpp:136
+#: scrobbleconfigdlg.cpp:138
 #, kde-format
 msgid "Login invalid."
 msgstr "Neplatné přihlášení."
 
-#: scrobbleconfigdlg.cpp:144
+#: scrobbleconfigdlg.cpp:146
 #, kde-format
 msgid "Login valid."
 msgstr "Platné přihlášení."
 
 #: searchwidget.cpp:73
 #, kde-format
-msgid "Normal Matching"
-msgstr "Normální porovnávání"
+msgctxt "@item:inlistbox"
+msgid "Normal matching"
+msgstr ""
 
 #: searchwidget.cpp:74
 #, kde-format
-msgid "Case Sensitive"
-msgstr "Rozlišovat velikost písmen"
+msgctxt "@item:inlistbox"
+msgid "Case sensitive"
+msgstr ""
 
 #: searchwidget.cpp:75
 #, kde-format
-msgid "Pattern Matching"
-msgstr "Porovnávání vzoru"
+msgctxt "@item:inlistbox"
+msgid "Pattern matching"
+msgstr ""
 
 #: searchwidget.cpp:169
 #, kde-format
+msgctxt "@title:column"
 msgid "All Visible"
-msgstr "Vše viditelné"
+msgstr ""
 
 #: searchwidget.cpp:200
 #, kde-format
-msgid "Search..."
-msgstr "Hledat..."
+msgid "Search…"
+msgstr "Hledat…"
+
+#: slider.cpp:127
+#, kde-format
+msgid "Volume"
+msgstr "Hlasitost"
 
 #: slider.cpp:128
 #, kde-format
@@ -1598,8 +1734,9 @@ msgstr "Posunování v tomto souboru není při tomto nastavení audia podporov�
 
 #: statuslabel.cpp:85
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
-msgstr "Přejít na aktuálně přehrávanou položku"
+msgstr ""
 
 #: statuslabel.cpp:115
 #, kde-format
@@ -1611,8 +1748,9 @@ msgstr[2] "%1 položek"
 
 #: systemtray.cpp:161
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
-msgstr "Znovu zobrazit vyskakovací okno"
+msgstr ""
 
 #: tageditor.cpp:468
 #, kde-format
@@ -1631,6 +1769,7 @@ msgstr "Přejete si uložit změny do:\n"
 
 #: tageditor.cpp:590
 #, kde-format
+msgctxt "@title:window"
 msgid "Save Changes"
 msgstr "Uložit změny"
 
@@ -1709,8 +1848,9 @@ msgstr "Povolit"
 
 #: tagguesserconfigdlg.cpp:39
 #, kde-format
+msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
-msgstr "Nastavení odhadu značek"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:18
@@ -1832,6 +1972,12 @@ msgid ""
 "Press this button to remove the currently selected scheme from the list."
 msgstr "Stiskněte toto tlačítko pro odebrání vybraného schéma ze seznamu."
 
+#. i18n: ectx: property (text), widget (QPushButton, bRemove)
+#: tagguesserconfigdlgwidget.ui:100
+#, kde-format
+msgid "&Remove"
+msgstr "Odst&ranit"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tagguesserconfigdlgwidget.ui:128
 #, no-c-format, kde-format
@@ -1855,6 +2001,15 @@ msgctxt "song title"
 msgid "Title"
 msgstr "Název"
 
+#: tagrenameroptions.cpp:112
+msgctxt "cd track number"
+msgid "Track"
+msgstr "Stopa"
+
+#: tagrenameroptions.cpp:120
+msgid "Year"
+msgstr "Rok"
+
 #: tagrenameroptions.cpp:126
 msgctxt "unknown renamer category"
 msgid "Unknown"
@@ -1871,11 +2026,13 @@ msgstr ""
 
 #: tagtransactionmanager.cpp:111
 #, kde-format
+msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Soubor existuje"
 
 #: tagtransactionmanager.cpp:111
 #, kde-format
+msgctxt "@action:button"
 msgid "Replace"
 msgstr "Nahradit"
 
@@ -1886,6 +2043,7 @@ msgstr "Toto soubory nelze změnit."
 
 #: tagtransactionmanager.cpp:178
 #, kde-format
+msgctxt "@title:window"
 msgid "Error"
 msgstr "Chyba"
 
@@ -1911,8 +2069,9 @@ msgstr "Přejete si provést změnu %1 na těchto souborech."
 
 #: treeviewitemplaylist.cpp:58
 #, kde-format
-msgid "Changing Track Tags"
-msgstr "Měním značky skladby"
+msgctxt "@title:window"
+msgid "Change Track Tags"
+msgstr ""
 
 #: upcomingplaylist.cpp:31
 #, kde-format
@@ -1953,8 +2112,9 @@ msgstr "Žánry"
 
 #: volumepopupbutton.cpp:76
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
-msgstr "Ztlumit/obnovit"
+msgstr ""
 
 #: volumepopupbutton.cpp:114
 #, kde-format
@@ -1963,10 +2123,12 @@ msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
-msgstr "Hlasitost: %1% (ztlumeno)"
+msgstr ""
 
 #: volumepopupbutton.cpp:123
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Volume: %1%"
-msgstr "Hlasitost: %1%"
+msgstr ""

@@ -73,7 +73,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     connect( m_volumeSlider, &VolumeSlider::volumeChanged, player, &PlayerManager::setVolume );
 
     m_muteAction = new QAction("audio-volume-muted"_icon, QString(), this );
-    m_muteAction->setToolTip( i18n( "Mute/Unmute" ) );
+    m_muteAction->setToolTip( i18nc( "@info:tooltip", "Mute/Unmute" ) );
     m_muteAction->setCheckable( true );
     m_muteAction->setChecked( player->muted() );
 
@@ -120,7 +120,7 @@ VolumePopupButton::volumeChanged( float newVolume )
     if ( newVolume > 0 )
         m_muteAction->setChecked( false );
 
-    const KLocalizedString tip = m_muteAction->isChecked() ? ki18n( "Volume: %1% (muted)" ) : ki18n( "Volume: %1%" );
+    const KLocalizedString tip = m_muteAction->isChecked() ? ki18nc( "@info:tooltip", "Volume: %1% (muted)" ) : ki18nc( "@info:tooltip", "Volume: %1%" );
     setToolTip( tip.subs( int( 100 * newVolume ) ).toString() );
 }
 
@@ -131,7 +131,7 @@ VolumePopupButton::muteStateChanged( bool muted )
     {
         const float volume = JuK::JuKInstance()->playerManager()->volume();
         setIcon("audio-volume-muted"_icon);
-        setToolTip( i18n( "Volume: %1% (muted)", int( 100 * volume ) ) );
+        setToolTip( i18nc( "@info:tooltip", "Volume: %1% (muted)", int( 100 * volume ) ) );
     }
     else
     {

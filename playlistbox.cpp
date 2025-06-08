@@ -105,7 +105,7 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     // add the view modes stuff
 
     KSelectAction *viewModeAction =
-        new KSelectAction("view-choose"_icon, i18n("View Modes"), ActionCollection::actions());
+        new KSelectAction("view-choose"_icon, i18nc("@action:inmenu", "View Modes"), ActionCollection::actions());
     ActionCollection::actions()->addAction("viewModeMenu", viewModeAction);
 
     ViewMode* viewmode = new ViewMode(this);
@@ -165,7 +165,7 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
             this,           &PlaylistBox::slotLoadCachedPlaylists);
 
     KToggleAction *historyAction =
-        new KToggleAction("view-history"_icon, i18n("Show &History"), ActionCollection::actions());
+        new KToggleAction("view-history"_icon, i18nc("@action:inmenu", "Show &History"), ActionCollection::actions());
     ActionCollection::actions()->addAction("showHistory", historyAction);
     connect(historyAction, &KToggleAction::triggered,
             this,          &PlaylistBox::slotSetHistoryPlaylistEnabled);
@@ -226,7 +226,7 @@ void PlaylistBox::duplicate()
     if(!item || !item->playlist())
         return;
 
-    QString name = playlistNameDialog(i18nc("verb, copy the playlist", "Duplicate"), item->text(0));
+    QString name = playlistNameDialog(i18nc("@action:button, verb, copy the playlist", "Duplicate"), item->text(0));
 
     if(name.isNull())
         return;
@@ -422,7 +422,7 @@ void PlaylistBox::remove()
 
         const auto remove = warnFunc(
                 this, i18n("Do you want to delete these files from the disk as well?"),
-                files, QString(), KStandardGuiItem::del(), KGuiItem(i18n("Keep")),
+                files, QString(), KStandardGuiItem::del(), KGuiItem(i18nc("@action:button", "Keep")),
                 KStandardGuiItem::cancel(), QString(), KMessageBox::Notify
                 );
 
@@ -445,8 +445,8 @@ void PlaylistBox::remove()
             i18n("Are you sure you want to remove these "
                "playlists from your collection?"),
             names,
-            i18n("Remove Items?"),
-            KGuiItem(i18n("&Remove"), "user-trash")))
+            i18nc("@title:window", "Remove Items?"),
+            KGuiItem(i18nc("@action:button", "&Remove"), "user-trash")))
         {
             return;
         }
@@ -650,11 +650,11 @@ void PlaylistBox::slotPlaylistChanged()
         PlaylistCollection::raise(playlists.front());
 
         if(playlists.front() == upcomingPlaylist()) {
-            action("deleteItemPlaylist")->setText(i18n("Hid&e"));
+            action("deleteItemPlaylist")->setText(i18nc("@action:inmenu", "Hid&e"));
             action("deleteItemPlaylist")->setIcon("list-remove"_icon);
         }
         else {
-            action("deleteItemPlaylist")->setText(i18n("R&emove"));
+            action("deleteItemPlaylist")->setText(i18nc("@action:inmenu", "R&emove"));
             action("deleteItemPlaylist")->setIcon("user-trash"_icon);
         }
     }

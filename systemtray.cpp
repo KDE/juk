@@ -158,7 +158,7 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent)
     // Just create this here so that it show up in the DBus interface and the
     // key bindings dialog.
 
-    QAction *rpaction = new QAction(i18n("Redisplay Popup"), this);
+    QAction *rpaction = new QAction(i18nc("@action:inmenu", "Redisplay Popup"), this);
     ActionCollection::actions()->addAction("showPopup", rpaction);
     connect(rpaction, &QAction::triggered, this, &SystemTray::slotPlay);
 
@@ -181,7 +181,7 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent)
 
     // Pity the actionCollection doesn't keep track of what sub-menus it has.
 
-    KActionMenu *menu = new KActionMenu(i18n("&Random Play"), this);
+    KActionMenu *menu = new KActionMenu(i18nc("@action:inmenu", "&Random Play"), this);
 
     menu->addAction(action("disableRandomPlay"));
     menu->addAction(action("randomPlay"));

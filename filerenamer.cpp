@@ -84,7 +84,7 @@ public:
         using namespace IconSupport; // ""_icon
 
         setModal(true);
-        setWindowTitle(i18nc("warning about mass file rename", "Warning"));
+        setWindowTitle(i18nc("@title:window, warning about mass file rename", "Warning"));
 
         auto vboxLayout = new QVBoxLayout(this);
         auto hbox = new QWidget(this);
@@ -406,10 +406,10 @@ int FileRenamerWidget::addRowCategory(TagType category)
     QVBoxLayout *optionLayout = new QVBoxLayout;
     frameLayout->addLayout(optionLayout);
 
-    row.enableButton = new QPushButton(i18nc("remove music genre from file renamer", "Remove"), frame);
+    row.enableButton = new QPushButton(i18nc("@action:button, remove music genre from file renamer", "Remove"), frame);
     optionLayout->addWidget(row.enableButton);
 
-    row.optionsButton = new QPushButton(i18nc("file renamer genre options", "Options"), frame);
+    row.optionsButton = new QPushButton(i18nc("@action:button, file renamer genre options", "Options"), frame);
     optionLayout->addWidget(row.optionsButton);
 
     row.widget->show();
@@ -521,7 +521,7 @@ void FileRenamerWidget::addFolderSeparatorCheckbox()
 
     QHBoxLayout *l = new QHBoxLayout(temp);
 
-    QCheckBox *cb = new QCheckBox(i18n("Insert folder separator"), temp);
+    QCheckBox *cb = new QCheckBox(i18nc("@option:check", "Insert folder separator"), temp);
     m_folderSwitches.append(cb);
     l->addWidget(cb, 0, Qt::AlignCenter);
     cb->setChecked(false);
@@ -823,12 +823,12 @@ void FileRenamerWidget::insertCategory()
 
 void FileRenamerWidget::exampleDialogShown()
 {
-    m_ui->m_showExample->setText(i18n("Hide Renamer Test Dialog"));
+    m_ui->m_showExample->setText(i18nc("@action:button", "Hide Renamer Test Dialog"));
 }
 
 void FileRenamerWidget::exampleDialogHidden()
 {
-    m_ui->m_showExample->setText(i18n("Show Renamer Test Dialog"));
+    m_ui->m_showExample->setText(i18nc("@action:button", "Show Renamer Test Dialog"));
 }
 
 void FileRenamerWidget::fileSelected(const QString &file)
@@ -908,7 +908,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
             setFolderIcon(QUrl::fromLocalFile(newFile), itemMap[oldFile]);
         }
         else
-            errorFiles << i18n("%1 to %2", oldFile, newFile);
+            errorFiles << i18nc("Rename %1 file to %2", "%1 to %2", oldFile, newFile);
     }
     QApplication::restoreOverrideCursor();
 

@@ -346,8 +346,8 @@ void PlaylistCollection::open(const QStringList &l)
            JuK::JuKInstance(),
            i18n("Do you want to add these items to the current list or to the collection list?"),
            QString(),
-           KGuiItem(i18nc("current playlist", "Current")),
-           KGuiItem(i18n("Collection")),
+           KGuiItem(i18nc("@action:button, current playlist", "Current")),
+           KGuiItem(i18nc("@action:button", "Collection")),
            QString(),
            KMessageBox::Notify) == KMessageBox::SecondaryAction)
     {
@@ -409,7 +409,7 @@ void PlaylistCollection::addFolder()
 void PlaylistCollection::rename()
 {
     QString old = visiblePlaylist()->name();
-    QString name = playlistNameDialog(i18n("Rename"), old, false);
+    QString name = playlistNameDialog(i18nc("@action:button", "Rename"), old, false);
 
     m_playlistNames.remove(old);
 
@@ -421,7 +421,7 @@ void PlaylistCollection::rename()
 
 void PlaylistCollection::duplicate()
 {
-    QString name = playlistNameDialog(i18nc("verb, copy the playlist", "Duplicate"),
+    QString name = playlistNameDialog(i18nc("@action:button, verb, copy the playlist", "Duplicate"),
                                       visiblePlaylist()->name());
     if(name.isEmpty())
         return;
@@ -512,7 +512,7 @@ void PlaylistCollection::createPlaylist()
 
 void PlaylistCollection::createSearchPlaylist()
 {
-    QString name = uniquePlaylistName(i18n("Search Playlist"));
+    QString name = uniquePlaylistName(i18nc("@action:button", "Create Search Playlist"));
 
     auto searchDialog = new AdvancedSearchDialog(
             name, *(new PlaylistSearch(JuK::JuKInstance())), JuK::JuKInstance());
@@ -537,7 +537,7 @@ void PlaylistCollection::createFolderPlaylist()
         return;
 
     QString name = uniquePlaylistName(folder.mid(folder.lastIndexOf('/') + 1));
-    name = playlistNameDialog(i18n("Create Folder Playlist"), name);
+    name = playlistNameDialog(i18nc("@action:button", "Create Folder Playlist"), name);
 
     if(!name.isEmpty())
         raise(new FolderPlaylist(this, folder, name));
@@ -887,18 +887,18 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // "New" menu
 
-    menu = new KActionMenu("document-new"_icon, i18nc("new playlist", "&New"), this);
+    menu = new KActionMenu("document-new"_icon, i18nc("@action:inmenu, new playlist", "&New"), this);
     actionCollection->addAction("file_new", menu);
 
-    menu->addAction(createAction(i18n("&Empty Playlist..."),
+    menu->addAction(createAction(i18nc("@action:inmenu", "&Empty Playlist…"),
                 qOverload<>(&PlaylistCollection::createPlaylist),
                 "newPlaylist", "window-new",
                 QKeySequence(Qt::CTRL | Qt::Key_N)));
-    menu->addAction(createAction(i18n("&Search Playlist..."),
+    menu->addAction(createAction(i18nc("@action:inmenu", "&Search Playlist…"),
                 &PlaylistCollection::createSearchPlaylist,
                 "newSearchPlaylist", "edit-find",
                 QKeySequence(Qt::CTRL | Qt::Key_F)));
-    menu->addAction(createAction(i18n("Playlist From &Folder..."),
+    menu->addAction(createAction(i18nc("@action:inmenu", "Playlist From &Folder…"),
                 &PlaylistCollection::createFolderPlaylist,
                 "newDirectoryPlaylist", "document-open",
                 QKeySequence(Qt::CTRL | Qt::Key_D)));
@@ -906,62 +906,62 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     // Guess tag info menu
 
 #if HAVE_TUNEPIMP
-    menu = new KActionMenu(i18n("&Guess Tag Information"), actionCollection);
+    menu = new KActionMenu(i18nc("@action:inmenu", "&Guess Tag Information"), actionCollection);
     actionCollection->addAction("guessTag", menu);
 
     menu->setIcon("wizard"_icon);
 
-    menu->addAction(createAction(i18n("From &File Name"),
+    menu->addAction(createAction(i18nc("@action:inmenu", "From &File Name"),
                 &PlaylistCollection::guessTagFromFile,
                 "guessTagFile", "document-import",
                 QKeySequence(Qt::CTRL | Qt::Key_G)));
-    menu->addAction(createAction(i18n("From &Internet"),
+    menu->addAction(createAction(i18nc("@action:inmenu", "From &Internet"),
                 &PlaylistCollection::guessTagFromInternet,
                 "guessTagInternet", "network-server",
                 QKeySequence(Qt::CTRL | Qt::Key_I)));
 #else
-    createAction(i18n("Guess Tag Information From &File Name"),
+    createAction(i18nc("@action:inmenu", "Guess Tag Information From &File Name"),
                 &PlaylistCollection::guessTagFromFile,
                 "guessTag", "document-import",
                 QKeySequence(Qt::CTRL | Qt::Key_G));
 #endif
 
 
-    createAction(i18n("Play First Track"), &PlaylistCollection::playFirst,
+    createAction(i18nc("@action:inmenu", "Play First Track"), &PlaylistCollection::playFirst,
             "playFirst");
-    createAction(i18n("Play Next Album"), &PlaylistCollection::playNextAlbum,
+    createAction(i18nc("@action:inmenu", "Play Next Album"), &PlaylistCollection::playNextAlbum,
             "forwardAlbum", "go-down-search");
 
     KStandardAction::open(this, SLOT(slotOpen()), actionCollection);
     KStandardAction::save(this, SLOT(slotSave()), actionCollection);
     KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection);
 
-    createAction(i18n("Manage &Folders..."), &PlaylistCollection::addFolder,
+    createAction(i18nc("@action:inmenu", "Manage &Folders…"), &PlaylistCollection::addFolder,
             "openDirectory", "folder-new");
-    createAction(i18n("&Rename..."), &PlaylistCollection::rename,
+    createAction(i18nc("@action:inmenu", "&Rename…"), &PlaylistCollection::rename,
             "renamePlaylist", "edit-rename");
-    createAction(i18nc("verb, copy the playlist", "D&uplicate..."),
+    createAction(i18nc("@action:inmenu, verb, copy the playlist", "D&uplicate…"),
                  &PlaylistCollection::duplicate,
                  "duplicatePlaylist", "edit-copy");
-    createAction(i18n("R&emove"), &PlaylistCollection::remove,
+    createAction(i18nc("@action:inmenu", "R&emove"), &PlaylistCollection::remove,
             "deleteItemPlaylist", "user-trash");
-    createAction(i18n("Reload"), &PlaylistCollection::reload,
+    createAction(i18nc("@action:inmenu", "Reload"), &PlaylistCollection::reload,
             "reloadPlaylist", "view-refresh");
-    createAction(i18n("Edit Search..."), &PlaylistCollection::editSearch,
+    createAction(i18nc("@action:inmenu", "Edit Search…"), &PlaylistCollection::editSearch,
             "editSearch");
 
-    createAction(i18n("&Delete"), &PlaylistCollection::removeItems,
+    createAction(i18nc("@action:inmenu", "&Delete"), &PlaylistCollection::removeItems,
             "removeItem", "edit-delete");
-    createAction(i18n("Refresh"), &PlaylistCollection::refreshItems,
+    createAction(i18nc("@action:inmenu", "Refresh"), &PlaylistCollection::refreshItems,
             "refresh", "view-refresh");
-    createAction(i18n("Open Containing Folder"), &PlaylistCollection::openItemDir,
+    createAction(i18nc("@action:inmenu", "Open Containing Folder"), &PlaylistCollection::openItemDir,
             "openItemDir", "stock_folder");
-    createAction(i18n("&Rename File"), &PlaylistCollection::renameItems,
+    createAction(i18nc("@action:inmenu", "&Rename File"), &PlaylistCollection::renameItems,
             "renameFile", "document-save-as",
             QKeySequence(Qt::CTRL | Qt::Key_R));
 
     auto upcomingAction = new KToggleAction(
-            "go-jump-today"_icon, i18n("Show &Play Queue"), actionCollection);
+            "go-jump-today"_icon, i18nc("@action:inmenu", "Show &Play Queue"), actionCollection);
     actionCollection->addAction("showUpcoming", upcomingAction);
 
     connect(upcomingAction, &KToggleAction::triggered,

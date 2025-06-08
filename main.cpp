@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
     KAboutData aboutData(QStringLiteral("juk"), i18n("JuK"),
                          QStringLiteral(JUK_VERSION), i18n("Jukebox and music manager by the KDE community"), KAboutLicense::GPL,
-                         i18n("Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"),
+                         i18nc("Use copyright sign, and en dash for the year range", "© 2002–2025, Scott Wheeler, Michael Pyne, and others"),
                          QLatin1String(""),
                          QStringLiteral("https://juk.kde.org/"));
 
@@ -90,8 +90,18 @@ int main(int argc, char *argv[])
 
     a.setApplicationName("juk");
     a.setOrganizationDomain("kde.org");
+    a.setWindowIcon(QIcon::fromTheme(QStringLiteral("juk")));
     // Limit to only one instance
     KDBusService service(KDBusService::Unique);
+
+    QObject::connect(&service, &KDBusService::activateRequested, juk, [juk] {
+        if (juk->isHidden()) {
+            juk->setWindowState((juk->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+        }
+        juk->show();
+        juk->raise();
+        juk->activateWindow();
+    });
 
     return a.exec();
 }

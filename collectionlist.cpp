@@ -289,7 +289,7 @@ void CollectionList::clear()
         i18n("Removing an item from the collection will also remove it from "
              "all of your playlists. Are you sure you want to continue?\n\n"
              "Note, however, that if the directory that these files are in is in "
-             "your \"scan on startup\" list, they will be readded on startup."));
+             "your “scan on startup” list, they will be readded on startup."));
 
     if(result == KMessageBox::Continue) {
         Playlist::clear();
@@ -340,7 +340,7 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
     m_columnTags(15, 0)
 {
     QAction *spaction = ActionCollection::actions()->addAction("showPlaying");
-    spaction->setText(i18n("Show Playing"));
+    spaction->setText(i18nc("@action:button", "Show Playing"));
     connect(spaction, SIGNAL(triggered(bool)), SLOT(slotShowPlaying()));
 
     connect(action<KToolBarPopupAction>("back")->popupMenu(), SIGNAL(aboutToShow()),

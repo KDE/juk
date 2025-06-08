@@ -5,13 +5,13 @@
 # Gregor Rakar <gregor.rakar@kiss.si>, 2003, 2004, 2005.
 # Jure Repinc <jlp@holodeck1.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2012, 2013.
 # Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2016, 2018.
-# SPDX-FileCopyrightText: 2019, 2020, 2021, 2023 Matjaž Jeran <matjaz.jeran@amis.net>
+# SPDX-FileCopyrightText: 2019, 2020, 2021, 2023, 2025 Matjaž Jeran <matjaz.jeran@amis.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2023-12-31 11:09+0100\n"
+"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"PO-Revision-Date: 2025-05-07 07:05+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -37,37 +37,43 @@ msgstr ""
 
 #: advancedsearchdialog.cpp:48
 #, kde-format
+msgctxt "@title:window"
 msgid "Create Search Playlist"
 msgstr "Ustvari iskalni seznam predvajanja"
 
 #: advancedsearchdialog.cpp:57
 #, kde-format
+msgctxt "@label"
 msgid "Playlist name:"
 msgstr "Ime seznama predvajanja:"
 
 #: advancedsearchdialog.cpp:61
 #, kde-format
+msgctxt "@title:group"
 msgid "Search Criteria"
-msgstr "Pogoji iskanja"
+msgstr "Kriteriji iskanja"
 
 #: advancedsearchdialog.cpp:66
 #, kde-format
+msgctxt "@option:radio"
 msgid "Match any of the following"
 msgstr "Naj se ujema karkoli od naslednjega"
 
 #: advancedsearchdialog.cpp:67
 #, kde-format
+msgctxt "@option:radio"
 msgid "Match all of the following"
 msgstr "Naj se ujema vse od naslednjega"
 
 #: advancedsearchdialog.cpp:91
 #, kde-format
-msgctxt "additional search options"
+msgctxt "@action:button, additional search options"
 msgid "More"
 msgstr "Več"
 
 #: advancedsearchdialog.cpp:96
 #, kde-format
+msgctxt "@action:button"
 msgid "Fewer"
 msgstr "Manj"
 
@@ -92,16 +98,17 @@ msgid ""
 "playlists. Are you sure you want to continue?\n"
 "\n"
 "Note, however, that if the directory that these files are in is in your "
-"\"scan on startup\" list, they will be readded on startup."
+"“scan on startup” list, they will be readded on startup."
 msgstr ""
 "Odstranjevanje predmeta iz zbirke ga tudi odstrani iz vseh seznamov "
 "predvajanja. Ali ste prepričani, da želite nadaljevati?\n"
 "\n"
-"Zapomnite si, da če je mapa, v kateri je ta datoteka, navedena v seznamu "
+"Upoštevajte, da če je imenik, v katerem je ta datoteka, naveden v seznamu "
 "preišči ob zagonu«, se bo znova dodala ob zagonu."
 
 #: collectionlist.cpp:343
 #, kde-format
+msgctxt "@action:button"
 msgid "Show Playing"
 msgstr "Prikaži predvajanje"
 
@@ -127,13 +134,15 @@ msgstr "<qt>Ti predmeti bodo prestavljeni v Smeti.</qt>"
 
 #: deletedialog.cpp:96
 #, kde-format
+msgctxt "@action:button"
 msgid "&Send to Trash"
 msgstr "Pošlji v Smeti"
 
 #: deletedialog.cpp:100
 #, kde-format
-msgid "About to delete selected files"
-msgstr "Izbrane datoteke bodo izbrisane"
+msgctxt "@title:window"
+msgid "Delete Selected Files"
+msgstr "Izbriši izbrane datoteke"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -175,6 +184,7 @@ msgstr "Izbriši datoteke, namesto premikanja v Smeti"
 
 #: directorylist.cpp:55
 #, kde-format
+msgctxt "@title:window"
 msgid "Folder List"
 msgstr "Seznam map"
 
@@ -217,7 +227,7 @@ msgstr "Izberite mape, ki bi jih radi izločili iz iskanja za glasbo:"
 msgid "Import playlists"
 msgstr "Uvozi sezname predvajanja"
 
-#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:397 playlist.cpp:1295
+#: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:381 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
@@ -299,26 +309,26 @@ msgid "Title"
 msgstr "Naslov"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
-#: exampleoptionsbase.ui:221 playlist.cpp:1281 tagrenameroptions.cpp:104
+#: exampleoptionsbase.ui:221 tagrenameroptions.cpp:104
 #, kde-format
 msgid "Artist"
 msgstr "Izvajalec"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
-#: exampleoptionsbase.ui:228 playlist.cpp:1282 tagrenameroptions.cpp:108
+#: exampleoptionsbase.ui:228 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
 msgstr "Album"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
-#: exampleoptionsbase.ui:235 playlist.cpp:1284 tagrenameroptions.cpp:116
+#: exampleoptionsbase.ui:235 tagrenameroptions.cpp:116
 #, kde-format
 msgid "Genre"
 msgstr "Zvrst"
 
 #: filerenamer.cpp:87
 #, kde-format
-msgctxt "warning about mass file rename"
+msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
 msgstr "Opozorilo"
 
@@ -346,18 +356,19 @@ msgstr "Brez sprememb"
 
 #: filerenamer.cpp:409
 #, kde-format
-msgctxt "remove music genre from file renamer"
+msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
 msgstr "Odstrani"
 
 #: filerenamer.cpp:412
 #, kde-format
-msgctxt "file renamer genre options"
+msgctxt "@action:button, file renamer genre options"
 msgid "Options"
 msgstr "Možnosti"
 
 #: filerenamer.cpp:524
 #, kde-format
+msgctxt "@option:check"
 msgid "Insert folder separator"
 msgstr "Vstavi ločilnik map"
 
@@ -368,19 +379,21 @@ msgstr "Ni izbranih datotek ali pa izbrane datoteke nimajo oznak."
 
 #: filerenamer.cpp:826
 #, kde-format
+msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
-msgstr "Skrij preizkusno okno preimenovalnika"
+msgstr "Skrij pogovorno okno preizkusa preimenovalnika"
 
-#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
-#: filerenamer.cpp:831 filerenamerbase.ui:257
+#: filerenamer.cpp:831
 #, kde-format
+msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
-msgstr "Prikaži poskusno okno preimenovalnika"
+msgstr "Pokaži pogovorno okno preizkusa preimenovalnika"
 
 #: filerenamer.cpp:911
 #, kde-format
+msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
-msgstr "%1 v %2"
+msgstr "%1 do %2"
 
 #: filerenamer.cpp:916
 #, kde-format
@@ -453,32 +466,41 @@ msgstr "Dod&aj kategorijo:"
 msgid "Separator:"
 msgstr "Ločilnik:"
 
+#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
+#: filerenamerbase.ui:257
+#, kde-format
+msgid "Show Renamer Test Dialog"
+msgstr "Prikaži poskusno okno preimenovalnika"
+
 #: filerenamerconfigdlg.cpp:29
 #, kde-format
+msgctxt "@title:window"
 msgid "File Renamer Options"
 msgstr "Možnosti preimenovalnika datotek"
 
 #: filerenameroptions.cpp:38
 #, kde-format
-msgctxt "%1 will be a music tag category like Artist or Album"
+msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
 msgstr "Možnosti za %1"
 
 #: filerenameroptions.cpp:39
 #, kde-format
+msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
 msgstr "Oblika za %1"
 
 #: filerenameroptions.cpp:40
 #, kde-format
-msgid "When the Track's %1 is Empty"
-msgstr "Ko je %1 skladbe prazno"
+msgctxt "@title:group"
+msgid "When the Track’s %1 is Empty"
+msgstr "Ko je %1 skladbe prazna"
 
 #: filerenameroptions.cpp:41
 #, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
-"you have in your track's %1 tag, plus any additional text that you specify "
+"you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
 "Ko uporabljate preimenovalnik datotek, bodo vaše datoteke preimenovane v "
@@ -487,6 +509,7 @@ msgstr ""
 
 #: filerenameroptions.cpp:114
 #, kde-format
+msgctxt "@title:window"
 msgid "File Renamer"
 msgstr "Preimenovalnik datotek"
 
@@ -575,144 +598,169 @@ msgstr "Čas"
 
 #: juk.cpp:240 systemtray.cpp:184
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "Naključno p&redvajaj"
 
 #: juk.cpp:247
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "Onemogoči naključno predvajanje"
 
 #: juk.cpp:253
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Uporabi naključno p%redvajanje"
 
 #: juk.cpp:259
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Uporabi naključno predvajanje &albumov"
 
 #: juk.cpp:267
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Odstrani s seznama predvajanja"
 
 #: juk.cpp:271
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "&Predvajaj"
 
 #: juk.cpp:276
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "P&avza"
 
 #: juk.cpp:281
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "Zau&stavi"
 
 #: juk.cpp:284
 #, kde-format
-msgctxt "previous track"
+msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Predhodna"
 
 #: juk.cpp:291
 #, kde-format
-msgctxt "next track"
+msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Naslednja"
 
 #: juk.cpp:295
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "Ponav&ljaj seznam predvajanja"
 
 #: juk.cpp:299
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Ročno spremeni velikost stolpcev seznama predvajanja"
 
 #: juk.cpp:304
 #, kde-format
-msgctxt "silence playback"
+msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Utišaj"
 
 #: juk.cpp:308
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Povečaj glasnost"
 
 #: juk.cpp:312
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Zmanjšaj glasnost"
 
 #: juk.cpp:316
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Predvajaj / Premor"
 
 #: juk.cpp:320
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Seek Forward"
-msgstr "Previj naprej"
+msgstr "Preišči naprej"
 
 #: juk.cpp:324
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Seek Back"
-msgstr "Previj nazaj"
+msgstr "Preišči nazaj"
 
 #: juk.cpp:328
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Pokaži / Skrij"
 
 #: juk.cpp:335
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "Zasi&draj v sistemsko vrstico"
 
 #: juk.cpp:339
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "Os&tani v sistemski vrstici ob zaprtju"
 
 #: juk.cpp:342
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
-msgstr "Pojavitev napovedi skladbe"
+msgstr "Pojavno okno in obvestilo o skladbi"
 
 #: juk.cpp:345
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Shrani &predvajalno vrsto ob izhodu"
 
 #: juk.cpp:348
 #, kde-format
-msgid "&Tag Guesser..."
-msgstr "Uganjevalnik oznak..."
+msgctxt "@action:inmenu"
+msgid "&Tag Guesser…"
+msgstr "Uganjevalnik oznak…"
 
 #: juk.cpp:351
 #, kde-format
-msgid "&File Renamer..."
-msgstr "Preimenovalnik datotek ..."
+msgctxt "@action:inmenu"
+msgid "&File Renamer…"
+msgstr "Preimenovalnik datotek…"
 
 #: juk.cpp:354
 #, kde-format
-msgid "&Configure scrobbling..."
-msgstr "Nastavi pošiljanje podatkov o skladbah..."
+msgctxt "@action:inmenu"
+msgid "&Configure Scrobbling…"
+msgstr "Konfiguriraj Scrobbling…"
 
 #: juk.cpp:361
 #, kde-format
+msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Položaj skladbe"
 
-#: juk.cpp:363 slider.cpp:127
+#: juk.cpp:363
 #, kde-format
+msgctxt "@action:button"
 msgid "Volume"
 msgstr "Glasnost"
 
@@ -727,14 +775,15 @@ msgstr ""
 
 #: juk.cpp:531
 #, kde-format
-msgid "Docking in System Tray"
-msgstr "Zasidranje v sistemsko vrstico"
+msgctxt "@title:window"
+msgid "Dock in System Tray"
+msgstr "Zasidraj v sistemsko vrstico"
 
 #: juktag.cpp:90
 #, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
-msgid "%1 - <i>%2</i>"
-msgstr "%1 – <i>%2</i>"
+msgid "%1 — <i>%2</i>"
+msgstr "%1 — <i>%2</i>"
 
 #. i18n: ectx: Menu (file)
 #: jukui-rtl.rc:4 jukui.rc:6
@@ -780,34 +829,40 @@ msgstr "Orodna vrstica predvajanja"
 
 #: keydialog.cpp:102
 #, kde-format
+msgctxt "@title:window"
 msgid "Configure Shortcuts"
 msgstr "Nastavi bližnjice"
 
 #: keydialog.cpp:118
 #, kde-format
+msgctxt "@title:group"
 msgid "Global Shortcuts"
-msgstr "Splošne bližnjice"
+msgstr "Globalne bližnjice"
 
 #: keydialog.cpp:124
 #, kde-format
+msgctxt "@option:radio"
 msgid "&No keys"
 msgstr "&Ni tipk"
 
 #: keydialog.cpp:128
 #, kde-format
+msgctxt "@option:radio"
 msgid "&Standard keys"
 msgstr "&Standardne tipke"
 
 #: keydialog.cpp:132
 #, kde-format
+msgctxt "@option:radio"
 msgid "&Multimedia keys"
 msgstr "Predstavnostne tipke"
 
 #: keydialog.cpp:138
 #, kde-format
+msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
-msgstr "Tu lahko izberete tipke za splošne bližnjice za nadzor predvajalnika"
+msgstr "Tu lahko izberete tipke za globalne bližnjice za nadzor predvajalnika"
 
 #: lyricswidget.cpp:51
 #, kde-format
@@ -853,8 +908,9 @@ msgstr "Glasbena skrinja in upravljalnik glasbe s strani skupnosti KDE"
 
 #: main.cpp:40
 #, kde-format
-msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
-msgstr "Copyright © 2002–2023, Scott Wheeler, Michael Pyne in drugi"
+msgctxt "Use copyright sign, and en dash for the year range"
+msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
+msgstr "© 2002–2025, Scott Wheeler, Michael Pyne in drugi"
 
 #: main.cpp:44
 #, kde-format
@@ -1101,16 +1157,17 @@ msgstr "JuK zasidran"
 
 #: mediafiles.cpp:134
 #, kde-format
-msgctxt "open audio file"
+msgctxt "@title:window, open audio file"
 msgid "Open"
 msgstr "Odpri"
 
-#: mediafiles.cpp:147
+#: mediafiles.cpp:146
 #, kde-format
-msgid "Save Playlist"
-msgstr "Shrani seznam predvajanja"
+msgctxt "@title:window"
+msgid "Save Playlist %1"
+msgstr "Shrani seznam predvajanja %1"
 
-#: mediafiles.cpp:149
+#: mediafiles.cpp:148
 #, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
@@ -1121,17 +1178,17 @@ msgstr "Seznami predvajanja (*%1)"
 msgid "back to playlist"
 msgstr "nazaj v seznam predvajanja"
 
-#: playermanager.cpp:59
+#: playermanager.cpp:56
 #, kde-format
 msgctxt "%1 is the artist and %2 is the title of the currently playing track."
 msgid "%1 - %2 :: JuK"
 msgstr "%1 – %2 :: JuK"
 
-#: playermanager.cpp:367
+#: playermanager.cpp:363
 #, kde-format
 msgctxt ""
-"%1 will be the /path/to/file, %2 will be some string from Phonon describing "
-"the error"
+"%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
+"describing the error"
 msgid ""
 "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
 "following reason:<nl/><message>%2</message>"
@@ -1154,8 +1211,9 @@ msgstr[1] "Nameravate odpreti %1 imenika. Ali zares želite nadaljevati?"
 msgstr[2] "Nameravate odpreti %1 imenike. Ali zares želite nadaljevati?"
 msgstr[3] "Nameravate odpreti %1 imenikov. Ali zares želite nadaljevati?"
 
-#: playlist.cpp:578 playlistcollection.cpp:957
+#: playlist.cpp:578
 #, kde-format
+msgctxt "@title:window"
 msgid "Open Containing Folder"
 msgstr "Odpri vsebovano mapo"
 
@@ -1171,79 +1229,115 @@ msgstr "Ni bilo mogoče premakniti teh datotek v Smeti"
 
 #: playlist.cpp:1280
 #, kde-format
+msgctxt "@title:column"
 msgid "Track Name"
 msgstr "Ime skladbe"
 
-#: playlist.cpp:1283 tagrenameroptions.cpp:112
+#: playlist.cpp:1281
 #, kde-format
-msgctxt "cd track number"
+msgctxt "@title:column"
+msgid "Artist"
+msgstr "Izvajalec"
+
+#: playlist.cpp:1282
+#, kde-format
+msgctxt "@title:column"
+msgid "Album"
+msgstr "Album"
+
+#: playlist.cpp:1283
+#, kde-format
+msgctxt "@title:column, CD track number"
 msgid "Track"
 msgstr "Skladba"
 
-#: playlist.cpp:1285 tagrenameroptions.cpp:120
+#: playlist.cpp:1284
 #, kde-format
+msgctxt "@title:column"
+msgid "Genre"
+msgstr "Zvrst"
+
+#: playlist.cpp:1285
+#, kde-format
+msgctxt "@title:column"
 msgid "Year"
 msgstr "Leto"
 
 #: playlist.cpp:1286
 #, kde-format
+msgctxt "@title:column"
 msgid "Length"
 msgstr "Dolžina"
 
 #: playlist.cpp:1287
 #, kde-format
+msgctxt "@title:column"
 msgid "Bitrate"
 msgstr "Bitna hitrost"
 
 #: playlist.cpp:1288
 #, kde-format
+msgctxt "@title:column"
 msgid "Comment"
 msgstr "Opomba"
 
 #: playlist.cpp:1289
 #, kde-format
+msgctxt "@title:column"
 msgid "File Name"
 msgstr "Ime datoteke"
 
 #: playlist.cpp:1290
 #, kde-format
-msgid "File Name (full path)"
+msgctxt "@title:column"
+msgid "File Name (Full Path)"
 msgstr "Ime datoteke (polna pot)"
 
 #: playlist.cpp:1471
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Show Columns"
 msgstr "Pokaži &stolpce"
 
 #: playlist.cpp:1579
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
 msgstr "Dodaj v predvajalno vrsto"
 
-#: playlist.cpp:1593 playlist.cpp:2052
+#: playlist.cpp:1593
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "Uredi"
 
 #: playlist.cpp:1607
 #, kde-format
-msgid "Create Playlist From Selected Items..."
+msgctxt "@action:inmenu"
+msgid "Create Playlist From Selected Items…"
 msgstr "Ustvari seznam predvajanja iz izbranih vnosov..."
 
 #: playlist.cpp:1973
 #, kde-format
-msgid "Edit '%1'"
-msgstr "Uredi '%1'"
+msgctxt "@action:inmenu"
+msgid "Edit “%1”"
+msgstr "Uredi “%1”"
 
 #: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
 msgstr "To bo uredilo več datotek. Ali ste prepričani?"
 
-#: playlist.cpp:2109 playlistcollection.h:183
+#: playlist.cpp:2052
 #, kde-format
+msgid "Edit"
+msgstr "Uredi"
+
+#: playlist.cpp:2109
+#, kde-format
+msgctxt "@action:inmenu"
 msgid "Create New Playlist"
-msgstr "Ustvari nov seznam predvajanja"
+msgstr "Ustvari novi seznam predvajanja"
 
 #: playlist.cpp:2118
 #, kde-format
@@ -1256,22 +1350,25 @@ msgstr ""
 
 #: playlist.cpp:2121
 #, kde-format
+msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
 msgstr "Ročne širine stolpcev omogočene"
 
 #: playlistbox.cpp:108
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "View Modes"
 msgstr "Načini prikaza"
 
 #: playlistbox.cpp:168
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &History"
 msgstr "Pokaži zgodovino"
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
 #, kde-format
-msgctxt "verb, copy the playlist"
+msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Podvoji"
 
@@ -1282,6 +1379,7 @@ msgstr "Ali želite izbrisati te datoteke tudi z diska?"
 
 #: playlistbox.cpp:425
 #, kde-format
+msgctxt "@action:button"
 msgid "Keep"
 msgstr "Ohrani"
 
@@ -1297,22 +1395,25 @@ msgstr "Ali zares želite odstraniti te sezname predvajanja iz vaše zbirke?"
 
 #: playlistbox.cpp:448
 #, kde-format
+msgctxt "@title:window"
 msgid "Remove Items?"
-msgstr "Odstranim predmete?"
+msgstr "Naj odstranim predmete?"
 
-#. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:449 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:449
 #, kde-format
+msgctxt "@action:button"
 msgid "&Remove"
-msgstr "Odstrani"
+msgstr "Odst&rani"
 
 #: playlistbox.cpp:653
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Hid&e"
 msgstr "Skrij"
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "R&emove"
 msgstr "Odstrani"
 
@@ -1334,27 +1435,31 @@ msgstr "Ali želite dodati te predmete na trenuten seznam ali na seznam zbirk?"
 
 #: playlistcollection.cpp:349
 #, kde-format
-msgctxt "current playlist"
+msgctxt "@action:button, current playlist"
 msgid "Current"
 msgstr "Trenutni"
 
 #: playlistcollection.cpp:350
 #, kde-format
+msgctxt "@action:button"
 msgid "Collection"
 msgstr "Zbirka"
 
 #: playlistcollection.cpp:412
 #, kde-format
+msgctxt "@action:button"
 msgid "Rename"
 msgstr "Preimenuj"
 
 #: playlistcollection.cpp:515
 #, kde-format
-msgid "Search Playlist"
-msgstr "Iskalni seznam predvajanja"
+msgctxt "@action:button"
+msgid "Create Search Playlist"
+msgstr "Ustvari iskalni seznam predvajanja"
 
 #: playlistcollection.cpp:540
 #, kde-format
+msgctxt "@action:button"
 msgid "Create Folder Playlist"
 msgstr "Ustvari seznam predvajanja mape"
 
@@ -1370,100 +1475,128 @@ msgstr "Vnesite ime za ta seznam predvajanja:"
 
 #: playlistcollection.cpp:890
 #, kde-format
-msgctxt "new playlist"
+msgctxt "@action:inmenu, new playlist"
 msgid "&New"
 msgstr "&Nov"
 
 #: playlistcollection.cpp:893
 #, kde-format
-msgid "&Empty Playlist..."
+msgctxt "@action:inmenu"
+msgid "&Empty Playlist…"
 msgstr "Prazen seznam predvajanja..."
 
 #: playlistcollection.cpp:897
 #, kde-format
-msgid "&Search Playlist..."
-msgstr "I&skalni seznam predvajanja..."
+msgctxt "@action:inmenu"
+msgid "&Search Playlist…"
+msgstr "Iskalni seznam predvajanja…"
 
 #: playlistcollection.cpp:901
 #, kde-format
-msgid "Playlist From &Folder..."
+msgctxt "@action:inmenu"
+msgid "Playlist From &Folder…"
 msgstr "Seznam predvajanja iz mape..."
 
 #: playlistcollection.cpp:909
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
-msgstr "Ugani podatke za oznake"
+msgstr "Ugani informacije oznake"
 
 #: playlistcollection.cpp:914
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "From &File Name"
 msgstr "Iz imena datoteke"
 
 #: playlistcollection.cpp:918
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "From &Internet"
 msgstr "Z &interneta"
 
 #: playlistcollection.cpp:923
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
-msgstr "Ugani oznake iz imena datoteke"
+msgstr "Ugani informacije oznake iz imena datoteke"
 
 #: playlistcollection.cpp:930
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play First Track"
 msgstr "Predvajaj prvo skladbo"
 
 #: playlistcollection.cpp:932
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Play Next Album"
 msgstr "Predvajaj naslednji album"
 
 #: playlistcollection.cpp:939
 #, kde-format
-msgid "Manage &Folders..."
-msgstr "Upravljanje map..."
+msgctxt "@action:inmenu"
+msgid "Manage &Folders…"
+msgstr "Upravljaj mape..."
 
 #: playlistcollection.cpp:941
 #, kde-format
-msgid "&Rename..."
-msgstr "P&reimenuj..."
+msgctxt "@action:inmenu"
+msgid "&Rename…"
+msgstr "Pr&eimenuj…"
 
 #: playlistcollection.cpp:943
 #, kde-format
-msgctxt "verb, copy the playlist"
-msgid "D&uplicate..."
-msgstr "Po&dvoji ..."
+msgctxt "@action:inmenu, verb, copy the playlist"
+msgid "D&uplicate…"
+msgstr "Podvoji…"
 
 #: playlistcollection.cpp:948
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "Znova naloži"
 
 #: playlistcollection.cpp:950
 #, kde-format
-msgid "Edit Search..."
+msgctxt "@action:inmenu"
+msgid "Edit Search…"
 msgstr "Uredi iskanje..."
 
 #: playlistcollection.cpp:953
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "Izbriši"
 
 #: playlistcollection.cpp:955
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Refresh"
 msgstr "Osveži"
 
+#: playlistcollection.cpp:957
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Containing Folder"
+msgstr "Odpri vsebovano mapo"
+
 #: playlistcollection.cpp:959
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "&Rename File"
 msgstr "P&reimenuj datoteko"
 
 #: playlistcollection.cpp:964
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
 msgstr "Prikaži &predvajalno vrsto"
+
+#: playlistcollection.h:183
+#, kde-format
+msgid "Create New Playlist"
+msgstr "Ustvari nov seznam predvajanja"
 
 #: playlistcollection.h:186
 #, kde-format
@@ -1472,23 +1605,27 @@ msgstr "Seznam predvajanja"
 
 #: playlistsplitter.cpp:158
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
 msgstr "Pokaži i&skalno vrstico"
 
 #: playlistsplitter.cpp:161
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Edit Track Search"
 msgstr "Uredi iskanje skladb"
 
 #: scrobbleconfigdlg.cpp:38
 #, kde-format
-msgid "Configure scrobbling..."
-msgstr "Nastavi pošiljanje podatkov o skladbah ..."
+msgctxt "@title:window"
+msgid "Configure Scrobbling"
+msgstr "Konfiguriraj Scrobble"
 
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
-msgid "Test login..."
-msgstr "Preizkusna prijava ..."
+msgctxt "@action:button"
+msgid "Test Login…"
+msgstr "Preizkusna prijava..."
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
@@ -1508,7 +1645,7 @@ msgstr "Uporabniško ime:"
 msgid "Password:"
 msgstr "Geslo:"
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:84
 #, kde-format
 msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
@@ -1517,50 +1654,60 @@ msgstr ""
 "Listnica KWallet za KDE ni na voljo. Vaše poverilnice za Last.fm bodo "
 "shranjene brez šifriranja."
 
-#: scrobbleconfigdlg.cpp:83
+#: scrobbleconfigdlg.cpp:85
 #, kde-format
-msgid "KWallet is unavailable"
-msgstr "Listnica za KDE ni na voljo"
+msgctxt "@title:window"
+msgid "KWallet Unavailable"
+msgstr "KWallet ni na voljo"
 
-#: scrobbleconfigdlg.cpp:126
+#: scrobbleconfigdlg.cpp:128
 #, kde-format
-msgid "Validating login..."
-msgstr "Potrjevanje prijave ..."
+msgid "Validating login…"
+msgstr "Potrjevanje prijave..."
 
-#: scrobbleconfigdlg.cpp:136
+#: scrobbleconfigdlg.cpp:138
 #, kde-format
 msgid "Login invalid."
 msgstr "Prijava je neveljavna."
 
-#: scrobbleconfigdlg.cpp:144
+#: scrobbleconfigdlg.cpp:146
 #, kde-format
 msgid "Login valid."
 msgstr "Prijava je veljavna."
 
 #: searchwidget.cpp:73
 #, kde-format
-msgid "Normal Matching"
+msgctxt "@item:inlistbox"
+msgid "Normal matching"
 msgstr "Običajno ujemanje"
 
 #: searchwidget.cpp:74
 #, kde-format
-msgid "Case Sensitive"
-msgstr "Ločevanje velikosti črk"
+msgctxt "@item:inlistbox"
+msgid "Case sensitive"
+msgstr "Upoštevanje velikosti črk"
 
 #: searchwidget.cpp:75
 #, kde-format
-msgid "Pattern Matching"
+msgctxt "@item:inlistbox"
+msgid "Pattern matching"
 msgstr "Ujemanje vzorcev"
 
 #: searchwidget.cpp:169
 #, kde-format
+msgctxt "@title:column"
 msgid "All Visible"
 msgstr "Vse vidno"
 
 #: searchwidget.cpp:200
 #, kde-format
-msgid "Search..."
+msgid "Search…"
 msgstr "Išči..."
+
+#: slider.cpp:127
+#, kde-format
+msgid "Volume"
+msgstr "Glasnost"
 
 #: slider.cpp:128
 #, kde-format
@@ -1599,6 +1746,7 @@ msgstr "Nastavitve vašega zvočnega sistema ne podpirajo previjanja."
 
 #: statuslabel.cpp:85
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
 msgstr "Preskoči na trenutno predvajan predmet"
 
@@ -1613,8 +1761,9 @@ msgstr[3] "%1 predmetov"
 
 #: systemtray.cpp:161
 #, kde-format
+msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
-msgstr "Znova prikaži pojavitev"
+msgstr "Znova prikaži pogovorno okno"
 
 #: tageditor.cpp:468
 #, kde-format
@@ -1633,6 +1782,7 @@ msgstr "Ali želite shraniti spremembe v:\n"
 
 #: tageditor.cpp:590
 #, kde-format
+msgctxt "@title:window"
 msgid "Save Changes"
 msgstr "Shrani spremembe"
 
@@ -1711,8 +1861,9 @@ msgstr "Omogoči"
 
 #: tagguesserconfigdlg.cpp:39
 #, kde-format
+msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
-msgstr "Nastavitve uganjevalnika oznak"
+msgstr "Konfiguracija uganjevalnika oznak"
 
 #. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:18
@@ -1836,6 +1987,12 @@ msgid ""
 "Press this button to remove the currently selected scheme from the list."
 msgstr "Kliknite ta gumb, da bi odstranili trenutno izbrano shemo iz seznama."
 
+#. i18n: ectx: property (text), widget (QPushButton, bRemove)
+#: tagguesserconfigdlgwidget.ui:100
+#, kde-format
+msgid "&Remove"
+msgstr "Odstrani"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tagguesserconfigdlgwidget.ui:128
 #, no-c-format, kde-format
@@ -1859,6 +2016,15 @@ msgctxt "song title"
 msgid "Title"
 msgstr "Naslov"
 
+#: tagrenameroptions.cpp:112
+msgctxt "cd track number"
+msgid "Track"
+msgstr "Skladba"
+
+#: tagrenameroptions.cpp:120
+msgid "Year"
+msgstr "Leto"
+
 #: tagrenameroptions.cpp:126
 msgctxt "unknown renamer category"
 msgid "Unknown"
@@ -1875,11 +2041,13 @@ msgstr ""
 
 #: tagtransactionmanager.cpp:111
 #, kde-format
+msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Datoteka obstaja"
 
 #: tagtransactionmanager.cpp:111
 #, kde-format
+msgctxt "@action:button"
 msgid "Replace"
 msgstr "Zamenjaj"
 
@@ -1890,6 +2058,7 @@ msgstr "Naslednjih datotek ni bilo mogoče spremeniti."
 
 #: tagtransactionmanager.cpp:178
 #, kde-format
+msgctxt "@title:window"
 msgid "Error"
 msgstr "Napaka"
 
@@ -1915,7 +2084,8 @@ msgstr "Pravkar boste spremenili %1 od teh datotek."
 
 #: treeviewitemplaylist.cpp:58
 #, kde-format
-msgid "Changing Track Tags"
+msgctxt "@title:window"
+msgid "Change Track Tags"
 msgstr "Spreminjanje oznak skladb"
 
 #: upcomingplaylist.cpp:31
@@ -1957,8 +2127,9 @@ msgstr "Zvrsti"
 
 #: volumepopupbutton.cpp:76
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
-msgstr "Preklopi tišino"
+msgstr "Utišaj/Odutišaj"
 
 #: volumepopupbutton.cpp:114
 #, kde-format
@@ -1967,13 +2138,31 @@ msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
-msgstr "Glasnost: %1 % (utišano)"
+msgstr "Glasnost: %1% (utišano)"
 
 #: volumepopupbutton.cpp:123
 #, kde-format
+msgctxt "@info:tooltip"
 msgid "Volume: %1%"
 msgstr "Glasnost: %1 %"
+
+#~ msgid "&File Renamer..."
+#~ msgstr "Preimenovalnik datotek ..."
+
+#~ msgid "Docking in System Tray"
+#~ msgstr "Zasidranje v sistemsko vrstico"
+
+#~ msgid "&Search Playlist..."
+#~ msgstr "I&skalni seznam predvajanja..."
+
+#~ msgid "&Rename..."
+#~ msgstr "P&reimenuj..."
+
+#~ msgctxt "verb, copy the playlist"
+#~ msgid "D&uplicate..."
+#~ msgstr "Po&dvoji ..."
 
 #~ msgid "<All Artists>"
 #~ msgstr "<All Artists>"

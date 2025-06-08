@@ -82,7 +82,7 @@ StatusLabel::StatusLabel(const PlaylistInterface &currentPlaylist, QStatusBar *p
     jumpButton->setIcon("go-jump"_icon);
     jumpButton->setFlat(true);
 
-    jumpButton->setToolTip(i18n("Jump to the currently playing item"));
+    jumpButton->setToolTip(i18nc("@info:tooltip", "Jump to the currently playing item"));
     connect(jumpButton, &QPushButton::clicked, action("showPlaying"), &QAction::trigger);
 
     parent->addPermanentWidget(jumpButton);
