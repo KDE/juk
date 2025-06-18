@@ -1,26 +1,25 @@
-# translation of juk.po to Spanish
-# Translation of juk.po to Spanish
-# Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+# Spanish translations for juk.po package.
+# Copyright (C) 2003-2025 This file is copyright:
+# This file is distributed under the same license as the juk package.
 #
-# Salvador Gimeno Zanón <salgiza@jazzfree.com>, 2003, 2004.
-# Salvador Gimeno Zanón <salgiza@ono.com>, 2003, 2004, 2005.
-# santi <santi@kde-es.org>, 2005.
+# SPDX-FileCopyrightText: 2003, 2004 Salvador Gimeno Zanón <salgiza@jazzfree.com>
+# SPDX-FileCopyrightText: 2003, 2004, 2005 Salvador Gimeno Zanón <salgiza@ono.com>
+# SPDX-FileCopyrightText: 2005 santi <santi@kde-es.org>
 # SPDX-FileCopyrightText: 2005, 2006, 2007, 2013, 2014, 2016, 2024 Eloy Cuadra <ecuadra@eloihr.net>
-# Jaime Robles <jaime@kde.org>, 2008.
-# Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2008, 2009, 2010, 2011, 2012.
-# Enrique Matias Sanchez (Quique) <cronopios@gmail.com>, 2009.
-# Rocio Gallego <traducciones @rociogallego.com>, 2012.
-# Ayoze Hernández Díaz <ayoze12@gmail.com>, 2013.
-# Javier Viñal <fjvinal@gmail.com>, 2013.
-# David Paul <eodos0@gmail.com>, 2014.
-# Víctor Rodrigo Córdoba <vrcordoba@gmail.com>, 2017, 2018, 2019, 2020, 2021, 2024.
+# SPDX-FileCopyrightText: 2008 Jaime Robles <jaime@kde.org>
+# SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2012 Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>
+# SPDX-FileCopyrightText: 2012 Rocio Gallego <traducciones@rociogallego.com>
+# SPDX-FileCopyrightText: 2013 Ayoze Hernández Díaz <ayoze12@gmail.com>
+# SPDX-FileCopyrightText: 2013 Javier Viñal <fjvinal@gmail.com>
+# SPDX-FileCopyrightText: 2014 David Paul <eodos0@gmail.com>
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2021, 2024, 2025 Víctor Rodrigo Córdoba <vrcordoba@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2024-01-11 02:13+0100\n"
-"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
+"PO-Revision-Date: 2025-06-18 01:41+0100\n"
+"Last-Translator: Víctor Rodrigo Córdoba <vrcordoba@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -205,7 +204,7 @@ msgstr "Al iniciar el programa se buscarán nuevos archivos en estas carpetas."
 #: directorylistbase.ui:64 directorylistbase.ui:147
 #, kde-format
 msgid "Add Folder..."
-msgstr "Añadir una carpeta..."
+msgstr "Añadir una carpeta…"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeDirectoryButton)
 #. i18n: ectx: property (text), widget (QPushButton, removeExcludeDirectoryButton)
@@ -709,17 +708,17 @@ msgstr "Guardar la cola de re&producción al salir"
 #: juk.cpp:348
 #, kde-format
 msgid "&Tag Guesser..."
-msgstr "Deductor de e&tiquetas..."
+msgstr "Deductor de e&tiquetas…"
 
 #: juk.cpp:351
 #, kde-format
 msgid "&File Renamer..."
-msgstr "Ca&mbiador de nombres de archivo..."
+msgstr "Ca&mbiador de nombres de archivo…"
 
 #: juk.cpp:354
 #, kde-format
 msgid "&Configure scrobbling..."
-msgstr "&Configurar recomendaciones..."
+msgstr "&Configurar recomendaciones…"
 
 #: juk.cpp:361
 #, kde-format
@@ -840,7 +839,7 @@ msgstr "<i>Ningún archivo en reproducción.</i>"
 #: lyricswidget.cpp:83
 #, kde-format
 msgid "<i>Loading...</i>"
-msgstr "<i>Cargando...</i>"
+msgstr "<i>Cargando…</i>"
 
 #: lyricswidget.cpp:88
 #, kde-format
@@ -1251,7 +1250,7 @@ msgstr "Editar"
 #: playlist.cpp:1607
 #, kde-format
 msgid "Create Playlist From Selected Items..."
-msgstr "Crear una lista a partir de los elementos seleccionados..."
+msgstr "Crear una lista a partir de los elementos seleccionados…"
 
 #: playlist.cpp:1973
 #, kde-format
@@ -1402,17 +1401,17 @@ msgstr "&Nueva"
 #: playlistcollection.cpp:893
 #, kde-format
 msgid "&Empty Playlist..."
-msgstr "Lista d&e reproducción vacía..."
+msgstr "Lista d&e reproducción vacía…"
 
 #: playlistcollection.cpp:897
 #, kde-format
 msgid "&Search Playlist..."
-msgstr "Lista a partir de bú&squeda..."
+msgstr "Lista a partir de bú&squeda…"
 
 #: playlistcollection.cpp:901
 #, kde-format
 msgid "Playlist From &Folder..."
-msgstr "Lista de reproducción a partir de una &carpeta..."
+msgstr "Lista de reproducción a partir de una &carpeta…"
 
 #: playlistcollection.cpp:909
 #, kde-format
@@ -1447,18 +1446,18 @@ msgstr "Reproducir el siguiente álbum"
 #: playlistcollection.cpp:939
 #, kde-format
 msgid "Manage &Folders..."
-msgstr "Gestionar &carpetas..."
+msgstr "Gestionar &carpetas…"
 
 #: playlistcollection.cpp:941
 #, kde-format
 msgid "&Rename..."
-msgstr "Cambia&r el nombre..."
+msgstr "Cambia&r el nombre…"
 
 #: playlistcollection.cpp:943
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
-msgstr "D&uplicar..."
+msgstr "D&uplicar…"
 
 #: playlistcollection.cpp:948
 #, kde-format
@@ -1468,7 +1467,7 @@ msgstr "Recargar"
 #: playlistcollection.cpp:950
 #, kde-format
 msgid "Edit Search..."
-msgstr "Editar la búsqueda..."
+msgstr "Editar la búsqueda…"
 
 #: playlistcollection.cpp:953
 #, kde-format
@@ -1508,12 +1507,12 @@ msgstr "Editar la búsqueda de pistas"
 #: scrobbleconfigdlg.cpp:38
 #, kde-format
 msgid "Configure scrobbling..."
-msgstr "Configurar recomendaciones..."
+msgstr "Configurar recomendaciones…"
 
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
 msgid "Test login..."
-msgstr "Probar inicio de sesión..."
+msgstr "Probar inicio de sesión…"
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
@@ -1550,7 +1549,7 @@ msgstr "KWallet no está disponible"
 #: scrobbleconfigdlg.cpp:126
 #, kde-format
 msgid "Validating login..."
-msgstr "Comprobando inicio de sesión..."
+msgstr "Comprobando inicio de sesión…"
 
 #: scrobbleconfigdlg.cpp:136
 #, kde-format
@@ -1585,7 +1584,7 @@ msgstr "Todo visible"
 #: searchwidget.cpp:200
 #, kde-format
 msgid "Search..."
-msgstr "Busqueda..."
+msgstr "Busqueda…"
 
 #: slider.cpp:128
 #, kde-format
