@@ -2316,19 +2316,3 @@ msgstr "Сила на звука: %1% (заглушен)"
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
 msgstr "Сила на звука: %1%"
-
-#~ msgid "&File Renamer..."
-#~ msgstr "&Преименуване на файлове…"
-
-#~ msgid "Docking in System Tray"
-#~ msgstr "Икона в системния поднос"
-
-#~ msgid "&Search Playlist..."
-#~ msgstr "&Търсене в списъка…"
-
-#~ msgid "&Rename..."
-#~ msgstr "&Преименуване…"
-
-#~ msgctxt "verb, copy the playlist"
-#~ msgid "D&uplicate..."
-#~ msgstr "Д&ублиране…"
