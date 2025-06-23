@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-07 00:41+0000\n"
-"PO-Revision-Date: 2025-06-21 12:26+0200\n"
+"PO-Revision-Date: 2025-06-22 06:11+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -95,13 +95,7 @@ msgid "Collection List"
 msgstr "Lista de coleccións"
 
 #: collectionlist.cpp:289
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removing an item from the collection will also remove it from all of your "
-#| "playlists. Are you sure you want to continue?\n"
-#| "\n"
-#| "Note, however, that if the directory that these files are in is in your "
-#| "\"scan on startup\" list, they will be readded on startup."
+#, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
 "playlists. Are you sure you want to continue?\n"
@@ -148,11 +142,10 @@ msgid "&Send to Trash"
 msgstr "&Tirar ao lixo"
 
 #: deletedialog.cpp:100
-#, fuzzy, kde-format
-#| msgid "About to delete selected files"
+#, kde-format
 msgctxt "@title:window"
 msgid "Delete Selected Files"
-msgstr "Estás a piques de eliminar os ficheiros escollidos"
+msgstr "Eliminar os ficheiros seleccionados"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -504,18 +497,13 @@ msgid "%1 Format"
 msgstr "Formato de %1"
 
 #: filerenameroptions.cpp:40
-#, fuzzy, kde-format
-#| msgid "When the Track's %1 is Empty"
+#, kde-format
 msgctxt "@title:group"
 msgid "When the Track’s %1 is Empty"
 msgstr "Cando o %1 da pista estea baleiro"
 
 #: filerenameroptions.cpp:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "When using the file renamer your files will be renamed to the values that "
-#| "you have in your track's %1 tag, plus any additional text that you "
-#| "specify below."
+#, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
 "you have in your track’s %1 tag, plus any additional text that you specify "
@@ -753,22 +741,19 @@ msgid "Save &Play Queue on Exit"
 msgstr "Gardar a fila de &temas ao saír"
 
 #: juk.cpp:348
-#, fuzzy, kde-format
-#| msgid "&Tag Guesser..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "&Adiviño de etiquetas…"
 
 #: juk.cpp:351
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
-msgstr "Cambiador de nome de ficheiros"
+msgstr "Cambiador de nome de &ficheiros…"
 
 #: juk.cpp:354
-#, fuzzy, kde-format
-#| msgid "&Configure scrobbling..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "&Configurar o envío de escoitas…"
@@ -795,19 +780,16 @@ msgstr ""
 "notificacións. Use «Saír», do menú «Ficheiro», para saír da aplicación.</qt>"
 
 #: juk.cpp:531
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"
-msgstr "&Acoplar na área de notificación"
+msgstr "Acoplar na área de notificación"
 
 #: juktag.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "a playing track, %1 is artist, %2 is song title"
-#| msgid "%1 - <i>%2</i>"
+#, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
 msgid "%1 — <i>%2</i>"
-msgstr "%1 - <i>%2</i>"
+msgstr "%1 — <i>%2</i>"
 
 #. i18n: ectx: Menu (file)
 #: jukui-rtl.rc:4 jukui.rc:6
@@ -934,11 +916,10 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Xestor e reprodutor de música da comunidade KDE."
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgctxt "Use copyright sign, and en dash for the year range"
 msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
-msgstr "© 2002–2023 Scott Wheeler, Michael Pyne e máis"
+msgstr "© 2002–2025 Scott Wheeler, Michael Pyne e máis"
 
 #: main.cpp:44
 #, kde-format
@@ -1197,11 +1178,10 @@ msgid "Open"
 msgstr "Abrir"
 
 #: mediafiles.cpp:146
-#, fuzzy, kde-format
-#| msgid "Save Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Playlist %1"
-msgstr "Gardar a lista de reprodución"
+msgstr "Gardar a lista de reprodución %1"
 
 #: mediafiles.cpp:148
 #, kde-format
@@ -1322,8 +1302,7 @@ msgid "File Name"
 msgstr "Nome do ficheiro"
 
 #: playlist.cpp:1290
-#, fuzzy, kde-format
-#| msgid "File Name (full path)"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name (Full Path)"
 msgstr "Nome do ficheiro (ruta absoluta)"
@@ -1347,15 +1326,13 @@ msgid "Edit"
 msgstr "Editar"
 
 #: playlist.cpp:1607
-#, fuzzy, kde-format
-#| msgid "Create Playlist From Selected Items..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create Playlist From Selected Items…"
 msgstr "Crear unha lista de temas cos elementos escollidos…"
 
 #: playlist.cpp:1973
-#, fuzzy, kde-format
-#| msgid "Edit '%1'"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit “%1”"
 msgstr "Editar «%1»"
@@ -1517,25 +1494,22 @@ msgid "&New"
 msgstr "&Nova"
 
 #: playlistcollection.cpp:893
-#, fuzzy, kde-format
-#| msgid "&Empty Playlist..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Empty Playlist…"
 msgstr "Lista de reprodución &baleira…"
 
 #: playlistcollection.cpp:897
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Search Playlist…"
-msgstr "Buscar lista de temas"
+msgstr "Bu&scar lista de temas…"
 
 #: playlistcollection.cpp:901
-#, fuzzy, kde-format
-#| msgid "Playlist From &Folder..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Playlist From &Folder…"
-msgstr "Lista de reprodución desde o &cartafol…"
+msgstr "Lista de reprodución desde o carta&fol…"
 
 #: playlistcollection.cpp:909
 #, kde-format
@@ -1574,26 +1548,22 @@ msgid "Play Next Album"
 msgstr "Reproducir o seguinte álbum"
 
 #: playlistcollection.cpp:939
-#, fuzzy, kde-format
-#| msgid "Manage &Folders..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Manage &Folders…"
-msgstr "Xestionar os &cartafoles…"
+msgstr "Xestionar os carta&foles…"
 
 #: playlistcollection.cpp:941
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename…"
-msgstr "Renomear"
+msgstr "&Renomear…"
 
 #: playlistcollection.cpp:943
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:inmenu, verb, copy the playlist"
 msgid "D&uplicate…"
-msgstr "Duplicada"
+msgstr "D&uplicar…"
 
 #: playlistcollection.cpp:948
 #, kde-format
@@ -1602,8 +1572,7 @@ msgid "Reload"
 msgstr "Cargar de novo"
 
 #: playlistcollection.cpp:950
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Search…"
 msgstr "Editar a busca…"
@@ -1661,15 +1630,13 @@ msgid "Edit Track Search"
 msgstr "Editar a busca de pista"
 
 #: scrobbleconfigdlg.cpp:38
-#, fuzzy, kde-format
-#| msgid "Configure scrobbling..."
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Scrobbling"
-msgstr "Configurar o envío de escoitas…"
+msgstr "Configurar o envío de escoitas"
 
 #: scrobbleconfigdlg.cpp:42
-#, fuzzy, kde-format
-#| msgid "Test login..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Test Login…"
 msgstr "Probar o acceso…"
@@ -1702,15 +1669,13 @@ msgstr ""
 "sen cifrado."
 
 #: scrobbleconfigdlg.cpp:85
-#, fuzzy, kde-format
-#| msgid "KWallet is unavailable"
+#, kde-format
 msgctxt "@title:window"
 msgid "KWallet Unavailable"
 msgstr "KWallet non está dispoñíbel"
 
 #: scrobbleconfigdlg.cpp:128
-#, fuzzy, kde-format
-#| msgid "Validating login..."
+#, kde-format
 msgid "Validating login…"
 msgstr "Validando o acceso…"
 
@@ -1725,22 +1690,19 @@ msgid "Login valid."
 msgstr "Acceso correcto."
 
 #: searchwidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "Normal Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Normal matching"
 msgstr "Coincidencia normal"
 
 #: searchwidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Case Sensitive"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Case sensitive"
 msgstr "Distingue maiúsculas de minúsculas"
 
 #: searchwidget.cpp:75
-#, fuzzy, kde-format
-#| msgid "Pattern Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Pattern matching"
 msgstr "Coincidencia con padrón"
@@ -1752,10 +1714,9 @@ msgid "All Visible"
 msgstr "Todo o visíbel"
 
 #: searchwidget.cpp:200
-#, fuzzy, kde-format
-#| msgid "Search:"
+#, kde-format
 msgid "Search…"
-msgstr "Buscar:"
+msgstr "Buscar…"
 
 #: slider.cpp:127
 #, kde-format
@@ -2137,11 +2098,10 @@ msgid "You are about to change the %1 on these files."
 msgstr "Está a piques de cambiar o %1 nestes ficheiros."
 
 #: treeviewitemplaylist.cpp:58
-#, fuzzy, kde-format
-#| msgid "Changing Track Tags"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change Track Tags"
-msgstr "Cambiando as etiquetas da pista"
+msgstr "Cambiar as etiquetas da pista"
 
 #: upcomingplaylist.cpp:31
 #, kde-format
