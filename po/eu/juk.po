@@ -1,7 +1,7 @@
 # Translation for juk.po to Euskara/Basque (eu).
 # Copyright (C) 2003-2024 This is copyright:
 # This file is distributed under the same license as the juk package.
-# SPDX-FileCopyrightText: 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2024, 2025 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Marcos  <marcos@euskalgnu.org>, 2003, 2004, 2005.
@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:39+0000\n"
-"PO-Revision-Date: 2024-01-01 09:53+0100\n"
+"PO-Revision-Date: 2025-06-24 21:06+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 25.04.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -77,8 +77,8 @@ msgid ""
 "The music data cache has been corrupted. JuK needs to rescan it now. This "
 "may take some time."
 msgstr ""
-"Musika datuen cachea hondatu da. JuKek berriro aztertu behar du. Prozesu hau "
-"luzea izan daiteke."
+"Musika datuen cachea hondatu da. JuKek berriro aztertu behar du. Prozesu "
+"honek luze jo dezake."
 
 #: collectionlist.cpp:148
 #, kde-format
@@ -282,7 +282,7 @@ msgstr "Generoa:"
 #: exampleoptionsbase.ui:175
 #, kde-format
 msgid "Track number:"
-msgstr "Aztarna zenbakia:"
+msgstr "Pistaren zenbakia:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6)
 #: exampleoptionsbase.ui:185
@@ -393,7 +393,7 @@ msgstr "Berrizendatzeko ondoko eragiketek huts egin dute:\n"
 #: filerenamerbase.ui:20
 #, kde-format
 msgid "File Renamer Configuration"
-msgstr "Fitxategi berrizendatzaile konfigurazioa"
+msgstr "Fitxategi berrizendatzailearen konfigurazioa"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
 #: filerenamerbase.ui:65
@@ -417,7 +417,7 @@ msgstr "Artista etiketa"
 #: filerenamerbase.ui:100
 #, kde-format
 msgid "Genre Tag"
-msgstr "Genero egiketa"
+msgstr "Genero etiketa"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:105
@@ -429,7 +429,7 @@ msgstr "Titulu etiketa"
 #: filerenamerbase.ui:110
 #, kde-format
 msgid "Track Tag"
-msgstr "Aztarna etiketa"
+msgstr "Pista etiketa"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:115
@@ -527,7 +527,7 @@ msgstr "Hutsik"
 #: filerenameroptionsbase.ui:184
 #, kde-format
 msgid "Track numbering"
-msgstr "Aztarna zenbakitzea"
+msgstr "Pista zenbakitzea"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: filerenameroptionsbase.ui:196
@@ -536,7 +536,7 @@ msgid ""
 "JuK can force the track used in a file name to have a minimum number of "
 "digits. You may want to do this for better sorting in file managers."
 msgstr ""
-"JuKek behartu dezake fitxategi-izen batean erabilitako aztarna gutxieneko "
+"JuKek behartu dezake fitxategi-izen batean erabilitako pista gutxieneko "
 "digitu kopuru bat izatera. Hau egin nahi izan dezakezu fitxategi "
 "kudeatzailean hurrenkera hobetzeko."
 
@@ -724,8 +724,8 @@ msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
-"<qt>Leiho nagusia itxita JuK ibiltzen geldituko da sistema-erretiluan.  "
-"Erabilifitxategi menuko «Irten» aukera aplikaziotik irteteko.</qt>"
+"<qt>Leiho nagusia itxita JuK martxan geldituko da sistema-erretiluan. "
+"Erabili fitxategia menuko Irten aukera aplikaziotik irteteko.</qt>"
 
 #: juk.cpp:531
 #, kde-format
@@ -821,7 +821,7 @@ msgstr "Erakutsi &hitzak"
 #: lyricswidget.cpp:78
 #, kde-format
 msgid "<i>No file playing.</i>"
-msgstr "<i>ez da fitxategirik jotzen ari.</i>"
+msgstr "<i>Ez da fitxategirik jotzen ari.</i>"
 
 #: lyricswidget.cpp:83
 #, kde-format
@@ -1014,7 +1014,7 @@ msgstr "Stephen Douglas"
 #: main.cpp:58
 #, kde-format
 msgid "Track announcement popups"
-msgstr "Aztarna iragarpen gainerakorrak"
+msgstr "Pista iragarpen gainerakorrak"
 
 #: main.cpp:59
 #, kde-format
@@ -1024,7 +1024,7 @@ msgstr "Frerich Raabe"
 #: main.cpp:59
 #, kde-format
 msgid "Automagic track data guessing, bugfixes"
-msgstr "Aztarna datuak igartze auto-magikoa, akats zuzenketak"
+msgstr "Pistaren datuak igartze auto-magikoa, akats zuzenketak"
 
 #: main.cpp:60
 #, kde-format
@@ -1148,7 +1148,7 @@ msgstr ""
 #: playlist.cpp:338
 #, kde-format
 msgid "Could not save to file %1."
-msgstr "Ezin izan da gorde %1 fitxategira."
+msgstr "Ezin izan da gorde %1 fitxategian."
 
 #: playlist.cpp:575
 #, kde-format
@@ -1182,7 +1182,7 @@ msgstr "Aztarna izena"
 #, kde-format
 msgctxt "cd track number"
 msgid "Track"
-msgstr "Aztarna"
+msgstr "Pista"
 
 #: playlist.cpp:1285 tagrenameroptions.cpp:120
 #, kde-format
@@ -1255,8 +1255,8 @@ msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr ""
-"\"Zutabe zabalerak eskuz\" gaitu da. Atzera, zutabe neurri automatikora alda "
-"dezakezu ikuspegi menuan"
+"Zutabe zabalerak eskuz gaitu da. Atzera, zutabe neurri automatikora alda "
+"dezakezu ikuspegi menuan."
 
 #: playlist.cpp:2121
 #, kde-format
@@ -1282,7 +1282,7 @@ msgstr "Bikoiztu"
 #: playlistbox.cpp:424
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
-msgstr "Fitxategi hauek ere diskotik ezabatu nahi dituzu?"
+msgstr "Fitxategi hauek diskotik ere ezabatu nahi dituzu?"
 
 #: playlistbox.cpp:425
 #, kde-format
@@ -1335,7 +1335,7 @@ msgstr "Orain jotzen"
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr ""
-"Elementu hauek uneko zerrendara edo bilduma zerrendara gehitu nahi al dituzu?"
+"Elementu hauek uneko zerrendara edo bilduma-zerrendara gehitu nahi al dituzu?"
 
 #: playlistcollection.cpp:349
 #, kde-format
@@ -1500,7 +1500,7 @@ msgstr "Probatu saio-hastea..."
 msgid ""
 "Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
 msgstr ""
-"Sartu zure <a href=\"https://last.fm/\">last.fm</a> saio-hasteko "
+"Mesedez, sartu zure <a href=\"https://last.fm/\">last.fm</a> saioa hasteko "
 "egiaztagiriak:"
 
 #: scrobbleconfigdlg.cpp:53
@@ -1649,7 +1649,7 @@ msgstr "F&itxategi-izena:"
 #: tageditor.ui:29
 #, kde-format
 msgid "T&rack:"
-msgstr "Azta&rna:"
+msgstr "&Pista:"
 
 #. i18n: ectx: property (text), widget (QLabel, artistNameLabel)
 #: tageditor.ui:39
@@ -1697,7 +1697,7 @@ msgstr "&Iruzkina:"
 #: tageditor.ui:184
 #, kde-format
 msgid "Trac&k name:"
-msgstr "Az&tarnaren izena:"
+msgstr "Pis&taren izena:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, artistNameEnable)
 #. i18n: ectx: property (text), widget (QCheckBox, trackNameEnable)
@@ -1751,7 +1751,7 @@ msgstr ""
 "<li>%t: Titulua</li>\n"
 "<li>%a: Artista</li>\n"
 "<li>%A: Albuma</li>\n"
-"<li>%T: Aztarna</li>\n"
+"<li>%T: Pista</li>\n"
 "<li>%c: Iruzkina</li>\n"
 "</ul>\n"
 "Adibidez, \"[%T] %a - %t\" fitxategi-izen antolaera \"[01] Deep Purple - "
@@ -1856,7 +1856,7 @@ msgstr ""
 "%t: Titulua\n"
 "%A: Albuma\n"
 "%a: Artista\n"
-"%T: Aztarna\n"
+"%T: Pista\n"
 "%c: Iruzkina"
 
 #: tagrenameroptions.cpp:100
@@ -1926,7 +1926,7 @@ msgstr "Aztarnen etiketak aldatzen"
 #: upcomingplaylist.cpp:31
 #, kde-format
 msgid "Play Queue"
-msgstr "Jotze ilara"
+msgstr "Jotze-ilara"
 
 #: viewmode.cpp:66
 #, kde-format
