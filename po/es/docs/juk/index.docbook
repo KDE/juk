@@ -199,13 +199,13 @@
 ><guimenu
 >Archivo</guimenu
 ><guimenuitem
->Abrir...</guimenuitem
+>Abrir…</guimenuitem
 ></menuchoice
 > y seleccionándolo a través de un cuadro de diálogo de archivos estándar de &kde;. Puede añadir carpetas enteras utilizando <menuchoice
 ><guimenu
 >Archivo</guimenu
 ><guimenuitem
->Añadir carpeta...</guimenuitem
+>Añadir carpeta…</guimenuitem
 ></menuchoice
 > Las carpetas añadidas de esta forma se volverán a leer cada vez que inicie &juk;. Puede incluso definir subcarpetas que serán omitidas del escaneo. Puede forzar el que se vuelvan a leer las carpetas pulsando con el botón derecho en el icono de la <guilabel
 >Lista de colecciones</guilabel
@@ -224,13 +224,13 @@
 ><guimenu
 >Archivo</guimenu
 ><guimenuitem
->Abrir...</guimenuitem
+>Abrir…</guimenuitem
 ></menuchoice
 > Todos los archivos de listas de reproducción que se encuentren en las carpetas que añada con <menuchoice
 ><guimenu
 >Archivo</guimenu
 ><guimenuitem
->Añadir carpeta...</guimenuitem
+>Añadir carpeta…</guimenuitem
 ></menuchoice
 > también se añadirán automáticamente.</para>
 
@@ -312,7 +312,7 @@
 ></term>
 <listitem>
 <para
->...</para>
+>…</para>
 </listitem>
 </varlistentry>
 
@@ -428,7 +428,7 @@
 ><guimenu
 >Ajustes</guimenu
 ><guimenuitem
->Renombrador de archivos...</guimenuitem
+>Renombrador de archivos…</guimenuitem
 ></menuchoice
 > El nombre resultante de cada archivo está basado en sus etiquetas de metadatos. Por ejemplo, la canción Ogg Vorbis «The Theme (Metroid)» de Stemage debería dar como resultado <filename
 >usr/share/music/Stemage/The Theme (Metroid).ogg</filename
@@ -867,7 +867,7 @@ Show Cover Manager
 ><guimenu
 >Ajustes</guimenu
 ><guimenuitem
-> Cambiador de nombres de archivo...</guimenuitem
+> Cambiador de nombres de archivo…</guimenuitem
 ></menuchoice
 >. Puede definir una ruta destino usando la carpeta donde aloja la música y añadir categorías desde ahí. Estas categorías pueden estar basadas en los metadatos de su música como el título, artista, &etc;, y se añaden usando el selector <guilabel
 >Insertar categoría</guilabel
@@ -1261,7 +1261,7 @@ write new for kde4
   <varlistentry
 ><term
 ><guimenuitem
->Lista de reproducción vacía...</guimenuitem
+>Lista de reproducción vacía…</guimenuitem
 ></term>
   <listitem
 ><para
@@ -1272,7 +1272,7 @@ write new for kde4
   <varlistentry
 ><term
 ><guimenuitem
->Lista de reproducción desde una carpeta...</guimenuitem
+>Lista de reproducción desde una carpeta…</guimenuitem
 ></term>
   <listitem
 ><para
@@ -1283,7 +1283,7 @@ write new for kde4
   <varlistentry
 ><term
 ><guimenuitem
->Lista desde búsqueda...</guimenuitem
+>Lista desde búsqueda…</guimenuitem
 ></term>
   <listitem
 ><para
@@ -1460,7 +1460,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 ><guisubmenu
 >Nueva</guisubmenu
 ><guimenuitem
->Lista de reproducción vacía...</guimenuitem
+>Lista de reproducción vacía…</guimenuitem
 > </menuchoice>
 </term>
 <listitem
@@ -1483,7 +1483,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 ><guisubmenu
 >Nueva</guisubmenu
 ><guimenuitem
->Lista desde búsqueda...</guimenuitem
+>Lista desde búsqueda…</guimenuitem
 > </menuchoice>
 </term>
 <listitem
@@ -1508,7 +1508,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 ><guisubmenu
 >Nueva</guisubmenu
 ><guimenuitem
->Lista desde una carpeta...</guimenuitem
+>Lista desde una carpeta…</guimenuitem
 > </menuchoice>
 </term>
 <listitem
@@ -1529,7 +1529,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 > <guimenu
 >Archivo</guimenu
 > <guimenuitem
->Abrir...</guimenuitem
+>Abrir…</guimenuitem
 > </menuchoice>
 </term>
 <listitem
@@ -1544,7 +1544,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 ><guimenu
 >Archivo</guimenu
 ><guimenuitem
->Gestionar carpetas...</guimenuitem
+>Gestionar carpetas…</guimenuitem
 > </menuchoice>
 </term>
 <listitem
@@ -1590,7 +1590,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 ><guimenu
 >Archivo</guimenu
 > <guimenuitem
->Renombrar...</guimenuitem
+>Renombrar…</guimenuitem
 ></menuchoice>
 </term>
 <listitem
@@ -1606,7 +1606,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 ><guimenu
 >Archivo</guimenu
 ><guimenuitem
->Duplicar...</guimenuitem
+>Duplicar…</guimenuitem
 ></menuchoice>
 </term>
 <listitem
@@ -1672,7 +1672,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 ><guimenu
 >Archivo</guimenu
 ><guimenuitem
->Guardar como...</guimenuitem
+>Guardar como…</guimenuitem
 > </menuchoice>
 </term>
 <listitem
@@ -2026,7 +2026,7 @@ Play Next Album
 ><guimenu
 >Ajustes</guimenu
 > <guimenuitem
->Deductor de etiquetas...</guimenuitem
+>Deductor de etiquetas…</guimenuitem
 ></menuchoice
 >, que abrirá el <link linkend="juk-tag-guesser-configuration"
 >Diálogo de configuración del deductor de etiquetas</link
@@ -2194,7 +2194,7 @@ Cover Manager
 ><guimenu
 >Ajustes</guimenu
 > <guimenuitem
->Deductor de etiquetas...</guimenuitem
+>Deductor de etiquetas…</guimenuitem
 > </menuchoice>
 </term>
 <listitem
@@ -2211,7 +2211,7 @@ Cover Manager
 ><guimenu
 >Ajustes</guimenu
 > <guimenuitem
->Renombrador de archivos...</guimenuitem
+>Renombrador de archivos…</guimenuitem
 > </menuchoice>
 </term>
 <listitem
@@ -2530,8 +2530,10 @@ action="simul"
 >santi@kde-es.org</email
 >, Javier Fdez. Retenaga <email
 >jfrtnaga@yahoo.es</email
-> y Ayoze Hernández Díaz <email
+>, Ayoze Hernández Díaz <email
 >ayoze12@gmail.com</email
+> y David Paul Peña <email
+>eodos0@gmail.com</email
 >.</para
 > &underFDL; &underGPL; </chapter>
 
