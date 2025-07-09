@@ -2,13 +2,13 @@
 # Tamas Szanto <taszanto@gmail.com>, 2003.
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2012, 2014.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
-# SPDX-FileCopyrightText: 2024 Kristof Kiszel <ulysses@fsf.hu>
+# SPDX-FileCopyrightText: 2024, 2025 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-07 00:41+0000\n"
-"PO-Revision-Date: 2024-01-12 22:02+0100\n"
+"PO-Revision-Date: 2025-07-08 22:23+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 25.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -29,51 +29,43 @@ msgid "Your emails"
 msgstr "ulysses@fsf.hu,urbalazs@fsf.hu"
 
 #: advancedsearchdialog.cpp:48
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create Search Playlist"
 msgstr "Keresési lejátszólista létrehozása"
 
 #: advancedsearchdialog.cpp:57
-#, fuzzy, kde-format
-#| msgid "Playlist name:"
+#, kde-format
 msgctxt "@label"
 msgid "Playlist name:"
-msgstr "A lejátszólista neve:"
+msgstr "Lejátszólista neve:"
 
 #: advancedsearchdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Search Criteria"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search Criteria"
 msgstr "Keresési feltételek"
 
 #: advancedsearchdialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Match any of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match any of the following"
 msgstr "Illeszkedés a következők legalább egyikéhez"
 
 #: advancedsearchdialog.cpp:67
-#, fuzzy, kde-format
-#| msgid "Match all of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match all of the following"
 msgstr "Illeszkedés a következők mindegyikéhez"
 
 #: advancedsearchdialog.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "additional search options"
-#| msgid "More"
+#, kde-format
 msgctxt "@action:button, additional search options"
 msgid "More"
 msgstr "Több"
 
 #: advancedsearchdialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "Fewer"
+#, kde-format
 msgctxt "@action:button"
 msgid "Fewer"
 msgstr "Kevesebb"
@@ -93,13 +85,7 @@ msgid "Collection List"
 msgstr "Gyűjtemények"
 
 #: collectionlist.cpp:289
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removing an item from the collection will also remove it from all of your "
-#| "playlists. Are you sure you want to continue?\n"
-#| "\n"
-#| "Note, however, that if the directory that these files are in is in your "
-#| "\"scan on startup\" list, they will be readded on startup."
+#, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
 "playlists. Are you sure you want to continue?\n"
@@ -114,11 +100,10 @@ msgstr ""
 "listájában, akkor a program indulásakor újból fel lesznek véve."
 
 #: collectionlist.cpp:343
-#, fuzzy, kde-format
-#| msgid "Show Playing"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Playing"
-msgstr "A lejátszás megjelenítése"
+msgstr "Lejátszás megjelenítése"
 
 #: deletedialog.cpp:65
 #, kde-format
@@ -140,18 +125,16 @@ msgid "<qt>These items will be moved to the Trash Bin.</qt>"
 msgstr "<qt>Ezek az elemek át lesznek helyezve a Kukába.</qt>"
 
 #: deletedialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "&Send to Trash"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Send to Trash"
 msgstr "Áthelyezés a &Kukába"
 
 #: deletedialog.cpp:100
-#, fuzzy, kde-format
-#| msgid "About to delete selected files"
+#, kde-format
 msgctxt "@title:window"
 msgid "Delete Selected Files"
-msgstr "A kijelölt fájlok törlése következik"
+msgstr "Kijelölt fájlok törlése"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -192,11 +175,10 @@ msgid "&Delete files instead of moving them to the trash"
 msgstr "A fájlok tény&leges törlése a Kukába helyezés helyett"
 
 #: directorylist.cpp:55
-#, fuzzy, kde-format
-#| msgid "Folder List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Folder List"
-msgstr "Könyvtárlista"
+msgstr "Mappalista"
 
 #. i18n: ectx: property (text), widget (QLabel, informationLabel)
 #: directorylistbase.ui:19
@@ -339,9 +321,7 @@ msgid "Genre"
 msgstr "Műfaj"
 
 #: filerenamer.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "warning about mass file rename"
-#| msgid "Warning"
+#, kde-format
 msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
 msgstr "Figyelmeztetés"
@@ -371,24 +351,19 @@ msgid "No Change"
 msgstr "Ne legyen módosítás"
 
 #: filerenamer.cpp:409
-#, fuzzy, kde-format
-#| msgctxt "remove music genre from file renamer"
-#| msgid "Remove"
+#, kde-format
 msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
 msgstr "Eltávolítás"
 
 #: filerenamer.cpp:412
-#, fuzzy, kde-format
-#| msgctxt "file renamer genre options"
-#| msgid "Options"
+#, kde-format
 msgctxt "@action:button, file renamer genre options"
 msgid "Options"
 msgstr "Beállítások"
 
 #: filerenamer.cpp:524
-#, fuzzy, kde-format
-#| msgid "Insert folder separator"
+#, kde-format
 msgctxt "@option:check"
 msgid "Insert folder separator"
 msgstr "Mappaelválasztó beszúrása"
@@ -399,22 +374,19 @@ msgid "No file selected, or selected file has no tags."
 msgstr "Nincs kijelölve fájl, vagy a kiválasztott fájlnak nincsenek tag-jei."
 
 #: filerenamer.cpp:826
-#, fuzzy, kde-format
-#| msgid "Hide Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
-msgstr "Az átnevezési tesztablak elrejtése"
+msgstr "Átnevezési teszt ablak elrejtése"
 
 #: filerenamer.cpp:831
-#, fuzzy, kde-format
-#| msgid "Show Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
-msgstr "Átnevezési tesztablak megjelenítése"
+msgstr "Átnevezési teszt ablak megjelenítése"
 
 #: filerenamer.cpp:911
-#, fuzzy, kde-format
-#| msgid "%1 to %2"
+#, kde-format
 msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
 msgstr "%1 - %2"
@@ -497,30 +469,25 @@ msgid "Show Renamer Test Dialog"
 msgstr "Átnevezési tesztablak megjelenítése"
 
 #: filerenamerconfigdlg.cpp:29
-#, fuzzy, kde-format
-#| msgid "File Renamer Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer Options"
-msgstr "A fájlátnevező beállításai"
+msgstr "Fájlátnevező beállításai"
 
 #: filerenameroptions.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "%1 will be a music tag category like Artist or Album"
-#| msgid "%1 Options"
+#, kde-format
 msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
 msgstr "Beállítások: %1"
 
 #: filerenameroptions.cpp:39
-#, fuzzy, kde-format
-#| msgid "%1 Format"
+#, kde-format
 msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
 msgstr "%1 formátum"
 
 #: filerenameroptions.cpp:40
-#, fuzzy, kde-format
-#| msgid "When the Track's %1 is Empty"
+#, kde-format
 msgctxt "@title:group"
 msgid "When the Track’s %1 is Empty"
 msgstr "Ha a szám %1 jellemzője üres"
