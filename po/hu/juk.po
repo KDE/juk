@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-07 00:41+0000\n"
-"PO-Revision-Date: 2025-07-08 22:23+0200\n"
+"PO-Revision-Date: 2025-07-10 21:25+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -76,13 +76,13 @@ msgid ""
 "The music data cache has been corrupted. JuK needs to rescan it now. This "
 "may take some time."
 msgstr ""
-"A hanganyagok gyorstárában hiba történt. A programnak újra kell a gyorstárat "
-"építenie, ami egy kis időbe telik."
+"A zenei adatok gyorsítótársa sérült, a JuKnak újra kell olvasnia. Ez "
+"eltarthat egy ideig."
 
 #: collectionlist.cpp:148
 #, kde-format
 msgid "Collection List"
-msgstr "Gyűjtemények"
+msgstr "Gyűjteménylista"
 
 #: collectionlist.cpp:289
 #, kde-format
@@ -94,7 +94,7 @@ msgid ""
 "“scan on startup” list, they will be readded on startup."
 msgstr ""
 "Ha eltávolít egy elemet a gyűjteményből, akkor az egyben az összes "
-"lejátszólistából is el fog tűnni. Biztosan ezt szeretné?\n"
+"lejátszólistából is el fog tűnni. Biztosan folytatja?\n"
 "\n"
 "Ha ezeknek a fájloknak a mappája szerepel az inicializálási mappák "
 "listájában, akkor a program indulásakor újból fel lesznek véve."
@@ -149,7 +149,7 @@ msgid ""
 "If checked, files will be permanently removed instead of being placed in the "
 "Trash Bin"
 msgstr ""
-"Ha ez az opció be van jelölve, a fájlok törléskor azonnal törlődnek, nem "
+"Ha be van jelölve, a fájlok eltávolításkor véglegesen törlődnek, nem "
 "kerülnek be a Kukába"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
@@ -162,17 +162,17 @@ msgid ""
 "<p><em>Use this option with caution</em>: Most filesystems are unable to "
 "reliably undelete deleted files.</p></qt>"
 msgstr ""
-"<qt><p>Ha ez az opció be van jelölve, a fájlok törléskor <b>véglegesen "
-"törlődnek</b>, nem kerülnek be a Kukába.</p>\n"
+"<qt><p>Ha be van jelölve, a fájlok eltávolításkor <b>véglegesen törlődnek</"
+"b>, nem kerülnek be a Kukába.</p>\n"
 "\n"
 "<p><em>Figyelem</em>: a legtöbb fájlrendszertípusban nem lehet megbízhatóan "
-"törölt fájlokat helyreállítani.</p></qt>"
+"helyreállítani a törölt fájlokat.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:146
 #, kde-format
 msgid "&Delete files instead of moving them to the trash"
-msgstr "A fájlok tény&leges törlése a Kukába helyezés helyett"
+msgstr "Fájlok tény&leges törlése a Kukába helyezés helyett"
 
 #: directorylist.cpp:55
 #, kde-format
@@ -198,14 +198,14 @@ msgstr "Ezeket a mappákat ellenőrzi induláskor a program, új fájlokat keres
 #: directorylistbase.ui:64 directorylistbase.ui:147
 #, kde-format
 msgid "Add Folder..."
-msgstr "Új mappa…"
+msgstr "Mappa hozzáadása…"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeDirectoryButton)
 #. i18n: ectx: property (text), widget (QPushButton, removeExcludeDirectoryButton)
 #: directorylistbase.ui:71 directorylistbase.ui:154
 #, kde-format
 msgid "Remove Folder"
-msgstr "A mappa törlése"
+msgstr "Mappa eltávolítása"
 
 #. i18n: ectx: property (text), widget (QLabel, ExcludeInformationLabel)
 #: directorylistbase.ui:102
@@ -238,25 +238,25 @@ msgstr "Példa"
 #: exampleoptionsbase.ui:37
 #, kde-format
 msgid "Example Tag Selection"
-msgstr "Példatag-kiválasztás"
+msgstr "Példacímke kiválasztása"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_fileTagsButton)
 #: exampleoptionsbase.ui:58
 #, kde-format
 msgid "Get example tags from this file:"
-msgstr "Példatag-ek beolvasása fájlból:"
+msgstr "Példacímkék lekérése ebből a fájlból:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_manualTagsButton)
 #: exampleoptionsbase.ui:81
 #, kde-format
 msgid "Enter example tags manually:"
-msgstr "Példatag-ek beírása:"
+msgstr "Példacímkék megadása saját kezűleg:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_manualGroup)
 #: exampleoptionsbase.ui:91
 #, kde-format
 msgid "Example Tags"
-msgstr "Példatag-ek"
+msgstr "Példacímkék"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: exampleoptionsbase.ui:135
@@ -331,9 +331,7 @@ msgstr "Figyelmeztetés"
 msgid ""
 "You are about to rename the following files. Are you sure you want to "
 "continue?"
-msgstr ""
-"A következő fájlok átnevezésére készül. Biztosan végre szeretné hajtani a "
-"műveletet?"
+msgstr "A következő fájlok átnevezésére készül. Biztosan folytatni szeretné?"
 
 #: filerenamer.cpp:105
 #, kde-format
@@ -348,7 +346,7 @@ msgstr "Új név"
 #: filerenamer.cpp:127
 #, kde-format
 msgid "No Change"
-msgstr "Ne legyen módosítás"
+msgstr "Nincs változtatás"
 
 #: filerenamer.cpp:409
 #, kde-format
@@ -371,7 +369,7 @@ msgstr "Mappaelválasztó beszúrása"
 #: filerenamer.cpp:595
 #, kde-format
 msgid "No file selected, or selected file has no tags."
-msgstr "Nincs kijelölve fájl, vagy a kiválasztott fájlnak nincsenek tag-jei."
+msgstr "Nincs kijelölve fájl, vagy a kiválasztott fájlnak nincsenek címkéi."
 
 #: filerenamer.cpp:826
 #, kde-format
@@ -400,7 +398,7 @@ msgstr "A következő átnevezések nem sikerültek:\n"
 #: filerenamerbase.ui:20
 #, kde-format
 msgid "File Renamer Configuration"
-msgstr "A fájlátnevező beállításai"
+msgstr "Fájlátnevező beállításai"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
 #: filerenamerbase.ui:65
@@ -412,37 +410,37 @@ msgstr "Zenemappa:"
 #: filerenamerbase.ui:90
 #, kde-format
 msgid "Album Tag"
-msgstr "Album"
+msgstr "Album címke"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:95
 #, kde-format
 msgid "Artist Tag"
-msgstr "Előadó"
+msgstr "Előadó címke"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:100
 #, kde-format
 msgid "Genre Tag"
-msgstr "Műfaj"
+msgstr "Műfaj címke"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:105
 #, kde-format
 msgid "Title Tag"
-msgstr "Cím"
+msgstr "Cím címke"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:110
 #, kde-format
 msgid "Track Tag"
-msgstr "A szám neve"
+msgstr "Szám címke"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:115
 #, kde-format
 msgid "Year Tag"
-msgstr "Év"
+msgstr "Év címke"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_insertCategory)
 #: filerenamerbase.ui:123
@@ -466,7 +464,7 @@ msgstr "Elválasztó:"
 #: filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
-msgstr "Átnevezési tesztablak megjelenítése"
+msgstr "Átnevezési teszt ablak megjelenítése"
 
 #: filerenamerconfigdlg.cpp:29
 #, kde-format
@@ -2223,7 +2221,7 @@ msgstr "A számok tag-jeinek megváltoztatása"
 #: upcomingplaylist.cpp:31
 #, kde-format
 msgid "Play Queue"
-msgstr "A sor lejátszása"
+msgstr "Sor lejátszása"
 
 #: viewmode.cpp:66
 #, kde-format
@@ -2235,7 +2233,7 @@ msgstr "Alapértelmezés"
 #, kde-format
 msgctxt "compact viewing mode"
 msgid "Compact"
-msgstr "Rövid"
+msgstr "Kompakt"
 
 #: viewmode.cpp:152
 #, kde-format
@@ -2258,8 +2256,7 @@ msgid "Genres"
 msgstr "Műfajok"
 
 #: volumepopupbutton.cpp:76
-#, fuzzy, kde-format
-#| msgid "Mute/Unmute"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
 msgstr "Némítás be/ki"
@@ -2270,15 +2267,13 @@ msgid "%1%"
 msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
-#, fuzzy, kde-format
-#| msgid "Volume: %1% (muted)"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
-msgstr "Hangerő: %1% (elnémítva)"
+msgstr "Hangerő: %1% (némítva)"
 
 #: volumepopupbutton.cpp:123
-#, fuzzy, kde-format
-#| msgid "Volume: %1%"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
 msgstr "Hangerő: %1%"
