@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-07 00:41+0000\n"
-"PO-Revision-Date: 2025-05-29 14:49+0300\n"
+"PO-Revision-Date: 2025-07-10 22:53+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -40,11 +40,10 @@ msgid "Your emails"
 msgstr "teemu.rytilahti@kde-fi.org, japsu@iki.fi, translator@legisign.org"
 
 #: advancedsearchdialog.cpp:48
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create Search Playlist"
-msgstr "Luo uusi soittolista hakutuloksista"
+msgstr "Luo soittolista hakutuloksista"
 
 #: advancedsearchdialog.cpp:57
 #, kde-format
@@ -386,15 +385,13 @@ msgstr ""
 "Ei tiedostoja valittuna, tai valitulla tiedostolla ei ole sisältökuvauksia."
 
 #: filerenamer.cpp:826
-#, fuzzy, kde-format
-#| msgid "Hide Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
 msgstr "Piilota uudelleennimeäjän testausikkuna"
 
 #: filerenamer.cpp:831
-#, fuzzy, kde-format
-#| msgid "Show Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
 msgstr "Näytä uudelleennimeäjän testausikkuna"
@@ -483,8 +480,7 @@ msgid "Show Renamer Test Dialog"
 msgstr "Näytä uudelleennimeäjän testausikkuna"
 
 #: filerenamerconfigdlg.cpp:29
-#, fuzzy, kde-format
-#| msgid "File Renamer Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer Options"
 msgstr "Tiedostojen uudelleennimeäjän asetukset"
@@ -508,23 +504,18 @@ msgid "When the Track’s %1 is Empty"
 msgstr "Kun raidan %1 on tyhjä"
 
 #: filerenameroptions.cpp:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "When using the file renamer your files will be renamed to the values that "
-#| "you have in your track's %1 tag, plus any additional text that you "
-#| "specify below."
+#, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
 "you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
 "Tiedostojen uudelleennimeäjä nimeää tiedostot niihin arvoihin, jotka ovat "
-"kappaleiden %1-sisältökuvauksissa, ja liittää nimeen mahdollisen lisätekstin "
-"jonka voit määrittää alla."
+"kappaleiden %1-sisältökuvauksissa sekä alle mahdollisesti määrittämäsi "
+"lisätekstin."
 
 #: filerenameroptions.cpp:114
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer"
 msgstr "Tiedostojen uudelleennimeäjä"
