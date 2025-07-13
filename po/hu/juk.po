@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-07 00:41+0000\n"
-"PO-Revision-Date: 2025-07-10 21:25+0200\n"
+"PO-Revision-Date: 2025-07-12 15:54+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -76,7 +76,7 @@ msgid ""
 "The music data cache has been corrupted. JuK needs to rescan it now. This "
 "may take some time."
 msgstr ""
-"A zenei adatok gyorsítótársa sérült, a JuKnak újra kell olvasnia. Ez "
+"A zenei adatok gyorsítótársa sérült, a JuK-nak újra kell olvasnia. Ez "
 "eltarthat egy ideig."
 
 #: collectionlist.cpp:148
@@ -491,22 +491,18 @@ msgid "When the Track’s %1 is Empty"
 msgstr "Ha a szám %1 jellemzője üres"
 
 #: filerenameroptions.cpp:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "When using the file renamer your files will be renamed to the values that "
-#| "you have in your track's %1 tag, plus any additional text that you "
-#| "specify below."
+#, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
 "you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
-"A fájlátnevező használatakor a fájlok neve a számhoz tartozó %1 tag értéke "
-"lesz, hozzáfűzve az alább megadott sztringet."
+"Ha a fájlátnevezőt használja, a fájlok átnevezése a szám %1 címkéjében "
+"megadott értékek szerint történik, plusz minden további szöveg, amelyet "
+"alább ad meg."
 
 #: filerenameroptions.cpp:114
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer"
 msgstr "Fájlátnevező"
@@ -527,7 +523,7 @@ msgstr "Min&denképpen kerüljön be a fájlnévbe"
 #: filerenameroptionsbase.ui:144
 #, kde-format
 msgid "&Ignore this tag when renaming the file"
-msgstr "A fájl átne&vezésekor ezt a tag-et figyelmen kívül kell hagyni"
+msgstr "Címke m&ellőzése a fájl átnevezésekor"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_useValueButton)
 #: filerenameroptionsbase.ui:162
@@ -555,14 +551,15 @@ msgid ""
 "JuK can force the track used in a file name to have a minimum number of "
 "digits. You may want to do this for better sorting in file managers."
 msgstr ""
-"Elő lehet írni egy minimális hosszat a fájlnévbe kerülő számazonosítóhoz. "
-"Így a fájlkezelőkben könnyebb lesz rendezni a fájlokat."
+"A JuK kényszerítheti a fájlnévbe kerülő szám számjegyeinek minimális "
+"darabszámát. Ezt a fájlkezelőkben való jobb rendezés érdekében érdemes lehet "
+"megtenni."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: filerenameroptionsbase.ui:228
 #, kde-format
 msgid "Minimum number of digits:"
-msgstr "A számjegyek minimális száma:"
+msgstr "Számjegyek minimális száma:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_doubleDigitExample)
 #: filerenameroptionsbase.ui:266
@@ -594,200 +591,169 @@ msgid "Time"
 msgstr "Idő"
 
 #: juk.cpp:240 systemtray.cpp:184
-#, fuzzy, kde-format
-#| msgid "&Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "Vé&letlenszerű lejátszás"
 
 #: juk.cpp:247
-#, fuzzy, kde-format
-#| msgid "&Disable Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
-msgstr "A véletlensze&rű lejátszás letiltása"
+msgstr "Véletlensze&rű lejátszás kikapcsolása"
 
 #: juk.cpp:253
-#, fuzzy, kde-format
-#| msgid "Use &Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Vé&letlenszerű lejátszás"
 
 #: juk.cpp:259
-#, fuzzy, kde-format
-#| msgid "Use &Album Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Vé&letlenszerű lejátszás az albumban"
 
 #: juk.cpp:267
-#, fuzzy, kde-format
-#| msgid "Remove From Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Eltávolítás a lejátszólistából"
 
 #: juk.cpp:271
-#, fuzzy, kde-format
-#| msgid "&Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "Le&játszás"
 
 #: juk.cpp:276
-#, fuzzy, kde-format
-#| msgid "P&ause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "Szün&et"
 
 #: juk.cpp:281
-#, fuzzy, kde-format
-#| msgid "&Stop"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
-msgstr "Á&llj"
+msgstr "Leállítá&s"
 
 #: juk.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "previous track"
-#| msgid "Previous"
+#, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Előző"
 
 #: juk.cpp:291
-#, fuzzy, kde-format
-#| msgctxt "next track"
-#| msgid "&Next"
+#, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Következő"
 
 #: juk.cpp:295
-#, fuzzy, kde-format
-#| msgid "&Loop Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
-msgstr "A lista kö&rkörös lejátszása"
+msgstr "Lejátszólista kö&rkörös lejátszása"
 
 #: juk.cpp:299
-#, fuzzy, kde-format
-#| msgid "&Resize Playlist Columns Manually"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
-msgstr "A lejátszólista oszlopainak kézi átmérete&zése"
+msgstr "Lejátszólista oszlopainak kézi átmérete&zése"
 
 #: juk.cpp:304
-#, fuzzy, kde-format
-#| msgctxt "silence playback"
-#| msgid "Mute"
+#, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
-msgstr "Elnémítás"
+msgstr "Némítás"
 
 #: juk.cpp:308
-#, fuzzy, kde-format
-#| msgid "Volume Up"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Hangerő fel"
 
 #: juk.cpp:312
-#, fuzzy, kde-format
-#| msgid "Volume Down"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Hangerő le"
 
 #: juk.cpp:316
-#, fuzzy, kde-format
-#| msgid "Play / Pause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Lejátszás / Szünet"
 
 #: juk.cpp:320
-#, fuzzy, kde-format
-#| msgid "Seek Forward"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
-msgstr "Léptetés előre"
+msgstr "Előre tekerés"
 
 #: juk.cpp:324
-#, fuzzy, kde-format
-#| msgid "Seek Back"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
-msgstr "Léptetés vissza"
+msgstr "Hátratekerés"
 
 #: juk.cpp:328
-#, fuzzy, kde-format
-#| msgid "Show / Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
-msgstr "Megjelenítés / elrejtés"
+msgstr "Megjelenítés / Elrejtés"
 
 #: juk.cpp:335
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "&Dokkolás a paneltálcába"
 
 #: juk.cpp:339
-#, fuzzy, kde-format
-#| msgid "&Stay in System Tray on Close"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "Bezárás után fusson tovább a program a p&aneltálcában"
 
 #: juk.cpp:342
-#, fuzzy, kde-format
-#| msgid "Popup &Track Announcement"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
-msgstr "Felb&ukkanó bejelentőablak (minden számnál)"
+msgstr "Felugró számbejelen&tő"
 
 #: juk.cpp:345
-#, fuzzy, kde-format
-#| msgid "Save &Play Queue on Exit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
-msgstr "A lejátszási sor elmentése k&ilépéskor"
+msgstr "Lejátszási sor mentése k&ilépéskor"
 
 #: juk.cpp:348
-#, fuzzy, kde-format
-#| msgid "&Tag Guesser..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
-msgstr "Ta&g-kitaláló…"
+msgstr "Címke&kitaláló…"
 
 #: juk.cpp:351
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
-msgstr "Fájlátnevező"
+msgstr "&Fájlátnevező…"
 
 #: juk.cpp:354
-#, fuzzy, kde-format
-#| msgid "&Configure scrobbling..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "&Továbbítás beállítása…"
 
 #: juk.cpp:361
-#, fuzzy, kde-format
-#| msgid "Track Position"
+#, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
-msgstr "A pozíció követése"
+msgstr "Pozíció követése"
 
 #: juk.cpp:363
-#, fuzzy, kde-format
-#| msgid "Volume"
+#, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Hangerő"
@@ -798,23 +764,20 @@ msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
-"<qt>A főablak bezárása esetén a JuK tovább fog futni a paneltálcában. "
-"Válassza a Fájl menü Kilépés parancsát az alkalmazás bezárásához.</qt>"
+"<qt>A főablak bezárása esetén a JuK tovább fog futni a paneltálcán. Válassza "
+"a Fájl menü Kilépés parancsát az alkalmazás bezárásához.</qt>"
 
 #: juk.cpp:531
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"
-msgstr "&Dokkolás a paneltálcába"
+msgstr "&Dokkolás a paneltálcára"
 
 #: juktag.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "a playing track, %1 is artist, %2 is song title"
-#| msgid "%1 - <i>%2</i>"
+#, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
 msgid "%1 — <i>%2</i>"
-msgstr "%1 - <i>%2</i>"
+msgstr "%1 — <i>%2</i>"
 
 #. i18n: ectx: Menu (file)
 #: jukui-rtl.rc:4 jukui.rc:6
@@ -838,7 +801,7 @@ msgstr "&Lejátszó"
 #: jukui-rtl.rc:56 jukui.rc:58
 #, kde-format
 msgid "&Tagger"
-msgstr "Tag-&készítő"
+msgstr "Címke&készítő"
 
 #. i18n: ectx: Menu (settings)
 #: jukui-rtl.rc:66 jukui.rc:68
@@ -850,7 +813,7 @@ msgstr "&Beállítások"
 #: jukui-rtl.rc:79 jukui.rc:81
 #, kde-format
 msgid "Main Toolbar"
-msgstr "Alap eszköztár"
+msgstr "Fő eszköztár"
 
 #. i18n: ectx: ToolBar (playToolBar)
 #: jukui-rtl.rc:97 jukui.rc:99
@@ -859,51 +822,43 @@ msgid "Play Toolbar"
 msgstr "Lejátszási eszköztár"
 
 #: keydialog.cpp:102
-#, fuzzy, kde-format
-#| msgid "Configure Shortcuts"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Shortcuts"
-msgstr "A billentyűparancsok beállítása"
+msgstr "Billentyűparancsok beállítása"
 
 #: keydialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Global Shortcuts"
+#, kde-format
 msgctxt "@title:group"
 msgid "Global Shortcuts"
 msgstr "Globális billentyűparancsok"
 
 #: keydialog.cpp:124
-#, fuzzy, kde-format
-#| msgid "&No keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&No keys"
-msgstr "&Nincs"
+msgstr "&Nincsenek"
 
 #: keydialog.cpp:128
-#, fuzzy, kde-format
-#| msgid "&Standard keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Standard keys"
-msgstr "Az ala&pértelmezett billentyűk"
+msgstr "&Szabványos billentyűk"
 
 #: keydialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "&Multimedia keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Multimedia keys"
-msgstr "M&ultimédia-billentyűk"
+msgstr "M&ultimédiabillentyűk"
 
 #: keydialog.cpp:138
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can select the keys used as global shortcuts to control the "
-#| "player"
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
 msgstr ""
-"Itt lehet kiválasztani, hogy mely billentyűparancsokkal lehet vezérelni a "
-"lejátszást"
+"Itt kiválaszthatja a lejátszó vezérléséhez globális gyorsbillentyűként "
+"használt billentyűket"
 
 #: lyricswidget.cpp:51
 #, kde-format
@@ -913,7 +868,7 @@ msgstr "&Dalszöveg megjelenítése"
 #: lyricswidget.cpp:78
 #, kde-format
 msgid "<i>No file playing.</i>"
-msgstr "<i>Nincs fájl lejátszás.</i>"
+msgstr "<i>Nincs lejátszott fájl.</i>"
 
 #: lyricswidget.cpp:83
 #, kde-format
@@ -925,13 +880,13 @@ msgstr "<i>Betöltés…</i>"
 msgid ""
 "<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
 msgstr ""
-"<i>A dalszöveg jelenleg nem érhető el ehhez: %1 (nincs elérhető "
-"dalszövegszolgáltató)</i>"
+"<i>A dalszöveg jelenleg nem érhető el ehhez: %1 (nincs elérhető dalszöveg-"
+"szolgáltató)</i>"
 
 #: lyricswidget.cpp:129 lyricswidget.cpp:158
 #, kde-format
 msgid "<span style='color:red'>Error while retrieving lyrics!</span>"
-msgstr "<span style='color:red'>Hiba a dalszöveg lekérése közben!</span>"
+msgstr "<span style='color:red'>Hiba a dalszöveg lekérése közben.</span>"
 
 #: lyricswidget.cpp:174
 #, kde-format
@@ -950,11 +905,10 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Zenelejátszó és -szervező a KDE közösségtől"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgctxt "Use copyright sign, and en dash for the year range"
 msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
-msgstr "© Scott Wheeler, Michael Pyne és mások, 2002-2013."
+msgstr "© Scott Wheeler, Michael Pyne és mások, 2002-2025."
 
 #: main.cpp:44
 #, kde-format
@@ -964,7 +918,7 @@ msgstr "Scott Wheeler"
 #: main.cpp:44
 #, kde-format
 msgid "Author, chief dork and keeper of the funk"
-msgstr "Szerző és fő-fő-fő"
+msgstr "Szerző, fődinka és a funk őrzője"
 
 #: main.cpp:45
 #, kde-format
@@ -1055,7 +1009,7 @@ msgstr "Nathan Toone"
 #: main.cpp:53
 #, kde-format
 msgid "Album cover manager"
-msgstr "Fedőlap-kezelő"
+msgstr "Borítókezelő"
 
 #: main.cpp:54
 #, kde-format
@@ -1109,7 +1063,7 @@ msgstr "Stephen Douglas"
 #: main.cpp:58
 #, kde-format
 msgid "Track announcement popups"
-msgstr "Bejelentőablakok (minden számnál)"
+msgstr "Számbejelentő felugrók"
 
 #: main.cpp:59
 #, kde-format
@@ -1139,7 +1093,7 @@ msgstr "Adam Treat"
 #: main.cpp:61
 #, kde-format
 msgid "Co-conspirator in MusicBrainz wizardry"
-msgstr "Társtettes a MusicBrainz elkövetésében"
+msgstr "Társtettes a MusicBrainz varázslatban"
 
 #: main.cpp:62
 #, kde-format
@@ -1149,7 +1103,8 @@ msgstr "Maks Orlovich"
 #: main.cpp:62
 #, kde-format
 msgid "Making JuK friendlier to people with terabytes of music"
-msgstr "A JuK barátságosabbá varázslása terabájtnyi zenehegyeknél"
+msgstr ""
+"A JuK barátságosabbá tétele a terabájtnyi zenével rendelkező emberek számára"
 
 #: main.cpp:63
 #, kde-format
@@ -1159,7 +1114,7 @@ msgstr "Antonio Larrosa Jimenez"
 #: main.cpp:63
 #, kde-format
 msgid "DCOP interface"
-msgstr "DCOP-felület"
+msgstr "DCOP interfész"
 
 #: main.cpp:64
 #, kde-format
@@ -1201,19 +1156,16 @@ msgid "JuK Docked"
 msgstr "JuK dokkolva"
 
 #: mediafiles.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "open audio file"
-#| msgid "Open"
+#, kde-format
 msgctxt "@title:window, open audio file"
 msgid "Open"
 msgstr "Megnyitás"
 
 #: mediafiles.cpp:146
-#, fuzzy, kde-format
-#| msgid "Save Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Playlist %1"
-msgstr "Lejátszólista mentése"
+msgstr "%1 lejátszólista mentése"
 
 #: mediafiles.cpp:148
 #, kde-format
@@ -1224,7 +1176,7 @@ msgstr "Lejátszólisták (*%1)"
 #: nowplaying.cpp:320
 #, kde-format
 msgid "back to playlist"
-msgstr "vissza a lejátszólistába"
+msgstr "vissza a lejátszólistához"
 
 #: playermanager.cpp:56
 #, kde-format
@@ -1233,13 +1185,7 @@ msgid "%1 - %2 :: JuK"
 msgstr "%1 - %2 :: JuK"
 
 #: playermanager.cpp:363
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "%1 will be the /path/to/file, %2 will be some string from Phonon "
-#| "describing the error"
-#| msgid ""
-#| "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for "
-#| "the following reason:<nl/><message>%2</message>"
+#, kde-format
 msgctxt ""
 "%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
 "describing the error"
@@ -1264,8 +1210,7 @@ msgstr[0] "Mappa megnyitására készül. Biztosan szeretné folytatni?"
 msgstr[1] "%1 mappa megnyitására. Biztosan szeretné folytatni?"
 
 #: playlist.cpp:578
-#, fuzzy, kde-format
-#| msgid "Open Containing Folder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Containing Folder"
 msgstr "Tartalmazó mappa megnyitása"
@@ -1278,117 +1223,100 @@ msgstr "Nem sikerült törölni ezeket a fájlokat"
 #: playlist.cpp:803
 #, kde-format
 msgid "Could not move these files to the Trash"
-msgstr "Ezeket a fájlokat nem sikerült átmozgatni a Kukába"
+msgstr "Nem sikerült áthelyezni ezeket a fájlokat a Kukába"
 
 #: playlist.cpp:1280
-#, fuzzy, kde-format
-#| msgid "Track Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "Track Name"
-msgstr "A szám neve"
+msgstr "Szám neve"
 
 #: playlist.cpp:1281
-#, fuzzy, kde-format
-#| msgid "Artist"
+#, kde-format
 msgctxt "@title:column"
 msgid "Artist"
 msgstr "Előadó"
 
 #: playlist.cpp:1282
-#, fuzzy, kde-format
-#| msgid "Album"
+#, kde-format
 msgctxt "@title:column"
 msgid "Album"
 msgstr "Album"
 
 #: playlist.cpp:1283
-#, fuzzy, kde-format
-#| msgctxt "cd track number"
-#| msgid "Track"
+#, kde-format
 msgctxt "@title:column, CD track number"
 msgid "Track"
 msgstr "Sorszám"
 
 #: playlist.cpp:1284
-#, fuzzy, kde-format
-#| msgid "Genre"
+#, kde-format
 msgctxt "@title:column"
 msgid "Genre"
 msgstr "Műfaj"
 
 #: playlist.cpp:1285
-#, fuzzy, kde-format
-#| msgid "Year"
+#, kde-format
 msgctxt "@title:column"
 msgid "Year"
 msgstr "Év"
 
 #: playlist.cpp:1286
-#, fuzzy, kde-format
-#| msgid "Length"
+#, kde-format
 msgctxt "@title:column"
 msgid "Length"
 msgstr "Hossz"
 
 #: playlist.cpp:1287
-#, fuzzy, kde-format
-#| msgid "Bitrate"
+#, kde-format
 msgctxt "@title:column"
 msgid "Bitrate"
 msgstr "Bitráta"
 
 #: playlist.cpp:1288
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgctxt "@title:column"
 msgid "Comment"
 msgstr "Megjegyzés"
 
 #: playlist.cpp:1289
-#, fuzzy, kde-format
-#| msgid "File Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name"
 msgstr "Fájlnév"
 
 #: playlist.cpp:1290
-#, fuzzy, kde-format
-#| msgid "File Name (full path)"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name (Full Path)"
 msgstr "Fájlnév (teljes elérési úttal)"
 
 #: playlist.cpp:1471
-#, fuzzy, kde-format
-#| msgid "&Show Columns"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Show Columns"
-msgstr "Az oszlopok meg&jelenítése"
+msgstr "Oszlopok meg&jelenítése"
 
 #: playlist.cpp:1579
-#, fuzzy, kde-format
-#| msgid "Add to Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
 msgstr "Hozzáadás a lejátszási sorhoz"
 
 #: playlist.cpp:1593
-#, fuzzy, kde-format
-#| msgid "Edit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "Szerkesztés"
 
 #: playlist.cpp:1607
-#, fuzzy, kde-format
-#| msgid "Create Playlist From Selected Items..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create Playlist From Selected Items…"
-msgstr "Lejátszólista létrehozása adott elemekkel…"
+msgstr "Lejátszólista létrehozása a kijelölt elemekkel…"
 
 #: playlist.cpp:1973
-#, fuzzy, kde-format
-#| msgid "Edit '%1'"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit “%1”"
 msgstr "Szerkesztés - „%1”"
@@ -1404,8 +1332,7 @@ msgid "Edit"
 msgstr "Szerkesztés"
 
 #: playlist.cpp:2109
-#, fuzzy, kde-format
-#| msgid "Create New Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create New Playlist"
 msgstr "Új lejátszólista"
@@ -1420,33 +1347,28 @@ msgstr ""
 "automatikus oszlopméretezésre váltani."
 
 #: playlist.cpp:2121
-#, fuzzy, kde-format
-#| msgid "Manual Column Widths Enabled"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
 msgstr "Kézi oszlopszélesség-beállítás engedélyezve"
 
 #: playlistbox.cpp:108
-#, fuzzy, kde-format
-#| msgid "View Modes"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "View Modes"
-msgstr "Nézeti módok"
+msgstr "Nézetmódok"
 
 #: playlistbox.cpp:168
-#, fuzzy, kde-format
-#| msgid "Show &History"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &History"
-msgstr "Az előzmények me&gjelenítése"
+msgstr "Előz&mények megjelenítése"
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
-msgstr "Másolat"
+msgstr "Kettőzés"
 
 #: playlistbox.cpp:424
 #, kde-format
@@ -1454,8 +1376,7 @@ msgid "Do you want to delete these files from the disk as well?"
 msgstr "A lemezről is törölni szeretné ezeket a fájlokat?"
 
 #: playlistbox.cpp:425
-#, fuzzy, kde-format
-#| msgid "Keep"
+#, kde-format
 msgctxt "@action:button"
 msgid "Keep"
 msgstr "Megtartás"
@@ -1472,29 +1393,25 @@ msgstr ""
 "Biztosan el szeretné távolítani ezeket a lejátszólistákat a gyűjteményből?"
 
 #: playlistbox.cpp:448
-#, fuzzy, kde-format
-#| msgid "Remove Items?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Remove Items?"
 msgstr "Eltávolítja az elemeket?"
 
 #: playlistbox.cpp:449
-#, fuzzy, kde-format
-#| msgid "&Remove"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Remove"
 msgstr "&Eltávolítás"
 
 #: playlistbox.cpp:653
-#, fuzzy, kde-format
-#| msgid "Hid&e"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hid&e"
 msgstr "Elre&jtés"
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
-#, fuzzy, kde-format
-#| msgid "R&emove"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "R&emove"
 msgstr "Eltáv&olítás"
@@ -1507,48 +1424,42 @@ msgstr "Dinamikus lista"
 #: playlistcollection.cpp:248
 #, kde-format
 msgid "Now Playing"
-msgstr "A lejátszás elkezdődött"
+msgstr "Most játszott"
 
 #: playlistcollection.cpp:347
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr ""
-"Ezeket az elemeket hozzá szeretné adni az aktuális listához vagy a "
+"Hozzá szeretné adni ezeket az elemeket a jelenlegi listához vagy a "
 "gyűjtemények listájához?"
 
 #: playlistcollection.cpp:349
-#, fuzzy, kde-format
-#| msgctxt "current playlist"
-#| msgid "Current"
+#, kde-format
 msgctxt "@action:button, current playlist"
 msgid "Current"
-msgstr "Aktuális"
+msgstr "Jelenlegi"
 
 #: playlistcollection.cpp:350
-#, fuzzy, kde-format
-#| msgid "Collection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Collection"
 msgstr "Gyűjtemény"
 
 #: playlistcollection.cpp:412
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Átnevezés"
 
 #: playlistcollection.cpp:515
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Search Playlist"
 msgstr "Keresési lejátszólista létrehozása"
 
 #: playlistcollection.cpp:540
-#, fuzzy, kde-format
-#| msgid "Create Folder Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Folder Playlist"
 msgstr "Új mappaalapú lejátszólista"
@@ -1564,146 +1475,124 @@ msgid "Please enter a name for this playlist:"
 msgstr "Adjon egy nevet a lejátszólistának:"
 
 #: playlistcollection.cpp:890
-#, fuzzy, kde-format
-#| msgctxt "new playlist"
-#| msgid "&New"
+#, kde-format
 msgctxt "@action:inmenu, new playlist"
 msgid "&New"
 msgstr "Ú&j"
 
 #: playlistcollection.cpp:893
-#, fuzzy, kde-format
-#| msgid "&Empty Playlist..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Empty Playlist…"
-msgstr "A lejátszólista ki&ürítése…"
+msgstr "Lejátszólista ki&ürítése…"
 
 #: playlistcollection.cpp:897
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Search Playlist…"
-msgstr "Keresés a lejátszólistában"
+msgstr "Keresé&s a lejátszólistában…"
 
 #: playlistcollection.cpp:901
-#, fuzzy, kde-format
-#| msgid "Playlist From &Folder..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Playlist From &Folder…"
-msgstr "Lejátszólista köny&vtárból…"
+msgstr "Lejátszólista map&pából…"
 
 #: playlistcollection.cpp:909
-#, fuzzy, kde-format
-#| msgid "&Guess Tag Information"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
-msgstr "A tag-adat&ok kitalálása"
+msgstr "Címkeadat&ok kitalálása"
 
 #: playlistcollection.cpp:914
-#, fuzzy, kde-format
-#| msgid "From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &File Name"
-msgstr "Fá&jlnévből"
+msgstr "&Fájlnévből"
 
 #: playlistcollection.cpp:918
-#, fuzzy, kde-format
-#| msgid "From &Internet"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &Internet"
-msgstr "Az &internetről"
+msgstr "&Internetről"
 
 #: playlistcollection.cpp:923
-#, fuzzy, kde-format
-#| msgid "Guess Tag Information From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
-msgstr "A tag-ek kitalálása a fá&jlnévből"
+msgstr "Címkék kitalálása a fá&jlnévből"
 
 #: playlistcollection.cpp:930
-#, fuzzy, kde-format
-#| msgid "Play First Track"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play First Track"
-msgstr "Az első szám lejátszása"
+msgstr "Első szám lejátszása"
 
 #: playlistcollection.cpp:932
-#, fuzzy, kde-format
-#| msgid "Play Next Album"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play Next Album"
-msgstr "A következő album lejátszása"
+msgstr "Következő album lejátszása"
 
 #: playlistcollection.cpp:939
-#, fuzzy, kde-format
-#| msgid "Manage &Folders..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Manage &Folders…"
 msgstr "&Mappák kezelése…"
 
 #: playlistcollection.cpp:941
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename…"
-msgstr "Átnevezés"
+msgstr "Á&tnevezés…"
 
 #: playlistcollection.cpp:943
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:inmenu, verb, copy the playlist"
 msgid "D&uplicate…"
-msgstr "Másolat"
+msgstr "Kettő&zés…"
 
 #: playlistcollection.cpp:948
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "Újratöltés"
 
 #: playlistcollection.cpp:950
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Search…"
-msgstr "A keresés szerkesztése…"
+msgstr "Keresés szerkesztése…"
 
 #: playlistcollection.cpp:953
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "&Törlés"
 
 #: playlistcollection.cpp:955
-#, fuzzy, kde-format
-#| msgid "Refresh"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Refresh"
 msgstr "Frissítés"
 
 #: playlistcollection.cpp:957
-#, fuzzy, kde-format
-#| msgid "Open Containing Folder"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Containing Folder"
 msgstr "Tartalmazó mappa megnyitása"
 
 #: playlistcollection.cpp:959
-#, fuzzy, kde-format
-#| msgid "&Rename File"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename File"
-msgstr "A fájl átn&evezése"
+msgstr "Fájl átn&evezése"
 
 #: playlistcollection.cpp:964
-#, fuzzy, kde-format
-#| msgid "Show &Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
-msgstr "A lejátszási s&or megjelenítése"
+msgstr "Lejátszási s&or megjelenítése"
 
 #: playlistcollection.h:183
 #, kde-format
@@ -1716,29 +1605,25 @@ msgid "Playlist"
 msgstr "Lejátszólista"
 
 #: playlistsplitter.cpp:158
-#, fuzzy, kde-format
-#| msgid "Show &Search Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
-msgstr "A ker&esési sáv megjelenítése"
+msgstr "Ker&esősáv megjelenítése"
 
 #: playlistsplitter.cpp:161
-#, fuzzy, kde-format
-#| msgid "Edit Track Search"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Track Search"
-msgstr "A keresés szerkesztése"
+msgstr "Számkeresés szerkesztése"
 
 #: scrobbleconfigdlg.cpp:38
-#, fuzzy, kde-format
-#| msgid "Configure scrobbling..."
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Scrobbling"
 msgstr "Továbbítás beállítása…"
 
 #: scrobbleconfigdlg.cpp:42
-#, fuzzy, kde-format
-#| msgid "Test login..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Test Login…"
 msgstr "Bejelentkezés tesztelése…"
@@ -1770,61 +1655,54 @@ msgstr ""
 "lesznek eltárolva."
 
 #: scrobbleconfigdlg.cpp:85
-#, fuzzy, kde-format
-#| msgid "KWallet is unavailable"
+#, kde-format
 msgctxt "@title:window"
 msgid "KWallet Unavailable"
 msgstr "A KWallet nem érhető el"
 
 #: scrobbleconfigdlg.cpp:128
-#, fuzzy, kde-format
-#| msgid "Validating login..."
+#, kde-format
 msgid "Validating login…"
-msgstr "Bejelentkezés érvényesítése…"
+msgstr "Bejelentkezési adatok ellenőrzése…"
 
 #: scrobbleconfigdlg.cpp:138
 #, kde-format
 msgid "Login invalid."
-msgstr "Érvénytelen bejelentkezés."
+msgstr "Érvénytelen bejelentkezési adatok."
 
 #: scrobbleconfigdlg.cpp:146
 #, kde-format
 msgid "Login valid."
-msgstr "Érvényes bejelentkezés."
+msgstr "Érvényes bejelentkezési adatok."
 
 #: searchwidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "Normal Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Normal matching"
 msgstr "Normál illeszkedés"
 
 #: searchwidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Case Sensitive"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Case sensitive"
 msgstr "Nagybetűérzékeny"
 
 #: searchwidget.cpp:75
-#, fuzzy, kde-format
-#| msgid "Pattern Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Pattern matching"
 msgstr "Mintailleszkedés"
 
 #: searchwidget.cpp:169
-#, fuzzy, kde-format
-#| msgid "All Visible"
+#, kde-format
 msgctxt "@title:column"
 msgid "All Visible"
 msgstr "Minden látható"
 
 #: searchwidget.cpp:200
-#, fuzzy, kde-format
-#| msgid "Search:"
+#, kde-format
 msgid "Search…"
-msgstr "Keresés:"
+msgstr "Keresés…"
 
 #: slider.cpp:127
 #, kde-format
@@ -1867,11 +1745,10 @@ msgid "Seeking is not supported in this file with your audio settings."
 msgstr "A keresés nem támogatott ebben a fájlban az Ön hangbeállításaival."
 
 #: statuslabel.cpp:85
-#, fuzzy, kde-format
-#| msgid "Jump to the currently playing item"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
-msgstr "Ugrás az aktuális elemre"
+msgstr "Ugrás a most játszott elemre"
 
 #: statuslabel.cpp:115
 #, kde-format
@@ -1881,16 +1758,15 @@ msgstr[0] "1 elem"
 msgstr[1] "%1 elem"
 
 #: systemtray.cpp:161
-#, fuzzy, kde-format
-#| msgid "Redisplay Popup"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
-msgstr "A felbukkanó ablak újbóli megjelenítése"
+msgstr "Felugró ablak újbóli megjelenítése"
 
 #: tageditor.cpp:468
 #, kde-format
 msgid "Show &Tag Editor"
-msgstr "A címkeszerkesztő me&gjelenítése"
+msgstr "Címkeszerkesztő me&gjelenítése"
 
 #: tageditor.cpp:472
 #, kde-format
@@ -1900,14 +1776,13 @@ msgstr "Men&tés"
 #: tageditor.cpp:588
 #, kde-format
 msgid "Do you want to save your changes to:\n"
-msgstr "El szeretné menteni a módosításokat ide:\n"
+msgstr "El szeretné menteni a változtatásokat ide:\n"
 
 #: tageditor.cpp:590
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Changes"
-msgstr "A módosítások mentése"
+msgstr "Változtatások mentése"
 
 #. i18n: ectx: property (text), widget (QLabel, fileNameLabel)
 #: tageditor.ui:19
@@ -1925,13 +1800,13 @@ msgstr "&Szám:"
 #: tageditor.ui:39
 #, kde-format
 msgid "&Artist name:"
-msgstr "Az előa&dó neve:"
+msgstr "Előa&dó neve:"
 
 #. i18n: ectx: property (text), widget (QLabel, albumNameLabel)
 #: tageditor.ui:49
 #, kde-format
 msgid "Album &name:"
-msgstr "Az album n&eve:"
+msgstr "Album n&eve:"
 
 #. i18n: ectx: property (text), widget (QLabel, genreLabel)
 #: tageditor.ui:59
@@ -1967,7 +1842,7 @@ msgstr "Meg&jegyzés:"
 #: tageditor.ui:184
 #, kde-format
 msgid "Trac&k name:"
-msgstr "A szám &neve:"
+msgstr "Szám &neve:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, artistNameEnable)
 #. i18n: ectx: property (text), widget (QCheckBox, trackNameEnable)
@@ -1983,17 +1858,16 @@ msgid "Enable"
 msgstr "Bekapcsolás"
 
 #: tagguesserconfigdlg.cpp:39
-#, fuzzy, kde-format
-#| msgid "Tag Guesser Configuration"
+#, kde-format
 msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
-msgstr "A tag-kitaláló beállításai"
+msgstr "Címkekitaláló beállításai"
 
 #. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:18
 #, kde-format
 msgid "Currently used file name schemes"
-msgstr "A jelenleg használt fájlnév-sémák"
+msgstr "Jelenleg használt fájlnévsémák"
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:29
@@ -2016,8 +1890,8 @@ msgid ""
 "since the tag guesser will go through the list from the top to the bottom, "
 "and use the first matching scheme."
 msgstr ""
-"Itt láthatók azok a fájlnévképzési szabályok, melyek alapján a szám helyei "
-"menüjének „Tagek kitalálása a fájlnévből” bejegyzésekinyeri az adatokat a "
+"Itt láthatók azok a fájlnévképzési szabályok, melyek alapján a szám helyi "
+"menüjének Címkék kitalálása a fájlnévből” bejegyzése kinyeri az adatokat a "
 "fájlnévből. A sztringek az alábbi helyettesítési szimbólumokat "
 "tartalmazhatják:<ul>\n"
 "<li>%t: cím</li>\n"
@@ -2036,7 +1910,7 @@ msgstr ""
 #: tagguesserconfigdlgwidget.ui:42
 #, kde-format
 msgid "Move scheme up"
-msgstr "A séma felfelé mozgatása"
+msgstr "Séma mozgatása felfelé"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveUp)
 #: tagguesserconfigdlgwidget.ui:45
@@ -2051,7 +1925,7 @@ msgstr ""
 #: tagguesserconfigdlgwidget.ui:55
 #, kde-format
 msgid "Move scheme down"
-msgstr "A séma lefelé mozgatása"
+msgstr "Séma mozgatása lefelé"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveDown)
 #: tagguesserconfigdlgwidget.ui:58
@@ -2086,7 +1960,7 @@ msgstr "&Hozzáadás"
 #: tagguesserconfigdlgwidget.ui:81
 #, kde-format
 msgid "Modify scheme"
-msgstr "A séma módosítása"
+msgstr "Séma módosítása"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, bModify)
 #: tagguesserconfigdlgwidget.ui:84
@@ -2104,7 +1978,7 @@ msgstr "Mó&dosítás"
 #: tagguesserconfigdlgwidget.ui:94
 #, kde-format
 msgid "Remove scheme"
-msgstr "A séma eltávolítása"
+msgstr "Séma eltávolítása"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, bRemove)
 #: tagguesserconfigdlgwidget.ui:97
@@ -2130,11 +2004,11 @@ msgid ""
 "%T: Track\n"
 "%c: Comment"
 msgstr ""
-"Az következő helykitöltőket használhatja:\n"
+"A következő helykitöltőket használhatja:\n"
 "%t: Cím\n"
 "%A: Album\n"
 "%a: Előadó\n"
-"%T: Szám\n"
+"%T: Sorszám\n"
 "%c: Megjegyzés"
 
 #: tagrenameroptions.cpp:100
@@ -2166,15 +2040,13 @@ msgstr ""
 "Felül szeretné írni?"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "File Exists"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
-msgstr "A fájl már létezik"
+msgstr "A fájl létezik"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "Replace"
+#, kde-format
 msgctxt "@action:button"
 msgid "Replace"
 msgstr "Csere"
@@ -2185,8 +2057,7 @@ msgid "The following files were unable to be changed."
 msgstr "Az alábbi fájlokat nem sikerült megváltoztatni."
 
 #: tagtransactionmanager.cpp:178
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgctxt "@title:window"
 msgid "Error"
 msgstr "Hiba"
@@ -2209,14 +2080,13 @@ msgstr "album"
 #: treeviewitemplaylist.cpp:56
 #, kde-format
 msgid "You are about to change the %1 on these files."
-msgstr "A fájlok %1 értékének megváltozatására készül."
+msgstr "A fájlok %1 értékének megváltoztatására készül."
 
 #: treeviewitemplaylist.cpp:58
-#, fuzzy, kde-format
-#| msgid "Changing Track Tags"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change Track Tags"
-msgstr "A számok tag-jeinek megváltoztatása"
+msgstr "Szám címkéinek módosítása"
 
 #: upcomingplaylist.cpp:31
 #, kde-format
