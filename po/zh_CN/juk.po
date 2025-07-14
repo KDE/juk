@@ -93,6 +93,11 @@ msgid ""
 "Note, however, that if the directory that these files are in is in your "
 "“scan on startup” list, they will be readded on startup."
 msgstr ""
+"从媒体库中删除一个项目的同时也会在您所有的播放列表中删除相应的内容。您确定要"
+"继续吗？\n"
+"\n"
+"但是，请注意，如果这些文件所在的目录位于您的“启动时扫描”列表中，它们会被重新"
+"添加到媒体库中。"
 
 #: collectionlist.cpp:343
 #, kde-format
@@ -127,7 +132,7 @@ msgstr "移入回收站(&S)"
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete Selected Files"
-msgstr ""
+msgstr "删除选中的文件"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -476,7 +481,7 @@ msgstr "%1格式"
 #, kde-format
 msgctxt "@title:group"
 msgid "When the Track’s %1 is Empty"
-msgstr ""
+msgstr "当曲目的 %1 为空时"
 
 #: filerenameroptions.cpp:41
 #, kde-format
@@ -485,6 +490,8 @@ msgid ""
 "you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
+"使用文件重命名工具时，您的文件将会被重命名为您在曲目的%1标签中指定的值，再加"
+"上您在下面指定的额外文本。"
 
 #: filerenameroptions.cpp:114
 #, kde-format
@@ -716,19 +723,19 @@ msgstr "退出时保存播放队列(&P)"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
-msgstr ""
+msgstr "标签猜测器(&T)..."
 
 #: juk.cpp:351
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
-msgstr ""
+msgstr "文件重命名工具(&F)..."
 
 #: juk.cpp:354
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
-msgstr ""
+msgstr "配置信息收集(&C)..."
 
 #: juk.cpp:361
 #, kde-format
@@ -755,13 +762,13 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"
-msgstr ""
+msgstr "停靠在系统托盘"
 
 #: juktag.cpp:90
 #, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
 msgid "%1 — <i>%2</i>"
-msgstr ""
+msgstr "%1 — <i>%2</i>"
 
 #. i18n: ectx: Menu (file)
 #: jukui-rtl.rc:4 jukui.rc:6
@@ -887,7 +894,7 @@ msgstr "为 KDE 设计的自动点唱机和音乐管理器"
 #, kde-format
 msgctxt "Use copyright sign, and en dash for the year range"
 msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
-msgstr ""
+msgstr "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
 
 #: main.cpp:44
 #, kde-format
@@ -1142,7 +1149,7 @@ msgstr "打开"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Playlist %1"
-msgstr ""
+msgstr "保存播放列表 %1"
 
 #: mediafiles.cpp:148
 #, kde-format
@@ -1265,7 +1272,7 @@ msgstr "文件名"
 #, kde-format
 msgctxt "@title:column"
 msgid "File Name (Full Path)"
-msgstr ""
+msgstr "文件名 (完整路径) "
 
 #: playlist.cpp:1471
 #, kde-format
@@ -1289,13 +1296,13 @@ msgstr "编辑"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Create Playlist From Selected Items…"
-msgstr ""
+msgstr "从选定项目创建播放列表..."
 
 #: playlist.cpp:1973
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit “%1”"
-msgstr ""
+msgstr "编辑“%1”"
 
 #: playlist.cpp:2050
 #, kde-format
@@ -1455,19 +1462,19 @@ msgstr "新建(&N)"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Empty Playlist…"
-msgstr ""
+msgstr "清空播放列表(&E)..."
 
 #: playlistcollection.cpp:897
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Search Playlist…"
-msgstr ""
+msgstr "搜索播放列表(&S)..."
 
 #: playlistcollection.cpp:901
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Playlist From &Folder…"
-msgstr ""
+msgstr "文件夹播放列表(&F)..."
 
 #: playlistcollection.cpp:909
 #, kde-format
@@ -1509,19 +1516,19 @@ msgstr "播放下一张专辑"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Manage &Folders…"
-msgstr ""
+msgstr "管理文件夹(&F)..."
 
 #: playlistcollection.cpp:941
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename…"
-msgstr ""
+msgstr "重命名(&R)..."
 
 #: playlistcollection.cpp:943
 #, kde-format
 msgctxt "@action:inmenu, verb, copy the playlist"
 msgid "D&uplicate…"
-msgstr ""
+msgstr "重复(&U)..."
 
 #: playlistcollection.cpp:948
 #, kde-format
@@ -1533,7 +1540,7 @@ msgstr "重新加载"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Search…"
-msgstr ""
+msgstr "编辑搜索..."
 
 #: playlistcollection.cpp:953
 #, kde-format
@@ -1591,13 +1598,13 @@ msgstr "编辑曲目搜索"
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Scrobbling"
-msgstr ""
+msgstr "配置信息收集"
 
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
 msgctxt "@action:button"
 msgid "Test Login…"
-msgstr ""
+msgstr "登录测试..."
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
@@ -1626,12 +1633,12 @@ msgstr "KWallet 不可用，您的 Last.fm 登录凭证将明文存储。"
 #, kde-format
 msgctxt "@title:window"
 msgid "KWallet Unavailable"
-msgstr ""
+msgstr "KWallet 不可用"
 
 #: scrobbleconfigdlg.cpp:128
 #, kde-format
 msgid "Validating login…"
-msgstr ""
+msgstr "正在验证登录..."
 
 #: scrobbleconfigdlg.cpp:138
 #, kde-format
@@ -1647,19 +1654,19 @@ msgstr "登录成功。"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Normal matching"
-msgstr ""
+msgstr "常规匹配"
 
 #: searchwidget.cpp:74
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Case sensitive"
-msgstr ""
+msgstr "区分大小写"
 
 #: searchwidget.cpp:75
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Pattern matching"
-msgstr ""
+msgstr "模式匹配"
 
 #: searchwidget.cpp:169
 #, kde-format
@@ -1670,7 +1677,7 @@ msgstr "所有可见"
 #: searchwidget.cpp:200
 #, kde-format
 msgid "Search…"
-msgstr ""
+msgstr "搜索..."
 
 #: slider.cpp:127
 #, kde-format
@@ -2040,7 +2047,7 @@ msgstr "您即将更改这些文件的 %1。"
 #, kde-format
 msgctxt "@title:window"
 msgid "Change Track Tags"
-msgstr ""
+msgstr "更改曲目标签"
 
 #: upcomingplaylist.cpp:31
 #, kde-format
