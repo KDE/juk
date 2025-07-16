@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2021-01-18 19:00+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -626,206 +626,206 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "நேரம்"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, fuzzy, kde-format
 #| msgid "&Random Play"
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "குறிப்பில்லாமல் வாசி"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, fuzzy, kde-format
 #| msgid "&Disable Random Play"
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "&தொடர்ச்சி இல்லாமல் வாசி என்பதை செயல் நீக்கு"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, fuzzy, kde-format
 #| msgid "Use &Random Play"
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "&தொடர்ச்சியாக இல்லாமல் வாசி என்பதை பயன்படுத்து"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, fuzzy, kde-format
 #| msgid "Use &Album Random Play"
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "&ஆல்பம் வரிசை இல்லாத வாசிப்பை பயன்படுத்து"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "பாடல் பட்டியலை மடக்கு"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, fuzzy, kde-format
 #| msgid "&Play"
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "வாசி"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, fuzzy, kde-format
 #| msgid "P&ause"
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "தற்காலிக நிறுத்தம்"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, fuzzy, kde-format
 #| msgid "&Stop"
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "நிறுத்து"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr ""
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr ""
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, fuzzy, kde-format
 #| msgid "&Loop Playlist"
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "பாடல் பட்டியலை மடக்கு"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, fuzzy, kde-format
 #| msgid "&Resize Playlist Columns Manually"
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "&வாசிப்புபட்டியல் நெடுவரிசைகளை கைம்முறையாக மறுஅளவாக்கு"
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "பாடல் வாசிக்கப்படவில்லை"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, fuzzy, kde-format
 #| msgid "Volume Up"
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "பாகத்தை உயர்த்து"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, fuzzy, kde-format
 #| msgid "Volume Down"
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "பாகத்தைக் குறை."
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, fuzzy, kde-format
 #| msgid "Play / Pause"
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "இயக்கு/ நிறுத்தம்"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, fuzzy, kde-format
 #| msgid "Seek Forward"
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "முன்னே தேடு"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, fuzzy, kde-format
 #| msgid "Seek Back"
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "பின்னோக்கித் தேடு"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, fuzzy, kde-format
 #| msgid "Show / Hide"
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "காட்டு/மறை"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, fuzzy, kde-format
 #| msgid "&Dock in System Tray"
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "அமைப்புத் தட்டில் ஓரம் சேர்."
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, fuzzy, kde-format
 #| msgid "&Stay in System Tray on Close"
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "மூடும்போது அமைப்பு தட்டில் தங்கு"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, fuzzy, kde-format
 #| msgid "Popup &Track Announcement"
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "தோன்றும் தள அறிவிப்பு "
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, fuzzy, kde-format
 #| msgid "Save &Play Queue on Exit"
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "வெளிச்செல்லும்போது வாசிப்பு வரிசையைச் சேமி"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, fuzzy, kde-format
 #| msgid "&Tag Guesser..."
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "தத்து யூகி"
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, fuzzy, kde-format
 #| msgid "File Renamer"
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "கோப்புக்கு மறுபெயரிடுபவர்"
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr ""
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, fuzzy, kde-format
 #| msgid "Track Position"
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "தடத்தின் நிலை"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, fuzzy, kde-format
 #| msgid "Volume"
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "ஒலியளவு "
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr "பிரதான சாளரத்தை மூடுவது அமைப்புத் தட்டில் உள்ள JuK வை இயங்க செய்யும்."
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, fuzzy, kde-format
 #| msgid "&Dock in System Tray"
 msgctxt "@title:window"

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2025-06-24 21:08+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -598,175 +598,175 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "Denbora"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "&Ausaz jotzea"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "&Ezgaitu ausaz jotzea"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Erabili ausa&z jotzea"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Erabili &albuma ausaz jotzea"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Kendu jotze-zerrendatik"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "&Jo"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "Eten&aldia"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "&Gelditu"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "Hurre&ngoa"
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "Jotze-zerrenda &begizta"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "Neu&rria aldatu jotze-zerrenden zutabeei eskuz"
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Isilarazi"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Bolumena igo"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Bolumena jaitsi"
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Jo / etenaldia"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Bilatu aurrerantz"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Bilatu atzerantz"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Erakutsi / Ezkutatu"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "Ain&guratu sistemaren erretiluan"
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "&Egon sistema-erretiluan ixtean"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Azaleratu pist&a iragarpena"
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Gorde &jotze-ilaran irtetean"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "E&tiketa igarlea..."
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "&Fitxategi berrizendatzailea..."
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "&Konfiguratu «scrobbling»..."
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Pistaren kokapena"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Bolumena"
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -775,7 +775,7 @@ msgstr ""
 "<qt>Leiho nagusia itxita JuK martxan geldituko da sistema-erretiluan. "
 "Erabili fitxategia menuko Irten aukera aplikaziotik irteteko.</qt>"
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"

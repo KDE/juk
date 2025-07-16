@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2025-05-07 10:47+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -595,175 +595,175 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "Temps"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "&Reproducció aleatòria"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "&Desactiva la reproducció aleatòria"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Usa la &reproducció aleatòria"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Usa la &reproducció aleatòria de l'àlbum"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Elimina de la llista de reproducció"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "Re&produeix"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "P&ausa"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "A&tura"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Anterior"
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "Següe&nt"
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "Repeteix la &llista de reproducció"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Redimensiona manualment les columnes de la llista de reproducció"
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Silenci"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Apuja el volum"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Abaixa el volum"
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Reprodueix / Pausa"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Cerca endavant"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Cerca enrere"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Mostra / Oculta"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "&Acobla a la safata del sistema"
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "Mantén a la &safata del sistema en tancar"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Anunci emergent de la &peça"
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Desa la cua de re&producció en sortir"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "Deducció de les &marques…"
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "Reanomenador de &fitxers…"
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "&Configura l'anàlisi musical…"
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Posició de la peça"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Volum"
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -773,7 +773,7 @@ msgstr ""
 "del sistema. Useu «Surt» des del menú «Fitxer» per a sortir de l'aplicació.</"
 "qt>"
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"

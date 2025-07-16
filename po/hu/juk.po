@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2025-07-12 15:54+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -590,175 +590,175 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "Idő"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "Vé&letlenszerű lejátszás"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "Véletlensze&rű lejátszás kikapcsolása"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Vé&letlenszerű lejátszás"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Vé&letlenszerű lejátszás az albumban"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Eltávolítás a lejátszólistából"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "Le&játszás"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "Szün&et"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "Leállítá&s"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Előző"
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Következő"
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "Lejátszólista kö&rkörös lejátszása"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "Lejátszólista oszlopainak kézi átmérete&zése"
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Némítás"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Hangerő fel"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Hangerő le"
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Lejátszás / Szünet"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Előre tekerés"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Hátratekerés"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Megjelenítés / Elrejtés"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "&Dokkolás a paneltálcába"
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "Bezárás után fusson tovább a program a p&aneltálcában"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Felugró számbejelen&tő"
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Lejátszási sor mentése k&ilépéskor"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "Címke&kitaláló…"
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "&Fájlátnevező…"
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "&Továbbítás beállítása…"
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Pozíció követése"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Hangerő"
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -767,7 +767,7 @@ msgstr ""
 "<qt>A főablak bezárása esetén a JuK tovább fog futni a paneltálcán. Válassza "
 "a Fájl menü Kilépés parancsát az alkalmazás bezárásához.</qt>"
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"

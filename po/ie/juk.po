@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2022-11-10 01:32+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -578,57 +578,57 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "Témpor"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "Reproducter canzones in órdine hasardal"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "Reproducter canzones in órdine hasardal"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Reproducter canzones in órdine hasardal"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Reproducter ti album"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Remover ex li playlist"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, fuzzy, kde-format
 #| msgid "&Play"
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "Re&producter"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, fuzzy, kde-format
 #| msgid "P&ause"
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "P&ausar"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "&Stoppar"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, fuzzy, kde-format
 #| msgctxt "previous track"
 #| msgid "Previous"
@@ -636,7 +636,7 @@ msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Precedent"
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, fuzzy, kde-format
 #| msgctxt "next track"
 #| msgid "&Next"
@@ -644,127 +644,127 @@ msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "S&equent"
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, fuzzy, kde-format
 #| msgid "&Loop Playlist"
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "Circu&lar playlist"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "Crear columnes in li actual playlist"
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, fuzzy, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Assurdar"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, fuzzy, kde-format
 #| msgid "Volume Up"
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Augmentar li volúmine"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, fuzzy, kde-format
 #| msgid "Volume Down"
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Diminuer li volúmine"
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, fuzzy, kde-format
 #| msgid "Play / Pause"
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Reproducter/pausar"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Saltar avan"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Saltar"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Monstrar o celar"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "Usar li area de notificationes"
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "Area de notificationes"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Anuncie HTTP"
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Reproducter e surtir"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "Secun etiquette"
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "Li visibil nómine del renominator"
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "Configurar..."
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "_In position:"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, fuzzy, kde-format
 #| msgid "Volume"
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Volúmine"
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"

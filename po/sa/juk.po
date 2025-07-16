@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -626,63 +626,63 @@ msgstr "१४ ->"
 msgid "Time"
 msgstr "कालः"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, fuzzy, kde-format
 #| msgid "&Random Play"
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "&यादृच्छिक खेल"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, fuzzy, kde-format
 #| msgid "&Disable Random Play"
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "&यादृच्छिक प्ले अक्षम करें"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, fuzzy, kde-format
 #| msgid "Use &Random Play"
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "&Random Play इत्यस्य उपयोगं कुर्वन्तु"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, fuzzy, kde-format
 #| msgid "Use &Album Random Play"
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "&Album Random Play इत्यस्य उपयोगं कुर्वन्तु"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, fuzzy, kde-format
 #| msgid "Remove From Playlist"
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "प्लेलिस्ट् तः निष्कासयन्तु"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, fuzzy, kde-format
 #| msgid "&Play"
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "&क्रीडतु"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, fuzzy, kde-format
 #| msgid "P&ause"
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "विराम"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, fuzzy, kde-format
 #| msgid "&Stop"
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "&विरमतु"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, fuzzy, kde-format
 #| msgctxt "previous track"
 #| msgid "Previous"
@@ -690,7 +690,7 @@ msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "पूर्वतनम्‌"
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, fuzzy, kde-format
 #| msgctxt "next track"
 #| msgid "&Next"
@@ -698,21 +698,21 @@ msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&अग्रिम"
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, fuzzy, kde-format
 #| msgid "&Loop Playlist"
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "&लूप प्लेलिस्ट"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, fuzzy, kde-format
 #| msgid "&Resize Playlist Columns Manually"
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "&प्लेलिस्ट् स्तम्भान् मैन्युअल् रूपेण आकारं परिवर्तयतु"
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, fuzzy, kde-format
 #| msgctxt "silence playback"
 #| msgid "Mute"
@@ -720,112 +720,112 @@ msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "मूक"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, fuzzy, kde-format
 #| msgid "Volume Up"
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Volume Up"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, fuzzy, kde-format
 #| msgid "Volume Down"
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Volume Down इति"
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, fuzzy, kde-format
 #| msgid "Play / Pause"
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "क्रीडतु / विरामं कुरुत"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, fuzzy, kde-format
 #| msgid "Seek Forward"
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "अग्रे अन्वेष्टुम्"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, fuzzy, kde-format
 #| msgid "Seek Back"
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Seek Back इति"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, fuzzy, kde-format
 #| msgid "Show / Hide"
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "दर्शयतु / गोपयतु"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, fuzzy, kde-format
 #| msgid "&Dock in System Tray"
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "&सिस्टम ट्रे मध्ये डॉक"
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, fuzzy, kde-format
 #| msgid "&Stay in System Tray on Close"
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "&Clos इत्यत्र System Tray इत्यत्र तिष्ठन्तु"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, fuzzy, kde-format
 #| msgid "Popup &Track Announcement"
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Popup &Track घोषणा"
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, fuzzy, kde-format
 #| msgid "Save &Play Queue on Exit"
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "निर्गमनसमये &Play Queue रक्षन्तु"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, fuzzy, kde-format
 #| msgid "&Tag Guesser..."
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "&टैग अनुमानक..."
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, fuzzy, kde-format
 #| msgid "File Renamer"
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "सञ्चिका पुनर्नामकरणम्"
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, fuzzy, kde-format
 #| msgid "&Configure scrobbling..."
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "&स्क्रॉब्लिंग् विन्यस्तं कुर्वन्तु..."
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, fuzzy, kde-format
 #| msgid "Track Position"
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "पटल स्थिति"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, fuzzy, kde-format
 #| msgid "Volume"
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "मात्रा"
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -834,7 +834,7 @@ msgstr ""
 "<qt>मुख्यविण्डो बन्दं कृत्वा JuK सिस्टम् ट्रे मध्ये चालितं भविष्यति । अनुप्रयोगात् निर्गन्तुं File "
 "मेन्यू तः Quit इत्यस्य उपयोगं कुर्वन्तु ।</qt>"
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, fuzzy, kde-format
 #| msgid "&Dock in System Tray"
 msgctxt "@title:window"

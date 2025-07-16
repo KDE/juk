@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2017-10-06 17:14+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -641,63 +641,63 @@ msgstr "14 ->"
 msgid "Time"
 msgstr "вријеме"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, fuzzy, kde-format
 #| msgid "&Random Play"
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "&Насумично пуштање"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, fuzzy, kde-format
 #| msgid "&Disable Random Play"
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "Искључи н&асумично пуштање"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, fuzzy, kde-format
 #| msgid "Use &Random Play"
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Користи на&сумично пуштање"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, fuzzy, kde-format
 #| msgid "Use &Album Random Play"
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Користи насу&мично пуштање албума"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, fuzzy, kde-format
 #| msgid "Remove From Playlist"
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Уклони са листе нумера"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, fuzzy, kde-format
 #| msgid "&Play"
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "&Пусти"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, fuzzy, kde-format
 #| msgid "P&ause"
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "П&аузирај"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, fuzzy, kde-format
 #| msgid "&Stop"
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "&Заустави"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, fuzzy, kde-format
 #| msgctxt "previous track"
 #| msgid "Previous"
@@ -705,7 +705,7 @@ msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Претходна"
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, fuzzy, kde-format
 #| msgctxt "next track"
 #| msgid "&Next"
@@ -713,21 +713,21 @@ msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Сљедећа"
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, fuzzy, kde-format
 #| msgid "&Loop Playlist"
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "&Листа у круг"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, fuzzy, kde-format
 #| msgid "&Resize Playlist Columns Manually"
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Ручно промијени величину колона у листи нумера"
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, fuzzy, kde-format
 #| msgctxt "silence playback"
 #| msgid "Mute"
@@ -735,112 +735,112 @@ msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Утишај"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, fuzzy, kde-format
 #| msgid "Volume Up"
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Јачина горе"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, fuzzy, kde-format
 #| msgid "Volume Down"
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Јачина доље"
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, fuzzy, kde-format
 #| msgid "Play / Pause"
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Пусти/паузирај"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, fuzzy, kde-format
 #| msgid "Seek Forward"
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Премотај унапред"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, fuzzy, kde-format
 #| msgid "Seek Back"
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Премотај уназад"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, fuzzy, kde-format
 #| msgid "Show / Hide"
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Прикажи/сакриј"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, fuzzy, kde-format
 #| msgid "&Dock in System Tray"
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "&Усидри у системску касету"
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, fuzzy, kde-format
 #| msgid "&Stay in System Tray on Close"
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "О&стави у системској касети при затварању"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, fuzzy, kde-format
 #| msgid "Popup &Track Announcement"
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Искачуће &обавјештење о нумери"
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, fuzzy, kde-format
 #| msgid "Save &Play Queue on Exit"
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Сачувај ред &пуштања при изласку"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, fuzzy, kde-format
 #| msgid "&Tag Guesser..."
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "Погађач о&знака..."
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, fuzzy, kde-format
 #| msgid "File Renamer"
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "Преимењивач фајлова"
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, fuzzy, kde-format
 #| msgid "&Configure scrobbling..."
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "&Подеси скробловање..."
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, fuzzy, kde-format
 #| msgid "Track Position"
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Положај у нумери"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, fuzzy, kde-format
 #| msgid "Volume"
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Јачина"
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -849,7 +849,7 @@ msgstr ""
 "<qt>Затварање главног прозора ће оставити Џук да ради у системској касети. "
 "Употребите <i>Напусти</i> из менија <i>Фајл</i> за напуштање програма.</qt>"
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, fuzzy, kde-format
 #| msgid "&Dock in System Tray"
 msgctxt "@title:window"

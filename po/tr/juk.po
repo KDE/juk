@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2025-05-08 13:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -603,175 +603,175 @@ msgstr "14 →"
 msgid "Time"
 msgstr "Zaman"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "Ra&stgele Çal"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "Ra&stgele Çalmayı Kapat"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Ra&stgele Çal"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "&Albümü Rastgele Çal"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Çalma Listesinden Kaldır"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "Ç&al"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "&Duraklat"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "D&urdur"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Önceki"
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Sonraki"
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "Çalma Listesini D&öngüye Al"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "Çalma Listesi &Sütunlarını Elle Boyutlandır"
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Sessiz"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Sesi Artır"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Sesi Azalt"
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Çal / Duraklat"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "İleri Sar"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Geri Sar"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Göster / Gizle"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "Sistem Tepsisine &Rıhtımla"
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "&Kapatılınca Sistem Tepsisinde Kal"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Parça Duyuru &Penceresi"
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Çı&kışta Çalma Kuyruğunu Kaydet"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "&Künye Tahmincisi…"
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "Dosya Yeniden Adlandırıcı"
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "Yayı&nlamayı Yapılandır…"
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Parça Konumu"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Ses Düzeyi"
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -780,7 +780,7 @@ msgstr ""
 "<qt>Ana pencereyi kapattığınızda JuK sistem tepsisinde çalışmayı "
 "sürdürecektir. Programı kapatmak için Dosya menüsünden Çık’ı seçin.</qt>"
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"

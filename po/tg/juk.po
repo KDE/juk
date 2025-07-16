@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2019-09-29 12:26+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -597,194 +597,194 @@ msgstr ""
 msgid "Time"
 msgstr "Вақт"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, fuzzy, kde-format
 #| msgid "&Random Play"
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "Бозии &Ихтиёрӣ"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "Бозии &Ихтиёрӣ"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Бозии &Ихтиёрӣ"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Бозии &Ихтиёрӣ"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Рӯйхати бозикуниҳо дар &Ҳалқа"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, fuzzy, kde-format
 #| msgid "&Play"
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "&Бозикунӣ"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, fuzzy, kde-format
 #| msgid "P&ause"
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "&Таваққуф"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, fuzzy, kde-format
 #| msgid "&Stop"
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "&Боздорӣ"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr ""
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr ""
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, fuzzy, kde-format
 #| msgid "&Loop Playlist"
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "Рӯйхати бозикуниҳо дар &Ҳалқа"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr ""
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Хомӯшсозӣ"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, fuzzy, kde-format
 #| msgid "Volume Up"
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Баландкунии Овоз"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, fuzzy, kde-format
 #| msgid "Volume Down"
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Пасткунии Овоз"
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, fuzzy, kde-format
 #| msgid "Play / Pause"
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Бозикунӣ / Таваққуф"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, fuzzy, kde-format
 #| msgid "Seek Forward"
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Гардиш ба Пеш"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, fuzzy, kde-format
 #| msgid "Seek Back"
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Гардиш ба Ақиб"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, fuzzy, kde-format
 #| msgid "Show / Hide"
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Нишон додан / Пинҳон кардан"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, fuzzy, kde-format
 #| msgid "&Dock in System Tray"
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "&Печонидан дар Сабади низомӣ"
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, fuzzy, kde-format
 #| msgid "&Stay in System Tray on Close"
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "Дар Сабади низомӣ Пӯшида &Гузоштан"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, fuzzy, kde-format
 #| msgid "Popup &Track Announcement"
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "&Шиораи ба Рӯй бароянда ба Таблиғот"
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Намоиши Рӯйхати бозикуниҳо"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, fuzzy, kde-format
 #| msgid "&Tag Guesser..."
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "Муайянкунандаи &Борчасб..."
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, fuzzy, kde-format
 #| msgid "File Renamer"
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "Бозномгузории Файл"
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr ""
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, fuzzy, kde-format
 #| msgid "Track Position"
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Мавқеъи Шиор"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, fuzzy, kde-format
 #| msgid "Volume"
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Баландии овоз"
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -794,7 +794,7 @@ msgstr ""
 "Барои Баромадан аз Замима, фармони \"Баромадан аз менюи Файл\"-ро истифода "
 "баред.</qt>"
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, fuzzy, kde-format
 #| msgid "&Dock in System Tray"
 msgctxt "@title:window"

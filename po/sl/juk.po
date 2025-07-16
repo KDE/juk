@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:41+0000\n"
+"POT-Creation-Date: 2025-07-16 00:42+0000\n"
 "PO-Revision-Date: 2025-05-07 07:05+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -596,175 +596,175 @@ msgstr "14 →"
 msgid "Time"
 msgstr "Čas"
 
-#: juk.cpp:240 systemtray.cpp:184
+#: juk.cpp:239 systemtray.cpp:184
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "Naključno p&redvajaj"
 
-#: juk.cpp:247
+#: juk.cpp:246
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "Onemogoči naključno predvajanje"
 
-#: juk.cpp:253
+#: juk.cpp:252
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Uporabi naključno p%redvajanje"
 
-#: juk.cpp:259
+#: juk.cpp:258
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Uporabi naključno predvajanje &albumov"
 
-#: juk.cpp:267
+#: juk.cpp:266
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Odstrani s seznama predvajanja"
 
-#: juk.cpp:271
+#: juk.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "&Predvajaj"
 
-#: juk.cpp:276
+#: juk.cpp:275
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "P&avza"
 
-#: juk.cpp:281
+#: juk.cpp:280
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "Zau&stavi"
 
-#: juk.cpp:284
+#: juk.cpp:283
 #, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Predhodna"
 
-#: juk.cpp:291
+#: juk.cpp:290
 #, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Naslednja"
 
-#: juk.cpp:295
+#: juk.cpp:294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "Ponav&ljaj seznam predvajanja"
 
-#: juk.cpp:299
+#: juk.cpp:298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Ročno spremeni velikost stolpcev seznama predvajanja"
 
-#: juk.cpp:304
+#: juk.cpp:303
 #, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Utišaj"
 
-#: juk.cpp:308
+#: juk.cpp:307
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Povečaj glasnost"
 
-#: juk.cpp:312
+#: juk.cpp:311
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Zmanjšaj glasnost"
 
-#: juk.cpp:316
+#: juk.cpp:315
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Predvajaj / Premor"
 
-#: juk.cpp:320
+#: juk.cpp:319
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Preišči naprej"
 
-#: juk.cpp:324
+#: juk.cpp:323
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Preišči nazaj"
 
-#: juk.cpp:328
+#: juk.cpp:327
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Pokaži / Skrij"
 
-#: juk.cpp:335
+#: juk.cpp:334
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "Zasi&draj v sistemsko vrstico"
 
-#: juk.cpp:339
+#: juk.cpp:338
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "Os&tani v sistemski vrstici ob zaprtju"
 
-#: juk.cpp:342
+#: juk.cpp:341
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Pojavno okno in obvestilo o skladbi"
 
-#: juk.cpp:345
+#: juk.cpp:344
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Shrani &predvajalno vrsto ob izhodu"
 
-#: juk.cpp:348
+#: juk.cpp:347
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
 msgstr "Uganjevalnik oznak…"
 
-#: juk.cpp:351
+#: juk.cpp:350
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
 msgstr "Preimenovalnik datotek…"
 
-#: juk.cpp:354
+#: juk.cpp:353
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
 msgstr "Konfiguriraj Scrobbling…"
 
-#: juk.cpp:361
+#: juk.cpp:360
 #, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Položaj skladbe"
 
-#: juk.cpp:363
+#: juk.cpp:362
 #, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Glasnost"
 
-#: juk.cpp:529
+#: juk.cpp:512
 #, kde-format
 msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
@@ -773,7 +773,7 @@ msgstr ""
 "<qt>Po zaprtju glavnega okna bo JuK še vedno tekel v sistemski vrstici. "
 "Uporabite ukaz »Končaj« iz menija »Datoteka«, če želite končati program.</qt>"
 
-#: juk.cpp:531
+#: juk.cpp:514
 #, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"
