@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-16 00:42+0000\n"
-"PO-Revision-Date: 2025-05-13 20:59+0300\n"
+"PO-Revision-Date: 2025-08-02 21:12+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -827,7 +827,7 @@ msgstr "הגדרת קיצורי מקשים"
 #, kde-format
 msgctxt "@title:group"
 msgid "Global Shortcuts"
-msgstr "קיצורי מקשים כלליים"
+msgstr "קיצורי מקשים מקיפים"
 
 #: keydialog.cpp:124
 #, kde-format
@@ -852,7 +852,7 @@ msgstr "מקשי מול&טימדיה"
 msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
-msgstr "כאן אפשר לבחור מקשים לשימוש כקיצורים כלליים לשליטה על הנגן."
+msgstr "כאן אפשר לבחור מקשים לשימוש כקיצורים מקיפים לשליטה על הנגן."
 
 #: lyricswidget.cpp:51
 #, kde-format
@@ -1044,7 +1044,7 @@ msgstr "סטפן אסרהול"
 #: main.cpp:57
 #, kde-format
 msgid "Global keybindings support"
-msgstr "תמיכה בקיצורי מקשים כלליים"
+msgstr "תמיכה בקיצורי מקשים מקיפים"
 
 #: main.cpp:58
 #, kde-format
