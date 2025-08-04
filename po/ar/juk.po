@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-07 00:41+0000\n"
-"PO-Revision-Date: 2025-06-28 17:14+0400\n"
+"PO-Revision-Date: 2025-08-03 11:59+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -765,7 +765,7 @@ msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
-"<qt>إغلاق النافذة الرئيسية سيٌبقي JuK يعمل في قائمة المهام. لإنهاء البرنامج "
+"<qt>إغلاق النافذة الرئيسة سيٌبقي JuK يعمل في قائمة المهام. لإنهاء البرنامج "
 "اضغط على إنهاء من القائمة ملف.</qt>"
 
 #: juk.cpp:531
@@ -1645,7 +1645,7 @@ msgstr "اسم المستخدم:"
 #: scrobbleconfigdlg.cpp:54
 #, kde-format
 msgid "Password:"
-msgstr "كلمة المرور:"
+msgstr "كلمة السر:"
 
 #: scrobbleconfigdlg.cpp:84
 #, kde-format
@@ -1653,7 +1653,7 @@ msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
 "encryption."
 msgstr ""
-"محفظة كِيدِي غير متوفرة، سيتم تخزين بيانات اعتماد Last.fm الخاصة بك بدون تشفير."
+"محفظة كِيدِي غير متوفرة، ستُخزن بيانات اعتماد Last.fm الخاصة بك بلا تعمية."
 
 #: scrobbleconfigdlg.cpp:85
 #, kde-format
