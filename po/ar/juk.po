@@ -1078,7 +1078,7 @@ msgstr "Zack Rusin"
 #: main.cpp:60
 #, kde-format
 msgid "More automagical things, now using MusicBrainz"
-msgstr "الكثير من الأشياء التلقائية، و الآن يستعمل MusicBrainz"
+msgstr "الكثير من الأشياء الآليّة، و الآن يستعمل MusicBrainz"
 
 #: main.cpp:61
 #, kde-format
@@ -1347,8 +1347,8 @@ msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr ""
-"تم تفعيل تحجيم الأعمدة اليدوي. تستطيع العودة لأحجام الأعمدة التلقائية في "
-"قائمة عرض."
+"تم تفعيل تحجيم الأعمدة اليدوي. تستطيع العودة لأحجام الأعمدة الآليّة في قائمة "
+"عرض."
 
 #: playlist.cpp:2121
 #, kde-format
