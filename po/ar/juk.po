@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-07 00:41+0000\n"
-"PO-Revision-Date: 2025-08-03 11:59+0400\n"
+"PO-Revision-Date: 2025-08-06 15:05+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -114,7 +114,7 @@ msgid "<b>1</b> file selected."
 msgid_plural "<b>%1</b> files selected."
 msgstr[0] "لم يحدد أي ملف"
 msgstr[1] "ملف <b>واحد</b> محدد."
-msgstr[2] "<br>ملفان</br> محددان"
+msgstr[2] "<b>ملفان </b> محددان"
 msgstr[3] "<b>%1</b> ملفات محددة"
 msgstr[4] "<b>%1</b> ملفا محددا"
 msgstr[5] "<b>%1</b> ملف محدد"
@@ -123,12 +123,12 @@ msgstr[5] "<b>%1</b> ملف محدد"
 #, kde-format
 msgid ""
 "<qt>These items will be <b>permanently deleted</b> from your hard disk.</qt>"
-msgstr "<qt>سيتم حذف هذه العناصر <b>بشكل دائم</b>من قرصك الصلب.</qt>"
+msgstr "<qt>ستحذف هذه العناصر <b>بشكل دائم</b>من قرصك الصلب.</qt>"
 
 #: deletedialog.cpp:84
 #, kde-format
 msgid "<qt>These items will be moved to the Trash Bin.</qt>"
-msgstr "<qt>سيتم نقل هذه العناصر إلى سلة المهملات.</qt>"
+msgstr "<qt>ستنقل هذه العناصر إلى سلة المهملات.</qt>"
 
 #: deletedialog.cpp:96
 #, kde-format
@@ -154,7 +154,7 @@ msgstr "هل أنت متأكد من أنك تريد إزالة هذه العنا
 msgid ""
 "If checked, files will be permanently removed instead of being placed in the "
 "Trash Bin"
-msgstr "إذا تم تأشيره، سيتم حذف الملفات بدلاً من وضعها في سهلة المهملات"
+msgstr "إذا حُدد، ستحذف الملفات بدلاً من وضعها في سهلة المهملات"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:143
@@ -166,8 +166,8 @@ msgid ""
 "<p><em>Use this option with caution</em>: Most filesystems are unable to "
 "reliably undelete deleted files.</p></qt>"
 msgstr ""
-"<qt><p> إذا تم تأشير هذا هذا الصندوق، فسيتم<b> حذفها بشكل دائم</b>بدلاً من "
-"وضعها في سلة المهملات</p> n\n"
+"<qt><p> إذا حُدد هذا هذا الصندوق، <b> فستحذف بشكل دائم</b>بدلاً من وضعها في "
+"سلة المهملات</p> n\n"
 "<p><em>استخدم هذا الخيار بحذر</em>أغلب أنظمة الملفات غير قادرة على استعادة "
 "الملفات المحذوفة.</p></qt>"
 
@@ -194,7 +194,7 @@ msgstr "يرجى اختيار المجلدات التي تحتفظ فيها با
 #: directorylistbase.ui:34 directorylistbase.ui:117
 #, kde-format
 msgid "These folders will be scanned on startup for new files."
-msgstr "سيتم تفحص هذا المجلد عند بدء التشغيل لإيجاد أي ملفات جديدة."
+msgstr "سيفحص هذا المجلد عند بدء التشغيل لإيجاد أي ملفات جديدة."
 
 #. i18n: ectx: property (text), widget (QPushButton, addDirectoryButton)
 #. i18n: ectx: property (text), widget (QPushButton, addExcludeDirectoryButton)
@@ -944,7 +944,7 @@ msgstr "كاسبر كاسبر"
 #: main.cpp:47
 #, kde-format
 msgid "Porting to KDE Frameworks 5 when no one else was around"
-msgstr "النقل إلىأطرعمل كِيدِي 5 عندما لم يكن هناك أحد"
+msgstr "النقل إلى أطر عمل كِيدِي 5 عندما لم يكن هناك أحد"
 
 #: main.cpp:48
 #, kde-format
@@ -964,7 +964,7 @@ msgstr "Martin Sandsmark"
 #: main.cpp:49
 #, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
-msgstr "دعم خدمة سكرولبين لـ Last.fm ، كلمات الأغاني ، التحضير لأطر عمل KDE 5."
+msgstr "دعم خدمة التجميع لـ Last.fm ، كلمات الأغاني ، التحضير لأطر عمل KDE 5."
 
 #: main.cpp:50
 #, kde-format
@@ -1222,12 +1222,12 @@ msgstr "افتح المجلد الحاوي"
 #: playlist.cpp:802
 #, kde-format
 msgid "Could not delete these files"
-msgstr "لم يتم التمكن من حذف هذه الملفات"
+msgstr "لم يتمكن من حذف هذه الملفات"
 
 #: playlist.cpp:803
 #, kde-format
 msgid "Could not move these files to the Trash"
-msgstr "لم يتم التمكن من نقل هذه الملفات إلى سلة المحذوفات"
+msgstr "لم يتمكن من نقل هذه الملفات إلى سلة المحذوفات"
 
 #: playlist.cpp:1280
 #, kde-format
@@ -1347,8 +1347,7 @@ msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr ""
-"تم تفعيل تحجيم الأعمدة اليدوي. تستطيع العودة لأحجام الأعمدة الآليّة في قائمة "
-"عرض."
+"فُعّل تحجيم الأعمدة اليدوي. تستطيع العودة لأحجام الأعمدة الآليّة في قائمة عرض."
 
 #: playlist.cpp:2121
 #, kde-format
@@ -1388,7 +1387,7 @@ msgstr "أبقِ"
 #: playlistbox.cpp:437
 #, kde-format
 msgid "Could not delete these files."
-msgstr "لم يتم التمكن من حذف هذه الملفات."
+msgstr "لم يتمكن من حذف هذه الملفات."
 
 #: playlistbox.cpp:445
 #, kde-format
@@ -1422,7 +1421,7 @@ msgstr "أ&زل"
 #: playlistcollection.cpp:207
 #, kde-format
 msgid "Dynamic List"
-msgstr "قائمة ديناميكة"
+msgstr "قائمة حركية"
 
 #: playlistcollection.cpp:248
 #, kde-format
@@ -1539,7 +1538,7 @@ msgstr "شغل الألبوم التالي"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Manage &Folders…"
-msgstr "أدر&المجلّدات…"
+msgstr "أدر ال&مجلّدات…"
 
 #: playlistcollection.cpp:941
 #, kde-format
@@ -1766,7 +1765,7 @@ msgstr[5] "%1 عنصر"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
-msgstr "أعد عرض اللإنبثاق"
+msgstr "أعد عرض الانبثاق"
 
 #: tageditor.cpp:468
 #, kde-format
@@ -1866,7 +1865,7 @@ msgstr "مكّن"
 #, kde-format
 msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
-msgstr "اعدادات مخمن الوسوم"
+msgstr "إعدادات مخمن الوسوم"
 
 #. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:18
@@ -1895,7 +1894,7 @@ msgid ""
 "since the tag guesser will go through the list from the top to the bottom, "
 "and use the first matching scheme."
 msgstr ""
-"من هنا تستطيع ان ترى مخططات اسم الملف المضبوطة حالياً، والتي يستخدمها الزر "
+"من هنا تستطيع أن ترى مخططات اسم الملف المضبوطة حالياً، والتي يستخدمها الزر "
 "\"اقتراح\" الموجود في محرر الوسوم ليستخلص معلومات الوسوم من اسم الملف. وكل "
 "نص يحتوي على واحد من التالي:<ul>\n"
 "<li>%t: العنوان</li>\n"
