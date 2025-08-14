@@ -964,7 +964,7 @@ msgstr "Martin Sandsmark"
 #: main.cpp:49
 #, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
-msgstr "دعم خدمة التجميع لـ Last.fm ، كلمات الأغاني ، التحضير لأطر عمل KDE 5."
+msgstr "دعم خدمة التجميع لـ Last.fm، كلمات الأغاني، التحضير لأطر عمل KDE 5."
 
 #: main.cpp:50
 #, kde-format
@@ -1028,7 +1028,7 @@ msgid ""
 "bug fixes, evangelism, moral support"
 msgstr ""
 "إرساء في صينية النظام، و تحرير الوسوم \"في السطر\"، \n"
-"وإصلاحات العلل، و المشجع ، و الداعم الروحي"
+"وإصلاحات العلل، و المشجع، و الداعم الروحي"
 
 #: main.cpp:56
 #, kde-format
