@@ -189,7 +189,7 @@ msgstr "Llista de carpetes"
 #: directorylistbase.ui:19
 #, kde-format
 msgid "Please choose the folders where you keep your music:"
-msgstr "Seleccioneu les carpetes a on guardeu la música:"
+msgstr "Trieu les carpetes a on guardeu la música:"
 
 #. i18n: ectx: property (toolTip), widget (QListView, directoryListView)
 #. i18n: ectx: property (toolTip), widget (QListView, excludeDirectoryListView)
@@ -216,7 +216,7 @@ msgstr "Elimina la carpeta"
 #: directorylistbase.ui:102
 #, kde-format
 msgid "Please choose the folders that should be excluded from music search:"
-msgstr "Seleccioneu les carpetes que cal excloure de la busca de música:"
+msgstr "Trieu les carpetes que cal excloure de la busca de música:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, importPlaylistsCheckBox)
 #: directorylistbase.ui:183
@@ -241,7 +241,7 @@ msgstr "Exemple"
 #: exampleoptionsbase.ui:37
 #, kde-format
 msgid "Example Tag Selection"
-msgstr "Seleccioneu les marques d'exemple"
+msgstr "Trieu les marques d'exemple"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_fileTagsButton)
 #: exampleoptionsbase.ui:58
