@@ -51,7 +51,6 @@
   <name xml:lang="sv">Juk</name>
   <name xml:lang="tr">JuK</name>
   <name xml:lang="uk">JuK</name>
-  <name xml:lang="x-test">xxJuKxx</name>
   <name xml:lang="zh-CN">JuK</name>
   <name xml:lang="zh-TW">Juk</name>
   <launchable type="desktop-id">org.kde.juk.desktop</launchable>
@@ -101,7 +100,6 @@
   <summary xml:lang="sv">Musikspelare</summary>
   <summary xml:lang="tr">Müzik Çalar</summary>
   <summary xml:lang="uk">Музичний програвач</summary>
-  <summary xml:lang="x-test">xxMusic Playerxx</summary>
   <summary xml:lang="zh-CN">音乐播放器</summary>
   <summary xml:lang="zh-TW">音樂播放器</summary>
   <description>
@@ -138,7 +136,6 @@
     <p xml:lang="sv">Juk är ett Jukebox-program, som stöder samlingar av MP3, Ogg Vorbis och FLAC ljudfiler. Det låter dig redigera "taggarna" i ljudfilerna, och hantera samlingen och spellistor. Dess huvudfokus är just musikhantering.</p>
     <p xml:lang="tr">JuK; MP3, Ogg Vorbis ve FLAC ses dosyalarını destekleyen bir müzik kutusu uygulamasıdır. Ses dosyalarının “künyelerini” düzenlemenize ve koleksiyon ve çalma listelerini yönetmenize izin verir. Ana odak noktası müzik yönetimidir.</p>
     <p xml:lang="uk">JuK — програма для відтворення музики, у якій передбачено підтримку роботи зі звуковими файлами у форматах MP3, Ogg Vorbis та FLAC. Програма допоможе вам у редагуванні міток ваших звукових файлів, керуванні вашою збіркою та списками відтворення. Основним її призначенням, фактично, є керування музичними даними.</p>
-    <p xml:lang="x-test">xxJuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. Its main focus, in fact, is on music management.xx</p>
     <p xml:lang="zh-CN">JuK 是一款音乐播放器和管理程序，支持 MP3、Ogg Vorbis 和 FLAC 等音频文件。它侧重于音乐管理功能，您可以用它编辑音频文件的标签、管理音乐和播放列表。</p>
     <p xml:lang="zh-TW">Juk 是一套類似自動唱機的應用程式，支援 MP3、Ogg Vorbis 與 FLAC 音效檔的收藏。它能讓您編輯您的音效檔的「標籤」，並管理您的收藏與播放清單。實際上它的主要焦點就是音樂管理。</p>
     <p>Features:</p>
@@ -187,7 +184,6 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
-    <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
     <p xml:lang="zh-TW">功能：</p>
     <ul>
@@ -234,7 +230,6 @@
       <li xml:lang="sv">Samlingslista och flera användardefinierade spellistor.</li>
       <li xml:lang="tr">Koleksiyon listesi ve çoklu kullanıcı tanımlı çalma listeleri</li>
       <li xml:lang="uk">Список збірки та декілька визначених користувачем списків відтворення.</li>
-      <li xml:lang="x-test">xxCollection list and multiple user defined playlistsxx</li>
       <li xml:lang="zh-CN">具有音乐列表，支持用户创建多个播放列表</li>
       <li xml:lang="zh-TW">收藏清單與多個使用者定義的播放清單</li>
       <li>Ability to scan directories to automatically import playlists and music files on start up</li>
@@ -280,7 +275,6 @@
       <li xml:lang="sv">Möjlighet att söka igenom kataloger vid start för att automatiskt importera spellistor och musikfiler.</li>
       <li xml:lang="tr">Açılışta dizinleri kendiliğinden tarayarak çalma listelerini ve müzik dosyalarını içe aktarma yeteneği</li>
       <li xml:lang="uk">Можливість автоматичного пошуку та імпортування до збірки списків відтворення та файлів звукових даних.</li>
-      <li xml:lang="x-test">xxAbility to scan directories to automatically import playlists and music files on start upxx</li>
       <li xml:lang="zh-CN">支持在启动时扫描目录以自动导入播放列表与音乐文件</li>
       <li xml:lang="zh-TW">可以掃描目錄並於啟動時自動匯入播放清單與音樂檔</li>
       <li>Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
@@ -326,7 +320,6 @@
       <li xml:lang="sv">Spellistor med dynamisk sökning som automatiskt uppdateras när fält i samlingen ändras</li>
       <li xml:lang="tr">Koleksiyondaki alanlar değiştiğinde kendiliğinden güncellenen Devingen Arama Çalma Listeleri</li>
       <li xml:lang="uk">Динамічні списки пошуку, які оновлюються автоматично зі зміною у полях даних збірки.</li>
-      <li xml:lang="x-test">xxDynamic Search Playlists that are automatically updated as fields in the collection changexx</li>
       <li xml:lang="zh-CN">动态搜索播放列表，根据输入框的当前内容自动过滤搜索结果</li>
       <li xml:lang="zh-TW">動態搜尋播放清單，收藏有變更時自動更新</li>
       <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
@@ -372,7 +365,6 @@
       <li xml:lang="sv">En trädvy där spellistor automatiskt skapas för uppsättningar av album, artister och genrer</li>
       <li xml:lang="tr">Çalma listeleri albüm, sanatçı ve türlerden kendiliğinden oluşturulan Ağaç Görünümü kipi</li>
       <li xml:lang="uk">Режим ієрархічного перегляду, у якому списки відтворення створюються автоматично за наборами альбомів, виконавців та жанрів.</li>
-      <li xml:lang="x-test">xxA Tree View mode where playlists are automatically generated for sets of albums, artists and genresxx</li>
       <li xml:lang="zh-CN">具有树形视图模式，其播放列表可以根据专辑、艺人和流派自动生成</li>
       <li xml:lang="zh-TW">播放清單自動產生樹狀檢視模式，顯示專輯、演出者與風格</li>
       <li>Playlist history to indicate which files have been played and when</li>
@@ -418,7 +410,6 @@
       <li xml:lang="sv">Spellistehistorik som anger vilka filer som har spelats och när</li>
       <li xml:lang="tr">Hangi dosyaların ne zaman çalındığını belirleyen çalma listesi geçmişi</li>
       <li xml:lang="uk">Журнал списку відтворення, у якому зберігаються дані щодо того, які файли було відтворено і коли це сталося.</li>
-      <li xml:lang="x-test">xxPlaylist history to indicate which files have been played and whenxx</li>
       <li xml:lang="zh-CN">播放列表历史记录，能够标识已播放的文件以及上次播放时间</li>
       <li xml:lang="zh-TW">播放清單歷史，可以指示哪些檔案於何時被播放過</li>
       <li>Inline search for filtering the list of visible items</li>
@@ -464,7 +455,6 @@
       <li xml:lang="sv">Sökning på plats för filtrering av listan med synliga objekt</li>
       <li xml:lang="tr">Görünür ögeleri süzmek için yeniden arama</li>
       <li xml:lang="uk">Вбудована можливість пошуку для фільтрування списку показаних записів.</li>
-      <li xml:lang="x-test">xxInline search for filtering the list of visible itemsxx</li>
       <li xml:lang="zh-CN">内联搜索功能，用于对可见项目列表进行过滤显示</li>
       <li xml:lang="zh-TW">清單內搜尋與過濾</li>
       <li>The ability to guess tag information based on the track's file name</li>
@@ -510,7 +500,6 @@
       <li xml:lang="sv">Möjlighet att gissa tagginformation baserat på spårets filnamn</li>
       <li xml:lang="tr">Parçanın dosya adına dayanarak künye bilgisini tahmin etme</li>
       <li xml:lang="uk">Можливість вгадування міток на основі даних щодо назви файла композиції.</li>
-      <li xml:lang="x-test">xxThe ability to guess tag information based on the track's file namexx</li>
       <li xml:lang="zh-CN">能够根据音乐文件名猜测标签信息</li>
       <li xml:lang="zh-TW">根據曲目名稱猜測標籤的功能</li>
       <li>File renamer that can rename files based on the tag content</li>
@@ -556,7 +545,6 @@
       <li xml:lang="sv">Byte av filnamn som kan byta namn på filer baserat på tagginnehåll</li>
       <li xml:lang="tr">Künye içeriğine bağlı olarak dosyayı yeniden adlandırabilme</li>
       <li xml:lang="uk">Засіб перейменування файлів, який може перейменувати файли на основі даних міток.</li>
-      <li xml:lang="x-test">xxFile renamer that can rename files based on the tag contentxx</li>
       <li xml:lang="zh-CN">文件重命名工具，能够根据标签内容重命名文件</li>
       <li xml:lang="zh-TW">根據標籤內容來重新命名檔案</li>
       <li>Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
@@ -602,7 +590,6 @@
       <li xml:lang="sv">Stöd för taggläsning och redigering för många format inklusive ID3v1, ID3v2 och Ogg Vorbis</li>
       <li xml:lang="tr">ID3v1, ID3v2 ve Ogg Vorbis dahil pek çok biçim için künye okuma ve düzenleme desteği</li>
       <li xml:lang="uk">Підтримка читання та редагування міток у багатьох форматах, зокрема ID3v1, ID3v2 та Ogg Vorbis.</li>
-      <li xml:lang="x-test">xxTag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbisxx</li>
       <li xml:lang="zh-CN">支持读取和编辑各种标签格式 (包括 ID3v1、ID3v2 和 Ogg Vorbis)</li>
       <li xml:lang="zh-TW">標籤讀取與編輯支援許多格式，包括 ID3v1, ID3v2 與 Ogg Vorbis 等</li>
     </ul>
