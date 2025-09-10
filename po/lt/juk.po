@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-07 00:41+0000\n"
-"PO-Revision-Date: 2024-01-13 17:59+0200\n"
+"PO-Revision-Date: 2025-09-09 20:49+0300\n"
 "Last-Translator: Andrius Štikonas <andrius@stikonas.eu>\n"
 "Language-Team: Lithuanian <kde-i18n-doc@kde.org>\n"
 "Language: lt\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -28,51 +28,43 @@ msgid "Your emails"
 msgstr "dgvirtual@akl.lt, <>"
 
 #: advancedsearchdialog.cpp:48
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create Search Playlist"
 msgstr "Sukurti paieškos grojaraštį"
 
 #: advancedsearchdialog.cpp:57
-#, fuzzy, kde-format
-#| msgid "Playlist name:"
+#, kde-format
 msgctxt "@label"
 msgid "Playlist name:"
 msgstr "Grojaraščio pavadinimas:"
 
 #: advancedsearchdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Search Criteria"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search Criteria"
 msgstr "Paieškos kriterijus"
 
 #: advancedsearchdialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Match any of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match any of the following"
 msgstr "Atitikti bet kurį iš šių"
 
 #: advancedsearchdialog.cpp:67
-#, fuzzy, kde-format
-#| msgid "Match all of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match all of the following"
 msgstr "Atitikti visus iš šių"
 
 #: advancedsearchdialog.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "additional search options"
-#| msgid "More"
+#, kde-format
 msgctxt "@action:button, additional search options"
 msgid "More"
 msgstr "Daugiau"
 
 #: advancedsearchdialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "Fewer"
+#, kde-format
 msgctxt "@action:button"
 msgid "Fewer"
 msgstr "Mažiau"
@@ -92,13 +84,7 @@ msgid "Collection List"
 msgstr "Kolekcijų sąrašas"
 
 #: collectionlist.cpp:289
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removing an item from the collection will also remove it from all of your "
-#| "playlists. Are you sure you want to continue?\n"
-#| "\n"
-#| "Note, however, that if the directory that these files are in is in your "
-#| "\"scan on startup\" list, they will be readded on startup."
+#, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
 "playlists. Are you sure you want to continue?\n"
@@ -110,12 +96,11 @@ msgstr ""
 "grojaraščių. Ar tikrai norite tęsti?\n"
 "\n"
 "Vis dėlto, turėkite omenyje, kad jei katalogas, kuriame yra šie failai, yra "
-"jūsų \"peržiūrėti paleidimo metu\" sąraše, tuomet paleidimo metu failai bus "
+"jūsų „peržiūrėti paleidimo metu“ sąraše, tada paleidimo metu failai bus "
 "pridėti iš naujo."
 
 #: collectionlist.cpp:343
-#, fuzzy, kde-format
-#| msgid "Show Playing"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Playing"
 msgstr "Rodyti atkuriamus"
@@ -143,18 +128,16 @@ msgid "<qt>These items will be moved to the Trash Bin.</qt>"
 msgstr "<qt>Šie elementai bus perkelti į šiukšlinę.</qt>"
 
 #: deletedialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "&Send to Trash"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Send to Trash"
 msgstr "&Siųsti į šiukšlinę"
 
 #: deletedialog.cpp:100
-#, fuzzy, kde-format
-#| msgid "About to delete selected files"
+#, kde-format
 msgctxt "@title:window"
 msgid "Delete Selected Files"
-msgstr "Ketinama ištrinti pasirinktus failus"
+msgstr "Ištrinti pažymėtus failus"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -194,8 +177,7 @@ msgid "&Delete files instead of moving them to the trash"
 msgstr "&Ištrinti failus, o ne perkelti į šiukšlinę"
 
 #: directorylist.cpp:55
-#, fuzzy, kde-format
-#| msgid "Folder List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Folder List"
 msgstr "Aplankų sąrašas"
@@ -339,9 +321,7 @@ msgid "Genre"
 msgstr "Žanras"
 
 #: filerenamer.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "warning about mass file rename"
-#| msgid "Warning"
+#, kde-format
 msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
 msgstr "Įspėjimas"
@@ -369,24 +349,19 @@ msgid "No Change"
 msgstr "Be pakeitimų"
 
 #: filerenamer.cpp:409
-#, fuzzy, kde-format
-#| msgctxt "remove music genre from file renamer"
-#| msgid "Remove"
+#, kde-format
 msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
 msgstr "Šalinti"
 
 #: filerenamer.cpp:412
-#, fuzzy, kde-format
-#| msgctxt "file renamer genre options"
-#| msgid "Options"
+#, kde-format
 msgctxt "@action:button, file renamer genre options"
 msgid "Options"
 msgstr "Parinktys"
 
 #: filerenamer.cpp:524
-#, fuzzy, kde-format
-#| msgid "Insert folder separator"
+#, kde-format
 msgctxt "@option:check"
 msgid "Insert folder separator"
 msgstr "Įterpti aplanko skirtuką"
@@ -397,22 +372,19 @@ msgid "No file selected, or selected file has no tags."
 msgstr "Nepažymėtas joks failas arba pažymėtame faile nėra žymių."
 
 #: filerenamer.cpp:826
-#, fuzzy, kde-format
-#| msgid "Hide Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
 msgstr "Slėpti pervadinimo įrankio išbandymo dialogą"
 
 #: filerenamer.cpp:831
-#, fuzzy, kde-format
-#| msgid "Show Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
 msgstr "Rodyti pervadinimo įrankio išbandymo dialogą"
 
 #: filerenamer.cpp:911
-#, fuzzy, kde-format
-#| msgid "%1 to %2"
+#, kde-format
 msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
 msgstr "%1 į %2"
@@ -495,52 +467,42 @@ msgid "Show Renamer Test Dialog"
 msgstr "Rodyti pervadinimo įrankio išbandymo dialogą"
 
 #: filerenamerconfigdlg.cpp:29
-#, fuzzy, kde-format
-#| msgid "File Renamer Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer Options"
 msgstr "Failų pervadinimo įrankio parinktys"
 
 #: filerenameroptions.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "%1 will be a music tag category like Artist or Album"
-#| msgid "%1 Options"
+#, kde-format
 msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
-msgstr "%1 ir jo parinktys"
+msgstr "%1 parinktys"
 
 #: filerenameroptions.cpp:39
-#, fuzzy, kde-format
-#| msgid "%1 Format"
+#, kde-format
 msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
-msgstr "%1 ir jo formatas"
+msgstr "%1 formatas"
 
 #: filerenameroptions.cpp:40
-#, fuzzy, kde-format
-#| msgid "When the Track's %1 is Empty"
+#, kde-format
 msgctxt "@title:group"
 msgid "When the Track’s %1 is Empty"
 msgstr "Kai takelio %1 yra tuščias"
 
 #: filerenameroptions.cpp:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "When using the file renamer your files will be renamed to the values that "
-#| "you have in your track's %1 tag, plus any additional text that you "
-#| "specify below."
+#, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
 "you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
 "Naudojant failų pervadinimo įrankį, jūsų failai bus pervadinti į reikšmes, "
-"kurias turite savo takelio \"%1\" žymėje ir bet kokį žemiau nurodytą "
-"papildomą tekstą."
+"kurias turite savo takelio „%1“ žymėje ir bet kokį žemiau nurodytą papildomą "
+"tekstą."
 
 #: filerenameroptions.cpp:114
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer"
 msgstr "Failų pervadinimo įrankis"
@@ -629,200 +591,169 @@ msgid "Time"
 msgstr "Laikas"
 
 #: juk.cpp:240 systemtray.cpp:184
-#, fuzzy, kde-format
-#| msgid "&Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "&Atsitiktinis atkūrimas"
 
 #: juk.cpp:247
-#, fuzzy, kde-format
-#| msgid "&Disable Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "&Išjungti atsitiktinį atkūrimą"
 
 #: juk.cpp:253
-#, fuzzy, kde-format
-#| msgid "Use &Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Naudoti atsitiktinį atkū&rimą"
 
 #: juk.cpp:259
-#, fuzzy, kde-format
-#| msgid "Use &Album Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Naudoti atsitiktinį atkūrimą &albumui"
 
 #: juk.cpp:267
-#, fuzzy, kde-format
-#| msgid "Remove From Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Šalinti iš grojaraščio"
 
 #: juk.cpp:271
-#, fuzzy, kde-format
-#| msgid "&Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "&Atkurti"
 
 #: juk.cpp:276
-#, fuzzy, kde-format
-#| msgid "P&ause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "&Pristabdyti"
 
 #: juk.cpp:281
-#, fuzzy, kde-format
-#| msgid "&Stop"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "&Stabdyti"
 
 #: juk.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "previous track"
-#| msgid "Previous"
+#, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Ankstesnis"
 
 #: juk.cpp:291
-#, fuzzy, kde-format
-#| msgctxt "next track"
-#| msgid "&Next"
+#, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Kitas"
 
 #: juk.cpp:295
-#, fuzzy, kde-format
-#| msgid "&Loop Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "&Cikliškai kartoti atkūrimą"
 
 #: juk.cpp:299
-#, fuzzy, kde-format
-#| msgid "&Resize Playlist Columns Manually"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Rankiniu būdu keisti grojaraščio stulpelių dydį"
 
 #: juk.cpp:304
-#, fuzzy, kde-format
-#| msgctxt "silence playback"
-#| msgid "Mute"
+#, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Nutildyti"
 
 #: juk.cpp:308
-#, fuzzy, kde-format
-#| msgid "Volume Up"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Pagarsinti"
 
 #: juk.cpp:312
-#, fuzzy, kde-format
-#| msgid "Volume Down"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Tildyti"
 
 #: juk.cpp:316
-#, fuzzy, kde-format
-#| msgid "Play / Pause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Atkurti / Pristabdyti"
 
 #: juk.cpp:320
-#, fuzzy, kde-format
-#| msgid "Seek Forward"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Persukti pirmyn"
 
 #: juk.cpp:324
-#, fuzzy, kde-format
-#| msgid "Seek Back"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Persukti atgal"
 
 #: juk.cpp:328
-#, fuzzy, kde-format
-#| msgid "Show / Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Rodyti / Slėpti"
 
 #: juk.cpp:335
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "Į&statyti į sistemos dėklą"
 
 #: juk.cpp:339
-#, fuzzy, kde-format
-#| msgid "&Stay in System Tray on Close"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "&Užvėrus, išlikti sistemos dėkle"
 
 #: juk.cpp:342
-#, fuzzy, kde-format
-#| msgid "Popup &Track Announcement"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Iškylantysis &takelio skelbimas"
 
 #: juk.cpp:345
-#, fuzzy, kde-format
-#| msgid "Save &Play Queue on Exit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "&Išeinant, įrašyti atkūrimo eilę"
 
 #: juk.cpp:348
-#, fuzzy, kde-format
-#| msgid "&Tag Guesser..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
-msgstr "Ž&ymių spėliojimas..."
+msgstr "Ž&ymių spėliojimas…"
 
 #: juk.cpp:351
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
-msgstr "Failų pervadinimo įrankis"
+msgstr "&Failų pervadinimo įrankis…"
 
 #: juk.cpp:354
-#, fuzzy, kde-format
-#| msgid "&Configure scrobbling..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
-msgstr "&Konfigūruoti \"Scrobble\" paslaugą..."
+msgstr "&Konfigūruoti „Scrobble“ paslaugą…"
 
 #: juk.cpp:361
-#, fuzzy, kde-format
-#| msgid "Track Position"
+#, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Takelio pozicija"
 
 #: juk.cpp:363
-#, fuzzy, kde-format
-#| msgid "Volume"
+#, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Garsumas"
@@ -834,22 +765,19 @@ msgid ""
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
 "<qt>Užvėrus pagrindinį langą, JuK veiks sistemos dėkle. Norėdami išjungti "
-"programą, \"Failo\" meniu naudokite elementą \"Išjungti\".</qt>"
+"programą, „Failo“ meniu naudokite elementą „Išjungti“.</qt>"
 
 #: juk.cpp:531
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"
-msgstr "Į&statyti į sistemos dėklą"
+msgstr "Įstatyti į sistemos dėklą"
 
 #: juktag.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "a playing track, %1 is artist, %2 is song title"
-#| msgid "%1 - <i>%2</i>"
+#, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
 msgid "%1 — <i>%2</i>"
-msgstr "%1 - <i>%2</i>"
+msgstr "%1 – <i>%2</i>"
 
 #. i18n: ectx: Menu (file)
 #: jukui-rtl.rc:4 jukui.rc:6
@@ -894,45 +822,37 @@ msgid "Play Toolbar"
 msgstr "Atkūrimo įrankių juosta"
 
 #: keydialog.cpp:102
-#, fuzzy, kde-format
-#| msgid "Configure Shortcuts"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Shortcuts"
 msgstr "Konfigūruoti sparčiuosius klavišus"
 
 #: keydialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Global Shortcuts"
+#, kde-format
 msgctxt "@title:group"
 msgid "Global Shortcuts"
 msgstr "Visuotiniai spartieji klavišai"
 
 #: keydialog.cpp:124
-#, fuzzy, kde-format
-#| msgid "&No keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&No keys"
 msgstr "&Jokių klavišų"
 
 #: keydialog.cpp:128
-#, fuzzy, kde-format
-#| msgid "&Standard keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Standard keys"
 msgstr "&Standartiniai klavišai"
 
 #: keydialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "&Multimedia keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Multimedia keys"
 msgstr "&Multimedijos klavišai"
 
 #: keydialog.cpp:138
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can select the keys used as global shortcuts to control the "
-#| "player"
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
@@ -984,11 +904,10 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Automatinis grotuvas ir muzikos tvarkytuvė pagal KDE bendruomenę"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2023, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgctxt "Use copyright sign, and en dash for the year range"
 msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
-msgstr "Autorių teisės © 2002–2023, Scott Wheeler, Michael Pyne ir kiti"
+msgstr "© 2002–2025, Scott Wheeler, Michael Pyne ir kiti"
 
 #: main.cpp:44
 #, kde-format
@@ -1049,7 +968,7 @@ msgstr "Martin Sandsmark"
 #, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
 msgstr ""
-"Last.fm \"Scrobble\" paslaugos palaikymas, dainų žodžiai, paruošimas KDE "
+"Last.fm „Scrobble“ paslaugos palaikymas, dainų žodžiai, paruošimas KDE "
 "Frameworks 5."
 
 #: main.cpp:50
@@ -1113,7 +1032,7 @@ msgid ""
 "System tray docking, \"inline\" tag editing,\n"
 "bug fixes, evangelism, moral support"
 msgstr ""
-"Įstatymas į sistemos dėklą, \"tiesioginis\" žymių taisymas,\n"
+"Įstatymas į sistemos dėklą, „tiesioginis“ žymių taisymas,\n"
 "klaidų pataisymai, propagavimas, moralinis palaikymas"
 
 #: main.cpp:56
@@ -1237,19 +1156,16 @@ msgid "JuK Docked"
 msgstr "JuK įstatytas"
 
 #: mediafiles.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "open audio file"
-#| msgid "Open"
+#, kde-format
 msgctxt "@title:window, open audio file"
 msgid "Open"
 msgstr "Atverti"
 
 #: mediafiles.cpp:146
-#, fuzzy, kde-format
-#| msgid "Save Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Playlist %1"
-msgstr "Įrašyti grojaraštį"
+msgstr "Įrašyti grojaraštį %1"
 
 #: mediafiles.cpp:148
 #, kde-format
@@ -1269,13 +1185,7 @@ msgid "%1 - %2 :: JuK"
 msgstr "%1 - %2 :: JuK"
 
 #: playermanager.cpp:363
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "%1 will be the /path/to/file, %2 will be some string from Phonon "
-#| "describing the error"
-#| msgid ""
-#| "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for "
-#| "the following reason:<nl/><message>%2</message>"
+#, kde-format
 msgctxt ""
 "%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
 "describing the error"
@@ -1283,8 +1193,8 @@ msgid ""
 "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
 "following reason:<nl/><message>%2</message>"
 msgstr ""
-"JuK nepavyko atkurti garso failo<nl/><filename>%1</filename><nl/>dėl šios "
-"priežasties:<nl/><message>%2</message>"
+"JuK nepavyko atkurti garso įrašo failo<nl/><filename>%1</filename><nl/>dėl "
+"šios priežasties:<nl/><message>%2</message>"
 
 #: playlist.cpp:338
 #, kde-format
@@ -1302,8 +1212,7 @@ msgstr[2] "Ketinate atverti %1 katalogų. Ar tikrai norite tęsti?"
 msgstr[3] "Ketinate atverti %1 katalogą. Ar tikrai norite tęsti?"
 
 #: playlist.cpp:578
-#, fuzzy, kde-format
-#| msgid "Open Containing Folder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Containing Folder"
 msgstr "Atverti vidinį aplanką"
@@ -1319,114 +1228,97 @@ msgid "Could not move these files to the Trash"
 msgstr "Nepavyko perkelti šių failų į šiukšlinę"
 
 #: playlist.cpp:1280
-#, fuzzy, kde-format
-#| msgid "Track Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "Track Name"
 msgstr "Takelio pavadinimas"
 
 #: playlist.cpp:1281
-#, fuzzy, kde-format
-#| msgid "Artist"
+#, kde-format
 msgctxt "@title:column"
 msgid "Artist"
 msgstr "Atlikėjas"
 
 #: playlist.cpp:1282
-#, fuzzy, kde-format
-#| msgid "Album"
+#, kde-format
 msgctxt "@title:column"
 msgid "Album"
 msgstr "Albumas"
 
 #: playlist.cpp:1283
-#, fuzzy, kde-format
-#| msgctxt "cd track number"
-#| msgid "Track"
+#, kde-format
 msgctxt "@title:column, CD track number"
 msgid "Track"
 msgstr "Takelis"
 
 #: playlist.cpp:1284
-#, fuzzy, kde-format
-#| msgid "Genre"
+#, kde-format
 msgctxt "@title:column"
 msgid "Genre"
 msgstr "Žanras"
 
 #: playlist.cpp:1285
-#, fuzzy, kde-format
-#| msgid "Year"
+#, kde-format
 msgctxt "@title:column"
 msgid "Year"
 msgstr "Metai"
 
 #: playlist.cpp:1286
-#, fuzzy, kde-format
-#| msgid "Length"
+#, kde-format
 msgctxt "@title:column"
 msgid "Length"
 msgstr "Trukmė"
 
 #: playlist.cpp:1287
-#, fuzzy, kde-format
-#| msgid "Bitrate"
+#, kde-format
 msgctxt "@title:column"
 msgid "Bitrate"
 msgstr "Pralaidumas"
 
 #: playlist.cpp:1288
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgctxt "@title:column"
 msgid "Comment"
 msgstr "Komentaras"
 
 #: playlist.cpp:1289
-#, fuzzy, kde-format
-#| msgid "File Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name"
 msgstr "Failo pavadinimas"
 
 #: playlist.cpp:1290
-#, fuzzy, kde-format
-#| msgid "File Name (full path)"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name (Full Path)"
-msgstr "Failo pavadinimas (pilnas kelias)"
+msgstr "Failo pavadinimas (visas kelias)"
 
 #: playlist.cpp:1471
-#, fuzzy, kde-format
-#| msgid "&Show Columns"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Show Columns"
 msgstr "&Rodyti stulpelius"
 
 #: playlist.cpp:1579
-#, fuzzy, kde-format
-#| msgid "Add to Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
 msgstr "Pridėti į atkūrimo eilę"
 
 #: playlist.cpp:1593
-#, fuzzy, kde-format
-#| msgid "Edit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "Taisyti"
 
 #: playlist.cpp:1607
-#, fuzzy, kde-format
-#| msgid "Create Playlist From Selected Items..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create Playlist From Selected Items…"
-msgstr "Sukurti grojaraštį iš pažymėtų elementų..."
+msgstr "Sukurti grojaraštį iš pažymėtų elementų…"
 
 #: playlist.cpp:1973
-#, fuzzy, kde-format
-#| msgid "Edit '%1'"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit “%1”"
 msgstr "Taisyti „%1“"
@@ -1442,8 +1334,7 @@ msgid "Edit"
 msgstr "Taisyti"
 
 #: playlist.cpp:2109
-#, fuzzy, kde-format
-#| msgid "Create New Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create New Playlist"
 msgstr "Sukurti naują grojaraštį"
@@ -1458,30 +1349,25 @@ msgstr ""
 "automatinių stulpelių dydžių."
 
 #: playlist.cpp:2121
-#, fuzzy, kde-format
-#| msgid "Manual Column Widths Enabled"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
 msgstr "Įjungti rankiniai stulpelių pločiai"
 
 #: playlistbox.cpp:108
-#, fuzzy, kde-format
-#| msgid "View Modes"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "View Modes"
 msgstr "Rodinio veiksenos"
 
 #: playlistbox.cpp:168
-#, fuzzy, kde-format
-#| msgid "Show &History"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &History"
 msgstr "Rodyti &istoriją"
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Dubliuoti"
@@ -1492,8 +1378,7 @@ msgid "Do you want to delete these files from the disk as well?"
 msgstr "Ar norite tuo pačiu ištrinti šiuos failus iš disko?"
 
 #: playlistbox.cpp:425
-#, fuzzy, kde-format
-#| msgid "Keep"
+#, kde-format
 msgctxt "@action:button"
 msgid "Keep"
 msgstr "Palikti"
@@ -1509,29 +1394,25 @@ msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Ar tikrai norite pašalinti šiuos grojaraščius iš savo kolekcijos?"
 
 #: playlistbox.cpp:448
-#, fuzzy, kde-format
-#| msgid "Remove Items?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Remove Items?"
 msgstr "Šalinti elementus?"
 
 #: playlistbox.cpp:449
-#, fuzzy, kde-format
-#| msgid "&Remove"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Remove"
 msgstr "Ša&linti"
 
 #: playlistbox.cpp:653
-#, fuzzy, kde-format
-#| msgid "Hid&e"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hid&e"
 msgstr "&Slėpti"
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
-#, fuzzy, kde-format
-#| msgid "R&emove"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "R&emove"
 msgstr "Šali&nti"
@@ -1554,37 +1435,31 @@ msgstr ""
 "Ar norite pridėti šiuos elementus į dabartinį sąrašą, ar į kolekcijos sąrašą?"
 
 #: playlistcollection.cpp:349
-#, fuzzy, kde-format
-#| msgctxt "current playlist"
-#| msgid "Current"
+#, kde-format
 msgctxt "@action:button, current playlist"
 msgid "Current"
 msgstr "Dabartinis"
 
 #: playlistcollection.cpp:350
-#, fuzzy, kde-format
-#| msgid "Collection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Collection"
 msgstr "Kolekcija"
 
 #: playlistcollection.cpp:412
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Pervadinti"
 
 #: playlistcollection.cpp:515
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Search Playlist"
 msgstr "Sukurti paieškos grojaraštį"
 
 #: playlistcollection.cpp:540
-#, fuzzy, kde-format
-#| msgid "Create Folder Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Folder Playlist"
 msgstr "Sukurti aplanko grojaraštį"
@@ -1600,143 +1475,121 @@ msgid "Please enter a name for this playlist:"
 msgstr "Įveskite šio grojaraščio pavadinimą:"
 
 #: playlistcollection.cpp:890
-#, fuzzy, kde-format
-#| msgctxt "new playlist"
-#| msgid "&New"
+#, kde-format
 msgctxt "@action:inmenu, new playlist"
 msgid "&New"
 msgstr "&Naujas"
 
 #: playlistcollection.cpp:893
-#, fuzzy, kde-format
-#| msgid "&Empty Playlist..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Empty Playlist…"
-msgstr "&Tuščias grojaraštis..."
+msgstr "&Tuščias grojaraštis…"
 
 #: playlistcollection.cpp:897
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Search Playlist…"
-msgstr "Paieškos grojaraštis"
+msgstr "&Paieškos grojaraštis…"
 
 #: playlistcollection.cpp:901
-#, fuzzy, kde-format
-#| msgid "Playlist From &Folder..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Playlist From &Folder…"
-msgstr "Grojaraštis iš &aplanko..."
+msgstr "Grojaraštis iš &aplanko…"
 
 #: playlistcollection.cpp:909
-#, fuzzy, kde-format
-#| msgid "&Guess Tag Information"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
 msgstr "&Atspėti žymės informaciją"
 
 #: playlistcollection.cpp:914
-#, fuzzy, kde-format
-#| msgid "From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &File Name"
 msgstr "Iš &failo pavadinimo"
 
 #: playlistcollection.cpp:918
-#, fuzzy, kde-format
-#| msgid "From &Internet"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &Internet"
 msgstr "Iš &interneto"
 
 #: playlistcollection.cpp:923
-#, fuzzy, kde-format
-#| msgid "Guess Tag Information From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
 msgstr "Atspėti žymės informaciją iš &failo pavadinimo"
 
 #: playlistcollection.cpp:930
-#, fuzzy, kde-format
-#| msgid "Play First Track"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play First Track"
 msgstr "Atkurti pirmą takelį"
 
 #: playlistcollection.cpp:932
-#, fuzzy, kde-format
-#| msgid "Play Next Album"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play Next Album"
 msgstr "Atkurti kitą albumą"
 
 #: playlistcollection.cpp:939
-#, fuzzy, kde-format
-#| msgid "Manage &Folders..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Manage &Folders…"
-msgstr "Tvarkyti a&plankus..."
+msgstr "Tvarkyti a&plankus…"
 
 #: playlistcollection.cpp:941
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename…"
-msgstr "Pervadinti"
+msgstr "Pe&rvadinti…"
 
 #: playlistcollection.cpp:943
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:inmenu, verb, copy the playlist"
 msgid "D&uplicate…"
-msgstr "Dubliuoti"
+msgstr "D&ubliuoti…"
 
 #: playlistcollection.cpp:948
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "Įkelti iš naujo"
 
 #: playlistcollection.cpp:950
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Search…"
-msgstr "Taisyti paiešką..."
+msgstr "Taisyti paiešką…"
 
 #: playlistcollection.cpp:953
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "&Ištrinti"
 
 #: playlistcollection.cpp:955
-#, fuzzy, kde-format
-#| msgid "Refresh"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Refresh"
 msgstr "Įkelti iš naujo"
 
 #: playlistcollection.cpp:957
-#, fuzzy, kde-format
-#| msgid "Open Containing Folder"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Containing Folder"
 msgstr "Atverti vidinį aplanką"
 
 #: playlistcollection.cpp:959
-#, fuzzy, kde-format
-#| msgid "&Rename File"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename File"
 msgstr "Pe&rvadinti failą"
 
 #: playlistcollection.cpp:964
-#, fuzzy, kde-format
-#| msgid "Show &Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
 msgstr "Rodyti at&kūrimo eilę"
@@ -1752,32 +1605,28 @@ msgid "Playlist"
 msgstr "Grojaraštis"
 
 #: playlistsplitter.cpp:158
-#, fuzzy, kde-format
-#| msgid "Show &Search Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
 msgstr "Rodyti &paieškos juostą"
 
 #: playlistsplitter.cpp:161
-#, fuzzy, kde-format
-#| msgid "Edit Track Search"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Track Search"
 msgstr "Taisyti takelių paiešką"
 
 #: scrobbleconfigdlg.cpp:38
-#, fuzzy, kde-format
-#| msgid "Configure scrobbling..."
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Scrobbling"
-msgstr "Konfigūruoti \"Scrobble\" paslaugą..."
+msgstr "Konfigūruoti „Scrobble“ paslaugą"
 
 #: scrobbleconfigdlg.cpp:42
-#, fuzzy, kde-format
-#| msgid "Test login..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Test Login…"
-msgstr "Išbandyti prisijungimą..."
+msgstr "Išbandyti prisijungimą…"
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
@@ -1806,17 +1655,15 @@ msgstr ""
 "šifravimo."
 
 #: scrobbleconfigdlg.cpp:85
-#, fuzzy, kde-format
-#| msgid "KWallet is unavailable"
+#, kde-format
 msgctxt "@title:window"
 msgid "KWallet Unavailable"
 msgstr "KWallet yra neprieinama"
 
 #: scrobbleconfigdlg.cpp:128
-#, fuzzy, kde-format
-#| msgid "Validating login..."
+#, kde-format
 msgid "Validating login…"
-msgstr "Patikrinamas prisijungimas..."
+msgstr "Patikrinamas prisijungimas…"
 
 #: scrobbleconfigdlg.cpp:138
 #, kde-format
@@ -1829,38 +1676,33 @@ msgid "Login valid."
 msgstr "Prisijungimas teisingas."
 
 #: searchwidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "Normal Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Normal matching"
 msgstr "Normalus atitikimas"
 
 #: searchwidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Case Sensitive"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Case sensitive"
 msgstr "Skirti raidžių dydį"
 
 #: searchwidget.cpp:75
-#, fuzzy, kde-format
-#| msgid "Pattern Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Pattern matching"
 msgstr "Šablono atitikimas"
 
 #: searchwidget.cpp:169
-#, fuzzy, kde-format
-#| msgid "All Visible"
+#, kde-format
 msgctxt "@title:column"
 msgid "All Visible"
 msgstr "Visi matomi"
 
 #: searchwidget.cpp:200
-#, fuzzy, kde-format
-#| msgid "Search..."
+#, kde-format
 msgid "Search…"
-msgstr "Ieškoti..."
+msgstr "Ieškoti…"
 
 #: slider.cpp:127
 #, kde-format
@@ -1904,8 +1746,7 @@ msgstr ""
 "Persukinėjimas šiame faile nėra palaikomas naudojant jūsų garso nuostatas."
 
 #: statuslabel.cpp:85
-#, fuzzy, kde-format
-#| msgid "Jump to the currently playing item"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
 msgstr "Peršokti prie šiuo metu atkuriamo elemento"
@@ -1920,8 +1761,7 @@ msgstr[2] "%1 elementų"
 msgstr[3] "%1 elementas"
 
 #: systemtray.cpp:161
-#, fuzzy, kde-format
-#| msgid "Redisplay Popup"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
 msgstr "Rodyti iškylantįjį langą iš naujo"
@@ -1942,8 +1782,7 @@ msgid "Do you want to save your changes to:\n"
 msgstr "Ar norite įrašyti pakeitimus į:\n"
 
 #: tageditor.cpp:590
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Changes"
 msgstr "Įrašyti pakeitimus"
@@ -2022,8 +1861,7 @@ msgid "Enable"
 msgstr "Įjungti"
 
 #: tagguesserconfigdlg.cpp:39
-#, fuzzy, kde-format
-#| msgid "Tag Guesser Configuration"
+#, kde-format
 msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
 msgstr "Žymių spėliojimo konfigūracija"
@@ -2056,7 +1894,7 @@ msgid ""
 "and use the first matching scheme."
 msgstr ""
 "Čia galite matyti šiuo metu sukonfigūruotas failų pavadinimo schemas, kurias "
-"įrašas \"Atspėti žymės informaciją iš failo pavadinimo\" naudoja dainos "
+"įrašas „Atspėti žymės informaciją iš failo pavadinimo“ naudoja dainos "
 "kontekstiniame meniu, kad išskleistų informaciją iš failo pavadinimo. "
 "Kiekvienoje eilutėje gali būti vienas iš šių vietaženklių:<ul>\n"
 "<li>%t: Pavadinimas</li>\n"
@@ -2065,9 +1903,9 @@ msgstr ""
 "<li>%T: Takelis</li>\n"
 "<li>%c: Komentaras</li>\n"
 "</ul>\n"
-"Pavyzdžiui, failo pavadinimo schema \"[%T] %a - %t\" atitiktų \"[01] Jesus "
-"Culture - Love Has A Name\", tačiau neatitiktų \"(Jesus Culture) Love Has A "
-"Name\". Antrajam pavadinimui turėtumėte naudoti schemą \"(%a) %t\".<p/>\n"
+"Pavyzdžiui, failo pavadinimo schema „[%T] %a - %t“ atitiktų „[01] Jesus "
+"Culture - Love Has A Name“, tačiau neatitiktų „(Jesus Culture) Love Has A "
+"Name“. Antrajam pavadinimui turėtumėte naudoti schemą „(%a) %t“.<p/>\n"
 "Turėkite omenyje, kad tvarka, kuria sąraše yra rodomos schemos yra svarbi, "
 "nes žymių spėliojimas eis per sąrašą nuo viršaus į apačią ir naudos pirmąją "
 "atitinkančią schemą."
@@ -2208,15 +2046,13 @@ msgstr ""
 "Ar norite jį pakeisti?"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "File Exists"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Failas jau yra"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "Replace"
+#, kde-format
 msgctxt "@action:button"
 msgid "Replace"
 msgstr "Pakeisti"
@@ -2227,8 +2063,7 @@ msgid "The following files were unable to be changed."
 msgstr "Šių failų nepavyko pakeisti."
 
 #: tagtransactionmanager.cpp:178
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgctxt "@title:window"
 msgid "Error"
 msgstr "Klaida"
@@ -2254,8 +2089,7 @@ msgid "You are about to change the %1 on these files."
 msgstr "Šiuose failuose bus pakeistas %1."
 
 #: treeviewitemplaylist.cpp:58
-#, fuzzy, kde-format
-#| msgid "Changing Track Tags"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change Track Tags"
 msgstr "Takelio žymių keitimas"
@@ -2298,8 +2132,7 @@ msgid "Genres"
 msgstr "Žanrai"
 
 #: volumepopupbutton.cpp:76
-#, fuzzy, kde-format
-#| msgid "Mute/Unmute"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
 msgstr "Nutildyti/Įjungti garsą"
@@ -2310,15 +2143,13 @@ msgid "%1%"
 msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
-#, fuzzy, kde-format
-#| msgid "Volume: %1% (muted)"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
 msgstr "Garsumas: %1% (nutildyta)"
 
 #: volumepopupbutton.cpp:123
-#, fuzzy, kde-format
-#| msgid "Volume: %1%"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
 msgstr "Garsumas: %1%"
