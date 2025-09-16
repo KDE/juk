@@ -2157,16 +2157,16 @@ msgstr "Silenciar/No silenciar"
 #: volumepopupbutton.cpp:114
 #, kde-format
 msgid "%1%"
-msgstr "%1%"
+msgstr "%1 %"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
-msgstr "Volumen: %1% (silenciado)"
+msgstr "Volumen: %1 % (silenciado)"
 
 #: volumepopupbutton.cpp:123
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
-msgstr "Volumen: %1%"
+msgstr "Volumen: %1 %"
