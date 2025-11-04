@@ -397,13 +397,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
-msgstr "Masquer la boîte de dialogue de test de l'outil de renommage"
+msgstr "Masquer la boite de dialogue de test de l'outil de renommage"
 
 #: filerenamer.cpp:831
 #, kde-format
 msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
-msgstr "Afficher la boîte de dialogue de test de l'outil de renommage"
+msgstr "Afficher la boite de dialogue de test de l'outil de renommage"
 
 #: filerenamer.cpp:911
 #, kde-format
@@ -486,7 +486,7 @@ msgstr "Séparateur : "
 #: filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
-msgstr "Afficher la boîte de dialogue de test de l'outil de renommage"
+msgstr "Afficher la boite de dialogue de test de l'outil de renommage"
 
 #: filerenamerconfigdlg.cpp:29
 #, kde-format
@@ -730,13 +730,13 @@ msgstr "Afficher / masquer"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
-msgstr "Insérer &dans la boîte à miniatures"
+msgstr "Insérer &dans la boite à miniatures"
 
 #: juk.cpp:339
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
-msgstr "Maintenir dans la boîte à miniature&s lors de la fermeture"
+msgstr "Maintenir dans la boite à miniature&s lors de la fermeture"
 
 #: juk.cpp:342
 #, kde-format
@@ -786,7 +786,7 @@ msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
-"<qt>JuK continue à fonctionner dans la boîte à miniatures lorsque vous "
+"<qt>JuK continue à fonctionner dans la boite à miniatures lorsque vous "
 "fermez la fenêtre principale. Utiliser « Quitter » dans le menu « Fichier » "
 "pour quitter l'application.</qt>"
 
@@ -794,7 +794,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"
-msgstr "Insérer dans la boîte à miniatures"
+msgstr "Insérer dans la boite à miniatures"
 
 #: juktag.cpp:90
 #, kde-format
@@ -1061,7 +1061,7 @@ msgid ""
 "System tray docking, \"inline\" tag editing,\n"
 "bug fixes, evangelism, moral support"
 msgstr ""
-"Insertion dans la boîte à miniatures, modification d'en-tête « en ligne »,\n"
+"Insertion dans la boite à miniatures, modification d'en-tête « en ligne »,\n"
 "corrections de bogues, évangélisation, aide morale"
 
 #: main.cpp:56
@@ -1179,7 +1179,7 @@ msgid ""
 "Use context menu in system tray to restore."
 msgstr ""
 "Juk fonctionne en mode intégré.\n"
-"Utilisez le menu contextuel de la boîte à miniatures pour le restaurer."
+"Utilisez le menu contextuel de la boite à miniatures pour le restaurer."
 
 #: main.cpp:88
 #, kde-format
@@ -1930,7 +1930,7 @@ msgstr ""
 "Vous pouvez voir ici les modèles de noms de fichiers actuellement configurés "
 "avec l'entrée « Deviner les informations de l'en-tête à partir du nom du "
 "fichier » du menu contextuel du morceau. Ces modèles sont utilisés pour "
-"extraire d'un nom de fichier les informations des balises. Chaque chaîne "
+"extraire d'un nom de fichier les informations des balises. Chaque chaine "
 "peut contenir l'une des variables suivantes : <ul>\n"
 "<li>%t : titre</li>\n"
 "<li>%a : artiste</li>\n"
