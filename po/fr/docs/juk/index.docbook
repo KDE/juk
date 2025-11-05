@@ -133,7 +133,7 @@
 ><guimenuitem
 >Ouvrir...</guimenuitem
 ></menuchoice
-> et en les sélectionnant dans une boîte de dialogue de fichier &kde; standard. Vous pouvez ajouter des dossiers en entier en utilisant le menu <menuchoice
+> et en les sélectionnant dans une boite de dialogue de fichier &kde; standard. Vous pouvez ajouter des dossiers en entier en utilisant le menu <menuchoice
 ><guimenu
 >Fichier</guimenu
 > <guimenuitem
@@ -205,7 +205,7 @@
 >Vous pouvez changer l'ordre de la liste n'importe quand en cliquant avec le &BGS; sur le titre de la colonne. Les fichiers seront ordonnés d'abord par ordre croissant par rapport au contenu de cette colonne. Si vous cliquez à nouveau avec le &BGS; sur le même titre, les fichiers seront ordonnés dans l'ordre décroissant.</para>
 
 <para
->Les colonnes sont d'abord dimensionnées avec une largeur suffisante pour afficher la chaîne la plus longue. Vous pouvez redimensionner les colonnes en plaçant le pointeur de votre souris sur la séparation entre deux colonnes. Lorsque la forme du pointeur change, appuyez avec le &BGS; et déplacez-le dans la direction que vous désirez pour redimensionner les colonnes.</para>
+>Les colonnes sont d'abord dimensionnées avec une largeur suffisante pour afficher la chaine la plus longue. Vous pouvez redimensionner les colonnes en plaçant le pointeur de votre souris sur la séparation entre deux colonnes. Lorsque la forme du pointeur change, appuyez avec le &BGS; et déplacez-le dans la direction que vous désirez pour redimensionner les colonnes.</para>
 
 <para
 >Vous pouvez modifier l'ordre des colonnes en appuyant avec le &BGS; sur une étiquette et en déplaçant l'étiquette vers la gauche ou la droite. Cependant, si vous procédez ainsi, vous ne pouvez pas la déplacer après le bord de la fenêtre. Ainsi, il vous faut déplacer la vue un peu à gauche ou à droite puis répéter le déplacement de l'étiquette jusqu'à ce que vous puissiez la mettre à l'endroit désiré.</para>
@@ -336,7 +336,7 @@
 >Devineur de étiquettes...</guimenuitem
 ></menuchoice
 >. Ceci ouvrira la <link linkend="juk-tag-guesser-configuration"
->boîte de dialogue de configuration du devineur d'étiquettes</link
+>boite de dialogue de configuration du devineur d'étiquettes</link
 >. &juk; ne remplacera pas les étiquettes pour lesquelles il n'a rien trouvé à partir du nom du fichier.</para>
   </listitem>
   </varlistentry>
@@ -508,7 +508,7 @@ Show Cover Manager
 >Mode d'affichage compact</term>
 <listitem>
 <para
->Ce mode est similaire au mode d'affichage normal, à l'exception près que les listes de lecture sont représentées sous forme de barres horizontales avec de petites icônes au lieu de boîtes rectangulaires. </para>
+>Ce mode est similaire au mode d'affichage normal, à l'exception près que les listes de lecture sont représentées sous forme de barres horizontales avec de petites icônes au lieu de boites rectangulaires. </para>
 </listitem>
 </varlistentry>
 
@@ -744,7 +744,7 @@ Show Cover Manager
 > si elle ne l'est pas encore, et modifiez le champ comme vous l'auriez fait normalement.</para>
 
 <para
->Lorsque c'est terminé, cliquez avec le &BGS; dans la liste d'affichage et on vous demandera d'enregistrer vos modifications. La boîte de dialogue vous affichera la liste des fichiers affectés, afin que vous puissiez vérifier que vous altérez effectivement les fichiers choisis.</para>
+>Lorsque c'est terminé, cliquez avec le &BGS; dans la liste d'affichage et on vous demandera d'enregistrer vos modifications. La boite de dialogue vous affichera la liste des fichiers affectés, afin que vous puissiez vérifier que vous altérez effectivement les fichiers choisis.</para>
 
 <para
 >Vous pouvez enregistrer vos modifications de façon explicite et immédiatement n'importe quand en utilisant l'élément de menu <menuchoice
@@ -765,25 +765,25 @@ Show Cover Manager
 
 <sect1 id="juk-rename-dialog">
 <title
->La boîte de dialogue pour renommer les fichiers</title>
+>La boite de dialogue pour renommer les fichiers</title>
 <para>
 <screenshot>
 <screeninfo
->La boîte de dialogue de renommage de fichier</screeninfo>
+>La boite de dialogue de renommage de fichier</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase
->La boîte de dialogue de renommage de fichier.</phrase>
+>La boite de dialogue de renommage de fichier.</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot>
 </para>
 
 <para
->La boîte de dialogue de l'outil de renommage de fichier est utilisée pour configurer le comportement de cet outil, qui renomme une chanson en fonction des informations contenues dans ses étiquettes de méta-données. </para>
+>La boite de dialogue de l'outil de renommage de fichier est utilisée pour configurer le comportement de cet outil, qui renomme une chanson en fonction des informations contenues dans ses étiquettes de méta-données. </para>
 <para
 >L'outil de renommage de fichiers est utilisé pour obtenir des noms de fichiers cohérents dans votre collection de musique (y compris le déplacement de fichiers si nécessaire). Par exemple, vous pouvez avoir quelques morceaux qui apparaissent sur le disque comme <filename
 >01 - Title.mp3</filename
@@ -815,7 +815,7 @@ Show Cover Manager
 ></keycombo
 >. Mais avant tout, vous devez configurer la façon dont les fichiers seront renommés. </para>
 <para
->Ceci se fait depuis la boîte de dialogue mentionnée précédemment, qui peut être ouverte avec l'élément de menu <menuchoice
+>Ceci se fait depuis la boite de dialogue mentionnée précédemment, qui peut être ouverte avec l'élément de menu <menuchoice
 ><guimenu
 >Configuration</guimenu
 ><guimenuitem
@@ -832,30 +832,30 @@ Show Cover Manager
 
 <sect1 id="juk-tag-guesser-configuration">
 <title
->La boîte de dialogue de configuration du devineur d'étiquettes</title>
+>La boite de dialogue de configuration du devineur d'étiquettes</title>
 <para>
 <screenshot>
 <screeninfo
->La boîte de dialogue de configuration du devineur d'étiquettes</screeninfo>
+>La boite de dialogue de configuration du devineur d'étiquettes</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase
->Capture d'écran de la boîte de dialogue de configuration du devineur d'étiquettes.</phrase>
+>Capture d'écran de la boite de dialogue de configuration du devineur d'étiquettes.</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot>
 </para>
 
 <para
->La boîte de dialogue de configuration de <guilabel
+>La boite de dialogue de configuration de <guilabel
 >l'outil d'analyse de l'en-tête</guilabel
 > est utilisée pour configurer la commande servant à deviner les étiquettes à partir du nom du fichier.</para>
 
 <para
->Dans la boîte de dialogue, vous verrez une liste à gauche contenant différents motifs de noms de fichiers. &juk; inclut un grand nombre de motifs par défaut, correspondants aux styles de noms de fichiers courants. Si vous souhaitez ajouter un nouveau motif, cliquez sur le bouton <guibutton
+>Dans la boite de dialogue, vous verrez une liste à gauche contenant différents motifs de noms de fichiers. &juk; inclut un grand nombre de motifs par défaut, correspondants aux styles de noms de fichiers courants. Si vous souhaitez ajouter un nouveau motif, cliquez sur le bouton <guibutton
 >Ajouter</guibutton
 >, saisissez votre motif, puis cliquez sur le bouton <guibutton
 >Ok</guibutton
@@ -863,7 +863,7 @@ Show Cover Manager
 >  
 
 <para
->Vous pouvez voir ici les motifs de noms de fichiers actuellement configurés, et utilisés par l'outil d'analyse de l'en-tête pour extraire les informations à partir du nom du fichier. Chaque chaîne peut contenir d'un des paramètres substituables suivants :</para>
+>Vous pouvez voir ici les motifs de noms de fichiers actuellement configurés, et utilisés par l'outil d'analyse de l'en-tête pour extraire les informations à partir du nom du fichier. Chaque chaine peut contenir d'un des paramètres substituables suivants :</para>
 
 <para
 ><itemizedlist>
@@ -914,30 +914,30 @@ Show Cover Manager
 
 <sect1 id="juk-advanced-search-dialog">
 <title
->La boîte de dialogue de recherche avancée</title>
+>La boite de dialogue de recherche avancée</title>
 <para>
 <screenshot>
 <screeninfo
->La boîte de dialogue de recherche avancée</screeninfo>
+>La boite de dialogue de recherche avancée</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase
->Capture d'écran de la boîte de dialogue de recherche avancée</phrase>
+>Capture d'écran de la boite de dialogue de recherche avancée</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot>
 </para>
 
 <para
->La boîte de dialogue de recherche avancée est utilisée pour créer des <link linkend="juk-search-playlists"
+>La boite de dialogue de recherche avancée est utilisée pour créer des <link linkend="juk-search-playlists"
 >listes de lecture à partir d'une recherche</link
 >. Elle vous permet d'effectuer une recherche affinée parmi les différentes étiquettes de votre collection de chansons.</para>
 
 <para
->En haut de la boîte de dialogue, vous pouvez saisir le nom de votre liste de lecture fondée sur une recherche. Vous pouvez ensuite définir vos critères de recherche dans le groupe <guilabel
+>En haut de la boite de dialogue, vous pouvez saisir le nom de votre liste de lecture fondée sur une recherche. Vous pouvez ensuite définir vos critères de recherche dans le groupe <guilabel
 >Critères de recherche</guilabel
 >. </para>
 
@@ -1208,7 +1208,7 @@ write new for kde4
 ></term>
 <listitem
 ><para
->Crée une nouvelle liste de lecture. Si vous maintenez le bouton enfoncé, un menu apparaîtra, vous permettant de choisir parmi différents types de listes de lecture à créer. </para>
+>Crée une nouvelle liste de lecture. Si vous maintenez le bouton enfoncé, un menu apparaitra, vous permettant de choisir parmi différents types de listes de lecture à créer. </para>
   <variablelist>
   <varlistentry
 ><term
@@ -1239,9 +1239,9 @@ write new for kde4
 ></term>
   <listitem
 ><para
->Ceci appelle la boîte de dialogue de recherche avancée, vous permettant de créer une <quote
+>Ceci appelle la boite de dialogue de recherche avancée, vous permettant de créer une <quote
 >liste de lecture virtuelle</quote
->. Toutes les chansons de votre liste de collection qui correspondent aux critères de recherche que vous avez spécifié dans cette boîte de dialogue seront ajoutées à la nouvelle liste de lecture. Si votre liste de collection change, la nouvelle liste de collection sera mise à jour également. Par exemple, si vous créez une liste de toutes vos chansons de Police, et ensuite ajoutez une autre chanson de Police à votre liste de collection, elle apparaîtra également dans la liste de lecture de Police sans qu'aucune action particulière de votre part ne soit nécessaire. </para
+>. Toutes les chansons de votre liste de collection qui correspondent aux critères de recherche que vous avez spécifié dans cette boite de dialogue seront ajoutées à la nouvelle liste de lecture. Si votre liste de collection change, la nouvelle liste de collection sera mise à jour également. Par exemple, si vous créez une liste de toutes vos chansons de Police, et ensuite ajoutez une autre chanson de Police à votre liste de collection, elle apparaitra également dans la liste de lecture de Police sans qu'aucune action particulière de votre part ne soit nécessaire. </para
 ></listitem>
   </varlistentry>
 
@@ -1521,14 +1521,14 @@ you can simply click on the Clear button to the left of the search bar.</para>
 <para>
 <screenshot>
 <screeninfo
->La boîte de dialogue de gestion des dossiers</screeninfo>
+>La boite de dialogue de gestion des dossiers</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase
->Capture d'écran de la boîte de dialogue de gestion des dossiers.</phrase>
+>Capture d'écran de la boite de dialogue de gestion des dossiers.</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot>
@@ -1987,7 +1987,7 @@ Play Next Album
 >Devineur de étiquettes...</guimenuitem
 ></menuchoice
 >, qui ouvre la <link linkend="juk-tag-guesser-configuration"
->boîte de dialogue de configuration du devineur de étiquettes</link
+>boite de dialogue de configuration du devineur de étiquettes</link
 >.</para>
 </listitem>
 </varlistentry>
@@ -2040,10 +2040,10 @@ Cover Manager
 </term>
 <listitem>
   <para
->Cette commande vous permet de renommer un fichier ou un groupe de fichiers pour les morceaux sélectionnés dans la liste de lecture. Avant que le renommage ne se produise réellement, &juk; affiche une boîte de dialogue d'aperçu dans laquelle vous pouvez confirmer ou annuler l'action. </para>
+>Cette commande vous permet de renommer un fichier ou un groupe de fichiers pour les morceaux sélectionnés dans la liste de lecture. Avant que le renommage ne se produise réellement, &juk; affiche une boite de dialogue d'aperçu dans laquelle vous pouvez confirmer ou annuler l'action. </para>
   <para
 >Les fichiers seront renommés en fonction des paramètres définis dans la <link linkend="juk-rename-dialog"
->boîte de dialogue de renommage des fichiers</link
+>boite de dialogue de renommage des fichiers</link
 >. </para
 > 
 </listitem>
@@ -2085,12 +2085,12 @@ Cover Manager
 ><guimenu
 >Configuration</guimenu
 > <guimenuitem
->Incruster dans la boîte à miniatures</guimenuitem
+>Incruster dans la boite à miniatures</guimenuitem
 > </menuchoice>
 </term>
 <listitem
 ><para
->S'il est activé, &juk; affichera une icône dans la boîte à miniatures. Vous pouvez utiliser l'icône de la boîte à miniatures pour contrôler la lecture des chansons par &juk;.</para>
+>S'il est activé, &juk; affichera une icône dans la boite à miniatures. Vous pouvez utiliser l'icône de la boite à miniatures pour contrôler la lecture des chansons par &juk;.</para>
 </listitem>
 </varlistentry>
 
@@ -2100,13 +2100,13 @@ Cover Manager
 ><guimenu
 >Configuration</guimenu
 > <guimenuitem
->Rester dans la boîte à miniatures lors de la fermeture</guimenuitem
+>Rester dans la boite à miniatures lors de la fermeture</guimenuitem
 > </menuchoice>
 </term>
 <listitem
 ><para
 >S'il est activé, &juk; continuera de fonctionner si vous fermez la fenêtre principale. L'option <guimenuitem
->Incruster dans la boîte à miniatures</guimenuitem
+>Incruster dans la boite à miniatures</guimenuitem
 > doit également être activée. Pour quitter &juk;, utilisez la commande <menuchoice
 > <guimenu
 >Fichier</guimenu
@@ -2115,9 +2115,9 @@ Cover Manager
 ></menuchoice
 > depuis la fenêtre principale, ou la commande <guimenuitem
 >Quitter</guimenuitem
-> du menu contextuel depuis la boîte à miniatures.</para>
+> du menu contextuel depuis la boite à miniatures.</para>
 <para
->Si &juk; est démarré alors qu'il est configuré pour s'incruster dans la boîte à miniatures au démarrage, une simple notification sera affichée (sinon l'utilisateur se demanderait pourquoi la fenêtre de &juk; ne s'est pas ouverte). Il est possible d'enlever cette notification supplémentaire en allant dans <menuchoice
+>Si &juk; est démarré alors qu'il est configuré pour s'incruster dans la boite à miniatures au démarrage, une simple notification sera affichée (sinon l'utilisateur se demanderait pourquoi la fenêtre de &juk; ne s'est pas ouverte). Il est possible d'enlever cette notification supplémentaire en allant dans <menuchoice
 ><guimenu
 >Apparence et comportement général</guimenu
 ><guimenuitem
@@ -2126,7 +2126,7 @@ Cover Manager
 > dans la &configurationDuSysteme; pour gérer les notifications de l'application <guilabel
 >Lecteur multimédia JuK</guilabel
 >. Décochez juste l'élément <guilabel
->Afficher un message dans une fenêtre qui apparaît</guilabel
+>Afficher un message dans une fenêtre qui apparait</guilabel
 > pour <guimenuitem
 >JuK fonctionne en mode intégré</guimenuitem
 >. Davantage d'informations sur la configuration des notifications de &kde; peut être trouvée <ulink url="help:/kcontrol/kcmnotify"
@@ -2146,7 +2146,7 @@ Cover Manager
 </term>
 <listitem
 ><para
->S'il est activé, &juk; affichera un indicateur lorsque la lecture d'une chanson débute, contenant des informations sur l'artiste, le titre, et avec des boutons vous permettant de basculer rapidement vers une autre chanson. l'option Incruster dans la boîte à miniatures doit également être activée.</para>
+>S'il est activé, &juk; affichera un indicateur lorsque la lecture d'une chanson débute, contenant des informations sur l'artiste, le titre, et avec des boutons vous permettant de basculer rapidement vers une autre chanson. l'option Incruster dans la boite à miniatures doit également être activée.</para>
 </listitem>
 </varlistentry>
 
@@ -2162,7 +2162,7 @@ Cover Manager
 <listitem
 ><para
 >Cette commande appelle la <link linkend="juk-tag-guesser-configuration"
->boîte de dialogue de configuration du devineur d'étiquettes</link
+>boite de dialogue de configuration du devineur d'étiquettes</link
 >, dans laquelle vous pouvez modifier les motifs utilisés pour deviner les informations d'étiquette à partir du nom des fichiers.</para>
 </listitem>
 </varlistentry>
@@ -2179,7 +2179,7 @@ Cover Manager
 <listitem
 ><para
 >Cette commande appelle la <link linkend="juk-rename-dialog"
->boîte de dialogue de configuration de l'outil de renommage de fichier</link
+>boite de dialogue de configuration de l'outil de renommage de fichier</link
 >, dans laquelle vous pouvez modifier la façon dont &juk; renomme les fichiers pour vous.</para>
 </listitem>
 </varlistentry>
@@ -2362,7 +2362,7 @@ action="simul"
 <itemizedlist>
 <listitem
 ><para
->&Daniel.Molkentin; &Daniel.Molkentin.mail; pour l'incrustation dans la boîte à miniatures, la modification <quote
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; pour l'incrustation dans la boite à miniatures, la modification <quote
 >à la volée</quote
 > des étiquettes, les résolutions de bogues, son évangélisme, le support moral.</para>
 </listitem>
