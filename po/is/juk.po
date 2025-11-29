@@ -3,20 +3,20 @@
 # Björgvin Ragnarsson <nifgraup@hotmail.com>, 2004.
 # Jon Arnar Gudmundsson <jonarnar@jonarnar.com>, 2004.
 # Björgvin Ragnarsson <nifgraup@gmail.com>, 2005.
-# Sveinn í Felli <sveinki@nett.is>, 2009, 2010, 2011, 2013.
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2013, 2025 Sveinn í Felli <sveinki@nett.is>
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2013-05-14 21:04+0000\n"
-"Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
-"Language-Team: Icelandic <kde-isl@molar.is>\n"
+"PO-Revision-Date: 2025-11-28 11:43+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
 "\n"
 "\n"
@@ -35,51 +35,43 @@ msgid "Your emails"
 msgstr "nifgraup@hotmail.com, ra@ra.is, jonarnar@jonarnar.com"
 
 #: advancedsearchdialog.cpp:48
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create Search Playlist"
-msgstr "Búa til leitarlagalista"
+msgstr "Búa til leitarspilunarlista"
 
 #: advancedsearchdialog.cpp:57
-#, fuzzy, kde-format
-#| msgid "Playlist name:"
+#, kde-format
 msgctxt "@label"
 msgid "Playlist name:"
-msgstr "Heiti lagalista:"
+msgstr "Heiti spilunarlista:"
 
 #: advancedsearchdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Search Criteria"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search Criteria"
 msgstr "Leitarskilyrði"
 
 #: advancedsearchdialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Match any of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match any of the following"
 msgstr "Passar við eitthvað af eftirtöldu"
 
 #: advancedsearchdialog.cpp:67
-#, fuzzy, kde-format
-#| msgid "Match all of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match all of the following"
 msgstr "Passar við allt af eftirtöldu"
 
 #: advancedsearchdialog.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "additional search options"
-#| msgid "More"
+#, kde-format
 msgctxt "@action:button, additional search options"
 msgid "More"
 msgstr "Fleiri"
 
 #: advancedsearchdialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "Fewer"
+#, kde-format
 msgctxt "@action:button"
 msgid "Fewer"
 msgstr "Færri"
@@ -99,13 +91,7 @@ msgid "Collection List"
 msgstr "Safnlisti"
 
 #: collectionlist.cpp:289
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removing an item from the collection will also remove it from all of your "
-#| "playlists. Are you sure you want to continue?\n"
-#| "\n"
-#| "Note, however, that if the directory that these files are in is in your "
-#| "\"scan on startup\" list, they will be readded on startup."
+#, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
 "playlists. Are you sure you want to continue?\n"
@@ -114,14 +100,13 @@ msgid ""
 "“scan on startup” list, they will be readded on startup."
 msgstr ""
 "Ef hlutur er fjarlægður úr safninu mun hann einnig verða fjarlægður af öllum "
-"lagalistunum þínum. Ertu viss um að þú viljir halda áfram?\n"
+"spilunarlistunum þínum. Ertu viss um að þú viljir halda áfram?\n"
 "\n"
 "Athugaðu að séu þessar skrár eru í \"leit við ræsingu\" listanum þínum "
 "verður þeim aftur bætt í safnið þegar forritið er endurræst."
 
 #: collectionlist.cpp:343
-#, fuzzy, kde-format
-#| msgid "Show Playing"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Playing"
 msgstr "Sýna spilun"
@@ -146,18 +131,16 @@ msgid "<qt>These items will be moved to the Trash Bin.</qt>"
 msgstr "<qt>Þessir hlutir verða fluttir í ruslið.</qt>"
 
 #: deletedialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "&Send to Trash"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Send to Trash"
 msgstr "&Setja í ruslið"
 
 #: deletedialog.cpp:100
-#, fuzzy, kde-format
-#| msgid "About to delete selected files"
+#, kde-format
 msgctxt "@title:window"
 msgid "Delete Selected Files"
-msgstr "Um það bil að eyða völdum skrám"
+msgstr "Eyða völdum skrám"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -198,8 +181,7 @@ msgid "&Delete files instead of moving them to the trash"
 msgstr "&Eyða skrám í stað þess að færa þær í ruslið"
 
 #: directorylist.cpp:55
-#, fuzzy, kde-format
-#| msgid "Folder List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Folder List"
 msgstr "Möppulisti"
@@ -233,16 +215,15 @@ msgstr "Fjarlægja möppu"
 
 #. i18n: ectx: property (text), widget (QLabel, ExcludeInformationLabel)
 #: directorylistbase.ui:102
-#, fuzzy, kde-format
-#| msgid "Please choose the folders where you keep your music:"
+#, kde-format
 msgid "Please choose the folders that should be excluded from music search:"
-msgstr "Veldur möppurnar þar sem þú geymir tónlistina þína:"
+msgstr "Veldur möppurnar sem á að útiloka frá leit að tónlist:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, importPlaylistsCheckBox)
 #: directorylistbase.ui:183
 #, kde-format
 msgid "Import playlists"
-msgstr "Flytja inn lagalista"
+msgstr "Flytja inn spilunarlista"
 
 #: exampleoptions.cpp:65 main.cpp:38 playermanager.cpp:381 playlist.cpp:1295
 #: systemtray.cpp:502 systemtray.cpp:513
@@ -344,9 +325,7 @@ msgid "Genre"
 msgstr "Tegund"
 
 #: filerenamer.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "warning about mass file rename"
-#| msgid "Warning"
+#, kde-format
 msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
 msgstr "Aðvörun"
@@ -376,24 +355,19 @@ msgid "No Change"
 msgstr "Engin breyting"
 
 #: filerenamer.cpp:409
-#, fuzzy, kde-format
-#| msgctxt "remove music genre from file renamer"
-#| msgid "Remove"
+#, kde-format
 msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
 msgstr "Fjarlægja"
 
 #: filerenamer.cpp:412
-#, fuzzy, kde-format
-#| msgctxt "file renamer genre options"
-#| msgid "Options"
+#, kde-format
 msgctxt "@action:button, file renamer genre options"
 msgid "Options"
 msgstr "Valmöguleikar"
 
 #: filerenamer.cpp:524
-#, fuzzy, kde-format
-#| msgid "Insert folder separator"
+#, kde-format
 msgctxt "@option:check"
 msgid "Insert folder separator"
 msgstr "Setja inn möppuaðgreini"
@@ -404,22 +378,19 @@ msgid "No file selected, or selected file has no tags."
 msgstr "Engin skrá valin, eða skráin inniheldur engar upplýsingar."
 
 #: filerenamer.cpp:826
-#, fuzzy, kde-format
-#| msgid "Hide Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
 msgstr "Fela prufuglugga endurnefna"
 
 #: filerenamer.cpp:831
-#, fuzzy, kde-format
-#| msgid "Show Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
-msgstr "Sýna prufuglugga endurnefna"
+msgstr "Sýna prufuglugga endurnefningar"
 
 #: filerenamer.cpp:911
-#, fuzzy, kde-format
-#| msgid "%1 to %2"
+#, kde-format
 msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
 msgstr "%1 í %2"
@@ -485,10 +456,9 @@ msgstr "Setja inn flokk"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: filerenamerbase.ui:135
-#, fuzzy, kde-format
-#| msgid "Add category:"
+#, kde-format
 msgid "&Add category:"
-msgstr "Bæta við flokki:"
+msgstr "Bæt&a við flokki:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #: filerenamerbase.ui:145
@@ -503,52 +473,42 @@ msgid "Show Renamer Test Dialog"
 msgstr "Sýna prufuglugga endurnefna"
 
 #: filerenamerconfigdlg.cpp:29
-#, fuzzy, kde-format
-#| msgid "File Renamer Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer Options"
 msgstr "Valmöguleikar skráarendurnefnara"
 
 #: filerenameroptions.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "%1 will be a music tag category like Artist or Album"
-#| msgid "%1 Options"
+#, kde-format
 msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
 msgstr "Valmöguleikar %1"
 
 #: filerenameroptions.cpp:39
-#, fuzzy, kde-format
-#| msgid "%1 Format"
+#, kde-format
 msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
 msgstr "Snið merkisins %1"
 
 #: filerenameroptions.cpp:40
-#, fuzzy, kde-format
-#| msgid "When the Track's %1 is Empty"
+#, kde-format
 msgctxt "@title:group"
 msgid "When the Track’s %1 is Empty"
-msgstr "Þegar merkið %1 er tómt"
+msgstr "Þegar %1 spors er tómt"
 
 #: filerenameroptions.cpp:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "When using the file renamer your files will be renamed to the values that "
-#| "you have in your track's %1 tag, plus any additional text that you "
-#| "specify below."
+#, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
 "you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
 "Þegar skráarendurnefnarinn er notaður verða skrárnar þínar endurnefndar "
-"samkvæmd því gildi sem er í merkinu %1 auk þess texta sem þú skilgreinir að "
+"samkvæmt því gildi sem er í merkinu %1 auk þess texta sem þú skilgreinir að "
 "neðan."
 
 #: filerenameroptions.cpp:114
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer"
 msgstr "Skráarendurnefnari"
@@ -563,7 +523,7 @@ msgstr "Útskiptingardæmi"
 #: filerenameroptionsbase.ui:137
 #, kde-format
 msgid "Include in the &filename anyways"
-msgstr "Setja samt sem áður í &skráarnafnið"
+msgstr "Setja samt sem áður í &skráarnheitið"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_ignoreTagButton)
 #: filerenameroptionsbase.ui:144
@@ -592,16 +552,13 @@ msgstr "Númerun laga"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: filerenameroptionsbase.ui:196
-#, fuzzy, kde-format
-#| msgid ""
-#| "JuK can force the track used in a file name to have a minimum number of "
-#| "digits.  You may want to do this for better sorting in file managers."
+#, kde-format
 msgid ""
 "JuK can force the track used in a file name to have a minimum number of "
 "digits. You may want to do this for better sorting in file managers."
 msgstr ""
-"JuK getur látið skráarnöfn hafa ákveðinn minnsta fjölda tölustafa.  Þú gætir "
-"viljað gera það til að lög raðist betur í skráarstjórum."
+"JuK getur látið skráaheiti hafa tiltekinn minnsta fjölda tölustafa.  Þú "
+"gætir viljað gera það til að lög raðist betur í skráastjórum."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: filerenameroptionsbase.ui:228
@@ -639,199 +596,169 @@ msgid "Time"
 msgstr "Spilað þann"
 
 #: juk.cpp:239 systemtray.cpp:184
-#, fuzzy, kde-format
-#| msgid "&Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "S&lembispilun"
 
 #: juk.cpp:246
-#, fuzzy, kde-format
-#| msgid "&Disable Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "&Afvirkja slembispilun"
 
 #: juk.cpp:252
-#, fuzzy, kde-format
-#| msgid "Use &Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "&Nota slembispilun"
 
 #: juk.cpp:258
-#, fuzzy, kde-format
-#| msgid "Use &Album Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Slembispila &möppu"
 
 #: juk.cpp:266
-#, fuzzy, kde-format
-#| msgid "Remove From Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
-msgstr "Fjarlægja úr lagalista"
+msgstr "Fjarlægja úr spilunarlista"
 
 #: juk.cpp:270
-#, fuzzy, kde-format
-#| msgid "&Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "&Spila"
 
 #: juk.cpp:275
-#, fuzzy, kde-format
-#| msgid "P&ause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "&Bíða"
 
 #: juk.cpp:280
-#, fuzzy, kde-format
-#| msgid "&Stop"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "S&töðva"
 
 #: juk.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "previous track"
-#| msgid "Previous"
+#, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Fyrra"
 
 #: juk.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "next track"
-#| msgid "&Next"
+#, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Næsta"
 
 #: juk.cpp:294
-#, fuzzy, kde-format
-#| msgid "&Loop Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
-msgstr "&Endurtaka lagalista"
+msgstr "&Endurtaka spilunarlista"
 
 #: juk.cpp:298
-#, fuzzy, kde-format
-#| msgid "&Resize Playlist Columns Manually"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
-msgstr "Handvirk &breidd lagalistadálka"
+msgstr "Handvirk &breidd spilunarlistadálka"
 
 #: juk.cpp:303
-#, fuzzy, kde-format
-#| msgctxt "silence playback"
-#| msgid "Mute"
+#, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Þagga niður"
 
 #: juk.cpp:307
-#, fuzzy, kde-format
-#| msgid "Volume Up"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Hækka styrk"
 
 #: juk.cpp:311
-#, fuzzy, kde-format
-#| msgid "Volume Down"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Lækka styrk"
 
 #: juk.cpp:315
-#, fuzzy, kde-format
-#| msgid "Play / Pause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Spila / bíða"
 
 #: juk.cpp:319
-#, fuzzy, kde-format
-#| msgid "Seek Forward"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Leita áfram"
 
 #: juk.cpp:323
-#, fuzzy, kde-format
-#| msgid "Seek Back"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Leita til baka"
 
 #: juk.cpp:327
-#, fuzzy, kde-format
-#| msgid "Show / Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Sýna / fela"
 
 #: juk.cpp:334
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "&Setja í kerfisbakka"
 
 #: juk.cpp:338
-#, fuzzy, kde-format
-#| msgid "&Stay in System Tray on Close"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "&Vera í kerfisbakka við lokun"
 
 #: juk.cpp:341
-#, fuzzy, kde-format
-#| msgid "Popup &Track Announcement"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Tilkynning &um lag"
 
 #: juk.cpp:344
-#, fuzzy, kde-format
-#| msgid "Save &Play Queue on Exit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Vista s&pilunarröð þegar hætt er"
 
 #: juk.cpp:347
-#, fuzzy, kde-format
-#| msgid "&Tag Guesser..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
-msgstr "&Merkjaágiskari..."
+msgstr "&Merkjaágiskari…"
 
 #: juk.cpp:350
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
-msgstr "Skráarendurnefnari"
+msgstr "Skráaendurne&fnari…"
 
 #: juk.cpp:353
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
-msgstr ""
+msgstr "Stilla s&kráningu á hlustunarvenjum…"
 
 #: juk.cpp:360
-#, fuzzy, kde-format
-#| msgid "Track Position"
+#, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Staða lags"
 
 #: juk.cpp:362
-#, fuzzy, kde-format
-#| msgid "Volume"
+#, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Hljóðstyrkur"
@@ -846,16 +773,13 @@ msgstr ""
 "Notaðu hætta frá skráarvalmyndinni til að hætta í forritinu.</qt>"
 
 #: juk.cpp:514
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"
-msgstr "&Setja í kerfisbakka"
+msgstr "Setja í kerfisbakka"
 
 #: juktag.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "a playing track, %1 is artist, %2 is song title"
-#| msgid "%1 - <i>%2</i>"
+#, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
 msgid "%1 — <i>%2</i>"
 msgstr "%1 - <i>%2</i>"
@@ -903,45 +827,37 @@ msgid "Play Toolbar"
 msgstr "Spilunarslá"
 
 #: keydialog.cpp:102
-#, fuzzy, kde-format
-#| msgid "Configure Shortcuts"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Shortcuts"
 msgstr "Stilla flýtihnappa"
 
 #: keydialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Global Shortcuts"
+#, kde-format
 msgctxt "@title:group"
 msgid "Global Shortcuts"
 msgstr "Altækir flýtihnappar"
 
 #: keydialog.cpp:124
-#, fuzzy, kde-format
-#| msgid "&No keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&No keys"
 msgstr "&Engir hnappar"
 
 #: keydialog.cpp:128
-#, fuzzy, kde-format
-#| msgid "&Standard keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Standard keys"
 msgstr "&Venjulegir hnappar"
 
 #: keydialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "&Multimedia keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Multimedia keys"
 msgstr "&Margmiðlunar hnappar"
 
 #: keydialog.cpp:138
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can select the keys used as global shortcuts to control the "
-#| "player"
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
@@ -957,46 +873,46 @@ msgstr "Birta &lagatexta"
 #: lyricswidget.cpp:78
 #, kde-format
 msgid "<i>No file playing.</i>"
-msgstr ""
+msgstr "<i>Engin skrá í spilun.</i>"
 
 #: lyricswidget.cpp:83
 #, kde-format
 msgid "<i>Loading...</i>"
-msgstr ""
+msgstr "<i>Hleð inn...</i>"
 
 #: lyricswidget.cpp:88
 #, kde-format
 msgid ""
 "<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
 msgstr ""
+"<i>Engir lagatextar eru tiltækir fyrir %1 (engin tiltæk lagatextaþjónusta)</"
+"i>"
 
 #: lyricswidget.cpp:129 lyricswidget.cpp:158
 #, kde-format
 msgid "<span style='color:red'>Error while retrieving lyrics!</span>"
-msgstr ""
+msgstr "<span style='color:red'>Villa kom upp við að sækja lagatexta!</span>"
 
 #: lyricswidget.cpp:174
 #, kde-format
 msgid "No lyrics available."
-msgstr ""
+msgstr "Engir lagatextar tiltækir."
 
 #: lyricswidget.cpp:183
 #, kde-format
 msgid "<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>"
-msgstr ""
+msgstr "<br /><br /><i>Lagatextar koma frá <a href='%1'>LyricWiki</a></i>"
 
 #: main.cpp:39
-#, fuzzy, kde-format
-#| msgid "Jukebox and music manager by KDE"
+#, kde-format
 msgid "Jukebox and music manager by the KDE community"
-msgstr "Glymskratti og tónlistarstjóri fyrir KDE"
+msgstr "Glymskratti og tónlistarstjóri frá KDE-samfélaginu"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "© 2002–2013, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgctxt "Use copyright sign, and en dash for the year range"
 msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
-msgstr "© 2002–2013, Scott Wheeler, Michael Pyne, og fleiri"
+msgstr "© 2002–2025, Scott Wheeler, Michael Pyne, og fleiri"
 
 #: main.cpp:44
 #, kde-format
@@ -1014,32 +930,29 @@ msgid "Michael Pyne"
 msgstr "Michael Pyne"
 
 #: main.cpp:45
-#, fuzzy, kde-format
-#| msgid "Assistant super-hero, fixer of many things"
+#, kde-format
 msgid "Assistant superhero, fixer of many things"
 msgstr "Aðstoðarofurhetja, reddari margra hluta"
 
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Umkóðun yfir í KDE 4 þegar enginn annar var á svæðinu"
+msgstr "Umkóðun yfir í KDE Frameworks 6 þegar enginn annar var á svæðinu"
 
 #: main.cpp:47
 #, kde-format
 msgid "Kacper Kasper"
-msgstr ""
+msgstr "Kacper Kasper"
 
 #: main.cpp:47
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 5 when no one else was around"
-msgstr "Umkóðun yfir í KDE 4 þegar enginn annar var á svæðinu"
+msgstr "Umkóðun yfir í KDE Frameworks 5 þegar enginn annar var á svæðinu"
 
 #: main.cpp:48
 #, kde-format
@@ -1060,6 +973,8 @@ msgstr "Martin Sandsmark"
 #, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
 msgstr ""
+"Stuðningur við skráningu á hlustunarvenjum á Last 5.fm (scrobbling), "
+"lagatexta, og undirbúningur á stuðningi við KDE Frameworks."
 
 #: main.cpp:50
 #, kde-format
@@ -1087,10 +1002,9 @@ msgid "Laurent Montel"
 msgstr "Laurent Montel"
 
 #: main.cpp:52
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Platform 4 when no one else was around"
-msgstr "Umkóðun yfir í KDE 4 þegar enginn annar var á svæðinu"
+msgstr "Umkóðun yfir í KDE Platform 4 þegar enginn annar var á svæðinu"
 
 #: main.cpp:53
 #, kde-format
@@ -1237,38 +1151,36 @@ msgid ""
 "JuK running in docked mode\n"
 "Use context menu in system tray to restore."
 msgstr ""
+"JuK keyrir sem tengt spjald\n"
+"Notaðu samhengisvalmynd í kerfisbakka til að endurheimta."
 
 #: main.cpp:88
 #, kde-format
 msgid "JuK Docked"
-msgstr ""
+msgstr "JuK á tengispjaldi"
 
 #: mediafiles.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "open audio file"
-#| msgid "Open"
+#, kde-format
 msgctxt "@title:window, open audio file"
 msgid "Open"
 msgstr "Opna"
 
 #: mediafiles.cpp:146
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Playlist %1"
-msgstr "Leitarlagalisti"
+msgstr "Vista spilunarlista %1"
 
 #: mediafiles.cpp:148
-#, fuzzy, kde-format
-#| msgid "Playlists"
+#, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
-msgstr "Lagalistar"
+msgstr "Spilunarlistar (*%1)"
 
 #: nowplaying.cpp:320
 #, kde-format
 msgid "back to playlist"
-msgstr "aftur í lagalista"
+msgstr "aftur í spilunarlista"
 
 #: playermanager.cpp:56
 #, kde-format
@@ -1277,13 +1189,7 @@ msgid "%1 - %2 :: JuK"
 msgstr "%1 - %2 :: JuK"
 
 #: playermanager.cpp:363
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "%1 will be the /path/to/file, %2 will be some string from Phonon "
-#| "describing the error"
-#| msgid ""
-#| "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for "
-#| "the following reason:<nl/><message>%2</message>"
+#, kde-format
 msgctxt ""
 "%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
 "describing the error"
@@ -1300,25 +1206,20 @@ msgid "Could not save to file %1."
 msgstr "Gat ekki vistað í skrána %1."
 
 #: playlist.cpp:575
-#, fuzzy, kde-format
-#| msgid ""
-#| "You are about to rename the following files. Are you sure you want to "
-#| "continue?"
+#, kde-format
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
 msgstr[0] ""
-"Þú ert að fara að endurnefna eftirfarandi skrár. Ertu viss um að þú viljir "
-"halda áfram?"
+"Þú ert að fara að opna möppu. Ertu viss um að þú viljir halda áfram?"
 msgstr[1] ""
-"Þú ert að fara að endurnefna eftirfarandi skrár. Ertu viss um að þú viljir "
-"halda áfram?"
+"Þú ert að fara að opna %1 möppur. Ertu viss um að þú viljir halda áfram?"
 
 #: playlist.cpp:578
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Containing Folder"
-msgstr ""
+msgstr "Opna umlykjandi möppu"
 
 #: playlist.cpp:802
 #, kde-format
@@ -1331,117 +1232,100 @@ msgid "Could not move these files to the Trash"
 msgstr "Gat ekki fært þessar skrár í ruslið"
 
 #: playlist.cpp:1280
-#, fuzzy, kde-format
-#| msgid "Track Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "Track Name"
 msgstr "Heiti lags"
 
 #: playlist.cpp:1281
-#, fuzzy, kde-format
-#| msgid "Artist"
+#, kde-format
 msgctxt "@title:column"
 msgid "Artist"
 msgstr "Flytjandi"
 
 #: playlist.cpp:1282
-#, fuzzy, kde-format
-#| msgid "Album"
+#, kde-format
 msgctxt "@title:column"
 msgid "Album"
-msgstr "Plata"
+msgstr "Hljómplata"
 
 #: playlist.cpp:1283
-#, fuzzy, kde-format
-#| msgctxt "cd track number"
-#| msgid "Track"
+#, kde-format
 msgctxt "@title:column, CD track number"
 msgid "Track"
-msgstr "Lag"
+msgstr "Spor"
 
 #: playlist.cpp:1284
-#, fuzzy, kde-format
-#| msgid "Genre"
+#, kde-format
 msgctxt "@title:column"
 msgid "Genre"
-msgstr "Tegund"
+msgstr "Stíll"
 
 #: playlist.cpp:1285
-#, fuzzy, kde-format
-#| msgid "Year"
+#, kde-format
 msgctxt "@title:column"
 msgid "Year"
 msgstr "Ár"
 
 #: playlist.cpp:1286
-#, fuzzy, kde-format
-#| msgid "Length"
+#, kde-format
 msgctxt "@title:column"
 msgid "Length"
 msgstr "Lengd"
 
 #: playlist.cpp:1287
-#, fuzzy, kde-format
-#| msgid "Bitrate"
+#, kde-format
 msgctxt "@title:column"
 msgid "Bitrate"
 msgstr "Bitahraði"
 
 #: playlist.cpp:1288
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgctxt "@title:column"
 msgid "Comment"
 msgstr "Athugasemd"
 
 #: playlist.cpp:1289
-#, fuzzy, kde-format
-#| msgid "File Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name"
 msgstr "Heiti skráar"
 
 #: playlist.cpp:1290
-#, fuzzy, kde-format
-#| msgid "File Name (full path)"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name (Full Path)"
-msgstr "Skráarnafn (öll slóðin)"
+msgstr "Skráarheiti (öll slóðin)"
 
 #: playlist.cpp:1471
-#, fuzzy, kde-format
-#| msgid "&Show Columns"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Show Columns"
 msgstr "&Sýna dálka"
 
 #: playlist.cpp:1579
-#, fuzzy, kde-format
-#| msgid "Add to Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
 msgstr "Bæta við spilunarröð"
 
 #: playlist.cpp:1593
-#, fuzzy, kde-format
-#| msgid "Edit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "Breyta"
 
 #: playlist.cpp:1607
-#, fuzzy, kde-format
-#| msgid "Create Playlist From Selected Items..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create Playlist From Selected Items…"
-msgstr "Búa til lagalista úr völdum lögum..."
+msgstr "Búa til spilunarlista úr völdum atriðum..."
 
 #: playlist.cpp:1973
-#, fuzzy, kde-format
-#| msgid "Edit '%1'"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit “%1”"
-msgstr "Breyta '%1'"
+msgstr "Breyta “%1”"
 
 #: playlist.cpp:2050
 #, kde-format
@@ -1454,49 +1338,40 @@ msgid "Edit"
 msgstr "Breyta"
 
 #: playlist.cpp:2109
-#, fuzzy, kde-format
-#| msgid "Create New Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create New Playlist"
-msgstr "Búa til nýjan lagalista"
+msgstr "Búa til nýjan spilunarlista"
 
 #: playlist.cpp:2118
-#, fuzzy, kde-format
-#| msgid ""
-#| "Manual column widths have been enabled.  You can switch back to automatic "
-#| "column sizes in the view menu."
+#, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr ""
-"Handvirk dálkabreidd hefur verið sett í gang. Þú getur valið sjálvirka "
-"dálkabreidd í sýnarvalmyndinni."
+"Handvirk dálkabreidd hefur verið sett í gang. Þú getur valið sjálfvirka "
+"dálkabreidd í skoðunarvalmyndinni."
 
 #: playlist.cpp:2121
-#, fuzzy, kde-format
-#| msgid "Manual Column Widths Enabled"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
 msgstr "Handvirk dálkabreidd virk"
 
 #: playlistbox.cpp:108
-#, fuzzy, kde-format
-#| msgid "View Modes"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "View Modes"
 msgstr "Hamur sýnar"
 
 #: playlistbox.cpp:168
-#, fuzzy, kde-format
-#| msgid "Show &History"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &History"
 msgstr "&Sýna feril"
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Afrita"
@@ -1507,8 +1382,7 @@ msgid "Do you want to delete these files from the disk as well?"
 msgstr "Viltu einnig eyða þessum skrám af disknum?"
 
 #: playlistbox.cpp:425
-#, fuzzy, kde-format
-#| msgid "Keep"
+#, kde-format
 msgctxt "@action:button"
 msgid "Keep"
 msgstr "Halda"
@@ -1521,32 +1395,29 @@ msgstr "Gat ekki eytt þessum skrám."
 #: playlistbox.cpp:445
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
-msgstr "Ertu viss um að þú viljir fjarlægja þessa lagalista úr safninu þínu?"
+msgstr ""
+"Ertu viss um að þú viljir fjarlægja þessa spilunarlista úr safninu þínu?"
 
 #: playlistbox.cpp:448
-#, fuzzy, kde-format
-#| msgid "Remove Items?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Remove Items?"
 msgstr "Fjarlægja hluti?"
 
 #: playlistbox.cpp:449
-#, fuzzy, kde-format
-#| msgid "&Remove"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Remove"
-msgstr "&Fjarlægja"
+msgstr "Fja&rlægja"
 
 #: playlistbox.cpp:653
-#, fuzzy, kde-format
-#| msgid "Hid&e"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hid&e"
 msgstr "&Fela"
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
-#, fuzzy, kde-format
-#| msgid "R&emove"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "R&emove"
 msgstr "&Fjarlægja"
@@ -1568,40 +1439,34 @@ msgid ""
 msgstr "Viltu bæta þessum hlutum í núverandi lista eða í safnlistann?"
 
 #: playlistcollection.cpp:349
-#, fuzzy, kde-format
-#| msgctxt "current playlist"
-#| msgid "Current"
+#, kde-format
 msgctxt "@action:button, current playlist"
 msgid "Current"
 msgstr "Núverandi"
 
 #: playlistcollection.cpp:350
-#, fuzzy, kde-format
-#| msgid "Collection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Collection"
 msgstr "Safn"
 
 #: playlistcollection.cpp:412
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Endurnefna"
 
 #: playlistcollection.cpp:515
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Search Playlist"
-msgstr "Búa til leitarlagalista"
+msgstr "Búa til leitarspilunarlista"
 
 #: playlistcollection.cpp:540
-#, fuzzy, kde-format
-#| msgid "Create Folder Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Folder Playlist"
-msgstr "Búa til möppulagalista"
+msgstr "Búa til möppuspilunarlista"
 
 #: playlistcollection.cpp:580
 #, kde-format
@@ -1611,125 +1476,106 @@ msgstr "Ferill"
 #: playlistcollection.cpp:746
 #, kde-format
 msgid "Please enter a name for this playlist:"
-msgstr "Vinsamlegast sláðu inn nafn á þennan lagalista:"
+msgstr "Settu inn nafn á þennan spilunarlista:"
 
 #: playlistcollection.cpp:890
-#, fuzzy, kde-format
-#| msgctxt "new playlist"
-#| msgid "&New"
+#, kde-format
 msgctxt "@action:inmenu, new playlist"
 msgid "&New"
 msgstr "&Nýtt"
 
 #: playlistcollection.cpp:893
-#, fuzzy, kde-format
-#| msgid "&Empty Playlist..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Empty Playlist…"
-msgstr "&Tómur lagalisti..."
+msgstr "&Tómur spilunarlisti..."
 
 #: playlistcollection.cpp:897
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Search Playlist…"
-msgstr "Leitarlagalisti"
+msgstr "&Leit í spilunarlistum…"
 
 #: playlistcollection.cpp:901
-#, fuzzy, kde-format
-#| msgid "Playlist From &Folder..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Playlist From &Folder…"
-msgstr "Lagalisti frá &möppu..."
+msgstr "Spilunarlisti frá &möppu..."
 
 #: playlistcollection.cpp:909
-#, fuzzy, kde-format
-#| msgid "&Guess Tag Information"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
 msgstr "&Giska á upplýsingar um merki"
 
 #: playlistcollection.cpp:914
-#, fuzzy, kde-format
-#| msgid "From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &File Name"
-msgstr "Af &skráarnafni"
+msgstr "Úr skráar&heiti"
 
 #: playlistcollection.cpp:918
-#, fuzzy, kde-format
-#| msgid "From &Internet"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &Internet"
 msgstr "Af &Internetinu"
 
 #: playlistcollection.cpp:923
-#, fuzzy, kde-format
-#| msgid "Guess Tag Information From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
-msgstr "Giska á &merkjaupplýsingar frá skráarnafni"
+msgstr "Giska á &merkjaupplýsingar út frá skráarheiti"
 
 #: playlistcollection.cpp:930
-#, fuzzy, kde-format
-#| msgid "Play First Track"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play First Track"
 msgstr "Spila fyrsta lag"
 
 #: playlistcollection.cpp:932
-#, fuzzy, kde-format
-#| msgid "Play Next Album"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play Next Album"
 msgstr "Spila næstu plötu"
 
 #: playlistcollection.cpp:939
-#, fuzzy, kde-format
-#| msgid "Manage &Folders..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Manage &Folders…"
-msgstr "Sýsla með &möppur..."
+msgstr "Sýsla með &möppur…"
 
 #: playlistcollection.cpp:941
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename…"
-msgstr "Endurnefna"
+msgstr "Endu&rnefna..."
 
 #: playlistcollection.cpp:943
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:inmenu, verb, copy the playlist"
 msgid "D&uplicate…"
-msgstr "Afrita"
+msgstr "A&frita…"
 
 #: playlistcollection.cpp:948
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "Endurlesa"
 
 #: playlistcollection.cpp:950
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Search…"
-msgstr "Breyta leit..."
+msgstr "Breyta leit…"
 
 #: playlistcollection.cpp:953
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "&Eyða"
 
 #: playlistcollection.cpp:955
-#, fuzzy, kde-format
-#| msgid "Refresh"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Refresh"
 msgstr "Endurlesa"
@@ -1738,18 +1584,16 @@ msgstr "Endurlesa"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Containing Folder"
-msgstr ""
+msgstr "Opna umlykjandi möppu"
 
 #: playlistcollection.cpp:959
-#, fuzzy, kde-format
-#| msgid "&Rename File"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename File"
 msgstr "E&ndurnefna skrá"
 
 #: playlistcollection.cpp:964
-#, fuzzy, kde-format
-#| msgid "Show &Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
 msgstr "Sýna s&pilunarröð"
@@ -1757,50 +1601,43 @@ msgstr "Sýna s&pilunarröð"
 #: playlistcollection.h:183
 #, kde-format
 msgid "Create New Playlist"
-msgstr "Búa til nýjan lagalista"
+msgstr "Búa til nýjan spilunarlista"
 
 #: playlistcollection.h:186
 #, kde-format
 msgid "Playlist"
-msgstr "Lagalisti"
+msgstr "Spilunarlisti"
 
 #: playlistsplitter.cpp:158
-#, fuzzy, kde-format
-#| msgid "Show &Search Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
 msgstr "Sýna &leitarstiku"
 
 #: playlistsplitter.cpp:161
-#, fuzzy, kde-format
-#| msgid "Edit Track Search"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Track Search"
 msgstr "Sýsla með lagaleit"
 
 #: scrobbleconfigdlg.cpp:38
-#, fuzzy, kde-format
-#| msgid "Configure Shortcuts"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Scrobbling"
-msgstr "Stilla flýtihnappa"
+msgstr "Stilla skráningu á hlustunarvenjum"
 
 #: scrobbleconfigdlg.cpp:42
-#, fuzzy, kde-format
-#| msgid "Test login..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Test Login…"
-msgstr "Prófa innskráningu..."
+msgstr "Prófa innskráningu…"
 
 #: scrobbleconfigdlg.cpp:49
-#, fuzzy, kde-format
-#| msgid ""
-#| "Please enter your <a href=\"http://last.fm/\">last.fm</a> login "
-#| "credentials:"
+#, kde-format
 msgid ""
 "Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
 msgstr ""
-"Settu inn auðkenni fyrir <a href=\"http://last.fm/\">last.fm</a> "
+"Settu inn auðkenni fyrir <a href=\"https://last.fm/\">last.fm</a> "
 "innskráningu:"
 
 #: scrobbleconfigdlg.cpp:53
@@ -1819,18 +1656,19 @@ msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
 "encryption."
 msgstr ""
+"KWallet veskið er ekki tiltækt, Last.fm auðkennin þín verða geymd án "
+"dulritunar."
 
 #: scrobbleconfigdlg.cpp:85
 #, kde-format
 msgctxt "@title:window"
 msgid "KWallet Unavailable"
-msgstr ""
+msgstr "KWallet er ekki tiltækt"
 
 #: scrobbleconfigdlg.cpp:128
-#, fuzzy, kde-format
-#| msgid "Validating login..."
+#, kde-format
 msgid "Validating login…"
-msgstr "Staðfesti innskráningu..."
+msgstr "Staðfesti innskráningu…"
 
 #: scrobbleconfigdlg.cpp:138
 #, kde-format
@@ -1843,38 +1681,33 @@ msgid "Login valid."
 msgstr "Innskráning er gild."
 
 #: searchwidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "Normal Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Normal matching"
 msgstr "Venjuleg samsvörun"
 
 #: searchwidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Case Sensitive"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Case sensitive"
-msgstr "Háð há-/lágstöfum"
+msgstr "Háð há/lágstöfum"
 
 #: searchwidget.cpp:75
-#, fuzzy, kde-format
-#| msgid "Pattern Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Pattern matching"
-msgstr "Mynstur samsvörun"
+msgstr "Mynstur-samsvörun"
 
 #: searchwidget.cpp:169
-#, fuzzy, kde-format
-#| msgid "All Visible"
+#, kde-format
 msgctxt "@title:column"
 msgid "All Visible"
 msgstr "Öll sýnileg"
 
 #: searchwidget.cpp:200
-#, fuzzy, kde-format
-#| msgid "Search:"
+#, kde-format
 msgid "Search…"
-msgstr "Leita:"
+msgstr "Leita…"
 
 #: slider.cpp:127
 #, kde-format
@@ -1917,8 +1750,7 @@ msgid "Seeking is not supported in this file with your audio settings."
 msgstr "Leitun er ekki studd í þessari skrá miðað við hljóðstillingar þínar."
 
 #: statuslabel.cpp:85
-#, fuzzy, kde-format
-#| msgid "Jump to the currently playing item"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
 msgstr "Hoppa til lags nú í spilun"
@@ -1931,8 +1763,7 @@ msgstr[0] "1 hlutur"
 msgstr[1] "%1 hlutir"
 
 #: systemtray.cpp:161
-#, fuzzy, kde-format
-#| msgid "Redisplay Popup"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
 msgstr "Endurbirta tilkynningarglugga"
@@ -1953,8 +1784,7 @@ msgid "Do you want to save your changes to:\n"
 msgstr "Viltu vista breytingar í:\n"
 
 #: tageditor.cpp:590
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Changes"
 msgstr "Vista breytingar"
@@ -2033,8 +1863,7 @@ msgid "Enable"
 msgstr "Virkja"
 
 #: tagguesserconfigdlg.cpp:39
-#, fuzzy, kde-format
-#| msgid "Tag Guesser Configuration"
+#, kde-format
 msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
 msgstr "Stillingar merkjaágiskara"
@@ -2043,7 +1872,7 @@ msgstr "Stillingar merkjaágiskara"
 #: tagguesserconfigdlgwidget.ui:18
 #, kde-format
 msgid "Currently used file name schemes"
-msgstr "Núverandi notuð skráarnafnsskemu"
+msgstr "Núverandi notuð skráaheitaskemu"
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:29
@@ -2119,7 +1948,7 @@ msgstr "Bæta við nýju skema"
 #, kde-format
 msgid "Press this button to add a new file name scheme to the end of the list."
 msgstr ""
-"Ýttu á þennan hnapp til að bæta við nýju skráarnafnsskema á enda listans."
+"Ýttu á þennan hnapp til að bæta við nýju skráaheitaskema á enda listans."
 
 #. i18n: ectx: property (text), widget (QPushButton, bAdd)
 #: tagguesserconfigdlgwidget.ui:74
@@ -2211,15 +2040,13 @@ msgstr ""
 "Viltu skipta henni út?"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "File Exists"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Skrá þegar til"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "Replace"
+#, kde-format
 msgctxt "@action:button"
 msgid "Replace"
 msgstr "Skipta út"
@@ -2230,8 +2057,7 @@ msgid "The following files were unable to be changed."
 msgstr "Eftirfarandi skrám var ekki hægt að breyta."
 
 #: tagtransactionmanager.cpp:178
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgctxt "@title:window"
 msgid "Error"
 msgstr "Villa"
@@ -2257,11 +2083,10 @@ msgid "You are about to change the %1 on these files."
 msgstr "Þú ert að fara að breyta %1 á þessum skrám."
 
 #: treeviewitemplaylist.cpp:58
-#, fuzzy, kde-format
-#| msgid "Changing Track Tags"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change Track Tags"
-msgstr "Breyti merkjum lags"
+msgstr "Breyta merkjum spors"
 
 #: upcomingplaylist.cpp:31
 #, kde-format
@@ -2301,8 +2126,7 @@ msgid "Genres"
 msgstr "Tegundir"
 
 #: volumepopupbutton.cpp:76
-#, fuzzy, kde-format
-#| msgid "Mute/Unmute"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
 msgstr "Þagga/Kveikja á hljóði"
@@ -2310,21 +2134,19 @@ msgstr "Þagga/Kveikja á hljóði"
 #: volumepopupbutton.cpp:114
 #, kde-format
 msgid "%1%"
-msgstr ""
+msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
-#, fuzzy, kde-format
-#| msgid "Volume: %1% %2"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
-msgstr "Hljóðstyrkur: %1% %2"
+msgstr "Hljóðstyrkur: %1% (þaggað)"
 
 #: volumepopupbutton.cpp:123
-#, fuzzy, kde-format
-#| msgid "Volume: %1% %2"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
-msgstr "Hljóðstyrkur: %1% %2"
+msgstr "Hljóðstyrkur: %1%"
 
 #~ msgid "&File Renamer..."
 #~ msgstr "&Skráarendurnefnari..."
