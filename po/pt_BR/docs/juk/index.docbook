@@ -1,0 +1,2529 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Brazilian-Portuguese "INCLUDE">
+]>
+
+<book id="juk" lang="&language;">
+
+<bookinfo>
+<title
+>Manual do &juk;</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Pyne</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Marcus</firstname
+><surname
+>Gama</surname
+><affiliation
+><address
+><email
+>marcus.gama@gmail.com</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>André Marcelo</firstname
+><surname
+>Alvarenga</surname
+><affiliation
+><address
+><email
+>alvarenga@kde.org</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>&Scott.Wheeler;</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>08/11/2013</date>
+<releaseinfo
+>3.11 (&kde; 4.12)</releaseinfo>
+
+<abstract>
+<para
+>O &juk; é uma vitrola de ficha, um marcador e um gerenciador de coleções de músicas. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+<keyword
+>áudio</keyword>
+<keyword
+>marcador</keyword>
+<keyword
+>reprodutor</keyword>
+<keyword
+>vitrola de ficha</keyword>
+<keyword
+>JuK</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introdução</title>
+
+<para
+>O &juk; é, bem, uma vitrola de ficha. Como é típico em muitos aplicativos de vitrola de ficha, o &juk; permite-lhe editar as <quote
+>marcas</quote
+> dos arquivos de áudio e gerenciar as suas coleções e listas de reprodução. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>Usando o &juk;</title>
+
+<para>
+<screenshot>
+<screeninfo
+>Aqui está uma captura de tela do &juk;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Captura de tela do &juk; em ação.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>O &juk; mantém uma lista com todos os arquivos que conhece. Esta lista é chamada de <guilabel
+>Lista da Coleção</guilabel
+>. A lista da coleção é específica do &juk; e não é compartilhada com outros aplicativos.</para>
+
+<para
+>Independente da Lista de Coleção, existem as listas de reprodução. Você poderá ter tantas listas de reprodução quantas desejar. Você pode usar as listas de reprodução com outros leitores multimídia (como o &amarok; ou o <application
+>xmms</application
+>) e você poderá gerenciar as listas de reprodução criadas nesses aplicativos aqui no &juk;.</para>
+
+<para
+>Você poderá adicionar arquivos à Lista da Coleção individualmente, usando o <menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Abrir...</guimenuitem
+></menuchoice
+> e selecionando-os a partir de um diálogo de arquivos padrão do &kde;. Você poderá adicionar pastas inteiras usando o <menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Gerenciar pastas...</guimenuitem
+></menuchoice
+>. As pastas que forem adicionadas desta forma serão pesquisadas novamente cada vez que você iniciar o &juk;. Você pode definir as pastas dentro destas pastas que serão excluídas da pesquisa. Você pode também forçar uma nova pesquisa de pastas clicando com o &RMB; no ícone da <guilabel
+>Lista da coleção</guilabel
+>, e selecionando <guimenuitem
+>Recarregar</guimenuitem
+>.</para>
+
+<para
+>Adicionar uma música a uma lista de reprodução irá automaticamente adicionar o seu arquivo à Lista da Coleção, mas adicionar um arquivo à Lista da Coleção, não irá adicionar a música automaticamente a nenhuma lista de reprodução.</para>
+
+<para
+>Você poderá criar rapidamente uma lista de reprodução a partir da sua Lista da Coleção inteira, clicando com o &RMB; no ícone da <guilabel
+>Lista da Coleção</guilabel
+> e selecionando <guimenuitem
+>Duplicar</guimenuitem
+>. A lista resultante é uma lista de reprodução normal, e editá-la não irá afetar a <guilabel
+>Lista da Coleção</guilabel
+>.</para>
+
+<para
+>Você poderá adicionar arquivos de listas de reprodução que tenham sido criados fora do &juk; individualmente selecionando-os com o <menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Abrir...</guimenuitem
+></menuchoice
+>. Todos os arquivos de listas de músicas que forem encontrados nas pastas que você adicionar com <menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Gerenciar pastas...</guimenuitem
+></menuchoice
+> serão também adicionados automaticamente.</para>
+
+<para
+>Você poderá criar uma nova lista de reprodução selecionando <menuchoice
+><guimenu
+>Arquivo</guimenu
+><guisubmenu
+>Nova</guisubmenu
+></menuchoice
+> ou o ícone <guiicon
+>Nova</guiicon
+> na barra de ferramentas. Será pedido um nome, aparecendo depois um ícone para essa lista de reprodução na área de listas. Você poderá agora arrastar e soltar os arquivos da Lista da Coleção na sua lista de reprodução. Use o ícone <guiicon
+>Salvar</guiicon
+> ou o <menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Salvar</guimenuitem
+></menuchoice
+> para salvar a lista de reprodução a qualquer momento.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>A Lista de Reprodução</title>
+
+<para
+>Quando você estiver vendo a Lista da Coleção, a área principal contém todos os arquivos que o &juk; conhece. Quando estiver vendo uma lista de reprodução, somente as músicas que constem nessa lista são mostradas. Em qualquer dos casos, a aparência e comportamento da lista são os mesmos.</para>
+
+<para
+>Cada música ocupa uma linha na tela. Existe uma coluna para cada campo de metadados que o &juk; registra. Estas colunas correspondem aos campos disponíveis para edição no editor de marcas.</para>
+
+<para
+>Você poderá reordenar a lista a qualquer momento clicando com o &LMB; no cabeçalho da coluna. Isto irá primeiro ordenar os arquivos por ordem crescente do conteúdo dessa coluna. Se você clicar de novo com o &LMB; no mesmo cabeçalho, os arquivos ficarão ordenados por ordem decrescente.</para>
+
+<para
+>As colunas são inicialmente dimensionadas o suficiente para mostrar o item mais comprido disponível. Você poderá redimensionar as colunas colocando o cursor do seu mouse na divisão entre duas colunas. Quando o cursor do mouse mudar, clique com o &LMB; e arraste o cursor na direção que deseja redimensionar as colunas.</para>
+
+<para
+>Você poderá reordenar as colunas clicando com o &LMB; num cabeçalho e arrastando esse cabeçalho para a esquerda ou para a direita. Você não poderá arrastar para fora do extremo da janela, assim você poderá precisar deslocar um pouco para a esquerda ou para a direita, e repetir o arrastamento do cabeçalho, até que o tenha colocado na sua posição preferida.</para>
+
+<para
+>Você poderá ocultar ou apresentar as colunas clicando com o &RMB; no cabeçalho de uma coluna e clicando no nome da coluna a alterar.</para>
+
+<para
+>Realizar um duplo-clique com o &LMB; num arquivo, irá reproduzi-lo com o seu leitor incorporado. Se já tiver outra música sendo tocada, ele irá interrompê-la e dará início à nova música.</para>
+
+<para
+>Clicando com o &RMB; num arquivo aparecerão várias opções:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>Adicionar à fila de reprodução</guimenuitem
+></term>
+<listitem>
+<para
+>Isto irá começar a tocar o arquivo, assim que a música atual terminar. Se não estiver nenhuma música sendo tocada, o arquivo será tocado quando você clicar no botão <guiicon
+>Tocar</guiicon
+>. Se você tiver já escolhido a opção <guimenuitem
+>Adicionar à lista de reprodução</guimenuitem
+> num arquivo diferente, então este arquivo irá substituir essa seleção.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Recortar</guimenuitem
+></term>
+<term
+><guimenuitem
+>Copiar</guimenuitem
+></term>
+<term
+><guimenuitem
+>Colar</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Remover da lista de reprodução</guimenuitem
+></term>
+<listitem>
+<para
+>Se você estiver vendo a Lista da Coleção, escolher esta ação irá retirar o arquivo da lista, e irá remover também todos os itens correspondentes para esta música em todas as listas de reprodução. Você deverá notar que, se este arquivo estiver numa pasta que o &juk; pesquisa na inicialização, ele será adicionado novamente à Lista de Coleção da próxima vez que você iniciar o &juk; mas não será adicionado automaticamente a nenhuma lista de reprodução.</para>
+<para
+>Se você estiver vendo uma lista de reprodução, o <guimenuitem
+>Remover da lista de reprodução</guimenuitem
+> irá simplesmente remover a música da lista de reprodução.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Editar <replaceable
+>Título da coluna</replaceable
+></guimenuitem
+></term>
+<listitem>
+<para
+>Permitirá editar a música selecionada atualmente na coluna em que clicou. Por exemplo, se você não tiver o editor de marcas visível e estiver ocupado criando uma lista de reprodução, mas observou um erro ortográfico do nome de um artista, você poderá editá-lo diretamente com este item de menu.</para>
+<para
+>As alterações efetuadas desta forma são sempre salvas imediatamente assim que você clicar noutro lugar qualquer e tiver terminado a edição.</para>
+<para
+>Este item do menu ficará desativado se o &juk; detectar que a faixa que você selecionou possui apenas permissões de leitura.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Atualizar</guimenuitem
+></term>
+<listitem>
+<para
+>Isto irá atualizar as informações das marcas dos arquivos selecionados na lista, no caso dos arquivos terem sido alterados enquanto o &juk; estava rodando.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Excluir</guimenuitem
+></term>
+<listitem>
+<para
+>Isto irá remover o arquivo da Lista de Coleção, remover todos os itens da música em todas as listas de reprodução e remover o arquivo do seu disco. Você não poderá anular isto, apesar de ser solicitada uma confirmação da ação. Use isto com cuidado.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>Adivinhar Informações das Marcas</guisubmenu
+></term>
+<listitem>
+<para
+>Isto fará com que o &juk; tente adivinhar as informações como o Artista e o Título de uma música. O &juk; aplica vários métodos para tentar adivinhar: <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>Do Nome do Arquivo</guimenuitem
+></term>
+  <listitem
+><para
+>O &juk; irá tentar adivinhar as marcas da música com base no nome do seu arquivo. Por exemplo, uma música chamada <filename
+>Marisa Monte - Amor I Love You.mp3</filename
+> poderia adivinhar a Marisa Monte como artista e Amor I Love You como título. Você poderá ajustar a forma como o &juk; adivinha as marcas selecionando a opção <menuchoice
+><guimenu
+>Configurações</guimenu
+><guimenuitem
+>Adivinhador das Marcas...</guimenuitem
+></menuchoice
+>, que irá abrir o <link linkend="juk-tag-guesser-configuration"
+>diálogo do Adivinhador de Marcas</link
+>. O &juk; não irá substituir as marcas que não conseguir adivinhar a partir do nome do arquivo.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Da Internet</guimenuitem
+></term>
+  <listitem
+><para
+>O &juk; irá tentar adivinhar as marcas da música com o programa MusicBrainz. Você precisa de ter o MusicBrainz instalado para este comando funcionar. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Renomear Arquivo</guimenuitem
+></term>
+<listitem>
+<para
+>Isto irá mudar o nome dos arquivos selecionados para ficarem em conformidade com um formato fornecido. Você precisa escolher a maneira como os arquivos serão renomados selecionando a opção <menuchoice
+> <guimenu
+>Configurações</guimenu
+><guimenuitem
+>Renomeador de Arquivo...</guimenuitem
+></menuchoice
+>. O nome resultante de cada arquivo é baseado nas suas marcas de metadados. Por exemplo, a música em Ogg Vorbis <quote
+>No Seu Lugar</quote
+> do Kid Abelha poderia ficar igual a <filename
+>/usr/share/music/Kid Abelha/No Seu Lugar.ogg</filename
+>. </para>
+</listitem>
+</varlistentry>
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
+<varlistentry>
+<term
+><guimenuitem
+>Criar uma Lista de Reprodução Com os Itens Selecionados</guimenuitem
+></term>
+<listitem>
+<para
+>Isto permite-lhe criar rapidamente uma lista de reprodução com as músicas da sua Lista de Coleção. Esta função irá pedir o nome da sua nova lista de reprodução e irá então inserir todas as músicas selecionadas na nova lista de reprodução.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Adicionar os itens selecionados a um CD de áudio ou dados</guimenuitem
+></term>
+<listitem>
+<para
+>Isto permite-lhe criar rapidamente um projeto do K3b para gravação de &CD; com as suas músicas selecionadas. O &juk; irá perguntar se deseja um projeto de &CD; de áudio ou de dados, a menos que o K3b já tenha um projeto aberto.</para>
+
+<para
+>Se o K3b não estiver já aberto, o &juk; irá iniciá-lo para você. Depois disso, o &juk; irá adicionar os arquivos selecionados ao projeto atual do K3b. Você poderá então salvar o projeto no K3b para gravar depois ou então gravar logo o &CD;. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+>Listas de Reprodução do &juk;</title>
+<para
+>Uma lista de reprodução é apenas uma coleção de músicas agrupadas por uma determinada categoria. Por exemplo, você poderá ter uma lista das músicas que você ouve enquanto está programando, enquanto está tentando dormir, ou mesmo quando precisa dar umas risadas. O &juk; suporta vários tipos diferentes de listas de reprodução. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>Listas de reprodução normais</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> Este é tipo mais comum de lista de reprodução. É uma lista composta por arquivos, de forma muito semelhante à Lista de Coleção.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>A lista de reprodução do histórico</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> Se você ativar esta lista (ativando a opção <menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Mostrar Histórico</guimenuitem
+></menuchoice
+>, esta lista irá recordar todas as músicas que o &juk; reproduza. A lista terá uma coluna adicional, o <guilabel
+>Tempo</guilabel
+>, que registra a hora e data exatas em que a música tocou. Contudo, a lista não começa a registrar o histórico, até que isto fique ativo de fato. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>Listas de reprodução de procura</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> Esta é uma lista que se baseia numa procura. Você poderá criar uma lista destas clicando em <menuchoice
+> <guimenu
+>Arquivo</guimenu
+><guisubmenu
+>Nova</guisubmenu
+><guimenuitem
+>Lista de Procura</guimenuitem
+></menuchoice
+> ou clicando no botão da <link linkend="juk-advanced-search-dialog"
+>Pesquisa na lista de reprodução</link
+> da barra de ferramentas.</para>
+<para
+>Após criar esta lista de reprodução, ela irá manter o registro das músicas da Lista da Coleção que correspondam ao seu critério e irá atualizar-se automaticamente de acordo com as alterações na Lista da Coleção.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>As listas de reprodução são organizadas na <guilabel
+>área da Lista de Reprodução</guilabel
+>, que é a barra vertical à esquerda. Nesta área existe um ícone para cada lista que você tiver. Existem vários modos de visualização para esta área, que poderão ser selecionados no menu <menuchoice
+><guimenu
+>Exibir</guimenu
+><guisubmenu
+>Modos de exibição</guisubmenu
+></menuchoice
+>. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+>Modo de Visualização Padrão</term>
+<listitem>
+<para
+>Este é o modo de visualização padrão. Neste modo, todas as listas são mostradas como ícones grandes, uma acima da outra no modo de visualização. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+>Modo de Visualização Compacto</term>
+<listitem>
+<para
+>Este modo é semelhante ao Normal, com a diferença que as listas são representadas com barras horizontais com ícones pequenos em vez dos grandes. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+>Modo de Visualização em Árvore</term>
+<listitem>
+<para
+>Este modo é o mais poderoso. Ele é como o Compacto, exceto que a Lista da Coleção é agora a raiz de uma árvore de listas virtuais. A Lista da Coleção passa a ter três nós filhos, o Artista, o Álbum e o Gênero. Cada um destes nós terão filhos que representarão todos os itens da categoria indicada. Por exemplo, se a sua Lista da Coleção contiver músicas de 4 artistas diferentes, você iria ter 4 itens sob o nó do artista.</para>
+<para
+>Uma funcionalidade engraçada do modo em árvore é a alteração das marcas por 'arrastar e soltar'. Basta selecionar alguns arquivos da lista de faixas e arrastá-los para um dos nós do artista, do álbum ou do gênero da Lista da Coleção. As músicas terão as suas marcas alteradas para corresponderem ao item em que você soltou as faixas. Por exemplo, se você arrastar um grupo de faixas para um gênero chamado "Rock", todas as faixas passarão a ter uma marca de Gênero igual a Rock. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>O Editor de Marcas do &juk;</title>
+
+<para
+>Para vários formatos de arquivos, é prático usar o nome do arquivo para descrever o conteúdo do mesmo: <quote
+><filename
+>Relatório do conselho - Junho 2003.doc</filename
+></quote
+> por exemplo, poderá ser toda a informação que precisa para encontrar esse arquivo de novo. Tentar capturar todas as informações úteis sobre uma determinada música poderá contudo levar a nomes de arquivos como o seguinte: <quote
+><filename
+>Marisa Monte - O Que Me Importa - Memórias, Crônicas e Declarações de Amor.mp3</filename
+></quote
+> ou <quote
+><filename
+>The Beatles - Sgt. Pepper's Lonely Hearts Club Band - Lucy In The Sky With Diamonds.mp3</filename
+></quote
+>. Isto não é muito prático de usar nem conterá todas as informações úteis que você poderá obter sobre a música. Adicionando o álbum e o número da faixa, por exemplo, ao primeiro nome de arquivo, torná-lo-ia ainda maior e menos gerenciável, sem contudo dizer ainda o ano em que foi lançado, ou o estilo a que pertence, se você não estiver familiarizado com o artista.</para>
+
+<para
+>A solução então é armazenar este tipo de metadados dentro dos próprios arquivos. Os arquivos MP3 e OGG podem também conter pequenos pedaços de texto que você poderá usar para descrever o conteúdo do arquivo. Existem vários formatos, mas o &juk; oculta os detalhes das diferenças entre eles, oferecendo uma forma-padrão de editar um subconjunto padrão de marcas conhecidas para todos os seus arquivos de áudio.</para>
+
+<para
+>O editor de marcas poderoso do &juk; permite-lhe editar as marcas tanto nos arquivos MP3 como nos OGG. Você poderá editar os arquivos individualmente ou vários arquivos ao mesmo tempo, e você poderá selecionar uma mistura de arquivos MP3 e OGG para editar. O único requisito é que você possua acesso de escrita aos arquivos em si; você não pode editar as marcas de um arquivo que esteja montado num &CD-ROM; por exemplo.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Editando as Marcas de um Único Arquivo</title>
+
+<para
+>Para editar a marca num único arquivo, selecione-o na lista da coleção ou em qualquer entrada que ele possua numa lista de reprodução qualquer. Se o editor de marcas não estiver visível, ative-o selecionando a opção <menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Mostrar Editor de Marcas</guimenuitem
+></menuchoice
+>. O editor de marcas aparece abaixo da lista.</para>
+
+<para
+>Basta digitar em qualquer um dos campos de edição para alterar a informação. Quando terminar, clique com o &LMB; de volta na lista, e será pedido para salvar as suas alterações.</para>
+
+<para
+>Você poderá achar que o editor de marcas continua desativado quando você clicou num arquivo. Isto acontece quando o &juk; detecta que a faixa tem apenas permissões de leitura.</para>
+
+<variablelist>
+<title
+>Campos do Editor de Marcas</title>
+<varlistentry>
+<term
+><guilabel
+>Nome do Artista:</guilabel
+></term>
+<listitem>
+<para
+>O nome do artista ou artistas que lançaram a música.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nome da faixa:</guilabel
+></term>
+<listitem>
+<para
+>O nome da música.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nome do álbum:</guilabel
+></term>
+<listitem>
+<para
+>O nome do álbum em que a música foi lançada.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Gênero:</guilabel
+></term>
+<listitem>
+<para
+>O <quote
+>Estilo</quote
+> da música. O &juk; fornece uma lista que corresponde de certa forma à norma informal do ID3, mas você está livre para escrever os seus próprios itens nesta lista.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nome do arquivo:</guilabel
+></term>
+<listitem>
+<para
+>O nome do arquivo real no disco. Você poderá editar isto diretamente e, quando for salvar, o nome do arquivo será então alterado.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Faixa:</guilabel
+></term>
+<listitem>
+<para
+>A posição da faixa na gravação original.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Ano:</guilabel
+></term>
+<listitem>
+<para
+>O ano em que a música foi lançada.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Tamanho:</guilabel
+></term>
+<listitem>
+<para
+>Isto não é editável, só é mostrado para fins de informação.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Taxa de bits:</guilabel
+></term>
+<listitem>
+<para
+>Isto não é editável, só é mostrado para fins de informação.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Comentário:</guilabel
+></term>
+<listitem>
+<para
+>Você poderá adicionar o seu comentário de texto livre, com notas adicionais, &etc;</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Você poderá salvar explícita e imediatamente as suas alterações a qualquer momento com a opção do menu <menuchoice
+><guimenu
+>Marcador</guimenu
+><guimenuitem
+>Salvar</guimenuitem
+></menuchoice
+> ou clicando em <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Editando as Marcas em Vários Arquivos</title>
+
+<para
+>Você poderá selecionar vários arquivos na lista e editar um ou mais campos nas marcas para todos os arquivos de uma vez.</para>
+
+<para
+>Use o &Shift; e o &LMB; para selecionar uma lista de arquivos adjacentes, ou o &Ctrl; e o &LMB; para selecionar vários arquivos individuais e não-adjacentes.</para>
+
+<para
+>Se o editor de marcas não estiver visível, você poderá ativá-lo selecionando <menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Mostrar Editor de Marcas</guimenuitem
+></menuchoice
+>. O editor de marcas aparece na base da lista.</para>
+
+<para
+>O editor de marcas comporta-se de forma ligeiramente diferente se você selecionar vários arquivos.</para>
+
+<para
+>Cada campo no editor de marcas irá agora mostrar uma opção <guilabel
+>Habilitar</guilabel
+> ao lado dele. Cada campo que possui exatamente o mesmo conteúdo para todos os arquivos que selecionou, mostra esse conteúdo e fica ativo para edição, com a opção <guilabel
+>Habilitar</guilabel
+> assinalada.</para>
+
+<!-- put screeny here -->
+
+<para
+>Todos os campos que não tiverem conteúdo correspondente em todos os arquivos selecionados não estarão editáveis inicialmente e não mostrarão nenhum conteúdo.</para>
+
+<para
+>Para mudar o conteúdo de qualquer campo, assinale a opção <guilabel
+>Habilitar</guilabel
+> se já não estiver assinalada e edite o campo como normalmente faria.</para>
+
+<para
+>Quando tiver terminado, clique com o &LMB; de volta na lista e será pedido uma confirmação para salvar as suas alterações. O diálogo de confirmação mostrará uma lista com os arquivos afetados, por isso você terá uma chance de verificar se está realmente alterando os arquivos que pretendia.</para>
+
+<para
+>Você poderá salvar explícita e imediatamente as suas alterações a qualquer momento com a opção do menu <menuchoice
+><guimenu
+>Marcador</guimenu
+><guimenuitem
+>Salvar</guimenuitem
+></menuchoice
+> ou clicando em <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>O diálogo Renomear Arquivo</title>
+<para>
+<screenshot>
+<screeninfo
+>O diálogo Renomear Arquivo</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Captura de tela do diálogo Renomear Arquivo.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>A caixa de diálogo de Configuração do Renomeador de Arquivos é usada para configurar a ação de Renomear Arquivos, que muda o nome da música com base nas informações que estão contidas nas suas marcas de metadados. </para>
+<para
+>A funcionalidade total da Renomear arquivo é usada para obter nomes de arquivos consistentes para a sua coleção de músicas (inclusive mover arquivos, se necessário). Por exemplo, você poderá ter algumas músicas que aparecem no disco como <filename
+>01 - Título.mp3</filename
+>, se as tiver obtido a partir da <ulink url="http://amazon.com"
+>Amazon</ulink
+>, enquanto que as músicas do <ulink url="http://ocremix.org/"
+>OCRemix</ulink
+> podem ser <filename
+>Ailsean- Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename
+> ou algo parecido. </para>
+<para
+>Usar o renomeador de arquivos, permitirá ao &juk; alterar o nome dessas músicas para algo <quote
+>sensato</quote
+> no disco, como por exemplo, <filename
+>Ailsean - Mega Fire.mp3</filename
+> e <filename
+>The Strokes - Reptilia.mp3</filename
+>. Você até poderá incluir locais para ordenar automaticamente a música (&eg;, por ano ou álbum), como <filename
+>$HOME/Músicas/2003/The Strokes - Reptilia.mp3</filename
+>. </para>
+<para
+>Para fazer isso, basta ativar a ação para <quote
+>Renomear arquivo</quote
+>, a partir do menu <guimenu
+>Etiquetador</guimenu
+> ou clicando com o botão direito do mouse sobre os arquivos. Por padrão, é a combinação de teclas <keycombo
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+>. Porém, antes de fazer isso você deve configurar a forma como os arquivos serão renomeados. </para>
+<para
+>Isto é feito a partir da caixa de diálogo acima, a qual poderá ser aberta com o item de menu <menuchoice
+><guimenu
+>Configurações</guimenu
+><guimenuitem
+>Renomeador de arquivos...</guimenuitem
+></menuchoice
+>. Você pode definir um local de destino, usando uma pasta de base das músicas e depois adicionando itens a ela. Estes pedaços de locais seriam baseados nos metadados das músicas, como o título, o artista, &etc; e são adicionados com o seletor <guilabel
+>Adicionar categoria</guilabel
+>. </para>
+<para
+>Cada "pedaço da localização" tem uma opção que permite adicionar um separador de pastas. </para>
+<para
+>As opções para cada pedaço, que controlam simplesmente o que acontece se os metadados apropriados estiverem vazios, permitindo um prefixo/sufixo quando o item é substituído e podem ajudá-lo a tornar o processo de renomeação mais efetivo. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>O diálogo de Configuração do Adivinhador de Marcas</title>
+<para>
+<screenshot>
+<screeninfo
+>O diálogo de Configuração do Adivinhador de Marcas</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Captura de tela do diálogo de Configuração do Adivinhador de Marcas.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>O diálogo de Configuração do Adivinhador de Marcas é usado para configurar a ação <guilabel
+>Adivinhar a Partir do Nome do Arquivo</guilabel
+>.</para>
+
+<para
+>No diálogo você verá uma lista à esquerda com padrões de esquemas de nomes de arquivos diferentes. O &juk; inclui um conjunto extenso de padrões que correspondem aos estilos mais comuns de nomeação de arquivos. Se quiser adicionar um novo, clique no botão <guibutton
+>Adicionar</guibutton
+>, escreva o seu esquema e clique em <guibutton
+>OK</guibutton
+>.</para
+>  
+
+<para
+>Aqui você poderá ver os esquemas configurados para os nomes dos arquivos que o editor de marcas usa para extrair a informação da marca a partir de um nome de arquivo. Cada texto poderá conter um dos seguintes itens de substituição:</para>
+
+<para
+><itemizedlist>
+<listitem
+><para
+>%t: título</para
+></listitem>
+<listitem
+><para
+>%A: Álbum</para
+></listitem>
+<listitem
+><para
+>%a: Artista</para
+></listitem>
+<listitem
+><para
+>%T: faixa</para
+></listitem>
+<listitem
+><para
+>%c: comentário</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Por exemplo, o esquema de nome de arquivo <quote
+>[%T] %a - %t</quote
+> irá corresponder a <quote
+>[01] Deep Purple - Smoke on the water</quote
+> mas não a <quote
+>(Deep Purple) Smoke on the water</quote
+>. Para o segundo nome, você deverá usar o esquema <quote
+>(%a) %t</quote
+>.</para>
+
+<para
+>O &juk; irá tentar os esquemas que tiver listado, um de cada vez, a começar de cima. O primeiro esquema que resultar numa correspondência será o esquema usado para adivinhar as marcas da música. Algumas músicas poderão corresponder a mais de um esquema. Você poderá fazer com que o esquema correto corresponda primeiro selecionando-o na lista e usando os botões de setas para o movê-lo para o topo da lista. </para>
+
+<para
+>Você poderá também editar ou remover um esquema da lista. Basta selecionar o esquema da lista e usar o botão <guibutton
+>Modificar</guibutton
+> para alterar o esquema ou o botão <guibutton
+>Remover</guibutton
+> para retirar o esquema da lista. </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>O diálogo de Pesquisa Avançada</title>
+<para>
+<screenshot>
+<screeninfo
+>O diálogo de Pesquisa Avançada</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Captura de tela do Diálogo de Pesquisa Avançada.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>O diálogo de Pesquisa Avançada é usado para criar <link linkend="juk-search-playlists"
+>Listas de Procura</link
+>. Isto permite-lhe criar uma pesquisa fina sobre as várias marcas da sua coleção de músicas.</para>
+
+<para
+>No topo do diálogo, você poderá digitar o nome da sua lista de procura. Então, você poderá definir o seu critério no grupo <guilabel
+>Critério de Pesquisa</guilabel
+>. </para>
+
+<para
+>O topo do grupo <guilabel
+>Critério de Pesquisa</guilabel
+> possui duas opções exclusivas, a <guilabel
+>Corresponder a qualquer dos seguintes</guilabel
+> e <guilabel
+>Corresponder a todos os seguintes</guilabel
+>. Selecionando a primeira opção, se alguma música corresponder a pelo menos um dos critérios, será incluída na lista. Caso contrário, todas as condições terão de ser satisfeitas para a música ser incluída na lista. </para>
+
+<para
+>Abaixo dos botões de opção estão as definições das condições. Você pode adicionar mais condições usando o botão <guibutton
+>Mais</guibutton
+>, e remover condições usando o botão <guibutton
+>Menos</guibutton
+>. Qualquer condição que deixar em branco será ignorada, assim você não precisa usar o <guibutton
+>Menos</guibutton
+> para eliminar condições vazias. </para>
+
+<para
+>Todas as definições de condições possuem três partes: a lista de escolha de marcas à esquerda, a lista do estilo correspondente à direita e o texto de procura no meio. O seletor de marcas permite ao &juk; saber qual marca deseja procurar no texto. Se você escolher a marca especial "&lt;Tudo Visível&gt;", então qualquer marca que consiga ver na Lista da Coleção poderá ser correspondida com o texto de procura. </para>
+
+<para
+>A lista de estilos de correspondência permite ao &juk; saber qual o método de procura. Os métodos de procura que poderá usar são os seguintes: <variablelist>
+<varlistentry>
+<term
+>Correspondência Normal</term>
+<listitem
+><para
+>Este é o estilo de correspondência normal. Ele procura pelo texto indicado em qualquer parte da marca escolhida, ignorando as diferenças entre maiúsculas e minúsculas. Por exemplo, uma procura por 'triba' na marca Artista iria corresponder a 'Tribalistas'.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Diferenciar maiúsculas de minúsculas</term>
+<listitem
+><para
+>Esta procura é semelhante à Correspondência Normal, exceto que o texto da procura precisa de ser exatamente igual ao texto.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Correspondência por Padrões</term>
+<listitem
+><para
+>Este é o método de procura mais poderoso. O texto da procura que escrever aqui irá definir uma expressão regular usada para procurar na marca. As expressões regulares estão além do escopo desta documentação, mas o aplicativo &kregexpeditor; poderá ajudá-lo a formar uma expressão regular. O &juk; usa o estilo de expressões regulares do &Qt;.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>Basta escolher as condições que deseja incluir na sua procura e clicar em <guibutton
+>OK</guibutton
+> para criar a sua lista de procura! </para>
+</sect1>
+<!-- is this still relevant?
+
+write new for kde4
+
+<sect1 id="juk-cover-manager">
+
+<title
+>The &juk; Cover Manager</title>
+
+<para
+>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>How Covers Worked in &juk; 2.2</title>
+
+<para
+>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel
+>Artist</guilabel
+> or <guilabel
+>Album</guilabel
+> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>How Covers work in &juk; 2.3</title>
+
+<para
+>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Examples of adding covers</title>
+
+<para
+>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote
+>Alabama - Greatest Hits III</quote
+> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice
+><guimenu
+>Tagger</guimenu
+> <guisubmenu
+>Cover Manager</guisubmenu
+> <guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis
+>all</emphasis
+> of the <quote
+>Alabama - Greatest Hits III</quote
+> tracks, <emphasis
+>whether you wanted that or not</emphasis
+>.</para>
+
+<para
+>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote
+>Alabama - Greatest Hits III</quote
+> tracks before using the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension"
+>.png</literal
+> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Reusing Old Covers</title>
+
+<para
+>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para
+>There are two ways of doing this:</para>
+
+<para
+>1. Open the <guilabel
+>Cover Manager</guilabel
+> dialog using the <guimenu
+>Tagger</guimenu
+> menu (<menuchoice
+><guimenu
+>Tagger Cover</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Show Cover Manager</guimenuitem
+></menuchoice
+>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para
+>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface
+>Now Playing bar</interface
+>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Dragging covers to more than one track at once</title>
+
+<para
+>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>What happens to my old covers?</title>
+
+<para
+>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para
+>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Removing Covers</title>
+
+<para
+>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+>.</para>
+
+<para
+>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Suggested Uses:</title>
+
+<para
+>1. You can now apply the same cover to tracks with Albums that have <quote
+>Disc 1</quote
+>, <quote
+>Disc 2</quote
+>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+-->
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>A barra de ferramentas do &juk;</title>
+
+<sect1 id="main-toolbar">
+<title
+>A barra de ferramentas principal</title>
+
+<screenshot>
+<screeninfo
+>A barra de ferramentas do &juk;.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>A barra de ferramentas do &juk;.</phrase>
+</textobject>
+<caption
+><para
+>A barra de ferramentas do &juk;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Da esquerda para a direita na captura de tela acima, os ícones padrão da barra de ferramentas são:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Nova</guiicon
+></term>
+<listitem
+><para
+>Cria uma nova lista de reprodução. Se você mantiver pressionado o botão, irá aparecer um menu que lhe permite selecionar os vários tipos de listas a criar. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>Lista de Reprodução Vazia...</guimenuitem
+></term>
+  <listitem
+><para
+>Isto pede-lhe o nome da lista e depois insere-a na área da Lista. A lista irá começar completamente vazia.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Lista de Reprodução a Partir de Pasta...</guimenuitem
+></term>
+  <listitem
+><para
+>Isto pede-lhe uma pasta para abrir, criando então uma lista com as músicas dentro da pasta e das suas subpastas. O nome da lista criada é o mesmo da pasta selecionada.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Lista de Procura...</guimenuitem
+></term>
+  <listitem
+><para
+>Isto abre a Janela de Pesquisa Avançada, que lhe permite criar uma <quote
+>lista de reprodução virtual</quote
+>. Todas as músicas da sua Lista da Coleção que corresponderem ao critério de procura que você indicar na janela de Pesquisa Avançada serão adicionadas à nova lista. À medida que a sua Lista da Coleção muda, a nova lista irá mudar também. Por exemplo, se você criar uma lista com todas as suas músicas do Titãs e adicionar outra música do Titãs à sua Lista da Coleção, ela irá aparecer também na lista do Titãs sem ser necessária nenhuma ação de sua parte. </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Abrir</guiicon
+></term>
+<listitem
+><para
+>Adiciona um arquivo à lista da coleção (se estiver ativa) ou à lista de reprodução selecionada atualmente. Adicionar um arquivo a uma lista de reprodução irá adicioná-lo automaticamente à lista da coleção, mas não o contrário.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Salvar</guiicon
+></term>
+<listitem
+><para
+>Salva a lista de reprodução selecionada atualmente. Para salvar uma marca que tenha editado, você pode selecionar outro item ou clicar em <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>, em alternativa.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Recortar</guiicon
+></term>
+<listitem
+><para
+>Se estiver selecionada alguma lista de reprodução ou uma música individual, corta-a (remove-a) da lista. Se o editor de marcas estiver ativo, isto funcionará como o cortar em qualquer editor, removendo o texto selecionado, mas mantendo uma cópia na área de transferência.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Copiar</guiicon
+></term>
+<listitem
+><para
+>Se o editor de marcas estiver ativo, isto funciona como o copiar em qualquer editor, colocando uma cópia do texto selecionado na área de transferência.</para>
+<para
+>Se você usar o Copiar numa música da lista da coleção, a URL é colocado na área de transferência, para que possa colá-la mais tarde. Por exemplo, você poderia colar a URL num editor de texto, no &konqueror; ou em outra lista de reprodução.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Colar</guiicon
+></term>
+<listitem
+><para
+>Se você cortou ou copiou uma URL anteriormente da lista da coleção, você poderá colar a URL de volta para uma lista de reprodução nova. Você poderia também colar uma URL que tivesse copiado a partir do &konqueror; ou de outro aplicativo. Se você estiver lidando com o editor de marcas, o Colar irá colar o texto da área de transferência no campo selecionado.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Mostrar barra de procura</guiicon
+></term>
+<listitem
+><para
+>Mostra ou oculta a <link linkend="search-bar"
+>barra de procura</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Mostrar Editor de Marcas</guiicon
+></term>
+<listitem
+><para
+>Mostra ou oculta o <link linkend="tagging-a-single-file"
+>editor de marcas</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>Controles de reprodução</term>
+<listitem>
+<para
+>Eles funcionam como em qualquer leitor multimídia que possa escolher. Os controles são o <guiicon
+>Tocar</guiicon
+>, <guiicon
+>Pausa</guiicon
+>, <guiicon
+>Parar</guiicon
+>, <guiicon
+>Anterior</guiicon
+> e <guiicon
+>Seguinte</guiicon
+>.</para>
+<para
+>Existe também uma barra de progresso que lhe mostra onde (relativamente) está na música atual. Você poderá arrastar esta barra com o mouse para avançar ou recuar diretamente dentro de uma faixa.</para>
+<para
+>Finalmente, existe uma barra de volume. Como você deve esperar, isto aumenta ou diminui o volume. O <quote
+>Alto</quote
+> fica à direita e o <quote
+>Silêncio</quote
+> à esquerda.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>A barra de procura</title>
+
+<para
+>A barra de procura permite-lhe procurar rapidamente por uma música na lista da coleção ou numa lista de reprodução.</para>
+
+<para
+>Basta digitar o texto na barra de procura para reduzir a lista visível de músicas àquelas que contém esse texto em qualquer coluna visível. Clicar em &Enter; iniciará a reproduzir a primeira ocorrência da lista.</para>
+
+<para
+>A pesquisa começa instantaneamente quando o texto é introduzido na campo de procura. A procura é incremental, isto é, à medida que você for escrevendo cada caractere no campo de texto, a pesquisa é cada vez mais restrita. Isto é útil para encontrar uma música da qual só se lembra de parte do nome, por exemplo.</para>
+
+<!-- Not here in KDE 4.11
+<para
+>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
+-->
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Referência de menus e de comandos</title>
+
+<sect1 id="menus">
+<title
+>Menus</title>
+
+<sect2 id="menu-file">
+<title
+>Menu Arquivo</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arquivo</guimenu
+><guisubmenu
+>Nova</guisubmenu
+><guimenuitem
+>Lista de Reprodução Vazia...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cria uma nova lista de reprodução</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arquivo</guimenu
+><guisubmenu
+>Nova</guisubmenu
+><guimenuitem
+>Lista de Procura...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cria uma nova <link linkend="juk-search-playlists"
+>lista de procura de músicas</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arquivo</guimenu
+><guisubmenu
+>Nova</guisubmenu
+><guimenuitem
+>Lista de Reprodução a Partir de Pasta...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cria uma nova lista de reprodução, contendo todos os arquivos de música de uma pasta e das suas subpastas. Todas as músicas dentro dos arquivos das listas de reprodução que o &juk; reconhecer serão também adicionadas.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arquivo</guimenu
+> <guimenuitem
+>Abrir...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Seleciona um ou mais arquivos para adicionar à lista da coleção. Se selecionar um arquivo de uma lista de reprodução, todos os arquivos desta serão adicionados.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Gerenciar pastas...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este item do menu abre a mesma janela que é mostrada na primeira vez que o &juk; é iniciado </para>
+<para
+>Seleciona uma pasta (ou pastas) para adicionar à lista da coleção. Estas pastas serão também pesquisadas novamente sempre que o &juk; é iniciado ou <menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Recarregar</guimenuitem
+> </menuchoice
+> é selecionado.</para>
+<para
+>Você também pode selecionar as pastas que não devem ser pesquisadas automaticamente (que substitui a lista de pastas a pesquisar ao iniciar). Desta forma você pode evitar a necessidade de alterar totalmente a organização das suas músicas no disco, apenas para fazer com que o &juk; identifique músicas que você não quer ou não precisa gerenciar com o programa. </para>
+<para>
+<screenshot>
+<screeninfo
+>Caixa de diálogo Gerenciar pastas</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Imagem da caixa de diálogo Gerenciar pastas.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para
+>Se quiser remover os arquivos que já estão na lista da coleção, você pode ativar a coluna <guilabel
+>Nome do arquivo (caminho completo)</guilabel
+> na lista de músicas e então usar a barra de pesquisa para encontrar o caminho que está faltando, selecionar e remover os arquivos que são mostrados. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Arquivo</guimenu
+> <guimenuitem
+>Renomear...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Renomeia uma lista de reprodução.</para>
+</listitem>
+</varlistentry>
+
+<!-- Edit Search... -->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Duplicar...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Cria uma duplicata da lista de reprodução selecionada, pedindo um novo nome. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Recarregar</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Recarrega as informações das marcas em todos os arquivos da lista de reprodução selecionada. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Remover</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Remove a lista selecionada.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Salvar</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Remove a lista de reprodução selecionada.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Arquivo</guimenu
+> <guimenuitem
+>Salvar Como...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Salva a lista de reprodução selecionada, com um nome diferente.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>Menu Editar</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Limpar</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Remove as músicas selecionadas da lista.</para>
+</listitem>
+</varlistentry>
+<!-- Undo Cut Copy Paste Clear Select All -->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>Menu Exibir</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Mostrar barra de procura</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Esta é uma ação comutável que configura se a <link linkend="search-bar"
+>Barra de procura</link
+> está visível ou não.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Mostrar Editor de Marcas</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Esta é uma ação comutável que configura se o <interface
+>Editor de Marcas</interface
+> está visível ou não.</para>
+</listitem>
+</varlistentry>
+<!--Show Lyrics-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Mostrar Histórico</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Esta é uma ação comutável que configura se o <link linkend="juk-history-playlists"
+>Histórico de Lista de Reprodução</link
+> é mostrado ou não.</para>
+</listitem>
+</varlistentry>
+
+<!-- missing
+Show Play Queue
+Show Columns
+Resize Playlist Columns Manually
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+><guisubmenu
+>Modos de Visualização</guisubmenu
+> <guimenuitem
+>Padrão</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Muda para o <link linkend="juk-viewmode-default"
+>modo de Visualização Padrão</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+><guisubmenu
+>Modos de Visualização</guisubmenu
+> <guimenuitem
+>Compacto</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Muda para o <link linkend="juk-viewmode-compact"
+>modo de Visualização Compacto</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Exibir</guimenu
+><guisubmenu
+>Modos de exibição</guisubmenu
+> <guimenuitem
+>Árvore</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Muda para o <link linkend="juk-viewmode-tree"
+>modo de Visualização em Árvore</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>Menu Reprodutor</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tocador</guimenu
+><guimenuitem
+>Reprodução Aleatória</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Esta é uma ação comutável que ativa ou não a Reprodução Aleatória. Se a Reprodução Aleatória estiver ativa, então o &juk; irá selecionar aleatoriamente uma música da lista atual, logo que a música em execução termine.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tocador</guimenu
+><guimenuitem
+>Repetir Lista de Reprodução...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Esta é uma ação comutável que ativa ou não a Leitura em Ciclo. Se a Leitura em Ciclo estiver ativa, então o &juk; irá começar a tocar do início da lista, quando acabar de tocar todas as músicas da lista atual.</para>
+</listitem>
+</varlistentry>
+<!--
+Crossfade Between Tracks
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tocador</guimenu
+><guimenuitem
+>Tocar</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando começa a tocar a música selecionada atualmente, ou prossegue a reprodução da mesma se estava em pausa.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tocador</guimenu
+><guimenuitem
+>Pausa</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando põe a música atual em pausa. Use o comando Tocar para continuar a tocá-la.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tocador</guimenu
+><guimenuitem
+>Parar</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando interrompe a reprodução da música atual. Você não poderá continuar a reprodução da música a partir da sua posição atual depois disso.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tocador</guimenu
+><guimenuitem
+>Próximo</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando passa para a música seguinte na lista.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tocador</guimenu
+><guimenuitem
+>Anterior</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando toca a música que foi reproduzida antes da música atual.</para>
+</listitem>
+</varlistentry>
+<!--
+Play Next Album
+-->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>Menu Etiquetador</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Etiquetador</guimenu
+><guimenuitem
+>Salvar</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando salva as alterações às marcas que você está editando. Normalmente, as alterações não são salvas até que você desmarque o arquivo que está editando.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Etiquetador</guimenu
+><guimenuitem
+>Excluir</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando exclui os arquivos selecionados atualmente da Lista da Coleção e todas as listas que os contêm, excluindo então os arquivos selecionados do disco. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Etiquetador</guimenu
+><guimenuitem
+>Atualizar</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando permite-lhe atualizar as etiquetas da lista de músicas após alterá-las. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Etiquetador</guimenu
+><guisubmenu
+>Adivinhar informações das etiquetas</guisubmenu
+><guimenuitem
+>A partir do arquivo</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando tenta adivinhar as marcas dos arquivos selecionados, com base no nome do arquivo. Você poderá configurar os padrões usados na adivinhação selecionando <menuchoice
+><guimenu
+>Configuração</guimenu
+> <guimenuitem
+>Adivinhar Marcas...</guimenuitem
+></menuchoice
+>, que abre o <link linkend="juk-tag-guesser-configuration"
+>diálogo de configuração para Adivinhar Marcas</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Marcador</guimenu
+><guisubmenu
+>Adivinhar Dados das Marcas</guisubmenu
+><guimenuitem
+>Da Internet</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando tenta adivinhar as marcas dos arquivos selecionados, usando o programa <application
+>TunePimp</application
+> que vem com o <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+>.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Cover Manager
+  -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Etiquetador</guimenu
+><guimenuitem
+>Renomear arquivo</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+  <para
+>Este comando permite-lhe renomear um arquivo ou grupo de arquivos das músicas selecionadas na lista. Antes de executar a operação o &juk; irá mostrar uma caixa de diálogo de visualização prévia, onde você poderá confirmar ou cancelar a ação. </para>
+  <para
+>Os arquivos serão renomeados de acordo com os parâmetros definidos na caixa de diálogo <link linkend="juk-rename-dialog"
+>Renomear arquivo</link
+>. </para
+> 
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>Menu Configurações</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+><guisubmenu
+>Barras de ferramentas exibidas</guisubmenu
+> <guimenuitem
+>Barra de Reprodução / Principal</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando mostra ou oculta a <link linkend="main-toolbar"
+>Barra principal</link
+> e a <link linkend="play-toolbar"
+>Barra de reprodução</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Ícone na área de notificação</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Esta é uma ação comutável. Se estiver ativa, o &juk; irá mostrar um ícone na sua área de notificação. Você poderá usar o ícone da área de notificação para dizer se o &juk; está reproduzindo e controlar a reprodução.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Manter na área de notificação ao Fechar</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Esta é uma ação comutável. Se estiver ativa, o &juk; permanecerá em execução se você fechar a janela principal. A opção <guimenuitem
+>Acoplar na área de notificação</guimenuitem
+> também deve estar ativa. Para sair do &juk;, use o comando <menuchoice
+><guimenu
+>Arquivo</guimenu
+> <guimenuitem
+>Sair</guimenuitem
+></menuchoice
+> a partir da janela principal, ou o comando <guimenuitem
+>Sair</guimenuitem
+> a partir do menu de contexto da área de notificação.</para>
+<para
+>Se o &juk; for carregado quando ele estiver acoplado na área de notificação ao iniciar a sessão, será mostrada uma notificação simples (caso contrário, o usuário não entender porque a janela do &juk; não abre). É possível remover esta notificação adicional nas &systemsettings; em <menuchoice
+><guimenu
+>Aparência e comportamento comuns</guimenu
+> <guimenuitem
+>Notificações dos aplicativos e do sistema</guimenuitem
+></menuchoice
+>, para gerenciar as notificações do aplicativo <guilabel
+>Reprodutor de músicas JuK</guilabel
+>. Basta desmarcar o item <guilabel
+>Mostrar mensagem em uma janela</guilabel
+> para o <guimenuitem
+>JuK em execução no modo acoplado</guimenuitem
+>. Você pode encontrar mais informações sobre a configuração das notificações do &kde; <ulink url="help:/kcontrol/kcmnotify"
+>aqui</ulink
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Anúncio Instantâneo da Faixa</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Esta é uma ação comutável. Se estiver ativa, o &juk; irá mostrar um indicador sempre que uma música começa a tocar, com informações do artista e do título e com botões que lhe permitem mudar rapidamente para uma música diferente. A opção Acoplar na área de notificação terá de estar também ativa.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Adivinhar Marcas...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando mostra a <link linkend="juk-tag-guesser-configuration"
+>caixa de diálogo de configuração do Adivinhador de Marcas</link
+>, onde poderá alterar os padrões usados para adivinhar as informações das marcas a partir dos nomes de arquivos.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Renomeador de Arquivos...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Este comando mostra a <link linkend="juk-rename-dialog"
+>caixa de diálogo de configuração do Renomeador dos Arquivos</link
+>, onde poderá alterar a forma como o &juk; renomeia os arquivos para você.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Configure scrobbling
+  -->
+</variablelist>
+
+<para
+>O &juk; possui os itens dos menus <guimenu
+>Configurações</guimenu
+> e <guimenu
+>Ajuda</guimenu
+>, comuns do &kde;. Para mais informações, consulte as seções sobre o <ulink url="help:/fundamentals/menus.html#menus-settings"
+>Menu Configurações</ulink
+> e o <ulink url="help:/fundamentals/menus.html#menus-help"
+>Menu Ajuda</ulink
+> dos Fundamentos do &kde;. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Referência dos Atalhos de Teclado</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>Combinação de Teclas</entry>
+<entry
+>Ação</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>Selecionar tudo</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Copiar</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>Renomeia arquivo</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>Adivinha as marcas a partir da Internet.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Adivinha as marcas com base no nome do arquivo.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>Nova <link linkend="juk-search-playlists"
+>lista de reprodução de procura</link
+>.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Nova Lista de Reprodução Vazia</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>Nova lista de reprodução a partir de pasta.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>Salva as alterações às marcas editadas.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>Créditos e licença</title>
+
+<para
+>&juk; Copyright &copy; 2002-2013 &Scott.Wheeler;, Michael Pyne e outros. </para>
+
+ <para
+>O &juk; é desenvolvido e mantido por &Scott.Wheeler; &Scott.Wheeler.mail; e Michael Pyne <email
+>michael.pyne@kdemail.net</email
+>.</para>
+
+<para
+>Muitos agradecimentos às seguintes pessoas que contribuíram para o &juk;:</para>
+
+<itemizedlist>
+<listitem
+><para
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; pela acoplagem na área de notificação, edição "incorporada" das marcas, correções de erros, evangelização e apoio moral.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> pela passagem para o <application
+>GStreamer</application
+></para>
+</listitem>
+
+<listitem
+><para
+>Stefan Asserh&auml;ll <email
+>stefan.asserhall@telia.com</email
+> pelo suporte das combinações de teclas globais.</para>
+</listitem>
+
+<listitem
+><para
+>Stephen Douglas <email
+>stephen_douglas@yahoo.com</email
+> pelos anúncios das faixas.</para>
+</listitem>
+
+<listitem
+><para
+>&Frerich.Raabe; &Frerich.Raabe.mail; pela suporte para adivinhar os dados das faixas e pelas correções de erros.</para>
+</listitem>
+
+<listitem
+><para
+>Zack Rusin <email
+>zack@kde.org</email
+> por mais coisas automáticas, incluindo o suporte do MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Adam Treat <email
+>manyoso@yahoo.com</email
+> pela co-conspiração na sabedoria do MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Matthias Kretz <email
+>kretz@kde.org</email
+> por ser o guru vizinho e amigável do aRts.</para>
+</listitem>
+
+<listitem
+><para
+>Maks Orlovich <email
+>maksim@kde.org</email
+> por tornar o &juk; mais amigável para as pessoas com terabytes de música.</para>
+</listitem>
+
+<listitem
+><para
+>Antonio Larrosa Jimenez <email
+>larrosa@kde.org</email
+> pela interface DCOP.</para>
+</listitem>
+
+<listitem
+><para
+>Allan Sandfield Jensen <email
+>kde@carewolf.com</email
+> pelo suporte ao <acronym
+>FLAC</acronym
+> e <acronym
+>MPC</acronym
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Nathan Toone <email
+>nathan@toonetown.com</email
+> pelo gerenciador de capas dos álbuns.</para>
+</listitem>
+
+<listitem
+><para
+>Pascal Klein <email
+>4pascal@tpg.com.au</email
+> pela tela de apresentação.</para>
+</listitem>
+
+<listitem
+><para
+>Laurent Montel <email
+>montel@kde.org</email
+> pela modificação para o &kde; 4 quando não havia ninguém para fazer isso.</para>
+</listitem>
+
+<listitem
+><para
+>Georg Grabler <email
+>georg@grabler.net</email
+> pelos esforços de modificação para a Plataforma do &kde;.</para>
+</listitem>
+
+<listitem
+><para
+>Martin Sandsmark <email
+>martin.sandsmark@kde.org</email
+> pelo suporte ao scrobbling do Last.fm, letras e preparação para a Plataforma &kde;.</para>
+</listitem>
+
+<listitem
+><para
+>Eike Hein <email
+>hein@kde.org</email
+> pela implementação da interface MPRIS2.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Direitos autorais da documentação &copy; 2003, &Lauri.Watts; e 2004-2013 Michael Pyne.</para>
+
+<para
+>Tradução de Marcus Gama <email
+>marcus.gama@gmail.com</email
+> e André Marcelo Alvarenga <email
+>alvarenga@kde.org</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
