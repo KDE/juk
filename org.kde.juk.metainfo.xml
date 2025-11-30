@@ -28,6 +28,7 @@
   <name xml:lang="ia">JuK</name>
   <name xml:lang="id">JuK</name>
   <name xml:lang="ie">JuK</name>
+  <name xml:lang="is">JuK</name>
   <name xml:lang="it">JuK</name>
   <name xml:lang="ka">JuK</name>
   <name xml:lang="ko">JuK</name>
@@ -77,6 +78,7 @@
   <summary xml:lang="ia">Executor de musica</summary>
   <summary xml:lang="id">Pemutar Musik</summary>
   <summary xml:lang="ie">Reproductor de musica</summary>
+  <summary xml:lang="is">Tónlistarspilari</summary>
   <summary xml:lang="it">Lettore musicale</summary>
   <summary xml:lang="ka">Music Player</summary>
   <summary xml:lang="ko">음악 재생기</summary>
@@ -161,6 +163,7 @@
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="ie">Caracteristicas:</p>
+    <p xml:lang="is">Eiginleikar:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ka">თვისებები:</p>
     <p xml:lang="ko">기능:</p>
@@ -208,6 +211,7 @@
       <li xml:lang="hu">Gyűjteménylista és több felhasználó által megadott lejátszólista</li>
       <li xml:lang="ia">Lista de collection e multiple listas de reproduction definite per le usator</li>
       <li xml:lang="id">Daftar koleksi dan playlist yang ditentukan pengguna multiple</li>
+      <li xml:lang="is">Safnlisti og notendur geta skilgreint marga spilunarlista</li>
       <li xml:lang="it">Elenco di raccolte e scalette multiple definite dall'utente</li>
       <li xml:lang="ka">კოლექციების სია და ერთზე მეტი მომხმარებლის მიერ აღწერილი დასაკრავი სიები</li>
       <li xml:lang="ko">모음집 관리 및 사용자 정의 재생 목록</li>
@@ -478,6 +482,7 @@
       <li xml:lang="hu">Címkeinformációk kitalálásának képessége a szám fájlneve alapján</li>
       <li xml:lang="ia">Le habilitate de conjecturar information de etiquetta basate sur le nomine de file del tracia</li>
       <li xml:lang="id">Kemampuan untuk menebak informasi tag berdasarkan pada nama file track</li>
+      <li xml:lang="is">Getur giskað á merkjaupplýsingar út frá skráarheiti hljóðspors</li>
       <li xml:lang="it">Capacità di indovinare informazioni per le etichette in base al nome del file audio</li>
       <li xml:lang="ka">შესაძლებლობა, მივხვდე ჭდის ინფორმაციას ტრეკის ფაილის სახელიდან გამომდინარე</li>
       <li xml:lang="ko">파일 이름을 기반으로 한 태그 내용 추측</li>
@@ -523,6 +528,7 @@
       <li xml:lang="hu">Fájlátnevező, amely képes a címketartalom alapján átnevezni fájlokat</li>
       <li xml:lang="ia">Renominator de file que pote renominar files basate sur le contento de etiquetta</li>
       <li xml:lang="id">Pengubah nama file yang bisa mengubah nama berdasarkan pada konten tag</li>
+      <li xml:lang="is">Skráaendurnefnari sem getur endurnefnt hljóðskrár út frá upplýsingum í merkjum þeirra</li>
       <li xml:lang="it">Rinominatore di file per cambiare il nome ai file in base alle etichette</li>
       <li xml:lang="ka">ფაილის სახელის გადარმქმევი, რომელსაც ამის გაკეთება ჭდის შემცველობის მიხედვით შეუძლია</li>
       <li xml:lang="ko">태그 내용을 기반으로 한 파일 이름 변경</li>
@@ -568,6 +574,7 @@
       <li xml:lang="hu">Címkeolvasás és szerkesztés támogatás számos formátumhoz, beleértve az ID3v1, az ID3v2 és az Ogg Vorbis formátumokat</li>
       <li xml:lang="ia">Supporto de modification e lectura de etiquetta per multe formatos includente ID3v1, ID3v2 e Ogg Vorbis</li>
       <li xml:lang="id">Dukungan pengeditan dan pembacaan tag untuk berbagai format termasuk ID3v1, ID3v2 dan Ogg Vorbis</li>
+      <li xml:lang="is">Stuðningur við lestur á mörgum gerðum merkja á borð við ID3v1, ID3v2 og Ogg Vorbis</li>
       <li xml:lang="it">Supporto per lettura e modifica delle etichette per molti formati, tra cui ID3v1, ID3v2 e Ogg Vorbis</li>
       <li xml:lang="ka">ჭდის წაკითხვისა და ჩასწორების მხარდაჭერა ბევრი ფორმატებისთვის, ID3v1, ID3v2 და Ogg Vorbis-ის ჩათვლით</li>
       <li xml:lang="ko">ID3v1, ID3v2, Ogg Vorbis 태그 읽기 및 쓰기 지원</li>
