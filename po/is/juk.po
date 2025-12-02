@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2025-11-28 11:43+0000\n"
+"PO-Revision-Date: 2025-12-01 06:26+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -279,7 +279,7 @@ msgstr "Flytjandi:"
 #: exampleoptionsbase.ui:155
 #, kde-format
 msgid "Album:"
-msgstr "Plata:"
+msgstr "Hljómplata:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: exampleoptionsbase.ui:165
@@ -316,7 +316,7 @@ msgstr "Flytjandi"
 #: exampleoptionsbase.ui:228 tagrenameroptions.cpp:108
 #, kde-format
 msgid "Album"
-msgstr "Plata"
+msgstr "Hljómplata"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
 #: exampleoptionsbase.ui:235 tagrenameroptions.cpp:116
@@ -416,7 +416,7 @@ msgstr "Tónlistarmappa:"
 #: filerenamerbase.ui:90
 #, kde-format
 msgid "Album Tag"
-msgstr "Plötumerki"
+msgstr "Hljómplötumerki"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:95
@@ -494,7 +494,7 @@ msgstr "Snið merkisins %1"
 #, kde-format
 msgctxt "@title:group"
 msgid "When the Track’s %1 is Empty"
-msgstr "Þegar %1 spors er tómt"
+msgstr "Þegar %1 hljóðspors er tómt"
 
 #: filerenameroptions.cpp:41
 #, kde-format
@@ -617,7 +617,7 @@ msgstr "&Nota slembispilun"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
-msgstr "Slembispila &möppu"
+msgstr "Slembispil&a hljómplötu"
 
 #: juk.cpp:266
 #, kde-format
@@ -1253,7 +1253,7 @@ msgstr "Hljómplata"
 #, kde-format
 msgctxt "@title:column, CD track number"
 msgid "Track"
-msgstr "Spor"
+msgstr "Hljóðspor"
 
 #: playlist.cpp:1284
 #, kde-format
@@ -1536,7 +1536,7 @@ msgstr "Spila fyrsta lag"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Play Next Album"
-msgstr "Spila næstu plötu"
+msgstr "Spila næstu hljómplötu"
 
 #: playlistcollection.cpp:939
 #, kde-format
@@ -1811,7 +1811,7 @@ msgstr "Nafn &flytjanda:"
 #: tageditor.ui:49
 #, kde-format
 msgid "Album &name:"
-msgstr "Nafn &plötu:"
+msgstr "&Nafn hljómplötu:"
 
 #. i18n: ectx: property (text), widget (QLabel, genreLabel)
 #: tageditor.ui:59
@@ -1900,7 +1900,7 @@ msgstr ""
 "strengur gæti innihaldið einn af eftirfarandi staðgenglum:<ul>\n"
 "<li>%t: Titill</li>\n"
 "<li>%a: Flytjandi</li>\n"
-"<li>%A: Plata</li>\n"
+"<li>%A: Hljómplata</li>\n"
 "<li>%T: Lag</li>\n"
 "<li>%c: Athugasemd</li>\n"
 "</ul>\n"
@@ -2007,7 +2007,7 @@ msgstr ""
 "Þú getur notað eftirfarandi staðgengla:\n"
 "%t: Titill\n"
 "%a: Flytjandi\n"
-"%A: Plata\n"
+"%A: Hljómplata\n"
 "%T: Lag\n"
 "%c: Athugasemd"
 
@@ -2075,7 +2075,7 @@ msgstr "tegund"
 #: treeviewitemplaylist.cpp:52
 #, kde-format
 msgid "album"
-msgstr "plata"
+msgstr "hljómplata"
 
 #: treeviewitemplaylist.cpp:56
 #, kde-format
@@ -2086,7 +2086,7 @@ msgstr "Þú ert að fara að breyta %1 á þessum skrám."
 #, kde-format
 msgctxt "@title:window"
 msgid "Change Track Tags"
-msgstr "Breyta merkjum spors"
+msgstr "Breyta merkjum hljóðspors"
 
 #: upcomingplaylist.cpp:31
 #, kde-format
@@ -2118,7 +2118,7 @@ msgstr "Flytjendur"
 #: viewmode.cpp:285
 #, kde-format
 msgid "Albums"
-msgstr "Plötur"
+msgstr "Hljómplötur"
 
 #: viewmode.cpp:288
 #, kde-format
