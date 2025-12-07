@@ -1,7 +1,7 @@
 {
     "app-id": "org.kde.juk",
     "runtime": "org.kde.Platform",
-    "runtime-version": "6.9",
+    "runtime-version": "6.10",
     "sdk": "org.kde.Sdk",
     "command": "juk",
     "rename-icon": "juk",
@@ -16,27 +16,6 @@
         "--filesystem=xdg-music"
     ],
     "modules": [
-        {
-            "name": "ffmpeg",
-            "config-opts": [
-                "--enable-pic",
-                "--enable-shared",
-                "--disable-doc",
-                "--disable-static",
-                "--enable-gpl",
-                "--enable-libvpx",
-                "--enable-libmp3lame",
-                "--enable-libvorbis",
-                "--enable-libopus"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://ffmpeg.org/releases/ffmpeg-4.4.5.tar.xz",
-                    "sha256": "f9514e0d3515aee5a271283df71636e1d1ff7274b15853bcd84e144be416ab07"
-                }
-            ]
-        },
         {
             "name": "phonon",
             "config-opts": [
