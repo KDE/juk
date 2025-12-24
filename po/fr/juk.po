@@ -670,7 +670,7 @@ msgstr "Précédent"
 #, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
-msgstr "&Suiva&nte"
+msgstr "Suiva&nte"
 
 #: juk.cpp:294
 #, kde-format
