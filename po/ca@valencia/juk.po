@@ -894,7 +894,8 @@ msgstr ""
 #, kde-format
 msgid "<span style='color:red'>Error while retrieving lyrics!</span>"
 msgstr ""
-"<span style='color:red'>S'ha produït un error en recuperar la lletra!</span>"
+"<span style='color:red'>S'ha produït un error mentre es recuperava la lletra!"
+"</span>"
 
 #: lyricswidget.cpp:174
 #, kde-format
