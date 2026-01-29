@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2026-01-04 02:56+0000\n"
+"PO-Revision-Date: 2026-01-28 23:45+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -763,8 +763,9 @@ msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
-"<qt>Închiderea ferestrei principale va păstra JuK rulînd în tava de sistem. "
-"Utilizați Ieșire din meniul Fișier pentru a ieși din aplicație.</qt>"
+"<qt>Închiderea ferestrei principale va păstra JuK rulând în tava de sistem. "
+"Folosiți acțiunea „Termină” din meniul Fișier pentru a ieși din aplicație.</"
+"qt>"
 
 #: juk.cpp:514
 #, kde-format
@@ -926,7 +927,7 @@ msgstr "Michael Pyne"
 #: main.cpp:45
 #, kde-format
 msgid "Assistant superhero, fixer of many things"
-msgstr "Asistent supraerou, reparator a numeroase lucruri"
+msgstr "Asistent supra-erou, reparator a numeroase lucruri"
 
 #: main.cpp:46
 #, kde-format
@@ -1132,7 +1133,7 @@ msgstr "Pascal Klein"
 #: main.cpp:65
 #, kde-format
 msgid "Gimper of splash screen"
-msgstr "Gimp-uitorul  ecranului de întîmpinare"
+msgstr "Gimp-uitorul ecranului de întâmpinare"
 
 #: main.cpp:70
 #, kde-format
@@ -1948,7 +1949,7 @@ msgstr "Adaugă o schemă nouă"
 #, kde-format
 msgid "Press this button to add a new file name scheme to the end of the list."
 msgstr ""
-"Apăsați acest buton pentru a adăuga o nouă schemă de denumire la sfîrșitul "
+"Apăsați acest buton pentru a adăuga o nouă schemă de denumire la sfârșitul "
 "listei."
 
 #. i18n: ectx: property (text), widget (QPushButton, bAdd)
@@ -2056,7 +2057,7 @@ msgstr "Înlocuiește"
 #: tagtransactionmanager.cpp:176
 #, kde-format
 msgid "The following files were unable to be changed."
-msgstr "Urnătoarele fișiere nu au putut fi modificate."
+msgstr "Următoarele fișiere nu au putut fi modificate."
 
 #: tagtransactionmanager.cpp:178
 #, kde-format
@@ -2082,7 +2083,7 @@ msgstr "album"
 #: treeviewitemplaylist.cpp:56
 #, kde-format
 msgid "You are about to change the %1 on these files."
-msgstr "Sînteți pe cale de a modifica %1 asupra acestor fișiere."
+msgstr "Sunteți pe cale de a modifica %1 asupra acestor fișiere."
 
 #: treeviewitemplaylist.cpp:58
 #, kde-format

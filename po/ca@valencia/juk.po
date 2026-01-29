@@ -642,7 +642,7 @@ msgstr "P&ausa"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
-msgstr "A&tura"
+msgstr "&Para"
 
 #: juk.cpp:283
 #, kde-format
