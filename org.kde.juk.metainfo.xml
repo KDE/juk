@@ -111,7 +111,7 @@
     <p xml:lang="ca">El JuK és una aplicació de màquina de discos musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
     <p xml:lang="ca-valencia">JuK és una aplicació de màquina de discs musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
     <p xml:lang="cs">JuK je aplikace pro přehrávání zvukových souborů, která podporuje sbírky souborů MP3, Ogg Vorbis a FLAC. Umožňuje vám upravovat "značky" vašich zvukových souborů a spravovat vaši sbírku a seznamy skladeb. Její hlavní zaměření je ve skutečnosti na správu hudby.</p>
-    <p xml:lang="de">JuK ist eine Jukebox-Anwendung für Musikstücke und unterstützt Sammlungen von MP3-, Ogg-, Vorbis-, und FLAC-Audiodateien. Sie können Metadaten Ihrer Audiodateien bearbeiten und Ihre Musiksammlungen und Wiedergabelisten verwalten. Die wichtigste Funktion von JuK ist die Musikverwaltung.</p>
+    <p xml:lang="de">JuK ist eine Jukebox-Anwendung für Musikstücke und unterstützt Sammlungen von MP3-, Ogg-, Vorbis-, und FLAC-Audiodateien. Sie können Metadaten Ihrer Audiodateien bearbeiten und Ihre Musiksammlung und Wiedergabelisten verwalten. Die wichtigste Funktion von JuK ist die Musikverwaltung.</p>
     <p xml:lang="el">Το JuK είναι μια εφαρμογή μουσικού κουτιού, που υποστηρίζει συλλογές MP3, Ogg Vorbis, και FLAC αρχεία ήχου. Σας επιτρέπει να επεξεργαστείτε τις "ετικέτες" των αρχείων ήχου σας, και να διαχειριστείτε τις συλλογές και τις λίστες αναπαραγωγής. Εστιάζει κυρίως στη διαχείριση μουσικής.</p>
     <p xml:lang="en-GB">JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. Its main focus, in fact, is on music management.</p>
     <p xml:lang="eo">JuK estas sona jukebox-apliko, subtenanta kolektojn de sondosieroj MP3, Ogg Vorbis kaj FLAC. Ĝi permesas vin redakti la "tags" de viaj sondosieroj kaj administri vian kolekton kaj ludlistojn. Ĝia ĉefa fokuso fakte estas pri mastrumado de muziko.</p>
@@ -199,7 +199,7 @@
       <li xml:lang="ca-valencia">Llista de col·leccions i múltiples llistes de reproducció definides per usuari</li>
       <li xml:lang="cs">Sbírka uživatelsky definovaných seznamů skladeb</li>
       <li xml:lang="da">Samlingsliste og flere brugerdefinerede spillelister</li>
-      <li xml:lang="de">Sammlungslisten und mehrere benutzerdefinierte Wiedergabelisten</li>
+      <li xml:lang="de">Sammlungsliste und mehrere benutzerdefinierte Wiedergabelisten</li>
       <li xml:lang="el">Λίστα συλλογών και λίστες αναπαραγωγής πολλών χρηστών</li>
       <li xml:lang="en-GB">Collection list and multiple user defined playlists</li>
       <li xml:lang="eo">Kolektlisto kaj pluraj uzant-difinitaj ludlistoj</li>
@@ -384,7 +384,7 @@
       <li xml:lang="ca-valencia">Historial de les llistes de reproducció per a indicar quins fitxers s'han reproduït i quan</li>
       <li xml:lang="cs">Historie seznamu skladeb, která ukazuje, které soubory byly přehrány a kdy</li>
       <li xml:lang="da">Spillelistehistorik som indikerer hvilke filer der er blevet afspillet og hvornår</li>
-      <li xml:lang="de">Wiedergabelisten-Verlauf zur Anzeige, welche Dateien wann abgespielt wurden</li>
+      <li xml:lang="de">Wiedergabelisten-Verlauf zur Anzeige, welche Dateien wann wiedergegeben wurden</li>
       <li xml:lang="el">Ιστορικό λιστών αναπαραγωγής με ένδειξη για το ποια αρχεία έχουν προηγηθεί και πότε</li>
       <li xml:lang="en-GB">Playlist history to indicate which files have been played and when</li>
       <li xml:lang="eo">Ludlisthistorio por indiki kiuj dosieroj estis luditaj kaj kiam</li>
@@ -476,7 +476,7 @@
       <li xml:lang="ca-valencia">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça</li>
       <li xml:lang="cs">Schopnost odhadnout informace o značce na základě názvu souboru skladby</li>
       <li xml:lang="da">Mulighed for at gætte mærkeinformation baseret på sporets filnavn</li>
-      <li xml:lang="de">Metadaten können anhand des Dateinamens eines Stücks geraten werden</li>
+      <li xml:lang="de">Metadaten können anhand des Dateinamens eines Musikstücks geraten werden</li>
       <li xml:lang="el">Η ικανότητα πρόγνωσης της ετικέτας πληροφοριών με βάση το όνομα του μουσικού αρχείου</li>
       <li xml:lang="en-GB">The ability to guess tag information based on the track's file name</li>
       <li xml:lang="eo">La kapablo diveni etikedinformojn surbaze de la dosiernomo de la trako</li>
