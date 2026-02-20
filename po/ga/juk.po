@@ -28,54 +28,46 @@ msgid "Your emails"
 msgstr "seoc@iolfree.ie,kscanne@gmail.com"
 
 #: advancedsearchdialog.cpp:48
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create Search Playlist"
-msgstr "Cruthaigh Seinmliosta Cuardaigh"
+msgstr ""
 
 #: advancedsearchdialog.cpp:57
-#, fuzzy, kde-format
-#| msgid "Playlist name:"
+#, kde-format
 msgctxt "@label"
 msgid "Playlist name:"
-msgstr "Ainm an tseinmliosta:"
+msgstr ""
 
 #: advancedsearchdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Search Criteria"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search Criteria"
-msgstr "Critéir Chuardaigh"
+msgstr ""
 
 #: advancedsearchdialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Match any of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match any of the following"
-msgstr "Comhoiriúnaigh aon cheann de na rudaí seo a leanas"
+msgstr ""
 
 #: advancedsearchdialog.cpp:67
-#, fuzzy, kde-format
-#| msgid "Match all of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match all of the following"
-msgstr "Comhoiriúnaigh gach ceann de na rudaí seo a leanas"
+msgstr ""
 
 #: advancedsearchdialog.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "additional search options"
-#| msgid "More"
+#, kde-format
 msgctxt "@action:button, additional search options"
 msgid "More"
-msgstr "Tuilleadh"
+msgstr ""
 
 #: advancedsearchdialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "Fewer"
+#, kde-format
 msgctxt "@action:button"
 msgid "Fewer"
-msgstr "Níos Lú"
+msgstr ""
 
 #: cache.cpp:301
 #, kde-format
@@ -93,13 +85,7 @@ msgid "Collection List"
 msgstr "Liosta Bailiúchán"
 
 #: collectionlist.cpp:289
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removing an item from the collection will also remove it from all of your "
-#| "playlists. Are you sure you want to continue?\n"
-#| "\n"
-#| "Note, however, that if the directory that these files are in is in your "
-#| "\"scan on startup\" list, they will be readded on startup."
+#, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
 "playlists. Are you sure you want to continue?\n"
@@ -107,18 +93,12 @@ msgid ""
 "Note, however, that if the directory that these files are in is in your "
 "“scan on startup” list, they will be readded on startup."
 msgstr ""
-"Má bhaineann tú mír ón bhailiúchán, bainfear é ó gach seinmliosta atá agat. "
-"An bhfuil tú cinnte gur mian leat dul ar aghaidh?\n"
-"\n"
-"Tabhair faoi deara, áfach, má tá an chomhadlann ina bhfuil na comhaid seo i "
-"do liosta \"scan ag am tosaithe\", cuirfear iad ar ais ag am tosaithe."
 
 #: collectionlist.cpp:343
-#, fuzzy, kde-format
-#| msgid "Show Playing"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Playing"
-msgstr "Taispeáin Amhrán Reatha"
+msgstr ""
 
 #: deletedialog.cpp:65
 #, kde-format
@@ -142,18 +122,16 @@ msgid "<qt>These items will be moved to the Trash Bin.</qt>"
 msgstr "<qt>Cuirfear na míreanna seo sa Bhruscar.</qt>"
 
 #: deletedialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "&Send to Trash"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Send to Trash"
-msgstr "&Cuir sa Bhruscar"
+msgstr ""
 
 #: deletedialog.cpp:100
-#, fuzzy, kde-format
-#| msgid "About to delete selected files"
+#, kde-format
 msgctxt "@title:window"
 msgid "Delete Selected Files"
-msgstr "Ar tí na comhaid roghnaithe a scriosadh"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -194,11 +172,10 @@ msgid "&Delete files instead of moving them to the trash"
 msgstr "&Scrios comhaid in ionad iad a chur sa bhruscar"
 
 #: directorylist.cpp:55
-#, fuzzy, kde-format
-#| msgid "Folder List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Folder List"
-msgstr "Liosta Fillteán"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, informationLabel)
 #: directorylistbase.ui:19
@@ -229,10 +206,9 @@ msgstr "Bain Fillteán"
 
 #. i18n: ectx: property (text), widget (QLabel, ExcludeInformationLabel)
 #: directorylistbase.ui:102
-#, fuzzy, kde-format
-#| msgid "Please choose the folders where you keep your music:"
+#, kde-format
 msgid "Please choose the folders that should be excluded from music search:"
-msgstr "Roghnaigh na fillteáin ina bhfuil do chuid ceoil:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, importPlaylistsCheckBox)
 #: directorylistbase.ui:183
@@ -340,12 +316,10 @@ msgid "Genre"
 msgstr "Seánra"
 
 #: filerenamer.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "warning about mass file rename"
-#| msgid "Warning"
+#, kde-format
 msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
-msgstr "Rabhadh"
+msgstr ""
 
 #: filerenamer.cpp:98
 #, kde-format
@@ -372,27 +346,22 @@ msgid "No Change"
 msgstr "Gan Athrú"
 
 #: filerenamer.cpp:409
-#, fuzzy, kde-format
-#| msgctxt "remove music genre from file renamer"
-#| msgid "Remove"
+#, kde-format
 msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
-msgstr "Bain"
+msgstr ""
 
 #: filerenamer.cpp:412
-#, fuzzy, kde-format
-#| msgctxt "file renamer genre options"
-#| msgid "Options"
+#, kde-format
 msgctxt "@action:button, file renamer genre options"
 msgid "Options"
-msgstr "Roghanna"
+msgstr ""
 
 #: filerenamer.cpp:524
-#, fuzzy, kde-format
-#| msgid "Insert folder separator"
+#, kde-format
 msgctxt "@option:check"
 msgid "Insert folder separator"
-msgstr "Ionsáigh deighilteoir fillteán"
+msgstr ""
 
 #: filerenamer.cpp:595
 #, kde-format
@@ -401,25 +370,22 @@ msgstr ""
 "Níor roghnaíodh aon chomhad, nó níl clibeanna ag an gcomhad roghnaithe."
 
 #: filerenamer.cpp:826
-#, fuzzy, kde-format
-#| msgid "Hide Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
-msgstr "Folaigh an Dialóg Tástála Athainmnithe"
+msgstr ""
 
 #: filerenamer.cpp:831
-#, fuzzy, kde-format
-#| msgid "Show Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
-msgstr "Taispeáin an Dialóg Tástála Athainmnithe"
+msgstr ""
 
 #: filerenamer.cpp:911
-#, fuzzy, kde-format
-#| msgid "%1 to %2"
+#, kde-format
 msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
-msgstr "%1 go %2"
+msgstr ""
 
 #: filerenamer.cpp:916
 #, kde-format
@@ -482,10 +448,9 @@ msgstr "Ionsáigh Catagóir"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: filerenamerbase.ui:135
-#, fuzzy, kde-format
-#| msgid "Add category:"
+#, kde-format
 msgid "&Add category:"
-msgstr "Cuir catagóir leis:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #: filerenamerbase.ui:145
@@ -500,55 +465,42 @@ msgid "Show Renamer Test Dialog"
 msgstr "Taispeáin an Dialóg Tástála Athainmnithe"
 
 #: filerenamerconfigdlg.cpp:29
-#, fuzzy, kde-format
-#| msgid "File Renamer Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer Options"
-msgstr "Roghanna Athainmnithe"
+msgstr ""
 
 #: filerenameroptions.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "%1 will be a music tag category like Artist or Album"
-#| msgid "%1 Options"
+#, kde-format
 msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
-msgstr "Roghanna: %1"
+msgstr ""
 
 #: filerenameroptions.cpp:39
-#, fuzzy, kde-format
-#| msgid "%1 Format"
+#, kde-format
 msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
-msgstr "Formáid %1"
+msgstr ""
 
 #: filerenameroptions.cpp:40
-#, fuzzy, kde-format
-#| msgid "When the Track's %1 is Empty"
+#, kde-format
 msgctxt "@title:group"
 msgid "When the Track’s %1 is Empty"
-msgstr "Nuair atá %1 an amhráin folamh"
+msgstr ""
 
 #: filerenameroptions.cpp:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "When using the file renamer your files will be renamed to the values that "
-#| "you have in your track's %1 tag, plus any additional text that you "
-#| "specify below."
+#, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
 "you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
-"Leis an athainmneoir comhad, beidh do chuid comhad athainmnithe go dtí an t-"
-"ainm atá i gclib %1 an amhráin, le taobh aon téacs breise a shonraíonn tú "
-"thíos."
 
 #: filerenameroptions.cpp:114
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer"
-msgstr "Athainmneoir Comhad"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_substitution)
 #: filerenameroptionsbase.ui:115
@@ -589,17 +541,11 @@ msgstr "Uimhriú na n-amhrán"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: filerenameroptionsbase.ui:196
-#, fuzzy, kde-format
-#| msgid ""
-#| "JuK can force the track used in a file name to have a minimum number of "
-#| "digits.  You may want to do this for better sorting in file managers."
+#, kde-format
 msgid ""
 "JuK can force the track used in a file name to have a minimum number of "
 "digits. You may want to do this for better sorting in file managers."
 msgstr ""
-"Más mian leat, cuirfidh JuK iallach ar líon íosta digití a bheith in ainm an "
-"chomhaid.  Leis an rogha seo gheobhaidh tú sórtáil níos fearr i "
-"mbainisteoirí comhad."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: filerenameroptionsbase.ui:228
@@ -637,203 +583,172 @@ msgid "Time"
 msgstr "Am"
 
 #: juk.cpp:239 systemtray.cpp:184
-#, fuzzy, kde-format
-#| msgid "&Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
-msgstr "Seinm &Randamach"
+msgstr ""
 
 #: juk.cpp:246
-#, fuzzy, kde-format
-#| msgid "&Disable Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
-msgstr "&Díchumasaigh Seinm Randamach"
+msgstr ""
 
 #: juk.cpp:252
-#, fuzzy, kde-format
-#| msgid "Use &Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
-msgstr "Úsáid Seinm &Randamach"
+msgstr ""
 
 #: juk.cpp:258
-#, fuzzy, kde-format
-#| msgid "Use &Album Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
-msgstr "Úsáid Seinm Randamach &Albaim"
+msgstr ""
 
 #: juk.cpp:266
-#, fuzzy, kde-format
-#| msgid "Remove From Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
-msgstr "Bain as an Seinmliosta"
+msgstr ""
 
 #: juk.cpp:270
-#, fuzzy, kde-format
-#| msgid "&Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
-msgstr "&Seinn"
+msgstr ""
 
 #: juk.cpp:275
-#, fuzzy, kde-format
-#| msgid "P&ause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
-msgstr "S&os"
+msgstr ""
 
 #: juk.cpp:280
-#, fuzzy, kde-format
-#| msgid "&Stop"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
-msgstr "&Stad"
+msgstr ""
 
 #: juk.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "previous track"
-#| msgid "Previous"
+#, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
-msgstr "Roimhe Seo"
+msgstr ""
 
 #: juk.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "next track"
-#| msgid "&Next"
+#, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
-msgstr "&Ar Aghaidh"
+msgstr ""
 
 #: juk.cpp:294
-#, fuzzy, kde-format
-#| msgid "&Loop Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
-msgstr "&Lúb an Seinmliosta"
+msgstr ""
 
 #: juk.cpp:298
-#, fuzzy, kde-format
-#| msgid "&Resize Playlist Columns Manually"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
-msgstr "Ath&raigh Méideanna na gColún De Láimh"
+msgstr ""
 
 #: juk.cpp:303
-#, fuzzy, kde-format
-#| msgctxt "silence playback"
-#| msgid "Mute"
+#, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
-msgstr "Gan fuaim"
+msgstr ""
 
 #: juk.cpp:307
-#, fuzzy, kde-format
-#| msgid "Volume Up"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
-msgstr "Níos Airde"
+msgstr ""
 
 #: juk.cpp:311
-#, fuzzy, kde-format
-#| msgid "Volume Down"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
-msgstr "Níos Ísle"
+msgstr ""
 
 #: juk.cpp:315
-#, fuzzy, kde-format
-#| msgid "Play / Pause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
-msgstr "Seinn / Sos"
+msgstr ""
 
 #: juk.cpp:319
-#, fuzzy, kde-format
-#| msgid "Seek Forward"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
-msgstr "Cuardaigh Ar Aghaidh"
+msgstr ""
 
 #: juk.cpp:323
-#, fuzzy, kde-format
-#| msgid "Seek Back"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
-msgstr "Cuardach Ar Ais"
+msgstr ""
 
 #: juk.cpp:327
-#, fuzzy, kde-format
-#| msgid "Show / Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
-msgstr "Taispeáin / Folaigh"
+msgstr ""
 
 #: juk.cpp:334
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
-msgstr "Cuir i n&duga i dtráidire an chórais"
+msgstr ""
 
 #: juk.cpp:338
-#, fuzzy, kde-format
-#| msgid "&Stay in System Tray on Close"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
-msgstr "&Coinnigh i dtráidire an chórais ag am dúnta"
+msgstr ""
 
 #: juk.cpp:341
-#, fuzzy, kde-format
-#| msgid "Popup &Track Announcement"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
-msgstr "&Taispeáin fógra an amhráin i bpreabfhuinneog"
+msgstr ""
 
 #: juk.cpp:344
-#, fuzzy, kde-format
-#| msgid "Save &Play Queue on Exit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
-msgstr "Sábháil an &ciú seinnte ag am scoir"
+msgstr ""
 
 #: juk.cpp:347
-#, fuzzy, kde-format
-#| msgid "&Tag Guesser..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
-msgstr "&Tuairimeoir Clibeanna..."
+msgstr ""
 
 #: juk.cpp:350
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
-msgstr "Athainmneoir Comhad"
+msgstr ""
 
 #: juk.cpp:353
-#, fuzzy, kde-format
-#| msgid "&Configure scrobbling..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
-msgstr "&Cumraigh scrobláil..."
+msgstr ""
 
 #: juk.cpp:360
-#, fuzzy, kde-format
-#| msgid "Track Position"
+#, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
-msgstr "Ionad an Amhráin"
+msgstr ""
 
 #: juk.cpp:362
-#, fuzzy, kde-format
-#| msgid "Volume"
+#, kde-format
 msgctxt "@action:button"
 msgid "Volume"
-msgstr "Imleabhar"
+msgstr ""
 
 #: juk.cpp:512
 #, kde-format
@@ -845,19 +760,16 @@ msgstr ""
 "Roghnaigh \"Scoir\" ón roghchlár Comhad chun an feidhmchlár a scor.</qt>"
 
 #: juk.cpp:514
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"
-msgstr "Cuir i n&duga i dtráidire an chórais"
+msgstr ""
 
 #: juktag.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "a playing track, %1 is artist, %2 is song title"
-#| msgid "%1 - <i>%2</i>"
+#, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
 msgid "%1 — <i>%2</i>"
-msgstr "%1 - <i>%2</i>"
+msgstr ""
 
 #. i18n: ectx: Menu (file)
 #: jukui-rtl.rc:4 jukui.rc:6
@@ -902,51 +814,41 @@ msgid "Play Toolbar"
 msgstr "Barra Uirlisí Seinnte"
 
 #: keydialog.cpp:102
-#, fuzzy, kde-format
-#| msgid "Configure Shortcuts"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Shortcuts"
-msgstr "Cumraigh Aicearraí"
+msgstr ""
 
 #: keydialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Global Shortcuts"
+#, kde-format
 msgctxt "@title:group"
 msgid "Global Shortcuts"
-msgstr "Aicearraí Comhchoiteanna"
+msgstr ""
 
 #: keydialog.cpp:124
-#, fuzzy, kde-format
-#| msgid "&No keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&No keys"
-msgstr "Ga&n eochracha"
+msgstr ""
 
 #: keydialog.cpp:128
-#, fuzzy, kde-format
-#| msgid "&Standard keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Standard keys"
-msgstr "Eochracha &caighdeánacha"
+msgstr ""
 
 #: keydialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "&Multimedia keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Multimedia keys"
-msgstr "Eochracha il&mheán"
+msgstr ""
 
 #: keydialog.cpp:138
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can select the keys used as global shortcuts to control the "
-#| "player"
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
 msgstr ""
-"Anseo is féidir aicearraí comhchoiteanna a roghnú lenar féidir an seinnteoir "
-"a rialú"
 
 #: lyricswidget.cpp:51
 #, kde-format
@@ -975,10 +877,9 @@ msgid "<span style='color:red'>Error while retrieving lyrics!</span>"
 msgstr ""
 
 #: lyricswidget.cpp:174
-#, fuzzy, kde-format
-#| msgid "Cover Unavailable"
+#, kde-format
 msgid "No lyrics available."
-msgstr "Níl an Clúdach ar Fáil"
+msgstr ""
 
 #: lyricswidget.cpp:183
 #, kde-format
@@ -986,17 +887,15 @@ msgid "<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>"
 msgstr ""
 
 #: main.cpp:39
-#, fuzzy, kde-format
-#| msgid "Jukebox and music manager by KDE"
+#, kde-format
 msgid "Jukebox and music manager by the KDE community"
-msgstr "Júcbhosca agus bainisteoir ceoil le haghaidh KDE"
+msgstr ""
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "© 2002–2013, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgctxt "Use copyright sign, and en dash for the year range"
 msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
-msgstr "© 2002–2013, Scott Wheeler, Michael Pyne, agus daoine eile"
+msgstr ""
 
 #: main.cpp:44
 #, kde-format
@@ -1014,10 +913,9 @@ msgid "Michael Pyne"
 msgstr "Michael Pyne"
 
 #: main.cpp:45
-#, fuzzy, kde-format
-#| msgid "Assistant super-hero, fixer of many things"
+#, kde-format
 msgid "Assistant superhero, fixer of many things"
-msgstr "Leas-sárlaoch, ilcheardaí"
+msgstr ""
 
 #: main.cpp:46
 #, kde-format
@@ -1025,10 +923,9 @@ msgid "Carl Schwan"
 msgstr ""
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Rinne an leagan KDE 4 nuair nach raibh aon duine eile ar fáil"
+msgstr ""
 
 #: main.cpp:47
 #, kde-format
@@ -1036,10 +933,9 @@ msgid "Kacper Kasper"
 msgstr ""
 
 #: main.cpp:47
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 5 when no one else was around"
-msgstr "Rinne an leagan KDE 4 nuair nach raibh aon duine eile ar fáil"
+msgstr ""
 
 #: main.cpp:48
 #, kde-format
@@ -1057,11 +953,9 @@ msgid "Martin Sandsmark"
 msgstr "Martin Sandsmark"
 
 #: main.cpp:49
-#, fuzzy, kde-format
-#| msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks."
+#, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
 msgstr ""
-"Tacaíocht do scrobláil Last.fm, liricí, réiteach i gcomhair Creatlach KDE."
 
 #: main.cpp:50
 #, kde-format
@@ -1089,10 +983,9 @@ msgid "Laurent Montel"
 msgstr "Laurent Montel"
 
 #: main.cpp:52
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Platform 4 when no one else was around"
-msgstr "Rinne an leagan KDE 4 nuair nach raibh aon duine eile ar fáil"
+msgstr ""
 
 #: main.cpp:53
 #, kde-format
@@ -1246,26 +1139,22 @@ msgid "JuK Docked"
 msgstr ""
 
 #: mediafiles.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "open audio file"
-#| msgid "Open"
+#, kde-format
 msgctxt "@title:window, open audio file"
 msgid "Open"
-msgstr "Oscail"
+msgstr ""
 
 #: mediafiles.cpp:146
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Playlist %1"
-msgstr "Cuardaigh an Seinmliosta"
+msgstr ""
 
 #: mediafiles.cpp:148
-#, fuzzy, kde-format
-#| msgid "Playlists"
+#, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
-msgstr "Seinmliostaí"
+msgstr ""
 
 #: nowplaying.cpp:320
 #, kde-format
@@ -1279,13 +1168,7 @@ msgid "%1 - %2 :: JuK"
 msgstr "%1 - %2 :: JuK"
 
 #: playermanager.cpp:363
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "%1 will be the /path/to/file, %2 will be some string from Phonon "
-#| "describing the error"
-#| msgid ""
-#| "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for "
-#| "the following reason:<nl/><message>%2</message>"
+#, kde-format
 msgctxt ""
 "%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
 "describing the error"
@@ -1293,8 +1176,6 @@ msgid ""
 "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
 "following reason:<nl/><message>%2</message>"
 msgstr ""
-"Ní féidir le JuK comhad fuaime<nl/><filename>%1</filename><nl/>a sheinm de "
-"bhrí:<nl/><message>%2</message>"
 
 #: playlist.cpp:338
 #, kde-format
@@ -1302,28 +1183,12 @@ msgid "Could not save to file %1."
 msgstr "Níorbh fhéidir sábháil i gcomhad %1."
 
 #: playlist.cpp:575
-#, fuzzy, kde-format
-#| msgid ""
-#| "You are about to rename the following files. Are you sure you want to "
-#| "continue?"
+#, kde-format
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
 msgstr[0] ""
-"Tá tú ar tí na comhaid seo a leanas a athainmniú.  An bhfuil tú cinnte gur "
-"mian leat leanúint ar aghaidh?"
 msgstr[1] ""
-"Tá tú ar tí na comhaid seo a leanas a athainmniú.  An bhfuil tú cinnte gur "
-"mian leat leanúint ar aghaidh?"
-msgstr[2] ""
-"Tá tú ar tí na comhaid seo a leanas a athainmniú.  An bhfuil tú cinnte gur "
-"mian leat leanúint ar aghaidh?"
-msgstr[3] ""
-"Tá tú ar tí na comhaid seo a leanas a athainmniú.  An bhfuil tú cinnte gur "
-"mian leat leanúint ar aghaidh?"
-msgstr[4] ""
-"Tá tú ar tí na comhaid seo a leanas a athainmniú.  An bhfuil tú cinnte gur "
-"mian leat leanúint ar aghaidh?"
 
 #: playlist.cpp:578
 #, kde-format
@@ -1342,117 +1207,100 @@ msgid "Could not move these files to the Trash"
 msgstr "Níorbh fhéidir na comhaid seo a chur sa bhruscar"
 
 #: playlist.cpp:1280
-#, fuzzy, kde-format
-#| msgid "Track Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "Track Name"
-msgstr "Ainm an Amhráin"
+msgstr ""
 
 #: playlist.cpp:1281
-#, fuzzy, kde-format
-#| msgid "Artist"
+#, kde-format
 msgctxt "@title:column"
 msgid "Artist"
-msgstr "Ealaíontóir"
+msgstr ""
 
 #: playlist.cpp:1282
-#, fuzzy, kde-format
-#| msgid "Album"
+#, kde-format
 msgctxt "@title:column"
 msgid "Album"
-msgstr "Albam"
+msgstr ""
 
 #: playlist.cpp:1283
-#, fuzzy, kde-format
-#| msgctxt "cd track number"
-#| msgid "Track"
+#, kde-format
 msgctxt "@title:column, CD track number"
 msgid "Track"
-msgstr "Amhrán"
+msgstr ""
 
 #: playlist.cpp:1284
-#, fuzzy, kde-format
-#| msgid "Genre"
+#, kde-format
 msgctxt "@title:column"
 msgid "Genre"
-msgstr "Seánra"
+msgstr ""
 
 #: playlist.cpp:1285
-#, fuzzy, kde-format
-#| msgid "Year"
+#, kde-format
 msgctxt "@title:column"
 msgid "Year"
-msgstr "Bliain"
+msgstr ""
 
 #: playlist.cpp:1286
-#, fuzzy, kde-format
-#| msgid "Length"
+#, kde-format
 msgctxt "@title:column"
 msgid "Length"
-msgstr "Fad"
+msgstr ""
 
 #: playlist.cpp:1287
-#, fuzzy, kde-format
-#| msgid "Bitrate"
+#, kde-format
 msgctxt "@title:column"
 msgid "Bitrate"
-msgstr "Ráta giotán"
+msgstr ""
 
 #: playlist.cpp:1288
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgctxt "@title:column"
 msgid "Comment"
-msgstr "Nóta"
+msgstr ""
 
 #: playlist.cpp:1289
-#, fuzzy, kde-format
-#| msgid "File Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name"
-msgstr "Ainm Comhaid"
+msgstr ""
 
 #: playlist.cpp:1290
-#, fuzzy, kde-format
-#| msgid "File Name (full path)"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name (Full Path)"
-msgstr "Ainm Comhaid (conair iomlán)"
+msgstr ""
 
 #: playlist.cpp:1471
-#, fuzzy, kde-format
-#| msgid "&Show Columns"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Show Columns"
-msgstr "&Taispeáin Colúin"
+msgstr ""
 
 #: playlist.cpp:1579
-#, fuzzy, kde-format
-#| msgid "Add to Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
-msgstr "Cuir leis an gCiú Seinnte"
+msgstr ""
 
 #: playlist.cpp:1593
-#, fuzzy, kde-format
-#| msgid "Edit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit"
-msgstr "Eagar"
+msgstr ""
 
 #: playlist.cpp:1607
-#, fuzzy, kde-format
-#| msgid "Create Playlist From Selected Items..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create Playlist From Selected Items…"
-msgstr "Cruthaigh seinmliosta ó na míreanna roghnaithe..."
+msgstr ""
 
 #: playlist.cpp:1973
-#, fuzzy, kde-format
-#| msgid "Edit '%1'"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit “%1”"
-msgstr "Cuir '%1' in Eagar"
+msgstr ""
 
 #: playlist.cpp:2050
 #, kde-format
@@ -1465,52 +1313,41 @@ msgid "Edit"
 msgstr "Eagar"
 
 #: playlist.cpp:2109
-#, fuzzy, kde-format
-#| msgid "Create New Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create New Playlist"
-msgstr "Cruthaigh Seinmliosta Nua"
+msgstr ""
 
 #: playlist.cpp:2118
-#, fuzzy, kde-format
-#| msgid ""
-#| "Manual column widths have been enabled.  You can switch back to automatic "
-#| "column sizes in the view menu."
+#, kde-format
 msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr ""
-"Is féidir leithead na gcolún a athrú de láimh anois.  Is féidir leat dul ar "
-"ais go leithid uathoibríocha sa roghchlár amhairc."
 
 #: playlist.cpp:2121
-#, fuzzy, kde-format
-#| msgid "Manual Column Widths Enabled"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
-msgstr "Is féidir leithead na gcolún a athrú de láimh"
+msgstr ""
 
 #: playlistbox.cpp:108
-#, fuzzy, kde-format
-#| msgid "View Modes"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "View Modes"
-msgstr "Móid Amhairc"
+msgstr ""
 
 #: playlistbox.cpp:168
-#, fuzzy, kde-format
-#| msgid "Show &History"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &History"
-msgstr "Taispeáin S&tair"
+msgstr ""
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
-msgstr "Cóipeáil"
+msgstr ""
 
 #: playlistbox.cpp:424
 #, kde-format
@@ -1518,11 +1355,10 @@ msgid "Do you want to delete these files from the disk as well?"
 msgstr "An bhfuil fonn ort na comhaid seo a scriosadh ón diosca freisin?"
 
 #: playlistbox.cpp:425
-#, fuzzy, kde-format
-#| msgid "Keep"
+#, kde-format
 msgctxt "@action:button"
 msgid "Keep"
-msgstr "Coinnigh"
+msgstr ""
 
 #: playlistbox.cpp:437
 #, kde-format
@@ -1537,32 +1373,28 @@ msgstr ""
 "bhailiúchán?"
 
 #: playlistbox.cpp:448
-#, fuzzy, kde-format
-#| msgid "Remove Items?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Remove Items?"
-msgstr "Bain na Míreanna?"
+msgstr ""
 
 #: playlistbox.cpp:449
-#, fuzzy, kde-format
-#| msgid "&Remove"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Remove"
-msgstr "&Bain"
+msgstr ""
 
 #: playlistbox.cpp:653
-#, fuzzy, kde-format
-#| msgid "Hid&e"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hid&e"
-msgstr "&Folaigh"
+msgstr ""
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
-#, fuzzy, kde-format
-#| msgid "R&emove"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "R&emove"
-msgstr "&Bain"
+msgstr ""
 
 #: playlistcollection.cpp:207
 #, kde-format
@@ -1583,40 +1415,34 @@ msgstr ""
 "liosta bailiúcháin?"
 
 #: playlistcollection.cpp:349
-#, fuzzy, kde-format
-#| msgctxt "current playlist"
-#| msgid "Current"
+#, kde-format
 msgctxt "@action:button, current playlist"
 msgid "Current"
-msgstr "Reatha"
+msgstr ""
 
 #: playlistcollection.cpp:350
-#, fuzzy, kde-format
-#| msgid "Collection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Collection"
-msgstr "Bailiúchán"
+msgstr ""
 
 #: playlistcollection.cpp:412
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Athainmnigh"
+msgstr ""
 
 #: playlistcollection.cpp:515
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Search Playlist"
-msgstr "Cruthaigh Seinmliosta Cuardaigh"
+msgstr ""
 
 #: playlistcollection.cpp:540
-#, fuzzy, kde-format
-#| msgid "Create Folder Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Folder Playlist"
-msgstr "Cruthaigh Seinmliosta Fillteáin"
+msgstr ""
 
 #: playlistcollection.cpp:580
 #, kde-format
@@ -1629,125 +1455,106 @@ msgid "Please enter a name for this playlist:"
 msgstr "Iontráil ainm ar an seinmliosta seo:"
 
 #: playlistcollection.cpp:890
-#, fuzzy, kde-format
-#| msgctxt "new playlist"
-#| msgid "&New"
+#, kde-format
 msgctxt "@action:inmenu, new playlist"
 msgid "&New"
-msgstr "&Nua"
+msgstr ""
 
 #: playlistcollection.cpp:893
-#, fuzzy, kde-format
-#| msgid "&Empty Playlist..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Empty Playlist…"
-msgstr "Seinmliosta &Folamh..."
+msgstr ""
 
 #: playlistcollection.cpp:897
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Search Playlist…"
-msgstr "Cuardaigh an Seinmliosta"
+msgstr ""
 
 #: playlistcollection.cpp:901
-#, fuzzy, kde-format
-#| msgid "Playlist From &Folder..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Playlist From &Folder…"
-msgstr "Seinmliosta Ó &Fhillteán..."
+msgstr ""
 
 #: playlistcollection.cpp:909
-#, fuzzy, kde-format
-#| msgid "&Guess Tag Information"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
-msgstr "&Tuairim maidir le Clibeanna"
+msgstr ""
 
 #: playlistcollection.cpp:914
-#, fuzzy, kde-format
-#| msgid "From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &File Name"
-msgstr "Ó Ainm an &Chomhaid"
+msgstr ""
 
 #: playlistcollection.cpp:918
-#, fuzzy, kde-format
-#| msgid "From &Internet"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &Internet"
-msgstr "Ón &Idirlíon"
+msgstr ""
 
 #: playlistcollection.cpp:923
-#, fuzzy, kde-format
-#| msgid "Guess Tag Information From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
-msgstr "Faigh Clibeanna ó Ainm an &Chomhaid"
+msgstr ""
 
 #: playlistcollection.cpp:930
-#, fuzzy, kde-format
-#| msgid "Play First Track"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play First Track"
-msgstr "Seinn an Chéad Amhrán"
+msgstr ""
 
 #: playlistcollection.cpp:932
-#, fuzzy, kde-format
-#| msgid "Play Next Album"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play Next Album"
-msgstr "Seinn an Chéad Albam Eile"
+msgstr ""
 
 #: playlistcollection.cpp:939
-#, fuzzy, kde-format
-#| msgid "Manage &Folders..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Manage &Folders…"
-msgstr "Bainistigh &Fillteáin..."
+msgstr ""
 
 #: playlistcollection.cpp:941
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename…"
-msgstr "Athainmnigh"
+msgstr ""
 
 #: playlistcollection.cpp:943
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:inmenu, verb, copy the playlist"
 msgid "D&uplicate…"
-msgstr "Cóipeáil"
+msgstr ""
 
 #: playlistcollection.cpp:948
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Reload"
-msgstr "Athluchtaigh"
+msgstr ""
 
 #: playlistcollection.cpp:950
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Search…"
-msgstr "Cuir Cuardach in Eagar..."
+msgstr ""
 
 #: playlistcollection.cpp:953
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Delete"
-msgstr "&Scrios"
+msgstr ""
 
 #: playlistcollection.cpp:955
-#, fuzzy, kde-format
-#| msgid "Refresh"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Refresh"
-msgstr "Athnuaigh"
+msgstr ""
 
 #: playlistcollection.cpp:957
 #, kde-format
@@ -1756,18 +1563,16 @@ msgid "Open Containing Folder"
 msgstr ""
 
 #: playlistcollection.cpp:959
-#, fuzzy, kde-format
-#| msgid "&Rename File"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename File"
-msgstr "&Athainmnigh Comhad"
+msgstr ""
 
 #: playlistcollection.cpp:964
-#, fuzzy, kde-format
-#| msgid "Show &Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
-msgstr "Taispeáin an &Ciú Seinnte"
+msgstr ""
 
 #: playlistcollection.h:183
 #, kde-format
@@ -1780,41 +1585,34 @@ msgid "Playlist"
 msgstr "Seinmliosta"
 
 #: playlistsplitter.cpp:158
-#, fuzzy, kde-format
-#| msgid "Show &Search Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
-msgstr "Taisp&eáin an Barra Cuardaigh"
+msgstr ""
 
 #: playlistsplitter.cpp:161
-#, fuzzy, kde-format
-#| msgid "Edit Track Search"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Track Search"
-msgstr "Cuir Cuardach Amhráin in Eagar"
+msgstr ""
 
 #: scrobbleconfigdlg.cpp:38
-#, fuzzy, kde-format
-#| msgid "Configure scrobbling..."
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Scrobbling"
-msgstr "Cumraigh scrobláil..."
+msgstr ""
 
 #: scrobbleconfigdlg.cpp:42
-#, fuzzy, kde-format
-#| msgid "Test login..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Test Login…"
-msgstr "Logáil isteach (tástáil)..."
+msgstr ""
 
 #: scrobbleconfigdlg.cpp:49
-#, fuzzy, kde-format
-#| msgid ""
-#| "Please enter your <a href=\"http://last.fm/\">last.fm</a> login "
-#| "credentials:"
+#, kde-format
 msgid ""
 "Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
-msgstr "Cuir do dhintiúir <a href=\"http://last.fm/\">last.fm</a> isteach:"
+msgstr ""
 
 #: scrobbleconfigdlg.cpp:53
 #, kde-format
@@ -1834,17 +1632,15 @@ msgid ""
 msgstr ""
 
 #: scrobbleconfigdlg.cpp:85
-#, fuzzy, kde-format
-#| msgid "Cover Unavailable"
+#, kde-format
 msgctxt "@title:window"
 msgid "KWallet Unavailable"
-msgstr "Níl an Clúdach ar Fáil"
+msgstr ""
 
 #: scrobbleconfigdlg.cpp:128
-#, fuzzy, kde-format
-#| msgid "Validating login..."
+#, kde-format
 msgid "Validating login…"
-msgstr "Logáil isteach á bailíochtú..."
+msgstr ""
 
 #: scrobbleconfigdlg.cpp:138
 #, kde-format
@@ -1857,38 +1653,33 @@ msgid "Login valid."
 msgstr "Logáil isteach bailí."
 
 #: searchwidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "Normal Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Normal matching"
-msgstr "Gnáth-Chomhoiriúnú"
+msgstr ""
 
 #: searchwidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Case Sensitive"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Case sensitive"
-msgstr "Cásíogair"
+msgstr ""
 
 #: searchwidget.cpp:75
-#, fuzzy, kde-format
-#| msgid "Pattern Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Pattern matching"
-msgstr "Comhoiriúnú Patrún"
+msgstr ""
 
 #: searchwidget.cpp:169
-#, fuzzy, kde-format
-#| msgid "All Visible"
+#, kde-format
 msgctxt "@title:column"
 msgid "All Visible"
-msgstr "Gach Ceann Infheicthe"
+msgstr ""
 
 #: searchwidget.cpp:200
-#, fuzzy, kde-format
-#| msgid "Search:"
+#, kde-format
 msgid "Search…"
-msgstr "Cuardaigh:"
+msgstr ""
 
 #: slider.cpp:127
 #, kde-format
@@ -1931,11 +1722,10 @@ msgid "Seeking is not supported in this file with your audio settings."
 msgstr "Ní thacaítear le cuardach sa chomhad seo le do shocruithe fuaime."
 
 #: statuslabel.cpp:85
-#, fuzzy, kde-format
-#| msgid "Jump to the currently playing item"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
-msgstr "Léim go dtí an mhír á seinm faoi láthair"
+msgstr ""
 
 #: statuslabel.cpp:115
 #, kde-format
@@ -1948,11 +1738,10 @@ msgstr[3] "%1 mír"
 msgstr[4] "%1 mír"
 
 #: systemtray.cpp:161
-#, fuzzy, kde-format
-#| msgid "Redisplay Popup"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
-msgstr "Ataispeáin Preabfhuinneog"
+msgstr ""
 
 #: tageditor.cpp:468
 #, kde-format
@@ -1970,11 +1759,10 @@ msgid "Do you want to save your changes to:\n"
 msgstr "An bhfuil fonn ort do chuid athruithe a shábháil i:\n"
 
 #: tageditor.cpp:590
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Changes"
-msgstr "Sábháil Athruithe"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, fileNameLabel)
 #: tageditor.ui:19
@@ -2050,11 +1838,10 @@ msgid "Enable"
 msgstr "Cumasaigh"
 
 #: tagguesserconfigdlg.cpp:39
-#, fuzzy, kde-format
-#| msgid "Tag Guesser Configuration"
+#, kde-format
 msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
-msgstr "Cumraíocht an Tuairimeora Clibeanna"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:18
@@ -2231,18 +2018,16 @@ msgstr ""
 "An bhfuil fonn ort é a fhorscríobh?"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "File Exists"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
-msgstr "Tá an comhad ann"
+msgstr ""
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "Replace"
+#, kde-format
 msgctxt "@action:button"
 msgid "Replace"
-msgstr "Ionadaigh"
+msgstr ""
 
 #: tagtransactionmanager.cpp:176
 #, kde-format
@@ -2250,11 +2035,10 @@ msgid "The following files were unable to be changed."
 msgstr "Níorbh fhéidir na comhaid seo a leanas a athrú."
 
 #: tagtransactionmanager.cpp:178
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgctxt "@title:window"
 msgid "Error"
-msgstr "Earráid"
+msgstr ""
 
 #: treeviewitemplaylist.cpp:48
 #, kde-format
@@ -2277,11 +2061,10 @@ msgid "You are about to change the %1 on these files."
 msgstr "Tá tú ar tí an %1 a athrú ar na comhaid seo."
 
 #: treeviewitemplaylist.cpp:58
-#, fuzzy, kde-format
-#| msgid "Changing Track Tags"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change Track Tags"
-msgstr "Clibeanna an Amhráin á nAthrú"
+msgstr ""
 
 #: upcomingplaylist.cpp:31
 #, kde-format
@@ -2321,324 +2104,24 @@ msgid "Genres"
 msgstr "Seánraí"
 
 #: volumepopupbutton.cpp:76
-#, fuzzy, kde-format
-#| msgid "Mute/Unmute"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
-msgstr "Fuaim/Gan Fuaim"
+msgstr ""
 
 #: volumepopupbutton.cpp:114
-#, fuzzy, kde-format
-#| msgid "%1"
+#, kde-format
 msgid "%1%"
-msgstr "%1"
+msgstr ""
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
-#, fuzzy, kde-format
-#| msgid "Volume: %1% %2"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
-msgstr "Airde: %1% %2"
+msgstr ""
 
 #: volumepopupbutton.cpp:123
-#, fuzzy, kde-format
-#| msgid "Volume: %1% %2"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
-msgstr "Airde: %1% %2"
-
-#~ msgid "&File Renamer..."
-#~ msgstr "Athainmneoir &Comhad..."
-
-#~ msgid "Docking in System Tray"
-#~ msgstr "Á Chur i dTráidire an Chórais"
-
-#~ msgid "&Search Playlist..."
-#~ msgstr "&Cuardaigh an Seinmliosta..."
-
-#~ msgid "&Rename..."
-#~ msgstr "&Athainmnigh..."
-
-#~ msgctxt "verb, copy the playlist"
-#~ msgid "D&uplicate..."
-#~ msgstr "Cói&peáil..."
-
-#, fuzzy
-#~| msgid "Edit Search..."
-#~ msgid "Search..."
-#~ msgstr "Cuir Cuardach in Eagar..."
-
-#, fuzzy
-#~| msgid "Artists"
-#~ msgid "<All Artists>"
-#~ msgstr "Ealaíontóirí"
-
-#~ msgid "Remove Cover"
-#~ msgstr "Bain Clúdach"
-
-#~ msgid "Cover Manager"
-#~ msgstr "Bainisteoir na gClúdach"
-
-#~ msgid "Your album art failed to download."
-#~ msgstr "Theip ar ealaín an chlúdaigh a íosluchtú."
-
-#~ msgid "Your album art has finished downloading."
-#~ msgstr "Íosluchtú ealaín an chlúdaigh críochnaithe."
-
-#~ msgid "Are you sure you want to delete these covers?"
-#~ msgstr "An bhfuil tú cinnte gur mian leat na clúdaigh seo a scriosadh?"
-
-#~ msgid "&Delete Covers"
-#~ msgstr "&Scrios na Clúdaigh"
-
-#~ msgid "Select Cover Image File"
-#~ msgstr "Roghnaigh Comhad le hÍomhá an Chlúdaigh"
-
-#~ msgid "Cover"
-#~ msgstr "Clúdach"
-
-#~ msgid "&View Cover"
-#~ msgstr "&Amharc ar Chlúdach"
-
-#~ msgid "Get Cover From &File..."
-#~ msgstr "Faigh Clúdach Ó &Chomhad..."
-
-#~ msgid "Get Cover From &Internet..."
-#~ msgstr "Faigh Clúdach Ón &Idirlíon..."
-
-#~ msgid "&Delete Cover"
-#~ msgstr "&Scrios Clúdach"
-
-#~ msgid "Show Cover &Manager"
-#~ msgstr "Taispeáin &Bainisteoir na gClúdach"
-
-#~ msgid "Searching for cover. Please Wait..."
-#~ msgstr "Clúdach á lorg. Fan go Fóill..."
-
-#~ msgid "Downloading cover. Please Wait..."
-#~ msgstr "Clúdach á íosluchtú. Fan go Fóill..."
-
-#, fuzzy
-#~| msgid "Cover Downloader"
-#~ msgid "Cover found"
-#~ msgstr "Íosluchtóir Clúdach"
-
-#, fuzzy
-#~| msgid "Cover fetched from <a href='http://last.fm/'>last.fm</a>."
-#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-#~ msgstr "Fuarthas an clúdach ó <a href='http://last.fm/'>last.fm</a>."
-
-#~ msgid "&lt;All Artists&gt;"
-#~ msgstr "&lt;Gach Ealaíontóir&gt;"
-
-#, fuzzy
-#~| msgid "Porting to KDE 4 when no one else was around"
-#~ msgid "Porting to KF5 when no one else was around"
-#~ msgstr "Rinne an leagan KDE 4 nuair nach raibh aon duine eile ar fáil"
-
-#~ msgid "Querying MusicBrainz server..."
-#~ msgstr "Freastalaí MusicBrainz á chuardach..."
-
-#~ msgid "No matches found."
-#~ msgstr "Níor aimsíodh aon rud."
-
-#~ msgid "Error connecting to MusicBrainz server."
-#~ msgstr "Earráid ag ceangal leis an bhfreastalaí MusicBrainz."
-
-#~ msgid "Internet Tag Guesser"
-#~ msgstr "Tuairimeoir Clibeanna Idirlín"
-
-#~ msgid "Select Best Possible Match"
-#~ msgstr "Roghnaigh an Ceann Is Comhoiriúnaí"
-
-#~ msgid "1 day"
-#~ msgid_plural "%1 days"
-#~ msgstr[0] "Lá amháin"
-#~ msgstr[1] "%1 lá"
-#~ msgstr[2] "%1 lá"
-#~ msgstr[3] "%1 lá"
-#~ msgstr[4] "%1 lá"
-
-#~ msgid "Music"
-#~ msgstr "Ceol"
-
-#~ msgid "Crossfade Between Tracks"
-#~ msgstr "Traschéimnigh Idir Amhráin"
-
-#~ msgid "Show Splash Screen on Startup"
-#~ msgstr "Taispeáin splancscáileán ag am tosaithe"
-
-#~ msgid "Add Selected Items to Audio or Data CD"
-#~ msgstr "Cuir na Míreanna Roghnaithe le Dlúthdhiosca Fuaime nó Sonraí"
-
-#~ msgid "Unable to start K3b."
-#~ msgstr "Ní féidir K3b a thosú."
-
-#~ msgid ""
-#~ "Create an audio mode CD suitable for CD players, or a data mode CD "
-#~ "suitable for computers and other digital music players?"
-#~ msgstr ""
-#~ "Cruthaigh dlúthdhiosca fuaime oiriúnach do sheinnteoir dlúthdhiosca, nó "
-#~ "dlúthdhiosca sonraí oiriúnach do ríomhaire nó seinnteoir ceoil dhigitigh "
-#~ "eile?"
-
-#~ msgid "Create K3b Project"
-#~ msgstr "Cruthaigh Tionscadal K3b"
-
-#~ msgid "Audio Mode"
-#~ msgstr "Mód Fuaime"
-
-#~ msgid "Data Mode"
-#~ msgstr "Mód Sonraí"
-
-#~ msgid "Add Playlist to Audio or Data CD"
-#~ msgstr "Cuir Seinmliosta le Dlúthdhiosca Fuaime nó Sonraí"
-
-#, fuzzy
-#~| msgid "Loading"
-#~ msgctxt "%1 is a count of loaded music tracks"
-#~ msgid "Loading: %1"
-#~ msgstr "Á Luchtú"
-
-#~ msgid "Store"
-#~ msgstr "Stóráil"
-
-#~ msgid "(muted)"
-#~ msgstr "(gan fuaim)"
-
-#~ msgid "No matching images found, please enter new search terms:"
-#~ msgstr ""
-#~ "Níor aimsíodh aon íomhá chomhoiriúnach, iontráil téarmaí nua le lorg:"
-
-#~ msgid "Enter new search terms:"
-#~ msgstr "Iontráil téarmaí nua cuardaigh:"
-
-#~ msgid "New Search"
-#~ msgstr "Cuardach Nua"
-
-#~ msgid "There was a DCOP communication error with K3b."
-#~ msgstr "Tharla earráid chumarsáide DCOP le K3b."
-
-#~ msgctxt "%1 is Cover Art, %2 is the playing track, %3 is the appname"
-#~ msgid ""
-#~ "<table style=\"font-size:14pt;\" cellspacing=\"2em\"><tr><td rowspan="
-#~ "\"2\">%1</td><td align=\"center\" valign=\"middle\">%2</td></tr><tr><td "
-#~ "align=\"center\" valign=\"middle\"><em>%3</em></td></tr></table>"
-#~ msgstr ""
-#~ "<table style=\"font-size:14pt;\" cellspacing=\"2em\"><tr><td rowspan="
-#~ "\"2\">%1</td><td align=\"center\" valign=\"middle\">%2</td></tr><tr><td "
-#~ "align=\"center\" valign=\"middle\"><em>%3</em></td></tr></table>"
-
-#~ msgid "List of files that are about to be deleted."
-#~ msgstr "Liosta na gcomhad atá tú ar tí a scriosadh."
-
-#~ msgid "This is the list of items that are about to be deleted."
-#~ msgstr "Seo é an liosta míreanna atá tú ar tí a scriosadh."
-
-#~ msgid "Folders"
-#~ msgstr "Fillteáin"
-
-#~ msgid "File Name Scheme"
-#~ msgstr "Scéim Ainmnithe Comhad"
-
-#~ msgid "GroupBox"
-#~ msgstr "BoscaGrúpa"
-
-#~ msgid "Minimum track &width:"
-#~ msgstr "Íos&leithead amhráin:"
-
-#~ msgid "Icon Placeholder, not in GUI"
-#~ msgstr "Ionadchoinneálaí Deilbhín, nach bhfuil sa chomhéadan"
-
-#~ msgid "Deletion method placeholder, never shown to user."
-#~ msgstr "Ionadchoinneálaí modh scriosta, nach dtaispeántar don úsáideoir."
-
-#~ msgid "Placeholder for number of files, not in GUI"
-#~ msgstr "Ionadchoinneálaí de líon na gcomhad, nach bhfuil sa chomhéadan"
-
-#~ msgid "&Resize Column Headers Automatically"
-#~ msgstr "Ath&raigh Méideanna na gColún go hUathoibríoch"
-
-#~ msgid "Hide Splash Screen on Startup"
-#~ msgstr "Folaigh splancscáileán ag am tosaithe"
-
-#~ msgid "Hide &History"
-#~ msgstr "Folaig&h Stair"
-
-#~ msgid "Hide &Play Queue"
-#~ msgstr "Folaigh an &Ciú Seinnte"
-
-#~ msgid "Hide &Search Bar"
-#~ msgstr "Folai&gh an Barra Cuardaigh"
-
-#~ msgid "Hide &Tag Editor"
-#~ msgstr "Folaigh an tEagarthóir &Clibeanna"
-
-#~ msgid "The cover you have selected is unavailable. Please select another."
-#~ msgstr "Níl aon fháil ar an gclúdach roghnaithe. Roghnaigh ceann eile."
-
-#~ msgid "Open..."
-#~ msgstr "Oscail..."
-
-#~ msgid "Save"
-#~ msgstr "Sábháil"
-
-#~ msgid "Save As..."
-#~ msgstr "Sábháil Mar..."
-
-#~ msgid "Image size:"
-#~ msgstr "Méid na híomhá:"
-
-#~ msgid "All Sizes"
-#~ msgstr "Gach Méid"
-
-#~ msgid "Very Small"
-#~ msgstr "An-Bheag"
-
-#~ msgid "Small"
-#~ msgstr "Beag"
-
-#~ msgid "Medium"
-#~ msgstr "Measartha"
-
-#~ msgid "Large"
-#~ msgstr "Mór"
-
-#~ msgid "Very Large"
-#~ msgstr "An-Mhór"
-
-#~ msgid "Play"
-#~ msgstr "Seinn"
-
-#~ msgid "Forward"
-#~ msgstr "Ar Aghaidh"
-
-#~ msgid "&Output To"
-#~ msgstr "&Aschur Go"
-
-#~ msgid "aRts"
-#~ msgstr "aRts"
-
-#~ msgid "GStreamer"
-#~ msgstr "GStreamer"
-
-#~ msgid "aKode"
-#~ msgstr "aKode"
-
-#~ msgid "Show"
-#~ msgstr "Taispeáin"
-
-#~ msgid "Clear Search"
-#~ msgstr "Glan an Cuardach"
-
-#~ msgid " - "
-#~ msgstr " - "
-
-#~ msgid "_"
-#~ msgstr "_"
-
-#~ msgid "-"
-#~ msgstr "-"
-
-#~ msgid "/home/kde-cvs/music"
-#~ msgstr "/home/kde-cvs/music"
+msgstr ""
