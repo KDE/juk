@@ -1,0 +1,2511 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Arabic "INCLUDE">
+]>
+
+<book id="juk" lang="&language;">
+
+<bookinfo>
+<title
+>دليل جوك</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Pyne</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>زايد</firstname
+><surname
+>السعيدي</surname
+><affiliation
+><address
+><email
+>zayed.alsaidi@gmail.com</email
+></address
+></affiliation
+><contrib
+>التّرجمة العربيّة</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>&Scott.Wheeler;</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2013-11-08</date>
+<releaseinfo
+>3.11 (كيدي 4.12)</releaseinfo>
+
+<abstract>
+<para
+>جوك هو صندوق موسيقى، وواسم، ومدير لمجموعات الموسيقى. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>كيدي</keyword>
+<keyword
+>وسائط كيدي المتعددة</keyword>
+<keyword
+>صوت</keyword>
+<keyword
+>واسم</keyword>
+<keyword
+>مشغل</keyword>
+<keyword
+>صندوق موسيقى</keyword>
+<keyword
+>جوك</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>مقدمة</title>
+
+<para
+>جوك هو، ببساطة، صندوق موسيقى. وكما هو معتاد في العديد من تطبيقات صناديق الموسيقى، يسمح لك جوك بتحرير «الوسوم» لملفاتك الصوتية، وإدارة مجموعتك وقوائم التشغيل الخاصة بك. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>استخدام جوك</title>
+
+<para>
+<screenshot>
+<screeninfo
+>إليك لقطة شاشة لجوك</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>لقطة شاشة لجوك أثناء العمل.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>يحفظ جوك قائمة بجميع الملفات التي يعرفها. تسمى هذه بـ <guilabel
+>قائمة المجموعة</guilabel
+>. قائمة المجموعة خاصة بجوك ولا تشارك مع تطبيقات أخرى.</para>
+
+<para
+>بمعزل عن قائمة المجموعة، توجد قوائم التشغيل. يمكنك امتلاك أي عدد تريده من قوائم التشغيل. يمكنك استخدام قوائم التشغيل التي أنشأها جوك مع مشغلات وسائط أخرى (مثل أميروك أو <application
+>xmms</application
+>) كما يمكنك إدارة قوائم التشغيل المنشأة في تلك التطبيقات من داخل جوك.</para>
+
+<para
+>يمكنك إضافة الملفات إلى قائمة المجموعة بشكل فردي، باستخدام <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>افتح ...</guimenuitem
+></menuchoice
+> واختيارها من حوار ملفات كيدي المبدئي. يمكنك إضافة مجلدات كاملة باستخدام <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>أدِر المجلدات...</guimenuitem
+></menuchoice
+>. المجلدات المضافة بهذه الطريقة سيُعاد مسحها في كل مرة تبدأ فيها جوك. يمكنك حتى تحديد مجلدات داخل هذه المجلدات لتُستثنى من المسح. يمكنك فرض إعادة مسح المجلدات عن طريق النقر بزر الفأرة الأيمن على أيقونة <guilabel
+>قائمة المجموعة</guilabel
+>، واختيار <guimenuitem
+>أعد التحميل</guimenuitem
+>.</para>
+
+<para
+>تؤدي إضافة أغنية إلى قائمة تشغيل إلى إضافة ملفها آليًا إلى قائمة المجموعة، لكن إضافة ملف إلى قائمة المجموعة لن يضيف الأغنية آليًا إلى أي قائمة تشغيل.</para>
+
+<para
+>يمكنك إنشاء قائمة تشغيل بسرعة من كامل «قائمة المجموعة» بنقر زر الفأرة الأيمن على أيقونة <guilabel
+>قائمة المجموعة</guilabel
+> واختيار <guimenuitem
+>ضاعف</guimenuitem
+>. قائمة التشغيل الناتجة هي قائمة تشغيل عادية، ولن يؤثر تحريرها على <guilabel
+>قائمة المجموعة</guilabel
+>.</para>
+
+<para
+>يمكنك إضافة ملفات قوائم التشغيل المنشأة خارج جوك بشكل فردي عبر تحديدها من <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>افتح ...</guimenuitem
+></menuchoice
+>. تُضاف أي ملفات قوائم تشغيل توجد في المجلدات التي تضيفها عبر <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>أدر المجلدات...</guimenuitem
+></menuchoice
+> آليًا أيضًا.</para>
+
+<para
+>يمكنك إنشاء قائمة تشغيل فارغة جديدة، أو قائمة تشغيل بحث، أو قائمة تشغيل من مجلد باختيار <menuchoice
+><guimenu
+>ملف</guimenu
+><guisubmenu
+>جديد</guisubmenu
+></menuchoice
+> أو أيقونة <guiicon
+>جديد</guiicon
+> في شريط الأدوات. سيُطلب منك اسماً، ثم ستظهر أيقونة لقائمة التشغيل تلك في جزء قوائم التشغيل. يمكنك الآن سحب وإفلات الملفات من قائمة المجموعة، أو من قوائم تشغيل أخرى، إلى قائمتك. استخدم أيقونة <guiicon
+>احفظ</guiicon
+> أو <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>احفظ</guimenuitem
+></menuchoice
+> لحفظ قائمة التشغيل في أي وقت.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>قائمة الأغاني</title>
+
+<para
+>عند عرض قائمة المجموعة، يحتوي الجزء الرئيسي على جميع الملفات التي يعرفها جوك. وعند عرض قائمة تشغيل، تُعرض فقط الأغاني الموجودة في تلك القائمة. في كلتا الحالتين، مظهر وسلوك القائمة متماثلان.</para>
+
+<para
+>تأخذ كل أغنية صفاً واحداً في العرض. يوجد عمود لكل حقل بيانات وصفية يتتبعه جوك. تتوافق هذه الأعمدة مع الحقول المتاحة للتحرير في محرر الأوسمة.</para>
+
+<para
+>يمكنك إعادة ترتيب القائمة في أي وقت بنقر زر الفأرة الأيسر على ترويسة العمود. سيفرز هذا الملفات أولاً ترتيباً تصاعدياً بناءً على محتويات ذلك العمود. وإذا نقرت بزر الفأرة الأيسر ثانية على نفس الترويسة، ستُفرز الملفات ترتيباً تنازلياً.</para>
+
+<para
+>تُحجم الأعمدة مبدئياً لتكون عريضة بما يكفي لعرض أطول إدخال متاح. يمكنك تغيير حجم الأعمدة بوضع مؤشر الفأرة على الفاصل بين عمودين. عندما يتغير المؤشر من سهم، انقر بزر الفأرة الأيسر واسحب في الاتجاه الذي تريد تغيير حجم العمود إليه.</para>
+
+<para
+>يمكنك إعادة ترتيب الأعمدة بنقر زر الفأرة الأيسر على الترويسة وسحبها إلى اليسار أو اليمين. لا يمكنك السحب وراء حافة النافذة عند القيام بذلك، لذا قد تحتاج للتمرير قليلاً لليسار أو اليمين وتكرار سحب الترويسة حتى تضعها في موضعك المفضل.</para>
+
+<para
+>يمكنك إخفاء أو إظهار الأعمدة بنقر زر الفأرة الأيمن على ترويسة العمود، والنقر على اسم العمود المراد تغييره.</para>
+
+<para
+>سيؤدي النقر المزدوج بزر الفأرة الأيسر على ملف إلى تشغيله بالمشغل المدمج. وإذا كانت أغنية أخرى تعمل بالفعل، فستتوقف وتُشغل الأغنية الجديدة.</para>
+
+<para
+>يوفر نقر زر الفأرة الأيمن على ملف عدة خيارات:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>أضف إلى طابور التشغيل</guimenuitem
+></term>
+<listitem>
+<para
+>سيبدأ هذا بتشغيل الملف بمجرد انتهاء الأغنية الحالية. وإذا لم تكن هناك أغنية تعمل، فسيُشغل الملف عند ضغط زر <guiicon
+>شغل</guiicon
+> القادم. إذا كنت قد اخترت مسبقاً خيار <guimenuitem
+>أضف إلى طابور التشغيل</guimenuitem
+> لملف مختلف، فسيحل هذا الملف محل ذلك الاختيار.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>قصّ</guimenuitem
+></term>
+<term
+><guimenuitem
+>انسخ</guimenuitem
+></term>
+<term
+><guimenuitem
+>ألصق</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>أزل من قائمة التّشغيل</guimenuitem
+></term>
+<listitem>
+<para
+>إذا كنت تعرض قائمة المجموعة، فإن اختيار هذا الإجراء سيزيل الملف من القائمة، وسيزيل أيضاً كافة الإدخالات المقابلة لهذه الأغنية من كافة قوائم التشغيل. لاحظ أنه إذا كان هذا الملف في مجلد يمسحه جوك عند البدء، فسيُعاد إلى قائمة المجموعة في المرة القادمة التي تبدأ فيها جوك ولكنه لن يُضاف آلياً إلى أي قوائم تشغيل.</para>
+<para
+>إذا كنت تعرض قائمة تشغيل، فإن <guimenuitem
+>أزل من قائمة التشغيل</guimenuitem
+> سيزيل الأغنية ببساطة من القائمة.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>حرر <replaceable
+>عنوان العمود</replaceable
+></guimenuitem
+></term>
+<listitem>
+<para
+>سيسمح لك بتحرير الأغنية المحددة حالياً في العمود الذي نقرت فيه. على سبيل المثال، إذا كان محرر الأوسمة غير مرئي، وكنت مشغولاً بإنشاء قائمة تشغيل ولكن لاحظت خطأً إملائياً في اسم فنان، يمكنك تحريره مباشرة باستخدام عنصر القائمة هذا.</para>
+<para
+>تُحفظ التغييرات التي تجرى بهذه الطريقة دائماً على الفور بمجرد نقرك في مكان آخر والانتهاء من التحرير.</para>
+<para
+>سيُعطل عنصر القائمة هذا إذا اكتشف جوك أن المقطوعة التي حددتها للقراءة فقط.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>حدّث</guimenuitem
+></term>
+<listitem>
+<para
+>سيعيد هذا تحميل معلومات الوسم للملفات المحددة، في حال تغيرت الملفات أثناء تشغيل جوك.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>احذف</guimenuitem
+></term>
+<listitem>
+<para
+>سيزيل هذا الملف من قائمة المجموعة، ويزيل كافة إدخالات الأغنية في كافة قوائم التشغيل، ويحذف الملف من قرصك. لا يمكنك التراجع عن هذا، رغم أنه سيُطلب منك تأكيد خيارك. استخدم هذا بحذر.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>خمن معلومات الوسم</guisubmenu
+></term>
+<listitem>
+<para
+>سيجعل هذا جوك يحاول تخمين معلومات مثل الفنان وعنوان الأغنية. يستخدم جوك طرقاً مختلفة للتخمين: <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>من اسم الملف</guimenuitem
+></term>
+  <listitem
+><para
+>سيحاول جوك تخمين أوسمة الأغنية بناءً على اسم ملفها. على سبيل المثال، اسم أغنية مثل <filename
+>Roxette - You've Got the Look.mp3</filename
+> سيجعل البرنامج يخمن Roxette للفنان و You've Got the Look للعنوان. يمكنك ضبط الطريقة التي يخمن بها جوك الأوسمة باختيار <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guimenuitem
+>مخمن الأوسمة...</guimenuitem
+></menuchoice
+>، والذي سيفتح <link linkend="juk-tag-guesser-configuration"
+>حوار مخمن الأوسمة</link
+>. لن يستبدل جوك الأوسمة التي لم يخمنها من اسم الملف.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>من الإنترنت</guimenuitem
+></term>
+  <listitem
+><para
+>سيحاول جوك تخمين أوسمة الأغنية باستخدام برنامج MusicBrainz. يجب أن يكون MusicBrainz مثبتاً ليعمل هذا الأمر. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>أعِد تسمية الملف</guimenuitem
+></term>
+<listitem>
+<para
+>سيغير هذا تسمية الملفات المحددة لتتوافق مع تنسيق معين. يجب اختيار الطريقة التي تريد بها إعادة تسمية الملفات أولاً باختيار <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guimenuitem
+>مغير تسمية الملفات...</guimenuitem
+></menuchoice
+>. يعتمد الاسم الناتج لكل ملف على أوسمة بياناته الوصفية. على سبيل المثال، أغنية Ogg Vorbis بعنوان <quote
+>The Theme (Metroid)</quote
+> للفنان Stemage قد ينتج عنها <filename
+>/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
+>. </para>
+</listitem>
+</varlistentry>
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
+<varlistentry>
+<term
+><guimenuitem
+>أنشئ قائمة التشغيل من العناصر المختارة</guimenuitem
+></term>
+<listitem>
+<para
+>يسمح لك هذا بإنشاء قائمة تشغيل بسرعة من الأغاني في قائمة المجموعة. ستطلب منك هذه الوظيفة اسماً لقائمة التشغيل الجديدة، ثم ستدرج كافة الأغاني المحددة في قائمة التشغيل الجديدة.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>أضف العناصر المحددة إلى قرص مضغوط صوتي أو بيانات</guimenuitem
+></term>
+<listitem>
+<para
+>يسمح لك هذا بإنشاء مشروع حرق أقراص K3b بسرعة من أغانيك المحددة. سيسألك جوك إذا كنت ترغب في مشروع قرص مضغوط صوتي أو قرص بيانات، إلا إذا كان لدى K3b مشروع مفتوح بالفعل.</para>
+
+<para
+>إذا لم يكن K3b قيد التشغيل بالفعل، فسيقوم جوك بتشغيله لك. بعد ذلك، سيضيف جوك ملفاتك المحددة إلى مشروع K3b الحالي. يمكنك حينها حفظ المشروع في K3b لحرقه لاحقاً، أو حرق القرص فوراً. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+>قوائم تشغيل جوك</title>
+<para
+>قائمة التشغيل هي ببساطة مجموعة من الأغاني مجمعة حسب فئة ما. على سبيل المثال، قد يكون لديك قائمة تشغيل للأغاني التي تستمع إليها أثناء البرمجة، أو أثناء محاولة النوم، أو حتى عندما تحتاج إلى الضحك. يدعم جوك عدة أنواع مختلفة من قوائم التشغيل. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>قوائم التشغيل العادية</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> هذا هو النوع الأكثر شيوعاً من قوائم التشغيل. وهي قائمة تشغيل مكونة من ملفات، تماماً مثل قائمة المجموعة.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>قائمة تاريخ التشغيل</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> إذا فُعّلت قائمة التشغيل هذه (بتمكين <menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>أظهر التاريخ</guimenuitem
+></menuchoice
+>)، فستسجل قائمة التشغيل هذه كل أغنية يشغلها جوك. ستحتوي قائمة التشغيل على عمود إضافي، <guilabel
+>الوقت</guilabel
+>، والذي يسجل الوقت والتاريخ الدقيقين لتشغيل الأغنية. لا تبدأ قائمة التشغيل بتتبع التاريخ إلا بعد تفعيلها. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>قوائم تشغيل البحث</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> هذه قائمة تشغيل تعتمد على البحث. يمكنك إنشاء قائمة تشغيل كهذه بالنقر على <menuchoice
+><guimenu
+>ملف</guimenu
+><guisubmenu
+>جديد</guisubmenu
+><guimenuitem
+>قائمة تشغيل بحث</guimenuitem
+></menuchoice
+>، أو بالنقر على زر <link linkend="juk-advanced-search-dialog"
+>قائمة تشغيل بحث</link
+> في شريط الأدوات.</para>
+<para
+>بعد إنشاء قائمة التشغيل هذه، ستتتبع الأغاني في قائمة المجموعة التي تطابق معاييرك، وتحدث نفسها آلياً تبعاً لذلك كلما تغيرت قائمة المجموعة.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>تُنظم قوائم التشغيل في <guilabel
+>جزء قوائم التشغيل</guilabel
+>، وهو الشريط الرأسي على اليسار. يوجد في هذا الجزء أيقونة لكل قائمة تشغيل لديك. توجد أوضاع عرض مختلفة لهذا الجزء، والتي يمكن اختيارها من قائمة <menuchoice
+><guimenu
+>عرض</guimenu
+><guisubmenu
+>أوضاع العرض</guisubmenu
+></menuchoice
+>. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+>طريقة العرض الأساسية</term>
+<listitem>
+<para
+>هذا هو وضع العرض المبدئي. في هذا الوضع، تُعرض جميع قوائم التشغيل كأيقونات كبيرة، واحدة فوق الأخرى في وضع العرض. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+>وضع العرض المُدمج</term>
+<listitem>
+<para
+>يشبه هذا الوضع وضع العرض العادي، باستثناء أن قوائم التشغيل تُمثل بأشرطة أفقية مع أيقونات صغيرة بدلاً من مربعات. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+>وضع عرض الشجرة</term>
+<listitem>
+<para
+>هذا الوضع هو الأقوى. يشبه هذا الوضع وضع العرض المضغوط، باستثناء أن قائمة المجموعة هي الآن جذر شجرة من قوائم التشغيل الافتراضية. لقائمة المجموعة ثلاث عقد أبناء: الفنان، الألبوم، والنوع. كل عقدة من هذه العقد لها أبناء يمثلون كافة الإدخالات من تلك الفئة المحددة. على سبيل المثال، إذا كانت قائمة المجموعة تحتوي على موسيقى من 4 فنانين مختلفين، فستجد 4 إدخالات تحت عقدة الفنان.</para>
+<para
+>إحدى الميزات الرائعة لوضع عرض الشجرة هي ما يسمى بإعادة التوسيم بالسحب والإفلات. ببساطة حدد بعض الملفات في قائمة المقطوعات، واسحبها فوق إحدى عقد الفنان أو الألبوم أو النوع تحت قائمة المجموعة. ستُعاد توسيم الأغاني آلياً لتطابق العنصر الذي أفلت المقطوعات فوقه. على سبيل المثال، إذا سحبت مجموعة من المقطوعات فوق نوع يسمى "Rock"، ستُعاد توسيم جميع المقطوعات بوسم النوع Rock. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>محرر وسوم جوك</title>
+
+<para
+>بالنسبة للعديد من تنسيقات الملفات، يعد استخدام اسم الملف لوصف محتوياته أمرًا عمليًا: <quote
+><filename
+>تقرير لمجلس الإدارة - يونيو 2003.doc</filename
+></quote
+> على سبيل المثال، قد يكون كل المعلومات التي تحتاجها للعثور على ذلك الملف مرة أخرى. ومع ذلك، فإن محاولة تضمين جميع المعلومات المفيدة حول أغنية معينة قد تؤدي إلى أسماء ملفات كهذه: <quote
+><filename
+>Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.mp3</filename
+></quote
+>. هذه الأسماء ليست عملية للاستخدام، ولا تحتوي على كل المعلومات المفيدة التي قد تكون جمعتها عن الأغنية. فإضافة الألبوم ورقم المقطوعة مثلاً إلى الاسم الأول سيجعله أطول وغير قابل للإدارة، في حين لن يخبرك بلمحة عن سنة الإصدار أو نمط الموسيقى إذا لم تكن ملمًا بالفنان.</para>
+
+<para
+>الحل إذن هو تخزين هذا النوع من البيانات الوصفية داخل الملفات نفسها. يمكن لملفات Mp3 وOgg أن تحتوي أيضًا على نصوص قصيرة يمكنك استخدامها لوصف محتوى الملف. توجد عدة تنسيقات، لكن جوك يخفي تفاصيل الاختلافات بينها، ويوفر طريقة قياسية لتحرير مجموعة فرعية قياسية من الوسوم المعروفة لجميع ملفاتك الصوتية.</para>
+
+<para
+>يسمح لك محرر الوسوم كامل الميزات في جوك بتحرير الوسوم في ملفات mp3 وogg. يمكنك تحرير ملفات مفردة أو ملفات متعددة، ويمكنك تحديد مزيج من ملفات mp3 وogg لتحريرها. المتطلب الوحيد هو أن تملك صلاحية الوصول للكتابة على الملفات نفسها؛ فلا يمكنك مثلاً تحرير وسوم ملف موجود على قرص مدمج للقراءة فقط (CD-ROM).</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>تحرير الوسوم في ملف واحد</title>
+
+<para
+>لتحرير الوسم في ملف واحد، حدده إما في قائمة المجموعة أو من أي من مدخلاته في أي قائمة تشغيل. إذا كان محرر الوسوم غير ظاهر، فعّله باختيار <menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>أظهر محرر الوسوم</guimenuitem
+></menuchoice
+>. يظهر محرر الوسوم في أسفل عرض القائمة.</para>
+
+<para
+>ما عليك سوى الكتابة في أي من الحقول القابلة للتحرير لتغيير المعلومات. عند الانتهاء، انقر بزر الفأرة الأيسر مرة أخرى في القائمة، وسيُطلب منك حفظ تغييراتك.</para>
+
+<para
+>قد تجد أن محرر الوسوم يظل معطلاً عند النقر على ملف ما. يحدث هذا عندما يكتشف جوك أن المقطوعة للقراءة فقط.</para>
+
+<variablelist>
+<title
+>حقول محرر الوسوم</title>
+<varlistentry>
+<term
+><guilabel
+>اسم الفنان:</guilabel
+></term>
+<listitem>
+<para
+>اسم الفنان (أو الفنانين) الذي أصدر الأغنية.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>اسم المقطوعة:</guilabel
+></term>
+<listitem>
+<para
+>اسم الأغنية.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>اسم الألبوم:</guilabel
+></term>
+<listitem>
+<para
+>اسم الألبوم الذي صدرت فيه الأغنية.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>النّوع:</guilabel
+></term>
+<listitem>
+<para
+><quote
+>نمط</quote
+> الموسيقى. يوفر جوك قائمة تتوافق تقريبًا مع معيار id3 غير الرسمي، ولكن لك الحرية في كتابة مدخلاتك الخاصة في هذه القائمة.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>اسم الملفّ:</guilabel
+></term>
+<listitem>
+<para
+>اسم الملف الفعلي على القرص. يمكنك تحرير هذا مباشرة، وعند الحفظ، ستُعاد تسمية الملف.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>المسار:</guilabel
+></term>
+<listitem>
+<para
+>موقع المقطوعة في التسجيل الأصلي.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>السّنة:</guilabel
+></term>
+<listitem>
+<para
+>السنة التي صدرت فيها الأغنية.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>الطول:</guilabel
+></term>
+<listitem>
+<para
+>هذا الحقل غير قابل للتحرير، ويُعرض فقط للمعلومات.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>معدل البت</guilabel
+></term>
+<listitem>
+<para
+>هذا الحقل غير قابل للتحرير، ويُعرض فقط للمعلومات.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>التعليق:</guilabel
+></term>
+<listitem>
+<para
+>يمكنك إضافة تعليق نصي حر هنا، مع ملاحظات إضافية وما إلى ذلك.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>يمكنك حفظ تغييراتك صراحةً وفورًا في أي وقت باستخدام مدخل قائمة <menuchoice
+><guimenu
+>الواسم</guimenu
+><guimenuitem
+>احفظ</guimenuitem
+></menuchoice
+> أو بالضغط على <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>تحرير الوسوم في ملفات متعددة</title>
+
+<para
+>يمكنك تحديد ملفات متعددة في عرض القائمة، وتحرير حقل واحد أو أكثر في الوسوم لجميع الملفات دفعة واحدة.</para>
+
+<para
+>استخدم مفتاح العالي (&Shift;) وزر الفأرة الأيسر لتحديد قائمة متصلة من الملفات، ومفتاح التحكم (&Ctrl;) وزر الفأرة الأيسر لتحديد ملفات فردية غير متصلة.</para>
+
+<para
+>إذا كان محرر الوسوم غير ظاهر، يمكنك تفعيله باختيار <menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>أظهر محرر الوسوم</guimenuitem
+></menuchoice
+>. يظهر محرر الوسوم في أسفل عرض القائمة.</para>
+
+<para
+>يتصرف محرر الوسوم بشكل مختلف قليلاً عندما تختار ملفات متعددة.</para>
+
+<para
+>سيظهر الآن بجانب كل حقل في محرر الوسوم مربع اختيار <guilabel
+>فعّل</guilabel
+>. أي حقل يحتوي على نفس المحتوى بالضبط لجميع الملفات التي حددتها سيعرض ذلك المحتوى، ويُفعل للتحرير مع تأشير مربع اختيار <guilabel
+>فعّل</guilabel
+>.</para>
+
+<!-- put screeny here -->
+
+<para
+>أي حقل لا يملك محتويات متطابقة في جميع الملفات المحددة لن يكون قابلاً للتحرير مبدئيًا، ولن يعرض أي محتويات على الإطلاق.</para>
+
+<para
+>لتغيير محتوى أي حقل، أشّر مربع اختيار <guilabel
+>فعّل</guilabel
+> إذا لم يكن مؤشرًا بالفعل، وحرر الحقل كالمعتاد.</para>
+
+<para
+>عند الانتهاء، انقر بزر الفأرة الأيسر مرة أخرى في عرض القائمة وسيُطلب منك حفظ تغييراتك. سيُظهر حوار الطلب قائمة بالملفات المتأثرة، لتتاح لك فرصة التحقق من أنك تعدل الملفات التي تقصدها بالفعل.</para>
+
+<para
+>يمكنك حفظ تغييراتك صراحةً وفورًا في أي وقت باستخدام مدخل قائمة <menuchoice
+><guimenu
+>الواسم</guimenu
+><guimenuitem
+>احفظ</guimenuitem
+></menuchoice
+> أو بالضغط على <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>حوار إعادة تسمية الملف</title>
+<para>
+<screenshot>
+<screeninfo
+>حوار إعادة تسمية الملف</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>لقطة شاشة لحوار إعادة تسمية الملف.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>يُستخدم مربع حوار ضبط مغير أسماء الملفات لتهيئة إجراء «أعد تسمية الملف»، والذي يعيد تسمية الأغنية بناءً على المعلومات الواردة في وسوم بياناتها الوصفية. </para>
+<para
+>تُستخدم ميزة إعادة تسمية الملفات بالكامل للحصول على أسماء ملفات متسقة لمجموعتك الموسيقية (بما في ذلك نقل الملفات إذا لزم الأمر). على سبيل المثال، قد يكون لديك بعض الأغاني التي تظهر على القرص باسم <filename
+>01 - Title.mp3</filename
+> إذا حصلت عليها من <ulink url="http://amazon.com"
+>Amazon</ulink
+>، بينما قد تكون الأغاني من <ulink url="http://ocremix.org/"
+>OCRemix</ulink
+> باسم <filename
+>Ailsean- Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename
+> أو شيء من هذا القبيل. </para>
+<para
+>يسمح استخدام مغير الأسماء لجوك بإعادة تسمية تلك الأغاني إلى أسماء <quote
+>منطقية</quote
+> على القرص، مثل <filename
+>Ailsean - Mega Fire.mp3</filename
+> و<filename
+>The Strokes - Reptilia.mp3</filename
+>. يمكنك حتى تضمين المسارات لفرز الموسيقى آليًا (مثلاً حسب السنة أو الألبوم)، مثل <filename
+>$HOME/Music/2003/The Strokes - Reptilia.mp3</filename
+>. </para>
+<para
+>القيام بذلك سهل مثل تفعيل إجراء <quote
+>أعد تسمية الملف</quote
+>، إما من قائمة <guimenu
+>الواسم</guimenu
+>، أو بالنقر بزر الفأرة الأيمن على الملفات. الاختصار الافتراضي هو <keycombo
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+>. ولكن قبل القيام بذلك، يجب عليك إعداد كيفية إعادة تسمية الملفات. </para>
+<para
+>يتم ذلك من الحوار المذكور أعلاه والذي يمكن فتحه عبر عنصر القائمة <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guimenuitem
+>مغير أسماء الملفات...</guimenuitem
+></menuchoice
+>. يمكنك تحديد مسار الوجهة باستخدام مجلد موسيقى أساسي ثم إضافة أجزاء إليه. تعتمد أجزاء المسار هذه على البيانات الوصفية للموسيقى مثل عنوان الأغنية، الفنان، إلخ، وتُضاف باستخدام محدد <guilabel
+>أضف فئة</guilabel
+>. </para>
+<para
+>يوجد مربع اختيار بين كل «جزء مسار» يسمح بإضافة فاصل مجلدات. </para>
+<para
+>خيارات كل جزء، والتي تتحكم ببساطة فيما يحدث إذا كانت البيانات الوصفية المناسبة فارغة، وتسمح ببادئة/لاحقة عند استبدال المدخل، يمكن أن تساعدك في جعل عملية إعادة التسمية أكثر فعالية. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>حوار ضبط مخمن الوسوم</title>
+<para>
+<screenshot>
+<screeninfo
+>حوار ضبط مخمن الوسوم</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>لقطة شاشة لحوار ضبط مخمن الوسوم.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>يُستخدم حوار ضبط مخمن الوسوم لتهيئة إجراء <guilabel
+>خمّن من اسم الملف</guilabel
+>.</para>
+
+<para
+>في الحوار، سترى قائمة على اليسار لأنماط مخططات أسماء الملفات المختلفة. يتضمن جوك مجموعة واسعة من الأنماط الافتراضية لمطابقة أنماط تسمية الملفات الأكثر شيوعًا. إذا كنت ترغب في إضافة مخطط جديد، انقر على زر <guibutton
+>أضف</guibutton
+>، واكتب مخططك ثم انقر على <guibutton
+>موافق</guibutton
+>.</para
+>  
+
+<para
+>هنا يمكنك رؤية مخططات أسماء الملفات المضبوطة حاليًا والتي يستخدمها محرر الوسوم لاستخراج معلومات الوسوم من اسم الملف. قد تحتوي كل سلسلة على أحد العناصر النائبة التالية:</para>
+
+<para
+><itemizedlist>
+<listitem
+><para
+>‎%t: العنوان</para
+></listitem>
+<listitem
+><para
+>‎%A: الألبوم</para
+></listitem>
+<listitem
+><para
+>‎%a: الفنان</para
+></listitem>
+<listitem
+><para
+>‎%T: المقطوعة</para
+></listitem>
+<listitem
+><para
+>‎%c: تعليق</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>على سبيل المثال، مخطط اسم الملف <quote
+>[%T] %a - %t</quote
+> سيطابق <quote
+>[01] Deep Purple - Smoke on the water</quote
+> ولكنه لن يطابق <quote
+>(Deep Purple) Smoke on the water</quote
+>. بالنسبة للاسم الثاني، ستستخدم المخطط <quote
+>(%a) %t</quote
+>.</para>
+
+<para
+>سيجرب جوك المخططات المدرجة واحدًا تلو الآخر، بدءًا من أعلى القائمة. أول مخطط يؤدي إلى مطابقة سيكون هو المخطط المستخدم لتخمين وسوم الأغنية. قد تطابق بعض الأغاني أكثر من مخطط واحد. يمكنك التأكد من مطابقة المخطط الصحيح أولاً بتحديده في مربع القائمة ثم استخدام أزرار الأسهم لتحريكه إلى أعلى القائمة. </para>
+
+<para
+>يمكنك أيضًا تحرير أو إزالة مخطط من القائمة. فقط حدد المخطط في القائمة، واستخدم زر <guibutton
+>عدّل</guibutton
+> لتغييره، أو زر <guibutton
+>أزل</guibutton
+> لحذفه من القائمة. </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>حوار البحث المتقدم</title>
+<para>
+<screenshot>
+<screeninfo
+>حوار البحث المتقدم</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>لقطة شاشة لحوار البحث المتقدم.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>يُستخدم حوار البحث المتقدم لإنشاء <link linkend="juk-search-playlists"
+>قوائم تشغيل البحث</link
+>. وهو يسمح لك بإجراء بحث دقيق بين الوسوم المختلفة لمجموعتك الغنائية.</para>
+
+<para
+>في الجزء العلوي من الحوار، يمكنك كتابة اسم قائمة تشغيل البحث الخاصة بك. بعد ذلك، يمكنك تحديد معايير البحث في مجموعة <guilabel
+>معايير البحث</guilabel
+>. </para>
+
+<para
+>يحتوي الجزء العلوي من مجموعة <guilabel
+>معايير البحث</guilabel
+> على زري خيار: <guilabel
+>طابق أيًا مما يلي</guilabel
+> و <guilabel
+>طابق الكل مما يلي</guilabel
+>. إذا اخترت <guilabel
+>طابق أيًا مما يلي</guilabel
+>، فإن مطابقة أي من الشروط التي تحددها ستدرج الأغنية في قائمة التشغيل. وإلا، فيجب أن تتحقق جميع الشروط التي تحددها لإدراج الأغنية. </para>
+
+<para
+>توجد تعريفات الشروط أسفل أزرار الخيار. يمكنك إضافة المزيد من الشروط باستخدام زر <guibutton
+>أكثر</guibutton
+>، وإزالتها باستخدام زر <guibutton
+>أقل</guibutton
+>. تُتجاهل أي شروط تتركها فارغة، لذا لست مضطرًا لاستخدام <guibutton
+>أقل</guibutton
+> للتخلص من الشروط الفارغة. </para>
+
+<para
+>يتكون كل تعريف شرط من ثلاثة أجزاء: قائمة اختيار الوسوم على اليسار، قائمة نمط المطابقة على اليمين، ونص البحث في المنتصف. يخبر اختيار الوسم جوك بالوسم الذي تريد البحث فيه عن النص. إذا اخترت الوسم الخاص "&lt;الكل مرئي&gt;"، فإن أي وسم تراه في قائمة المجموعة سيكون متاحًا لمطابقة نص البحث. </para>
+
+<para
+>تخبر قائمة نمط المطابقة جوك بطريقة البحث التي يجب استخدامها. طرق البحث التي يمكنك استخدامها هي كالتالي: <variablelist>
+<varlistentry>
+<term
+>مطابقة عادية</term>
+<listitem
+><para
+>هذا هو نمط المطابقة الافتراضي. يبحث عن النص المعطى في أي مكان داخل الوسم المختار، متجاهلاً حالة الأحرف. مثلاً، البحث عن كلمة mode في وسم الفنان سيطابق Depeche Mode.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>حساس للحالة</term>
+<listitem
+><para
+>هذا البحث يشبه المطابقة العادية، باستثناء أنه يجب أن يطابق حالة الأحرف بالضبط.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>نمط المطابقة</term>
+<listitem
+><para
+>هذه هي أقوى طريقة بحث. يحدد نص البحث الذي تكتبه تعبيرًا نمطيًا يُستخدم للبحث داخل الوسم. التعبيرات النمطية خارج نطاق هذا التوثيق، ولكن يمكن لتطبيق محرر التعبيرات النمطية مساعدتك في تكوينها. يستخدم جوك نمط تعبيرات Qt النمطية.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>ما عليك سوى اختيار الشروط التي تريد تضمينها في بحثك، والنقر على <guibutton
+>موافق</guibutton
+> لإنشاء قائمة تشغيل البحث الخاصة بك! </para>
+</sect1>
+<!-- is this still relevant?
+
+write new for kde4
+
+<sect1 id="juk-cover-manager">
+
+<title
+>The &juk; Cover Manager</title>
+
+<para
+>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>How Covers Worked in &juk; 2.2</title>
+
+<para
+>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel
+>Artist</guilabel
+> or <guilabel
+>Album</guilabel
+> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>How Covers work in &juk; 2.3</title>
+
+<para
+>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Examples of adding covers</title>
+
+<para
+>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote
+>Alabama - Greatest Hits III</quote
+> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice
+><guimenu
+>Tagger</guimenu
+> <guisubmenu
+>Cover Manager</guisubmenu
+> <guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis
+>all</emphasis
+> of the <quote
+>Alabama - Greatest Hits III</quote
+> tracks, <emphasis
+>whether you wanted that or not</emphasis
+>.</para>
+
+<para
+>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote
+>Alabama - Greatest Hits III</quote
+> tracks before using the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension"
+>.png</literal
+> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Reusing Old Covers</title>
+
+<para
+>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para
+>There are two ways of doing this:</para>
+
+<para
+>1. Open the <guilabel
+>Cover Manager</guilabel
+> dialog using the <guimenu
+>Tagger</guimenu
+> menu (<menuchoice
+><guimenu
+>Tagger Cover</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Show Cover Manager</guimenuitem
+></menuchoice
+>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para
+>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface
+>Now Playing bar</interface
+>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Dragging covers to more than one track at once</title>
+
+<para
+>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>What happens to my old covers?</title>
+
+<para
+>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para
+>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Removing Covers</title>
+
+<para
+>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+>.</para>
+
+<para
+>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Suggested Uses:</title>
+
+<para
+>1. You can now apply the same cover to tracks with Albums that have <quote
+>Disc 1</quote
+>, <quote
+>Disc 2</quote
+>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+-->
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>شريط أدوات جوك</title>
+
+<sect1 id="main-toolbar">
+<title
+>شريط الأدوات الرئيسي</title>
+
+<screenshot>
+<screeninfo
+>شريط أدوات جوك.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>شريط أدوات جوك.</phrase>
+</textobject>
+<caption
+><para
+>شريط أدوات جوك.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>من اليسار إلى اليمين في لقطة الشاشة أعلاه، الأيقونات الموجودة على شريط الأدوات الافتراضي هي:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>جديد</guiicon
+></term>
+<listitem
+><para
+>أنشئ قائمة تشغيل جديدة. إذا ضغطت باستمرار على الزر، فستظهر قائمة تتيح لك اختيار أنواع مختلفة من قوائم التشغيل لإنشائها. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>قائمة تشغيل فارغة…</guimenuitem
+></term>
+  <listitem
+><para
+>يطلب منك هذا اسمًا لقائمة التشغيل، ثم يدرجها في عرض قوائم التشغيل. تبدأ القائمة فارغة تمامًا.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>قائمة تشغيل من مجلد…</guimenuitem
+></term>
+  <listitem
+><para
+>يطلب منك هذا اختيار مجلد لفتحه، ثم ينشئ قائمة تشغيل تحتوي على الموسيقى الموجودة في المجلد وأي مجلدات فرعية. يكون اسم قائمة التشغيل المنشأة هو نفس اسم المجلد المحدد.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>ابحث في قائمة التشغيل…</guimenuitem
+></term>
+  <listitem
+><para
+>يظهر هذا حوار البحث المتقدم، مما يتيح لك إنشاء <quote
+>قائمة تشغيل افتراضية</quote
+>. ستُضاف أي أغاني في قائمة مجموعتك تطابق معايير البحث التي تحددها في حوار البحث المتقدم إلى قائمة التشغيل الجديدة. ومع تغير قائمة المجموعة، ستتغير القائمة الجديدة أيضًا. على سبيل المثال، إذا أنشأت قائمة تشغيل لجميع أغاني Depeche Mode، ثم أضفت أغنية أخرى لهم إلى قائمة مجموعتك، فستظهر في قائمة تشغيل Depeche Mode دون الحاجة إلى أي إجراء منك. </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>افتح</guiicon
+></term>
+<listitem
+><para
+>أضف ملفًا إلى قائمة المجموعة (إذا كانت نشطة) أو إلى قائمة التشغيل المحددة حاليًا. تؤدي إضافة ملف إلى قائمة تشغيل إلى إضافته إلى قائمة المجموعة آليًا، ولكن ليس العكس.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>احفظ</guiicon
+></term>
+<listitem
+><para
+>احفظ قائمة التشغيل المحددة حاليًا. لحفظ وسم حررته، إما أن تختار عنصرًا آخر، أو تضغط على <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> بدلاً من ذلك.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>قصّ</guiicon
+></term>
+<listitem
+><para
+>إذا حُددت قائمة تشغيل أو أغنية، فسيتم قصها (إزالتها) من القائمة. إذا كان محرر الوسوم نشطًا، فإن هذا يعمل مثل القص في أي محرر، حيث يزيل النص المحدد مع الاحتفاظ بنسخة في الحافظة.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>انسخ</guiicon
+></term>
+<listitem
+><para
+>إذا كان محرر الوسوم نشطًا، فإن هذا يعمل مثل النسخ في أي محرر، حيث يضع نسخة من النص المحدد في الحافظة.</para>
+<para
+>إذا استخدمت النسخ على أغنية في قائمة المجموعة، فسيُوضع المسار (URL) في الحافظة لتمكينك من لصقه. يمكنك مثلاً لصق المسار في محرر نصوص، أو في كونكرر، أو في قائمة تشغيل أخرى.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>ألصق</guiicon
+></term>
+<listitem
+><para
+>إذا قمت سابقًا بقص أو نسخ مسار من قائمة المجموعة، يمكنك لصقه مرة أخرى في قائمة تشغيل جديدة. يمكنك أيضًا لصق مسار نسخته من كونكرر أو أي تطبيق آخر. إذا كنت تعمل في محرر الوسوم، فسيقوم اللصق بلصق أي نص موجود حاليًا في الحافظة في الحقل المحدد.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>اعرض شريط البحث</guiicon
+></term>
+<listitem
+><para
+>أظهر أو أخفِ <link linkend="search-bar"
+>شريط البحث</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>اعرض محرر الوسوم</guiicon
+></term>
+<listitem
+><para
+>أظهر أو أخفِ <link linkend="tagging-a-single-file"
+>محرر الوسوم</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>عناصر التحكم في التشغيل</term>
+<listitem>
+<para
+>تعمل هذه مثل أي مشغل وسائط قياسي. عناصر التحكم هي <guiicon
+>شغل</guiicon
+>، <guiicon
+>ألبث</guiicon
+>، <guiicon
+>أوقف</guiicon
+>، <guiicon
+>السابق</guiicon
+> و <guiicon
+>التالي</guiicon
+>.</para>
+<para
+>يوجد أيضًا شريط تتبع يوضح مدى تقدمك (نسبيًا) في الأغنية الحالية. يمكنك سحب هذا المنزلق بالفأرة للتقديم أو التأخير داخل المقطوعة.</para>
+<para
+>أخيرًا، هناك منزلق لمستوى الصوت. وكما هو متوقع، يقوم هذا برفع وخفض مستوى الصوت. <quote
+>مرتفع</quote
+> على اليمين، و <quote
+>هادئ</quote
+> على اليسار.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>شريط البحث</title>
+
+<para
+>يتيح لك شريط البحث البحث بسرعة عن أغنية في قائمة المجموعة أو في قائمة تشغيل.</para>
+
+<para
+>بمجرد كتابة نص في شريط البحث، ستتقلص قائمة الأغاني المرئية لتشمل فقط تلك التي تحتوي على ذلك النص في أي عمود مرئي. سيؤدي الضغط على مفتاح الإدخال (&Enter;) إلى بدء تشغيل أول نتيجة مطابقة في عرض قائمة التشغيل.</para>
+
+<para
+>يبدأ البحث فورًا عند إدخال النص في حقل البحث. البحث تزايدي، أي أنه مع كتابة كل حرف، يضيق البحث أكثر. يفيد هذا في العثور على أغنية لا تتذكر سوى جزء من اسمها مثلاً.</para>
+
+<!-- Not here in KDE 4.11
+<para
+>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
+-->
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>مرجع القائمة والأوامر</title>
+
+<sect1 id="menus">
+<title
+>القوائم</title>
+
+<sect2 id="menu-file">
+<title
+>قائمة ملف</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+><guisubmenu
+>جديد</guisubmenu
+><guimenuitem
+>قائمة تشغيل فارغة...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>إنشاء قائمة تشغيل جديدة</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+><guisubmenu
+>جديد</guisubmenu
+><guimenuitem
+>قائمة تشغيل بحث...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>ينشئ <link linkend="juk-search-playlists"
+>قائمة تشغيل بحث</link
+> جديدة.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+><guisubmenu
+>جديد</guisubmenu
+><guimenuitem
+>قائمة تشغيل من مجلد...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>ينشئ قائمة تشغيل جديدة تحتوي على جميع ملفات الموسيقى في مجلد وأي مجلدات فرعية. ستُضاف أيضًا أي موسيقى ضمن ملفات قوائم التشغيل التي يتعرف عليها جوك.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>افتح...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>اختر ملفًا (أو ملفات) لإضافته إلى قائمة المجموعة. إذا اخترت ملف قائمة تشغيل، فسيُضاف كل ملف موجود في تلك القائمة.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>أدِر المجلدات...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يفتح عنصر القائمة هذا نفس النافذة التي تظهر عند تشغيل جوك لأول مرة </para>
+<para
+>اختر مجلدًا (أو مجلدات) لإضافته إلى قائمة المجموعة. ستُمسح هذه المجلدات مجددًا عند بدء تشغيل جوك أو عند اختيار <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>أعد التحميل</guimenuitem
+></menuchoice
+>.</para>
+<para
+>يمكنك أيضًا اختيار مجلدات لا ينبغي البحث فيها آليًا (وهو ما سيتجاوز قائمة المجلدات المراد مسحها عند بدء التشغيل). بهذه الطريقة يمكنك تجنب الاضطرار إلى تغيير تنظيم موسيقاك على القرص تمامًا فقط لمنع جوك من جلب الأغاني التي لا تريدها أو لا تحتاج إلى إدارتها من داخل التطبيق. </para>
+<para>
+<screenshot>
+<screeninfo
+>حوار إدارة المجلدات</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>لقطة شاشة لحوار إدارة المجلدات.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para
+>إذا كنت ترغب في إزالة ملفات موجودة بالفعل في قائمة المجموعة، يمكنك تفعيل عمود <guilabel
+>اسم الملف (المسار الكامل)</guilabel
+> في قائمة التشغيل ثم استخدام شريط البحث للعثور على اسم المسار المطلوب، وتحديد الملفات المعروضة وإزالتها. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>ملف</guimenu
+> <guimenuitem
+>أعد التسمية...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>إعادة تسمية قائمة تشغيل.</para>
+</listitem>
+</varlistentry>
+
+<!-- Edit Search... -->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>ضاعف...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>إنشاء نسخة مطابقة من قائمة التشغيل المحددة، وطلب اسم جديد لها. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>أعد التحميل</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>يعيد تحميل معلومات الوسوم لكل ملف في قائمة التشغيل المحددة. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>أزل</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>إزالة قائمة التشغيل المحددة.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>ملف</guimenu
+> <guimenuitem
+>احفظ</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>حفظ قائمة التشغيل المحددة.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>احفظ باسم...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>حفظ قائمة التشغيل المحددة باسم مختلف.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>قائمة التحرير</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>تحرير</guimenu
+><guimenuitem
+>امسح</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يزيل الأغاني المحددة من قائمة التشغيل.</para>
+</listitem>
+</varlistentry>
+<!-- Undo Cut Copy Paste Clear Select All -->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>قائمة عرض</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>أظهر شريط البحث</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>هذا إجراء تبديل يحدد ما إذا كان <link linkend="search-bar"
+>شريط البحث</link
+> سيظهر أم لا.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>أظهر محرر الوسوم</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>هذا إجراء تبديل يحدد ما إذا كانت <interface
+>واجهة محرر الوسوم</interface
+> ستظهر أم لا.</para>
+</listitem>
+</varlistentry>
+<!--Show Lyrics-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>أظهر التاريخ</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>هذا إجراء تبديل يحدد ما إذا كانت <link linkend="juk-history-playlists"
+>قائمة تشغيل التاريخ</link
+> ستظهر أم لا.</para>
+</listitem>
+</varlistentry>
+
+<!-- missing
+Show Play Queue
+Show Columns
+Resize Playlist Columns Manually
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+><guisubmenu
+>أوضاع العرض</guisubmenu
+><guimenuitem
+>الافتراضي</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>ينتقل إلى <link linkend="juk-viewmode-default"
+>وضع العرض الافتراضي</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+><guisubmenu
+>أوضاع العرض</guisubmenu
+><guimenuitem
+>المضغوط</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>ينتقل إلى <link linkend="juk-viewmode-compact"
+>وضع العرض المضغوط</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+><guisubmenu
+>أوضاع العرض</guisubmenu
+><guimenuitem
+>الشجري</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>ينتقل إلى <link linkend="juk-viewmode-tree"
+>وضع العرض الشجري</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>قائمة المشغل</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>المشغل</guimenu
+><guimenuitem
+>تشغيل عشوائي</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>هذا خيار تبديل يتحكم في إعداد التشغيل العشوائي. إذا فُعّل، فسيختار جوك أغنية عشوائية من قائمة التشغيل الحالية عند انتهاء الأغنية التي تعمل حاليًا.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>المشغل</guimenu
+><guimenuitem
+>كرر قائمة التشغيل</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>هذا خيار تبديل يتحكم في إعداد تكرار قائمة التشغيل. إذا فُعّل، فسيقوم جوك بالبدء من البداية بعد الانتهاء من تشغيل جميع الأغاني في قائمة التشغيل الحالية.</para>
+</listitem>
+</varlistentry>
+<!--
+Crossfade Between Tracks
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>المشغل</guimenu
+><guimenuitem
+>شغل</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يبدأ هذا الأمر تشغيل الأغنية المحددة حاليًا، أو يستأنف تشغيلها إذا كانت متوقفة مؤقتًا.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>المشغل</guimenu
+><guimenuitem
+>ألبث</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يقوم هذا الأمر بإيقاف الأغنية التي تعمل حاليًا مؤقتًا. استخدم أمر التشغيل لاستئنافها.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>المشغل</guimenu
+><guimenuitem
+>أوقف</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يوقف هذا الأمر تشغيل الأغنية الحالية. لا يمكنك استئناف التشغيل من نفس الموضع بعد ذلك.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>المشغل</guimenu
+><guimenuitem
+>التالي</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يتخطى هذا الأمر إلى الأغنية التالية في قائمة التشغيل.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>المشغل</guimenu
+><guimenuitem
+>السابق</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يشغل هذا الأمر الأغنية التي كانت تعمل قبل الأغنية الحالية.</para>
+</listitem>
+</varlistentry>
+<!--
+Play Next Album
+-->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>قائمة الواسم</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></shortcut
+> <guimenu
+>الواسم</guimenu
+><guimenuitem
+>احفظ</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يحفظ هذا الأمر أي تغييرات على الوسوم التي تقوم بتحريرها. عادةً لا تُحفظ التغييرات حتى تلغي تحديد الملف الذي تحرره.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>الواسم</guimenu
+><guimenuitem
+>احذف</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يحذف هذا الأمر الملفات المحددة حاليًا من قائمة المجموعة ومن أي قوائم تشغيل تحتوي عليها، ثم يحذف الملف المحدد من القرص. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>الواسم</guimenu
+><guimenuitem
+>حدّث</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يتيح لك هذا الأمر تحديث وسوم قائمة التشغيل بعد تغييرها. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></shortcut
+> <guimenu
+>الواسم</guimenu
+><guisubmenu
+>خمّن معلومات الوسم</guisubmenu
+><guimenuitem
+>من اسم الملف</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يحاول هذا الأمر تخمين وسوم الملفات المحددة عبر مسح اسم الملف. يمكنك ضبط الأنماط المستخدمة للتخمين باختيار <menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>مخمن الوسوم...</guimenuitem
+></menuchoice
+>، مما يفتح <link linkend="juk-tag-guesser-configuration"
+>حوار ضبط مخمن الوسوم</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>الواسم</guimenu
+><guisubmenu
+>خمّن معلومات الوسم</guisubmenu
+><guimenuitem
+>من الإنترنت</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يحاول هذا الأمر تخمين وسوم الملفات المحددة باستخدام مكتبة <application
+>TunePimp</application
+> المقدمة من <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+>.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Cover Manager
+  -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></shortcut
+> <guimenu
+>الواسم</guimenu
+><guimenuitem
+>أعد تسمية الملف</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+  <para
+>يتيح لك هذا الأمر إعادة تسمية ملف أو مجموعة ملفات للأغاني المحددة في قائمة التشغيل. قبل تنفيذ إعادة التسمية الفعلية، سيُظهر جوك حوار معاينة حيث يمكنك تأكيد الإجراء أو إلغاؤه. </para>
+  <para
+>ستُعاد تسمية الملفات وفقًا للمعاملات المحددة باستخدام <link linkend="juk-rename-dialog"
+>حوار إعادة تسمية الملف</link
+>. </para
+> 
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>قائمة إعدادات</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+><guisubmenu
+>شرائط الأدوات المعروضة</guisubmenu
+> <guimenuitem
+>شريط الأدوات الرئيسي / التشغيل</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>تُظهر هذه الأوامر أو تخفي <link linkend="main-toolbar"
+>شريط الأدوات الرئيسي</link
+> و <link linkend="play-toolbar"
+>شريط أدوات التشغيل</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>استقر في صينية النظام</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>هذا خيار تبديل. إذا فُعّل، سيعرض جوك أيقونة في صينية النظام الخاصة بك. يمكنك استخدامها لمعرفة ما إذا كان جوك يشغل الموسيقى، وللتحكم في التشغيل.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>ابقَ في صينية النظام عند الإغلاق</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>هذا خيار تبديل. إذا فُعّل، فسيستمر جوك في العمل عند إغلاق النافذة الرئيسية. يجب تفعيل خيار <guimenuitem
+>استقر في صينية النظام</guimenuitem
+> أيضًا. لإنهاء البرنامج، استخدم أمر <menuchoice
+><guimenu
+>ملف</guimenu
+> <guimenuitem
+>أنهِ</guimenuitem
+></menuchoice
+> من النافذة الرئيسية، أو أمر <guimenuitem
+>أنهِ</guimenuitem
+> من القائمة السياقية في صينية النظام.</para>
+<para
+>إذا بُدئ تشغيل جوك وهو مضبوط على الاستقرار في صينية النظام، فسيظهر تنبيه بسيط (وإلا فقد يتساءل المستخدم عن سبب عدم انفتاح النافذة). يمكن إزالة هذا التنبيه بالذهاب إلى <menuchoice
+><guimenu
+>المظهر والسلوك المشترك</guimenu
+> <guimenuitem
+>تنبيهات التطبيقات والنظام</guimenuitem
+></menuchoice
+> في إعدادات النظام لإدارة تنبيهات تطبيق <guilabel
+>مشغل موسيقى جوك</guilabel
+>. ما عليك سوى إلغاء تأشير <guilabel
+>أظهر رسالة في نافذة منبثقة</guilabel
+> لعنصر <guimenuitem
+>JuK يعمل في وضع الاستقرار</guimenuitem
+>. يمكن العثور على مزيد من المعلومات حول إعدادات تنبيهات كيدي <ulink url="help:/kcontrol/kcmnotify"
+>هنا</ulink
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>إعلان منبثق عن المقطوعة</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>هذا خيار تبديل. إذا فُعّل، سيعرض جوك مؤشرًا كلما بدأ تشغيل أغنية، مع معلومات عن الفنان والعنوان، وأزرار تتيح لك الانتقال بسرعة إلى أغنية أخرى. يجب تفعيل خيار الاستقرار في صينية النظام أيضًا.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>مخمن الوسوم...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يظهر هذا الأمر <link linkend="juk-tag-guesser-configuration"
+>مربع حوار ضبط مخمن الوسوم</link
+>، حيث يمكنك تعديل الأنماط المستخدمة لتخمين معلومات الوسوم من أسماء الملفات.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>مغير أسماء الملفات...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>يظهر هذا الأمر <link linkend="juk-rename-dialog"
+>مربع حوار ضبط مغير أسماء الملفات</link
+>، حيث يمكنك تعديل الطريقة التي يعيد بها جوك تسمية الملفات.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Configure scrobbling
+  -->
+</variablelist>
+
+<para
+>بالإضافة إلى ذلك، يحتوي جوك على بنود قوائم كيدي الشائعة <guimenu
+>إعدادات</guimenu
+> و <guimenu
+>مساعدة</guimenu
+>. لمزيد من المعلومات، اقرأ الأقسام المتعلقة بـ <ulink url="help:/fundamentals/menus.html#menus-settings"
+>قائمة الإعدادات</ulink
+> و <ulink url="help:/fundamentals/menus.html#menus-help"
+>قائمة المساعدة</ulink
+> في أساسيات كيدي. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>مرجع روابط المفاتيح</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>تجميعة المفاتيح</entry>
+<entry
+>الإجراء</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>حدّد الكلّ</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>انسخ</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>أعد تسمية الملفّ</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>تخمين الوسوم من الإنترنت.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>تخمين الوسوم من اسم الملف.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>قائمة تشغيل <link linkend="juk-search-playlists"
+>بحث</link
+> جديدة.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>قائمة تشغيل فارغة جديدة</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>قائمة تشغيل من مجلد جديدة.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>حفظ التغييرات على الوسوم المحررة.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>الحقوق والترخيص</title>
+
+<para
+>حقوق نشر جوك &copy; 2002-2013 لـ &Scott.Wheeler;، و Michael Pyne، وآخرين. </para>
+
+ <para
+>يُطور جوك ويصونه &Scott.Wheeler; &Scott.Wheeler.mail; و Michael Pyne <email
+>michael.pyne@kdemail.net</email
+>.</para>
+
+<para
+>جزيل الشكر للأشخاص التاليين الذين ساهموا في جوك:</para>
+
+<itemizedlist>
+<listitem
+><para
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; للاستقرار في صينية النظام، وتحرير الوسوم <quote
+>في السطر</quote
+>، وإصلاح الأخطاء، والدعم المعنوي.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> لمنفذ <application
+>GStreamer</application
+></para>
+</listitem>
+
+<listitem
+><para
+>Stefan Asserh&auml;ll <email
+>stefan.asserhall@telia.com</email
+> لدعم الاختصارات العالمية.</para>
+</listitem>
+
+<listitem
+><para
+>Stephen Douglas <email
+>stephen_douglas@yahoo.com</email
+> للنوافذ المنبثقة للإعلان عن المقطوعة.</para>
+</listitem>
+
+<listitem
+><para
+>&Frerich.Raabe; &Frerich.Raabe.mail; للتخمين التلقائي لبيانات المقطوعات وإصلاح الأخطاء.</para>
+</listitem>
+
+<listitem
+><para
+>Zack Rusin <email
+>zack@kde.org</email
+> لمزيد من الأشياء التلقائية، بما في ذلك دعم MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Adam Treat <email
+>manyoso@yahoo.com</email
+> للمشاركة في سحر MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Matthias Kretz <email
+>kretz@kde.org</email
+> لكونه خبير aRts المتعاون.</para>
+</listitem>
+
+<listitem
+><para
+>Maks Orlovich <email
+>maksim@kde.org</email
+> لجعل جوك أكثر ودية للأشخاص الذين يملكون تيرابايتات من الموسيقى.</para>
+</listitem>
+
+<listitem
+><para
+>Antonio Larrosa Jimenez <email
+>larrosa@kde.org</email
+> لواجهة DCOP.</para>
+</listitem>
+
+<listitem
+><para
+>Allan Sandfield Jensen <email
+>kde@carewolf.com</email
+> لدعم <acronym
+>FLAC</acronym
+> و <acronym
+>MPC</acronym
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Nathan Toone <email
+>nathan@toonetown.com</email
+> لمدير أغلفة الألبومات.</para>
+</listitem>
+
+<listitem
+><para
+>Pascal Klein <email
+>4pascal@tpg.com.au</email
+> لشاشة البدء.</para>
+</listitem>
+
+<listitem
+><para
+>Laurent Montel <email
+>montel@kde.org</email
+> للنقل إلى كيدي 4 عندما لم يكن هناك أحد سواه.</para>
+</listitem>
+
+<listitem
+><para
+>Georg Grabler <email
+>georg@grabler.net</email
+> لجهود النقل إلى منصة كيدي.</para>
+</listitem>
+
+<listitem
+><para
+>Martin Sandsmark <email
+>martin.sandsmark@kde.org</email
+> لدعم Last.fm، والكلمات، والتحضير لأطر عمل كيدي.</para>
+</listitem>
+
+<listitem
+><para
+>Eike Hein <email
+>hein@kde.org</email
+> لتنفيذ واجهة MPRIS2.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>حقوق نشر التوثيق &copy; 2003 لـ &Lauri.Watts;، وحقوق النشر &copy; 2004-2013 لـ Michael Pyne.</para>
+
+<para
+>الترجمة: زايد السعيدي <email
+>zayed.alsaidi@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
