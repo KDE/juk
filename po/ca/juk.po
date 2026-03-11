@@ -2159,19 +2159,3 @@ msgstr "Volum: %1% (silenciat)"
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
 msgstr "Volum: %1%"
-
-#~ msgid "&File Renamer..."
-#~ msgstr "Reanomenador de &fitxers..."
-
-#~ msgid "Docking in System Tray"
-#~ msgstr "Acobla a la safata del sistema"
-
-#~ msgid "&Search Playlist..."
-#~ msgstr "Llista de reproducció de la &cerca..."
-
-#~ msgid "&Rename..."
-#~ msgstr "&Reanomena..."
-
-#~ msgctxt "verb, copy the playlist"
-#~ msgid "D&uplicate..."
-#~ msgstr "D&uplica..."
