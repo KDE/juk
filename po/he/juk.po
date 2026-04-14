@@ -3,13 +3,13 @@
 # Diego Iastrubni <elcuco@kde.org>, 2004, 2012.
 # Assaf Gillat <gillata@gmail.com>, 2005.
 # tahmar1900 <tahmar1900@gmail.com>, 2008, 2009.
-# SPDX-FileCopyrightText: 2024, 2025 Yaron Shahrabani <sh.yaron@gmail.com>
+# SPDX-FileCopyrightText: 2024, 2025, 2026 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2025-10-05 12:21+0300\n"
+"PO-Revision-Date: 2026-04-13 21:07+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1024,7 +1024,7 @@ msgid ""
 "bug fixes, evangelism, moral support"
 msgstr ""
 "עגינה למגש המערכת, עריכת תגיות,\n"
-"תיקוני באגים, אוונגליזם, תמיכה נפשית"
+"תיקוני תקלות, אוונגליזם, תמיכה נפשית"
 
 #: main.cpp:56
 #, kde-format
