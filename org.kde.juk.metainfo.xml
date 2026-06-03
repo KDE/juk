@@ -101,6 +101,7 @@
   <summary xml:lang="sr-ijekavianlatin">Muzički plejer</summary>
   <summary xml:lang="sv">Musikspelare</summary>
   <summary xml:lang="tr">Müzikçalar</summary>
+  <summary xml:lang="ug">نەغمە ياڭراتقۇچ</summary>
   <summary xml:lang="uk">Музичний програвач</summary>
   <summary xml:lang="zh-CN">音乐播放器</summary>
   <summary xml:lang="zh-TW">音樂播放器</summary>
@@ -188,6 +189,7 @@
     <p xml:lang="sr-ijekavianlatin">Mogućnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
+    <p xml:lang="ug">ئىقتىدار:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="zh-CN">功能：</p>
     <p xml:lang="zh-TW">功能：</p>
