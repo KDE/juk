@@ -1190,7 +1190,7 @@ msgstr "torna a la llista de reproducció"
 #, kde-format
 msgctxt "%1 is the artist and %2 is the title of the currently playing track."
 msgid "%1 - %2 :: JuK"
-msgstr "%1 - %2 :: JuK"
+msgstr "%1 – %2 :: JuK"
 
 #: playermanager.cpp:363
 #, kde-format
@@ -1911,8 +1911,8 @@ msgstr ""
 "<li>%T: Peça</li>\n"
 "<li>%c: Comentari</li>\n"
 "</ul>\n"
-"Per exemple, l'esquema pel nom de fitxer «[%T] %a - %t» podria coincidir amb "
-"«[01] Obrint Pas - Continuar avançant» però no amb «(Obrint Pas) Continuar "
+"Per exemple, l'esquema pel nom de fitxer «[%T] %a – %t» podria coincidir amb "
+"«[01] Obrint Pas – Continuar avançant» però no amb «(Obrint Pas) Continuar "
 "avançant». Pel segon nom, caldria utilitzar l'esquema «(%a) %t».<p/>\n"
 "Cal tindre en compte que l'ordre en què apareixen els esquemes en la llista "
 "és important, ja que la deducció de marques recorrerà la llista de dalt a "
