@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2026-07-02 21:16+0200\n"
+"PO-Revision-Date: 2026-07-03 19:05+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@nuug.no>\n"
 "Language: nn\n"
@@ -86,14 +86,9 @@ msgstr ""
 msgid "Collection List"
 msgstr "Fellesliste"
 
+# Det er ikkje nokon tekst som heiter «scan on startup», så me skriv heller om.
 #: collectionlist.cpp:289
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removing an item from the collection will also remove it from all of your "
-#| "playlists. Are you sure you want to continue?\n"
-#| "\n"
-#| "Note, however, that if the directory that these files are in is in your "
-#| "\"scan on startup\" list, they will be readded on startup."
+#, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
 "playlists. Are you sure you want to continue?\n"
@@ -101,7 +96,7 @@ msgid ""
 "Note, however, that if the directory that these files are in is in your "
 "“scan on startup” list, they will be readded on startup."
 msgstr ""
-"Fjernar du eit spor frå felleslista vert det òg fjerna frå alle "
+"Fjernar du eit spor frå felleslista, vert det òg fjerna frå alle "
 "spelelistene. Er du sikker på at du vil halda fram?\n"
 "\n"
 "Merk òg at om mappa med desse filene ligg i lista over mapper som vert "
@@ -325,9 +320,7 @@ msgid "Genre"
 msgstr "Sjanger"
 
 #: filerenamer.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "warning about mass file rename"
-#| msgid "Warning"
+#, kde-format
 msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
 msgstr "Åtvaring"
@@ -369,8 +362,7 @@ msgid "Options"
 msgstr "Val"
 
 #: filerenamer.cpp:524
-#, fuzzy, kde-format
-#| msgid "Insert folder separator"
+#, kde-format
 msgctxt "@option:check"
 msgid "Insert folder separator"
 msgstr "Set inn mappeskilje"
@@ -381,15 +373,13 @@ msgid "No file selected, or selected file has no tags."
 msgstr "Anten er ingen filer valde, eller så har dei ingen merkelappar."
 
 #: filerenamer.cpp:826
-#, fuzzy, kde-format
-#| msgid "Hide Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
 msgstr "Gøym testdialog for namneskifte"
 
 #: filerenamer.cpp:831
-#, fuzzy, kde-format
-#| msgid "Show Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
 msgstr "Vis testdialog for namneskifte"
@@ -2077,11 +2067,10 @@ msgid "You are about to change the %1 on these files."
 msgstr "Du er i ferd med å endra %1 på desse filene."
 
 #: treeviewitemplaylist.cpp:58
-#, fuzzy, kde-format
-#| msgid "Changing Track Tags"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change Track Tags"
-msgstr "Endrar spornamn"
+msgstr "Endra spor-merkelappar"
 
 #: upcomingplaylist.cpp:31
 #, kde-format
