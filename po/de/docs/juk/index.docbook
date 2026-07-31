@@ -309,7 +309,7 @@
 ></term>
 <listitem>
 <para
->Erlaubt Ihnen das aktuell ausgewählte Stück in der Spalte, in der Sie es angeklickt haben, zu bearbeiten. Zum Beispiel: Wenn Sie den Metadaten-Editor gerade nicht angezeigt haben und Sie schnell eine Wiedergabeliste erstellen wollen, Sie aber einen Rechtschreibfehler in einem Künstlernamen bemerkt haben, können Sie diesen direkt über diesen Menüpunkt bearbeiten.</para>
+>Erlaubt Ihnen das aktuell ausgewählte Stück in der Spalte, in der Sie es angeklickt haben, zu bearbeiten. Zum Beispiel: Wenn Sie den Metadaten-Editor gerade nicht angezeigt haben und Sie schnell eine Wiedergabeliste erstellen möchten, Sie aber einen Rechtschreibfehler in einem Künstlernamen bemerkt haben, können Sie diesen direkt über diesen Menüpunkt bearbeiten.</para>
 <para
 >Änderungen die auf diese Weise durchgeführt wurden werden immer gespeichert, sobald Sie irgendwo anders hinklicken und damit das Bearbeiten beenden.</para>
 <para
@@ -335,7 +335,7 @@
 ></term>
 <listitem>
 <para
->Dies wird das Stück aus der Sammlungsliste und allen Wiedergabelisten löschen, weiter wird die zum Stück gehörige Datei von der Festplatte gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden, deshalb müssen Sie ihn bestätigen bevor er ausgeführt wird. Benutzen Sie dies mit Vorsicht.</para>
+>Dies wird das Stück aus der Sammlungsliste und allen Wiedergabelisten löschen, weiter wird die zum Stück gehörige Datei von der Festplatte gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden, deshalb müssen Sie ihn bestätigen bevor er ausgeführt wird. Verwenden Sie dies mit Vorsicht.</para>
 </listitem>
 </varlistentry>
 
@@ -394,7 +394,7 @@
 ></term>
 <listitem>
 <para
->Dies wird die ausgewählten Stücke gemäß dem angegebenen Muster umbenennen. Um diese Option benutzen zu können, müssen Sie zuerst im Menüpunkt <menuchoice
+>Dies wird die ausgewählten Stücke gemäß dem angegebenen Muster umbenennen. Um diese Option verwenden zu können, müssen Sie zuerst im Menüpunkt <menuchoice
 > <guimenu
 >Einstellungen</guimenu
 ><guimenuitem
@@ -432,7 +432,7 @@ Show Cover Manager
 ></term>
 <listitem>
 <para
->Dies erlaubt Ihnen schnell ein K3b-CD-Projekt aus Ihren aktuell ausgewählten Stücken zu erstellen. &juk; wird Sie fragen, ob Sie eine Audio-&CD; oder eine Daten-&CD; erstellen wollen, wenn nicht bereits ein K3b-Projekt geöffnet ist.</para>
+>Dies erlaubt Ihnen schnell ein K3b-CD-Projekt aus Ihren aktuell ausgewählten Stücken zu erstellen. &juk; wird Sie fragen, ob Sie eine Audio-&CD; oder eine Daten-&CD; erstellen möchten, wenn nicht bereits ein K3b-Projekt geöffnet ist.</para>
 
 <para
 >Wenn K3b nicht bereits gestartet ist, wird &juk; es automatisch für Sie starten. Danach wird &juk; automatisch alle ausgewählten Stücke zum aktuellen K3b-Projekt hinzufügen. Sie können nun Ihr K3b-Projekt entweder speichern um es später zu brennen oder sofort eine CD aus dem Projekt erstellen. </para>
@@ -448,7 +448,7 @@ Show Cover Manager
 <title
 >&juk;-Wiedergabelisten</title>
 <para
->Eine Wiedergabeliste ist einfach eine Sammlung von Stücken zu einem Thema. Zum Beispiel könnten Sie eine Wiedergabeliste haben von Stücken die Sie hören wenn Sie programmieren, wenn Sie versuchen zu schlafen oder wenn Sie lachen wollen. &juk; unterstützt verschiedene Formen von Wiedergabelisten. </para>
+>Eine Wiedergabeliste ist einfach eine Sammlung von Stücken zu einem Thema. Zum Beispiel könnten Sie eine Wiedergabeliste haben von Stücken die Sie hören wenn Sie programmieren, wenn Sie versuchen zu schlafen oder wenn Sie lachen möchten. &juk; unterstützt verschiedene Formen von Wiedergabelisten. </para>
 
 <variablelist>
 
@@ -784,7 +784,7 @@ Show Cover Manager
 > neben dem Eingabefeld markieren, falls es nicht schon markiert ist. Dann können Sie den Inhalt des Feldes wie gewohnt editieren.</para>
 
 <para
->Wenn Sie mit dem Bearbeiten aller Felder fertig sind, genügt ein Klick mit der &LMBn; in die Listenansicht, und Sie müssen das Speichern Ihrer Änderungen bestätigen. Der Speicherdialog zeigt Ihnen eine Liste der betroffenen Dateien an, damit Sie sichergehen können, dass Sie nur Dateien ändern, die Sie auch wirklich ändern wollen.</para>
+>Wenn Sie mit dem Bearbeiten aller Felder fertig sind, genügt ein Klick mit der &LMBn; in die Listenansicht, und Sie müssen das Speichern Ihrer Änderungen bestätigen. Der Speicherdialog zeigt Ihnen eine Liste der betroffenen Dateien an, damit Sie sichergehen können, dass Sie nur Dateien ändern, die Sie auch wirklich ändern möchten.</para>
 
 <para
 >Sie können Ihre Änderungen jederzeit speichern, indem Sie entweder den Menüpunkt <menuchoice
@@ -823,9 +823,9 @@ Show Cover Manager
 </para>
 
 <para
->Der Einrichtungsdialog dieser Funktion wird benutzt, um einzustellen, wie ein Stück basierend auf seinen Metadaten umbenannt wird. </para>
+>Der Einrichtungsdialog dieser Funktion wird verwendet, um einzustellen, wie ein Stück basierend auf seinen Metadaten umbenannt wird. </para>
 <para
->Die Umbenennungsfunktion kann benutzt werden, um Ihrer Musiksammlung konsistente einheitliche Namen zu geben, einschließlich der Verschiebung von Dateien, falls erforderlich. Sie haben einige Stücke auf der Festplatte wie zum Beispiel <filename
+>Die Umbenennungsfunktion kann verwendet werden, um Ihrer Musiksammlung konsistente einheitliche Namen zu geben, einschließlich der Verschiebung von Dateien, falls erforderlich. Sie haben einige Stücke auf der Festplatte wie zum Beispiel <filename
 >01 - Title.mp3</filename
 >, wenn Sie sie von <ulink url="http://amazon.com"
 >Amazon</ulink
@@ -849,11 +849,11 @@ Show Cover Manager
 >Umbenennen</quote
 > entweder aus dem Menü <guimenu
 >Metadaten</guimenu
-> oder aus dem Kontextmenü benutzen, das Sie mit einem Klick der &RMBn; auf Dateien öffnen. Der Standardkurzbefehl ist <keycombo
+> oder aus dem Kontextmenü verwenden, das Sie mit einem Klick der &RMBn; auf Dateien öffnen. Der Standardkurzbefehl ist <keycombo
 >&Ctrl;<keycap
 >R</keycap
 ></keycombo
->. Bevor Sie diese Funktion benutzen, sollten Sie einstellen, wie die Dateien umbenannt werden. </para>
+>. Bevor Sie diese Funktion verwenden, sollten Sie einstellen, wie die Dateien umbenannt werden. </para>
 <para
 >Diese Einrichtung erfolgt im oben genannten Dialog, der mit dem Menüeintrag <menuchoice
 ><guimenu
@@ -867,7 +867,7 @@ Show Cover Manager
 <para
 >Zwischen jedem Teil des „Pfads“ gibt es ein Ankreuzfeld, um Ordnertrennzeichen einzufügen. </para>
 <para
->Die Einstellungen für jeden Teil des neuen Namens bestimmen den neuen Namen, wenn zugehörenden Metadaten für ein Stück nicht vorhanden sind. Es kann ein Präfix oder Suffix benutzt werden, wenn die Einträge ersetzt werden. Damit wird das Umbenennen noch effektiver. </para>
+>Die Einstellungen für jeden Teil des neuen Namens bestimmen den neuen Namen, wenn zugehörenden Metadaten für ein Stück nicht vorhanden sind. Es kann ein Präfix oder Suffix verwendet werden, wenn die Einträge ersetzt werden. Damit wird das Umbenennen noch effektiver. </para>
 </sect1>
 
 <sect1 id="juk-tag-guesser-configuration">
@@ -892,12 +892,12 @@ Show Cover Manager
 <para
 >Der Dialog <quote
 >Einrichtung des Metadaten-Raters</quote
-> wird benutzt, um die Aktion <guilabel
+> wird verwendet, um die Aktion <guilabel
 >Vom Dateinamen raten</guilabel
 > einzurichten.</para>
 
 <para
->Im Dialogfenster sehen Sie links eine Liste mit den verschiedenen Dateinamensmustern. &juk; enthält eine umfangreiche Sammlung von Mustern um die am häufigsten verwendeten Schemata bei der Benennung von Dateien abzudecken. Wenn Sie ein neues Schema hinzufügen wollen, klicken Sie auf den Knopf <guibutton
+>Im Dialogfenster sehen Sie links eine Liste mit den verschiedenen Dateinamensmustern. &juk; enthält eine umfangreiche Sammlung von Mustern um die am häufigsten verwendeten Schemata bei der Benennung von Dateien abzudecken. Wenn Sie ein neues Schema hinzufügen möchten, klicken Sie auf den Knopf <guibutton
 >Hinzufügen</guibutton
 >, geben Ihr neues Schema ein und klicken auf <guibutton
 >OK</guibutton
@@ -1030,7 +1030,7 @@ Show Cover Manager
 ><para
 >Diese Suchmethode ähnelt der Standard-Methode, allerdings wird die Groß- und Kleinschreibung beachtet. Folglich müssten Sie, wenn Sie nach <quote
 >Depeche Mode</quote
-> suchen wollen, als Suchbegriff <quote
+> suchen möchten, als Suchbegriff <quote
 >Mode</quote
 > eingeben. </para
 ></listitem>
@@ -1041,7 +1041,7 @@ Show Cover Manager
 >Übereinstimmende Muster</term>
 <listitem
 ><para
->Dies ist die vielseitigste Suchmethode. Der eingegebene Suchtext wird einen regulären Ausdruck definieren, der benutzt wird um innerhalb der Metadaten zu suchen. Reguläre Ausdrücke sind außerhalb des Rahmens dieser Dokumentation, aber das Programm &kregexpeditor; kann Ihnen helfen einen regulären Ausdruck zu formen. &juk; verwendet reguläre Ausdrücke im Stil von Qt.</para
+>Dies ist die vielseitigste Suchmethode. Der eingegebene Suchtext wird einen regulären Ausdruck definieren, der verwendet wird um innerhalb der Metadaten zu suchen. Reguläre Ausdrücke sind außerhalb des Rahmens dieser Dokumentation, aber das Programm &kregexpeditor; kann Ihnen helfen einen regulären Ausdruck zu formen. &juk; verwendet reguläre Ausdrücke im Stil von Qt.</para
 ></listitem>
 </varlistentry>
 
@@ -1050,7 +1050,7 @@ Show Cover Manager
 </para>
 
 <para
->Erstellen Sie die Suchkriterien, die Sie für Ihre Suche verwenden wollen, und klicken Sie auf <guibutton
+>Erstellen Sie die Suchkriterien, die Sie für Ihre Suche verwenden möchten, und klicken Sie auf <guibutton
 >OK</guibutton
 >, um Ihre Wiedergabeliste aus einer Suche zu erstellen. </para>
 </sect1>
