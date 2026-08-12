@@ -96,7 +96,7 @@ msgid ""
 "Note, however, that if the directory that these files are in is in your "
 "“scan on startup” list, they will be readded on startup."
 msgstr ""
-"إزالة عنصر من المجموعة سيزيله أيضاً من كل قوائم تشغيلك. هل أنت متأكد من أنك "
+"إزالة عنصر من المجموعة سيزيله أيضًا من كل قوائم تشغيلك. هل أنت متأكد من أنك "
 "تريد الاستمرار؟ \n"
 "\n"
 "ملاحظة، إذا كان المجلد الذي يحتوي على هذه الملفات موجود في قائمة ”مسح عند "
@@ -154,7 +154,7 @@ msgstr "هل أنت متأكد من أنك تريد إزالة هذه العنا
 msgid ""
 "If checked, files will be permanently removed instead of being placed in the "
 "Trash Bin"
-msgstr "إذا حُدد، ستحذف الملفات بدلاً من وضعها في سهلة المهملات"
+msgstr "إذا حُدد، ستحذف الملفات بدلًا من وضعها في سهلة المهملات"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:143
@@ -166,7 +166,7 @@ msgid ""
 "<p><em>Use this option with caution</em>: Most filesystems are unable to "
 "reliably undelete deleted files.</p></qt>"
 msgstr ""
-"<qt><p> إذا حُدد هذا هذا الصندوق، <b> فستحذف بشكل دائم</b>بدلاً من وضعها في "
+"<qt><p> إذا حُدد هذا هذا الصندوق، <b> فستحذف بشكل دائم</b>بدلًا من وضعها في "
 "سلة المهملات</p> n\n"
 "<p><em>استخدم هذا الخيار بحذر</em>أغلب أنظمة الملفات غير قادرة على استعادة "
 "الملفات المحذوفة.</p></qt>"
@@ -175,7 +175,7 @@ msgstr ""
 #: deletedialogbase.ui:146
 #, kde-format
 msgid "&Delete files instead of moving them to the trash"
-msgstr "&أحذف الملفات بدلاً من نقلها إلى سهلة المهملات"
+msgstr "&أحذف الملفات بدلًا من نقلها إلى سهلة المهملات"
 
 #: directorylist.cpp:55
 #, kde-format
@@ -251,7 +251,7 @@ msgstr "أحصل على أمثلة أوسمة من هذا الملف:"
 #: exampleoptionsbase.ui:81
 #, kde-format
 msgid "Enter example tags manually:"
-msgstr "أدخل أمثلة الأوسمة يدوياً:"
+msgstr "أدخل أمثلة الأوسمة يدويًا:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_manualGroup)
 #: exampleoptionsbase.ui:91
@@ -491,7 +491,7 @@ msgstr "نسق %1"
 #, kde-format
 msgctxt "@title:group"
 msgid "When the Track’s %1 is Empty"
-msgstr "عندما يكون المسار الخاص بـ %1 فارغاً"
+msgstr "عندما يكون المسار الخاص بـ %1 فارغًا"
 
 #: filerenameroptions.cpp:41
 #, kde-format
@@ -1209,7 +1209,7 @@ msgstr[2] ""
 msgstr[3] ""
 "أنت توشك على القيام بفتح %1 مجلدات. هل أنت متأكد من أنك تريد الاستمرار؟ "
 msgstr[4] ""
-"أنت توشك على القيام بفتح %1 مجلداً. هل أنت متأكد من أنك تريد الاستمرار؟ "
+"أنت توشك على القيام بفتح %1 مجلدًا. هل أنت متأكد من أنك تريد الاستمرار؟ "
 msgstr[5] ""
 "أنت توشك على القيام بفتح %1 مجلد. هل أنت متأكد من أنك تريد الاستمرار؟ "
 
@@ -1376,7 +1376,7 @@ msgstr "كرّر"
 #: playlistbox.cpp:424
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
-msgstr "هل تريد حذف هذه الملفات من القرص الصلب أيضاً؟"
+msgstr "هل تريد حذف هذه الملفات من القرص الصلب أيضًا؟"
 
 #: playlistbox.cpp:425
 #, kde-format
@@ -1748,7 +1748,7 @@ msgstr "السعي غير مدعوم في هذا الملف بإعدادات ا�
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
-msgstr "اقفز إلى العنصر المشغل حالياً"
+msgstr "اقفز إلى العنصر المشغل حاليًا"
 
 #: statuslabel.cpp:115
 #, kde-format
@@ -1871,7 +1871,7 @@ msgstr "إعدادات مخمن الوسوم"
 #: tagguesserconfigdlgwidget.ui:18
 #, kde-format
 msgid "Currently used file name schemes"
-msgstr "مخطط اسم الملف المستخدم حالياً"
+msgstr "مخطط اسم الملف المستخدم حاليًا"
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:29
@@ -1894,7 +1894,7 @@ msgid ""
 "since the tag guesser will go through the list from the top to the bottom, "
 "and use the first matching scheme."
 msgstr ""
-"من هنا تستطيع أن ترى مخططات اسم الملف المضبوطة حالياً، والتي يستخدمها الزر "
+"من هنا تستطيع أن ترى مخططات اسم الملف المضبوطة حاليًا، والتي يستخدمها الزر "
 "\"اقتراح\" الموجود في محرر الوسوم ليستخلص معلومات الوسوم من اسم الملف. وكل "
 "نص يحتوي على واحد من التالي:<ul>\n"
 "<li>%t: العنوان</li>\n"
@@ -1920,7 +1920,7 @@ msgstr "حرك المخطط للأعلى"
 #, kde-format
 msgid ""
 "Press this button to move the currently selected scheme one step upwards."
-msgstr "اضغط هذا الزر لتحريك المخطط المختار حالياً خطوة واحدة للأعلى."
+msgstr "اضغط هذا الزر لتحريك المخطط المختار حاليًا خطوة واحدة للأعلى."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, bMoveDown)
 #: tagguesserconfigdlgwidget.ui:55
@@ -1933,7 +1933,7 @@ msgstr "حرك المخطط للأسفل"
 #, kde-format
 msgid ""
 "Press this button to move the currently selected scheme one step downwards."
-msgstr "اضغط هذا الزر لتحريك المخطط المختار حالياً خطوة واحدة للأسفل."
+msgstr "اضغط هذا الزر لتحريك المخطط المختار حاليًا خطوة واحدة للأسفل."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, bAdd)
 #: tagguesserconfigdlgwidget.ui:68
@@ -1963,7 +1963,7 @@ msgstr "عدل مخطط"
 #: tagguesserconfigdlgwidget.ui:84
 #, kde-format
 msgid "Press this button to modify the currently selected scheme."
-msgstr "اضغط هذا الزر لتعديل المخطط المختار حالياً."
+msgstr "اضغط هذا الزر لتعديل المخطط المختار حاليًا."
 
 #. i18n: ectx: property (text), widget (QPushButton, bModify)
 #: tagguesserconfigdlgwidget.ui:87
@@ -1982,7 +1982,7 @@ msgstr "احذف مخطط"
 #, kde-format
 msgid ""
 "Press this button to remove the currently selected scheme from the list."
-msgstr "اضغط هذا الزر لإزالة المخطط المختار حالياً من القائمة."
+msgstr "اضغط هذا الزر لإزالة المخطط المختار حاليًا من القائمة."
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
 #: tagguesserconfigdlgwidget.ui:100
