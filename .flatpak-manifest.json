@@ -8,9 +8,9 @@
     "desktop-file-name-suffix": " (Nightly)",
     "finish-args": [
         "--device=dri",
-        "--filesystem=xdg-music"
+        "--filesystem=xdg-music",
         "--share=ipc",
-        "--share=network"
+        "--share=network",
         "--socket=fallback-x11",
         "--socket=pulseaudio",
         "--socket=wayland"
@@ -19,6 +19,9 @@
         {
             "name": "juk",
             "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DBUILD_TESTING=OFF"
+            ],
             "sources": [
                 {
                     "type": "dir",
