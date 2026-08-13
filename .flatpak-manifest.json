@@ -8,12 +8,12 @@
     "desktop-file-name-suffix": " (Nightly)",
     "finish-args": [
         "--device=dri",
+        "--filesystem=xdg-music"
         "--share=ipc",
-        "--share=network",
-        "--socket=wayland",
+        "--share=network"
         "--socket=fallback-x11",
         "--socket=pulseaudio",
-        "--filesystem=xdg-music"
+        "--socket=wayland"
     ],
     "modules": [
         {
