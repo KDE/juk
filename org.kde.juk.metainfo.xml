@@ -619,6 +619,9 @@
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=juk</url>
   <url type="help">https://docs.kde.org/?application=juk</url>
   <url type="donation">https://www.kde.org/community/donations/?app=juk&amp;source=appdata</url>
+  <custom>
+    <value key="KDE::matrix">#kde-multimedia:kde.org</value>
+  </custom>
   <screenshots>
     <screenshot type="default">
       <image>https://cdn.kde.org/screenshots/juk/juk.png</image>
