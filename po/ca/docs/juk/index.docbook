@@ -809,7 +809,7 @@ Show Cover Manager
 <para
 >Cada «peça del camí» tindrà una casella de selecció per a indicar que permet afegir un separador de carpeta. </para>
 <para
->Les opcions per a cada peça, simplement controlen el que passarà si les metadades corresponents estan buides, permetent un prefix/sufix quan l'entrada és substituïda podreu ajudar a fer el procediment de reanomenar més eficaç. </para>
+>Les opcions per a cada peça, que controlen el que passarà si les metadades corresponents estan buides, permeten un prefix/sufix quan l'entrada se substitueix, poden ajudar a fer el procediment de reanomenar més eficaç. </para>
 </sect1>
 
 <sect1 id="juk-tag-guesser-configuration">
@@ -1908,7 +1908,7 @@ Play Next Album
 </term>
 <listitem
 ><para
->Aquesta ordre suprimieix els fitxers seleccionats de la llista de col·leccions i qualsevol llista de reproducció que el contingui, i després suprimirà el fitxer seleccionat del disc. </para>
+>Aquesta ordre suprimeix els fitxers seleccionats de la llista de col·leccions i qualsevol llista de reproducció que el contingui, i després suprimirà el fitxer seleccionat del disc. </para>
 </listitem>
 </varlistentry>
 
