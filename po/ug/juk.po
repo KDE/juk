@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2026-05-30 16:36-0400\n"
+"PO-Revision-Date: 2026-09-22 18:03+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
-"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
+"Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,8 +76,6 @@ msgid ""
 "The music data cache has been corrupted. JuK needs to rescan it now. This "
 "may take some time."
 msgstr ""
-"غەملەنگەن نەغمە سانلىق مەلۇماتلىرى بۇزۇلغان. JuK ھازىر قايتىدىن تەكشۈرىدۇ. "
-"بۇنىڭغا ئازراق ۋاقىت كېتىشى مۇمكىن."
 
 #: collectionlist.cpp:148
 #, kde-format
@@ -321,8 +319,6 @@ msgid ""
 "You are about to rename the following files. Are you sure you want to "
 "continue?"
 msgstr ""
-"تۆۋەندىكى ھۆججەتلەرنىڭ ئاتىنى ئۆزگەرتمەكچى بولۇۋاتىسىز. راستتىنلا "
-"داۋاملاشتۇرامسىز؟"
 
 #: filerenamer.cpp:105
 #, kde-format
@@ -749,8 +745,6 @@ msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
-"<qt>ئاساسىي كۆزنەك تاقالسا JuK سىستېما قونداقتا ئىجرا قىلىنىدۇ. قوللىنىشچان "
-"پىروگراممىدىن چېكىنىشتە ھۆججەت تىزىملىكىدىن چېكىنىڭ.</qt>"
 
 #: juk.cpp:514
 #, kde-format
@@ -903,7 +897,7 @@ msgstr "يازغۇچى، نەغمە يىغقۇچ ۋە باشلامچى"
 #: main.cpp:45
 #, kde-format
 msgid "Michael Pyne"
-msgstr "Michael Pyne"
+msgstr ""
 
 #: main.cpp:45
 #, kde-format
@@ -913,7 +907,7 @@ msgstr ""
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr "Carl Schwan"
+msgstr ""
 
 #: main.cpp:46
 #, kde-format
@@ -933,7 +927,7 @@ msgstr ""
 #: main.cpp:48
 #, kde-format
 msgid "Eike Hein"
-msgstr "Eike Hein"
+msgstr ""
 
 #: main.cpp:48
 #, kde-format
@@ -943,7 +937,7 @@ msgstr "MPRIS2 ئېغىزىنى ئىشقا ئاشۇرۇش."
 #: main.cpp:49
 #, kde-format
 msgid "Martin Sandsmark"
-msgstr "Martin Sandsmark"
+msgstr ""
 
 #: main.cpp:49
 #, kde-format
@@ -973,7 +967,7 @@ msgstr "تېخىمۇ كۆپ KDE سۇپىسى 4 يۆتكەش ئىشلىرى"
 #: main.cpp:52
 #, kde-format
 msgid "Laurent Montel"
-msgstr "Laurent Montel"
+msgstr ""
 
 #: main.cpp:52
 #, kde-format
@@ -1003,7 +997,7 @@ msgstr "خۇددى قوشنا، دوستتەك، aRts نوپۇزى"
 #: main.cpp:55
 #, kde-format
 msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
+msgstr ""
 
 #: main.cpp:55
 #, kde-format
@@ -1017,7 +1011,7 @@ msgstr ""
 #: main.cpp:56
 #, kde-format
 msgid "Tim Jansen"
-msgstr "Tim Jansen"
+msgstr ""
 
 #: main.cpp:56
 #, kde-format
@@ -1047,7 +1041,7 @@ msgstr "قاڭقىغان نەغمە ئۇقتۇرۇشى"
 #: main.cpp:59
 #, kde-format
 msgid "Frerich Raabe"
-msgstr "Frerich Raabe"
+msgstr ""
 
 #: main.cpp:59
 #, kde-format
@@ -1299,7 +1293,7 @@ msgstr ""
 #: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
-msgstr "كۆپ ھۆججەت تەھرىرلىنىدۇ. راستتىنلا مۇشۇنداق قىلامسىز؟"
+msgstr ""
 
 #: playlist.cpp:2052
 #, kde-format
@@ -1679,7 +1673,7 @@ msgstr "ئاۋاز مىقدارى"
 #: slider.cpp:128
 #, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr ""
 
 #: slider.cpp:129
 #, kde-format
@@ -1856,21 +1850,6 @@ msgid ""
 "since the tag guesser will go through the list from the top to the bottom, "
 "and use the first matching scheme."
 msgstr ""
-"سىز بۇ جايدا «ھۆججەت ئاتىدىن بەلگە ئۇچۇرىنى مۆلچەرلە»دىكى ناخشا ئورامى "
-"تىزىملىكىدە ئىشلەتكەن ھۆججەت ئاتى سەپلىمە لايىھەسىنى كۆرەلەيسىز. ھەر بىر "
-"ھەرپ تىزىقى تۆۋەندىكى ئورۇن بەلگىلىرىنى ئۆز ئىچىگە ئالىدۇ: <ul>\n"
-"<li>%t: ماۋزۇ</li>\n"
-"<li>%a: سەنئەتكار</li>\n"
-"<li>%A: پلاستىنكا</li>\n"
-"<li>%T: نەغمە</li>\n"
-"<li>%c: ئىزاھات</li>\n"
-"</ul>\n"
-"مەسىلەن، ھۆججەت ئاتى لايىھەسىدىكى \"[%T] %a - %t\" بولسا \"(Deep Purple) "
-"Smoke on the water\" غا ماس كەلمەي بەلكى \"[01] Deep Purple - Smoke on the "
-"water\" غا ماس كېلىدۇ.\n"
-"دىققەت، تىزىمدا لايىھە كۆرسەتكەن تەرتىپ بىلەن مۇناسىۋەتلىك، چۈنكى بەلگە "
-"مۆلچەرلىگۈچ بۇ تىزىمدىكى لايىھەدىن يۇقىرى تۆۋەنگە قاراپ ئىشلىتىدۇ ھەمدە "
-"ئاخىرىدا بىرىنچى ماس كەلگەن لايىھەنى ئىشلىتىدۇ."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, bMoveUp)
 #: tagguesserconfigdlgwidget.ui:42
@@ -1999,8 +1978,6 @@ msgid ""
 "This file already exists.\n"
 "Do you want to replace it?"
 msgstr ""
-"بۇ ھۆججەت مەۋجۇت.\n"
-"ئۇنى ئالماشتۇرامسىز؟"
 
 #: tagtransactionmanager.cpp:111
 #, kde-format
@@ -2097,7 +2074,7 @@ msgstr ""
 #: volumepopupbutton.cpp:114
 #, kde-format
 msgid "%1%"
-msgstr "%1%"
+msgstr ""
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, kde-format
