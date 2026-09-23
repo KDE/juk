@@ -2556,4 +2556,3 @@ msgstr "Громкость: %1%"
 
 #~ msgid "Very Large"
 #~ msgstr "Очень большой"
-
