@@ -53,7 +53,7 @@ LyricsWidget::LyricsWidget(QWidget* parent)
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
     KConfigGroup config(KSharedConfig::openConfig(), "LyricsWidget");
-    bool shown = config.readEntry("Show", true);
+    bool shown = config.readEntry("Show", false);
     show->setChecked(shown);
     setVisible(shown);
 }
