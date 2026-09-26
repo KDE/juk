@@ -239,7 +239,10 @@ QVariantMap MediaPlayer2Player::Metadata() const
     if(playingFile.coverInfo()->hasCover()) {
         m_temporaryFile.reset(new QTemporaryFile(QDir::temp().absoluteFilePath("juk-cover-XXXXXX.png")));
 
-        m_temporaryFile->open();
+        if(!m_temporaryFile->open()) {
+            return metaData;
+        }
+
         QString fallbackFilePath = m_temporaryFile->fileName();
         m_temporaryFile->close();
 
