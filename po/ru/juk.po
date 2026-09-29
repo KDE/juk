@@ -1176,7 +1176,6 @@ msgctxt "@title:window, open audio file"
 msgid "Open"
 msgstr "Открытие файла"
 
-# BUGME: word puzzle in the code: forced concatenation --aspotashev
 #: mediafiles.cpp:146
 #, kde-format
 msgctxt "@title:window"
