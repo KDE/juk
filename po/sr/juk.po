@@ -3,13 +3,14 @@
 # Slobodan Simic <slsimic@gmail.com>, 2003, 2005, 2007, 2008, 2009.
 # Chusslove Illich <caslav.ilic@gmx.net>, 2005, 2006, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010.
+# Nemanja Hiršl <nemhirsl@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2017-10-06 17:14+0200\n"
-"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"PO-Revision-Date: 2026-10-05 12:49+0200\n"
+"Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -19,66 +20,58 @@ msgstr ""
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Associated-UI-Catalogs: kwidgetsaddons5_qt\n"
+"X-Associated-UI-Catalogs: kwidgetsaddons6_qt\n"
 "X-Environment: kde\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Слободан Симић"
+msgstr "Слободан Симић,Немања Хиршл"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "slsimic@gmail.com"
+msgstr "slsimic@gmail.com,nemhirsl@gmail.com"
 
 # >> @title:window
 #: advancedsearchdialog.cpp:48
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create Search Playlist"
 msgstr "Стварање листе нумера по претрази"
 
 #: advancedsearchdialog.cpp:57
-#, fuzzy, kde-format
-#| msgid "Playlist name:"
+#, kde-format
 msgctxt "@label"
 msgid "Playlist name:"
 msgstr "Име листе:"
 
 #: advancedsearchdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Search Criteria"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search Criteria"
 msgstr "Критеријум претраживања"
 
 #: advancedsearchdialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Match any of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match any of the following"
 msgstr "Поклопи било шта од наведеног"
 
 #: advancedsearchdialog.cpp:67
-#, fuzzy, kde-format
-#| msgid "Match all of the following"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Match all of the following"
 msgstr "Поклопи све наведено"
 
 #: advancedsearchdialog.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "additional search options"
-#| msgid "More"
+#, kde-format
 msgctxt "@action:button, additional search options"
 msgid "More"
 msgstr "Више"
 
 #: advancedsearchdialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "Fewer"
+#, kde-format
 msgctxt "@action:button"
 msgid "Fewer"
 msgstr "Мање"
@@ -99,13 +92,7 @@ msgid "Collection List"
 msgstr "Листа збирке"
 
 #: collectionlist.cpp:289
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removing an item from the collection will also remove it from all of your "
-#| "playlists. Are you sure you want to continue?\n"
-#| "\n"
-#| "Note, however, that if the directory that these files are in is in your "
-#| "\"scan on startup\" list, they will be readded on startup."
+#, kde-format
 msgid ""
 "Removing an item from the collection will also remove it from all of your "
 "playlists. Are you sure you want to continue?\n"
@@ -120,8 +107,7 @@ msgstr ""
 "скенирање при покретању, онда ће они бити поново додати при покретању."
 
 #: collectionlist.cpp:343
-#, fuzzy, kde-format
-#| msgid "Show Playing"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Playing"
 msgstr "Прикажи шта се пушта"
@@ -147,19 +133,17 @@ msgid "<qt>These items will be moved to the Trash Bin.</qt>"
 msgstr "<qt>Ове ставке ће бити премештене у смеће.</qt>"
 
 #: deletedialog.cpp:96
-#, fuzzy, kde-format
-#| msgid "&Send to Trash"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Send to Trash"
 msgstr "&Пошаљи у смеће"
 
 # >> @title:window
 #: deletedialog.cpp:100
-#, fuzzy, kde-format
-#| msgid "About to delete selected files"
+#, kde-format
 msgctxt "@title:window"
 msgid "Delete Selected Files"
-msgstr "Следи брисање изабраних фајлова"
+msgstr "Брисање изабраних фајлова"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: deletedialogbase.ui:88
@@ -200,8 +184,7 @@ msgid "&Delete files instead of moving them to the trash"
 msgstr "&Обриши фајлове уместо премештања у смеће"
 
 #: directorylist.cpp:55
-#, fuzzy, kde-format
-#| msgid "Folder List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Folder List"
 msgstr "Списак фасцикли"
@@ -350,9 +333,7 @@ msgstr ""
 "жанр|/|$[својства ном,аку 'жанр' ген 'жанра' дат,лок 'жанру' инс 'жанром']"
 
 #: filerenamer.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "warning about mass file rename"
-#| msgid "Warning"
+#, kde-format
 msgctxt "@title:window, warning about mass file rename"
 msgid "Warning"
 msgstr "Упозорење"
@@ -381,24 +362,19 @@ msgid "No Change"
 msgstr "Без промена"
 
 #: filerenamer.cpp:409
-#, fuzzy, kde-format
-#| msgctxt "remove music genre from file renamer"
-#| msgid "Remove"
+#, kde-format
 msgctxt "@action:button, remove music genre from file renamer"
 msgid "Remove"
 msgstr "Уклони"
 
 #: filerenamer.cpp:412
-#, fuzzy, kde-format
-#| msgctxt "file renamer genre options"
-#| msgid "Options"
+#, kde-format
 msgctxt "@action:button, file renamer genre options"
 msgid "Options"
 msgstr "Опције"
 
 #: filerenamer.cpp:524
-#, fuzzy, kde-format
-#| msgid "Insert folder separator"
+#, kde-format
 msgctxt "@option:check"
 msgid "Insert folder separator"
 msgstr "Уметни раздвајач фасцикли"
@@ -409,23 +385,20 @@ msgid "No file selected, or selected file has no tags."
 msgstr "Нема изабраних фајлова, или изабрани фајл нема ознака."
 
 #: filerenamer.cpp:826
-#, fuzzy, kde-format
-#| msgid "Hide Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Hide Renamer Test Dialog"
 msgstr "Сакриј дијалог за пробу преименовања"
 
 #: filerenamer.cpp:831
-#, fuzzy, kde-format
-#| msgid "Show Renamer Test Dialog"
+#, kde-format
 msgctxt "@action:button"
 msgid "Show Renamer Test Dialog"
 msgstr "Прикажи дијалог за пробу преименовања"
 
 # >> %1, %2 file names; short for "%1 will be renamed to %2"
 #: filerenamer.cpp:911
-#, fuzzy, kde-format
-#| msgid "%1 to %2"
+#, kde-format
 msgctxt "Rename %1 file to %2"
 msgid "%1 to %2"
 msgstr "%1 у %2"
@@ -509,51 +482,43 @@ msgid "Show Renamer Test Dialog"
 msgstr "Прикажи дијалог за пробу преименовања"
 
 #: filerenamerconfigdlg.cpp:29
-#, fuzzy, kde-format
-#| msgid "File Renamer Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer Options"
 msgstr "Опције преимењивача фајлова"
 
 #: filerenameroptions.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "%1 will be a music tag category like Artist or Album"
-#| msgid "%1 Options"
+#, kde-format
 msgctxt "@title:window, %1 will be a music tag category like Artist or Album"
 msgid "%1 Options"
 msgstr "Опције за %1|/|Опције за $[аку %1]"
 
 #: filerenameroptions.cpp:39
-#, fuzzy, kde-format
-#| msgid "%1 Format"
+#, kde-format
 msgctxt "@title:group, %1 is a tag"
 msgid "%1 Format"
 msgstr "Формат за %1|/|Формат $[ген %1]"
 
 #: filerenameroptions.cpp:40
-#, fuzzy, kde-format
-#| msgid "When the Track's %1 is Empty"
+#, kde-format
 msgctxt "@title:group"
 msgid "When the Track’s %1 is Empty"
 msgstr "Када уз нумеру недостаје %1|/|Када нумери недостаје $[ном %1]"
 
 #: filerenameroptions.cpp:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "When using the file renamer your files will be renamed to the values that "
-#| "you have in your track's %1 tag, plus any additional text that you "
-#| "specify below."
+#, kde-format
 msgid ""
 "When using the file renamer your files will be renamed to the values that "
 "you have in your track’s %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
 "Преимењивач фајлова ће преименовати фајлове на вредности које се налазе у "
-"ознаци %1 нумере, плус додатни текст који можете задати испод."
+"ознаци %1 нумере, плус додатни текст који можете задати испод.|/|Преимењивач "
+"фајлова ће преименовати фајлове на вредности које се налазе у ознаци $[ген "
+"%1] нумере, плус додатни текст који можете задати испод."
 
 #: filerenameroptions.cpp:114
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Renamer"
 msgstr "Преимењивач фајлова"
@@ -642,200 +607,169 @@ msgid "Time"
 msgstr "време"
 
 #: juk.cpp:239 systemtray.cpp:184
-#, fuzzy, kde-format
-#| msgid "&Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Random Play"
 msgstr "&Насумично пуштање"
 
 #: juk.cpp:246
-#, fuzzy, kde-format
-#| msgid "&Disable Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Disable Random Play"
 msgstr "Искључи н&асумично пуштање"
 
 #: juk.cpp:252
-#, fuzzy, kde-format
-#| msgid "Use &Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Random Play"
 msgstr "Користи на&сумично пуштање"
 
 #: juk.cpp:258
-#, fuzzy, kde-format
-#| msgid "Use &Album Random Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Use &Album Random Play"
 msgstr "Користи насу&мично пуштање албума"
 
 #: juk.cpp:266
-#, fuzzy, kde-format
-#| msgid "Remove From Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Remove From Playlist"
 msgstr "Уклони са листе нумера"
 
 #: juk.cpp:270
-#, fuzzy, kde-format
-#| msgid "&Play"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Play"
 msgstr "&Пусти"
 
 #: juk.cpp:275
-#, fuzzy, kde-format
-#| msgid "P&ause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "P&ause"
 msgstr "П&аузирај"
 
 #: juk.cpp:280
-#, fuzzy, kde-format
-#| msgid "&Stop"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stop"
 msgstr "&Заустави"
 
 #: juk.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "previous track"
-#| msgid "Previous"
+#, kde-format
 msgctxt "@action:inmenu, previous track"
 msgid "Previous"
 msgstr "Претходна"
 
 #: juk.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "next track"
-#| msgid "&Next"
+#, kde-format
 msgctxt "@action:inmenu, next track"
 msgid "&Next"
 msgstr "&Следећа"
 
 #: juk.cpp:294
-#, fuzzy, kde-format
-#| msgid "&Loop Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Loop Playlist"
 msgstr "&Листа у круг"
 
 #: juk.cpp:298
-#, fuzzy, kde-format
-#| msgid "&Resize Playlist Columns Manually"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
 msgstr "&Ручно промени величину колона у листи нумера"
 
 #: juk.cpp:303
-#, fuzzy, kde-format
-#| msgctxt "silence playback"
-#| msgid "Mute"
+#, kde-format
 msgctxt "@action:inmenu, silence playback"
 msgid "Mute"
 msgstr "Утишај"
 
 #: juk.cpp:307
-#, fuzzy, kde-format
-#| msgid "Volume Up"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Up"
 msgstr "Јачина горе"
 
 #: juk.cpp:311
-#, fuzzy, kde-format
-#| msgid "Volume Down"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Volume Down"
 msgstr "Јачина доле"
 
 #: juk.cpp:315
-#, fuzzy, kde-format
-#| msgid "Play / Pause"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play / Pause"
 msgstr "Пусти/паузирај"
 
 #: juk.cpp:319
-#, fuzzy, kde-format
-#| msgid "Seek Forward"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Forward"
 msgstr "Премотај унапред"
 
 #: juk.cpp:323
-#, fuzzy, kde-format
-#| msgid "Seek Back"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Seek Back"
 msgstr "Премотај уназад"
 
 #: juk.cpp:327
-#, fuzzy, kde-format
-#| msgid "Show / Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show / Hide"
 msgstr "Прикажи/сакриј"
 
 #: juk.cpp:334
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Dock in System Tray"
 msgstr "&Усидри у системску касету"
 
 #: juk.cpp:338
-#, fuzzy, kde-format
-#| msgid "&Stay in System Tray on Close"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Stay in System Tray on Close"
 msgstr "О&стави у системској касети при затварању"
 
 #: juk.cpp:341
-#, fuzzy, kde-format
-#| msgid "Popup &Track Announcement"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Popup &Track Announcement"
 msgstr "Искачуће &обавештење о нумери"
 
 #: juk.cpp:344
-#, fuzzy, kde-format
-#| msgid "Save &Play Queue on Exit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save &Play Queue on Exit"
 msgstr "Сачувај ред &пуштања при изласку"
 
 #: juk.cpp:347
-#, fuzzy, kde-format
-#| msgid "&Tag Guesser..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Tag Guesser…"
-msgstr "Погађач о&знака..."
+msgstr "Погађач о&знака…"
 
 #: juk.cpp:350
-#, fuzzy, kde-format
-#| msgid "File Renamer"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&File Renamer…"
-msgstr "Преимењивач фајлова"
+msgstr "Преимењивач &фајлова…"
 
 #: juk.cpp:353
-#, fuzzy, kde-format
-#| msgid "&Configure scrobbling..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Configure Scrobbling…"
-msgstr "&Подеси скробловање..."
+msgstr "&Подеси скробловање…"
 
 #: juk.cpp:360
-#, fuzzy, kde-format
-#| msgid "Track Position"
+#, kde-format
 msgctxt "@action:button"
 msgid "Track Position"
 msgstr "Положај у нумери"
 
 #: juk.cpp:362
-#, fuzzy, kde-format
-#| msgid "Volume"
+#, kde-format
 msgctxt "@action:button"
 msgid "Volume"
 msgstr "Јачина"
@@ -850,16 +784,13 @@ msgstr ""
 "Употребите <i>Напусти</i> из менија <i>Фајл</i> за напуштање програма.</qt>"
 
 #: juk.cpp:514
-#, fuzzy, kde-format
-#| msgid "&Dock in System Tray"
+#, kde-format
 msgctxt "@title:window"
 msgid "Dock in System Tray"
-msgstr "&Усидри у системску касету"
+msgstr "Сидрење у системску касету"
 
 #: juktag.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "a playing track, %1 is artist, %2 is song title"
-#| msgid "%1 - <i>%2</i>"
+#, kde-format
 msgctxt "a playing track, %1 is artist, %2 is song title"
 msgid "%1 — <i>%2</i>"
 msgstr "%1 — <i>%2</i>"
@@ -908,45 +839,37 @@ msgstr "Трака пуштања"
 
 # >> @title:window
 #: keydialog.cpp:102
-#, fuzzy, kde-format
-#| msgid "Configure Shortcuts"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Shortcuts"
 msgstr "Подешавање пречица"
 
 #: keydialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Global Shortcuts"
+#, kde-format
 msgctxt "@title:group"
 msgid "Global Shortcuts"
 msgstr "Глобалне пречице"
 
 #: keydialog.cpp:124
-#, fuzzy, kde-format
-#| msgid "&No keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&No keys"
 msgstr "&Без тастера"
 
 #: keydialog.cpp:128
-#, fuzzy, kde-format
-#| msgid "&Standard keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Standard keys"
 msgstr "&Стандардни тастери"
 
 #: keydialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "&Multimedia keys"
+#, kde-format
 msgctxt "@option:radio"
 msgid "&Multimedia keys"
 msgstr "&Мултимедијски тастери"
 
 #: keydialog.cpp:138
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can select the keys used as global shortcuts to control the "
-#| "player"
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
@@ -973,6 +896,8 @@ msgstr "<i>Учитавам...</i>"
 msgid ""
 "<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
 msgstr ""
+"<i>Стихови тренутно нису доступни за %1 (нема доступног добављача стихова)</"
+"i>"
 
 #: lyricswidget.cpp:129 lyricswidget.cpp:158
 #, kde-format
@@ -985,14 +910,9 @@ msgid "No lyrics available."
 msgstr "Стихови нису доступни."
 
 #: lyricswidget.cpp:183
-#, fuzzy, kde-format
-#| msgid ""
-#| "<br /><br /><i>Lyrics provided by <a href='http://lyrics.wikia.com/"
-#| "Lyrics_Wiki'>LyricWiki</a></i>"
+#, kde-format
 msgid "<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>"
-msgstr ""
-"<br /><br /><i>Стихови са <a href='http://lyrics.wikia.com/"
-"Lyrics_Wiki'>Лириквикија</a>.</i>"
+msgstr "<br /><br /><i>Стихови са <a href='%1'>Лириквикија</a></i>"
 
 #: main.cpp:39
 #, kde-format
@@ -1000,11 +920,10 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Џубокс и менаџер музике из заједнице КДЕ‑а"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "© 2002–2017, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgctxt "Use copyright sign, and en dash for the year range"
 msgid "© 2002–2025, Scott Wheeler, Michael Pyne, and others"
-msgstr "© 2002–2017, Скот Вилер, Мајкл Пајн и други"
+msgstr "© 2002–2025, Скот Вилер, Мајкл Пајн и други"
 
 #: main.cpp:44
 #, kde-format
@@ -1022,21 +941,19 @@ msgid "Michael Pyne"
 msgstr "Мајкл Пајн"
 
 #: main.cpp:45
-#, fuzzy, kde-format
-#| msgid "Assistant super-hero, fixer of many things"
+#, kde-format
 msgid "Assistant superhero, fixer of many things"
 msgstr "Помагач суперхероја, поправљач многих ствари"
 
 #: main.cpp:46
 #, kde-format
 msgid "Carl Schwan"
-msgstr ""
+msgstr "Carl Schwan"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 6 when no one else was around"
-msgstr "Преношење на КДЕ‑4 кад никог другог не беше"
+msgstr "Преношење на 6. издање Радних оквира КДЕ‑а кад никог другог не беше"
 
 #: main.cpp:47
 #, kde-format
@@ -1044,10 +961,9 @@ msgid "Kacper Kasper"
 msgstr "Кацпер Каспер"
 
 #: main.cpp:47
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Frameworks 5 when no one else was around"
-msgstr "Преношење на КДЕ‑4 кад никог другог не беше"
+msgstr "Преношење на 5. издање Радних оквира КДЕ‑а кад никог другог не беше"
 
 #: main.cpp:48
 #, kde-format
@@ -1065,11 +981,11 @@ msgid "Martin Sandsmark"
 msgstr "Мартин Сандсмарк"
 
 #: main.cpp:49
-#, fuzzy, kde-format
-#| msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks."
+#, kde-format
 msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
 msgstr ""
-"Подршка за скробловање на ЛастФМ, стихови, припрема за Радне оквире КДЕ‑а."
+"Подршка за скробловање на ЛастФМ, стихови, припрема за 5. издање Радних "
+"оквира КДЕ‑а."
 
 #: main.cpp:50
 #, kde-format
@@ -1099,10 +1015,9 @@ msgid "Laurent Montel"
 msgstr "Лорен Монтел"
 
 #: main.cpp:52
-#, fuzzy, kde-format
-#| msgid "Porting to KDE 4 when no one else was around"
+#, kde-format
 msgid "Porting to KDE Platform 4 when no one else was around"
-msgstr "Преношење на КДЕ‑4 кад никог другог не беше"
+msgstr "Преношење на платформу КДЕ‑а 4 кад никог другог не беше"
 
 #: main.cpp:53
 #, kde-format
@@ -1262,9 +1177,7 @@ msgstr "Џук усидрен"
 
 # >> @title:window
 #: mediafiles.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "open audio file"
-#| msgid "Open"
+#, kde-format
 msgctxt "@title:window, open audio file"
 msgid "Open"
 msgstr "Отварање"
@@ -1272,18 +1185,17 @@ msgstr "Отварање"
 # >! Unpuzzle.
 # >> @title:window
 #: mediafiles.cpp:146
-#, fuzzy, kde-format
-#| msgid "Save Playlist"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Playlist %1"
-msgstr "Уписивање листе нумера"
+msgstr "Уписивање листе нумера %1"
 
+# >> @title:window
 #: mediafiles.cpp:148
-#, fuzzy, kde-format
-#| msgid "Playlist"
+#, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
-msgstr "Листа нумера"
+msgstr "Листе нумера (*%1)"
 
 #: nowplaying.cpp:320
 #, kde-format
@@ -1297,13 +1209,7 @@ msgid "%1 - %2 :: JuK"
 msgstr "%1 — %2 :: Џук"
 
 #: playermanager.cpp:363
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "%1 will be the /path/to/file, %2 will be some string from Phonon "
-#| "describing the error"
-#| msgid ""
-#| "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for "
-#| "the following reason:<nl/><message>%2</message>"
+#, kde-format
 msgctxt ""
 "%1 will be the /path/to/file, %2 will be some string from QtMultimedia "
 "describing the error"
@@ -1320,27 +1226,20 @@ msgid "Could not save to file %1."
 msgstr "Не могу да сачувам у фајл %1."
 
 #: playlist.cpp:575
-#, fuzzy, kde-format
-#| msgid ""
-#| "You are about to rename the following files. Are you sure you want to "
-#| "continue?"
+#, kde-format
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
-msgstr[0] ""
-"Управо ћете преименовати следеће фајлове. Желите ли заиста да наставите?"
-msgstr[1] ""
-"Управо ћете преименовати следеће фајлове. Желите ли заиста да наставите?"
-msgstr[2] ""
-"Управо ћете преименовати следеће фајлове. Желите ли заиста да наставите?"
-msgstr[3] ""
-"Управо ћете преименовати следеће фајлове. Желите ли заиста да наставите?"
+msgstr[0] "Управо ћете отворити %1 фасциклу. Желите ли заиста да наставите?"
+msgstr[1] "Управо ћете отворити %1 фасцикле. Желите ли заиста да наставите?"
+msgstr[2] "Управо ћете отворити %1 фасцикли. Желите ли заиста да наставите?"
+msgstr[3] "Управо ћете отворити фасциклу. Желите ли заиста да наставите?"
 
 #: playlist.cpp:578
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Containing Folder"
-msgstr ""
+msgstr "Отварање обухватајуће фасцикле"
 
 #: playlist.cpp:802
 #, kde-format
@@ -1354,15 +1253,13 @@ msgstr "Не могу да преместим ове фајлове у смећ�
 
 # >> @title:column
 #: playlist.cpp:1280
-#, fuzzy, kde-format
-#| msgid "Track Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "Track Name"
 msgstr "име нумере"
 
 #: playlist.cpp:1281
-#, fuzzy, kde-format
-#| msgid "Artist"
+#, kde-format
 msgctxt "@title:column"
 msgid "Artist"
 msgstr ""
@@ -1370,8 +1267,7 @@ msgstr ""
 "'извођачем']"
 
 #: playlist.cpp:1282
-#, fuzzy, kde-format
-#| msgid "Album"
+#, kde-format
 msgctxt "@title:column"
 msgid "Album"
 msgstr ""
@@ -1380,9 +1276,7 @@ msgstr ""
 
 # >> @title:column +
 #: playlist.cpp:1283
-#, fuzzy, kde-format
-#| msgctxt "cd track number"
-#| msgid "Track"
+#, kde-format
 msgctxt "@title:column, CD track number"
 msgid "Track"
 msgstr ""
@@ -1390,8 +1284,7 @@ msgstr ""
 "инс 'нумером']"
 
 #: playlist.cpp:1284
-#, fuzzy, kde-format
-#| msgid "Genre"
+#, kde-format
 msgctxt "@title:column"
 msgid "Genre"
 msgstr ""
@@ -1399,8 +1292,7 @@ msgstr ""
 
 # >> @title:column
 #: playlist.cpp:1285
-#, fuzzy, kde-format
-#| msgid "Year"
+#, kde-format
 msgctxt "@title:column"
 msgid "Year"
 msgstr ""
@@ -1409,75 +1301,65 @@ msgstr ""
 
 # >> @title:column
 #: playlist.cpp:1286
-#, fuzzy, kde-format
-#| msgid "Length"
+#, kde-format
 msgctxt "@title:column"
 msgid "Length"
-msgstr "дужина"
+msgstr "трајање"
 
 # >> @title:column
 #: playlist.cpp:1287
-#, fuzzy, kde-format
-#| msgid "Bitrate"
+#, kde-format
 msgctxt "@title:column"
 msgid "Bitrate"
 msgstr "битски проток"
 
 # >> @title:column
 #: playlist.cpp:1288
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgctxt "@title:column"
 msgid "Comment"
 msgstr "коментар"
 
 # >> @title:column
 #: playlist.cpp:1289
-#, fuzzy, kde-format
-#| msgid "File Name"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name"
 msgstr "име фајла"
 
 # >> @title:column
 #: playlist.cpp:1290
-#, fuzzy, kde-format
-#| msgid "File Name (full path)"
+#, kde-format
 msgctxt "@title:column"
 msgid "File Name (Full Path)"
 msgstr "име фајла (пуна путања)"
 
 #: playlist.cpp:1471
-#, fuzzy, kde-format
-#| msgid "&Show Columns"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Show Columns"
 msgstr "Прикажи &колоне"
 
 #: playlist.cpp:1579
-#, fuzzy, kde-format
-#| msgid "Add to Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Add to Play Queue"
 msgstr "Додај у ред пуштања"
 
 #: playlist.cpp:1593
-#, fuzzy, kde-format
-#| msgid "Edit"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit"
 msgstr "Уреди"
 
 #: playlist.cpp:1607
-#, fuzzy, kde-format
-#| msgid "Create Playlist From Selected Items..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create Playlist From Selected Items…"
-msgstr "Направи листу нумера од изабраних ставки..."
+msgstr "Направи листу нумера од изабраних ставки…"
 
 #: playlist.cpp:1973
-#, fuzzy, kde-format
-#| msgid "Edit '%1'"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit “%1”"
 msgstr "Уреди „%1“"
@@ -1485,7 +1367,7 @@ msgstr "Уреди „%1“"
 #: playlist.cpp:2050
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
-msgstr ""
+msgstr "Ово ће изменити више фајлова. Јесте ли сигурни?"
 
 #: playlist.cpp:2052
 #, kde-format
@@ -1494,8 +1376,7 @@ msgstr "Уреди"
 
 # @title:window
 #: playlist.cpp:2109
-#, fuzzy, kde-format
-#| msgid "Create New Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Create New Playlist"
 msgstr "Стварање нове листе нумера"
@@ -1510,33 +1391,28 @@ msgstr ""
 "преко менија „Приказ“."
 
 #: playlist.cpp:2121
-#, fuzzy, kde-format
-#| msgid "Manual Column Widths Enabled"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manual Column Widths Enabled"
 msgstr "Укључене ручне ширине колона"
 
 #: playlistbox.cpp:108
-#, fuzzy, kde-format
-#| msgid "View Modes"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "View Modes"
 msgstr "Режими приказа"
 
 #: playlistbox.cpp:168
-#, fuzzy, kde-format
-#| msgid "Show &History"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &History"
 msgstr "Прикажи &историјат"
 
 #: playlistbox.cpp:229 playlistcollection.cpp:424
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:button, verb, copy the playlist"
 msgid "Duplicate"
-msgstr "Удвостручи"
+msgstr "Дуплирање"
 
 #: playlistbox.cpp:424
 #, kde-format
@@ -1544,8 +1420,7 @@ msgid "Do you want to delete these files from the disk as well?"
 msgstr "Желите ли да обришете ове фајлове и са диска?"
 
 #: playlistbox.cpp:425
-#, fuzzy, kde-format
-#| msgid "Keep"
+#, kde-format
 msgctxt "@action:button"
 msgid "Keep"
 msgstr "Задржи"
@@ -1561,29 +1436,25 @@ msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Желите ли заиста да уклоните ове листе нумера из збирке?"
 
 #: playlistbox.cpp:448
-#, fuzzy, kde-format
-#| msgid "Remove Items?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Remove Items?"
 msgstr "Уклонити ставке?"
 
 #: playlistbox.cpp:449
-#, fuzzy, kde-format
-#| msgid "&Remove"
+#, kde-format
 msgctxt "@action:button"
 msgid "&Remove"
 msgstr "&Уклони"
 
 #: playlistbox.cpp:653
-#, fuzzy, kde-format
-#| msgid "Hid&e"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hid&e"
 msgstr "&Сакриј"
 
 #: playlistbox.cpp:657 playlistcollection.cpp:946
-#, fuzzy, kde-format
-#| msgid "R&emove"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "R&emove"
 msgstr "&Уклони"
@@ -1605,40 +1476,34 @@ msgid ""
 msgstr "Желите ли да додате ове ставке на тренутну листу или листу збирке?"
 
 #: playlistcollection.cpp:349
-#, fuzzy, kde-format
-#| msgctxt "current playlist"
-#| msgid "Current"
+#, kde-format
 msgctxt "@action:button, current playlist"
 msgid "Current"
 msgstr "Тренутна"
 
 #: playlistcollection.cpp:350
-#, fuzzy, kde-format
-#| msgid "Collection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Collection"
 msgstr "Збирка"
 
 # >> @title:window
 #: playlistcollection.cpp:412
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Преименовање"
 
 # >> @title:window
 #: playlistcollection.cpp:515
-#, fuzzy, kde-format
-#| msgid "Create Search Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Search Playlist"
 msgstr "Стварање листе нумера по претрази"
 
 # >> @title:window
 #: playlistcollection.cpp:540
-#, fuzzy, kde-format
-#| msgid "Create Folder Playlist"
+#, kde-format
 msgctxt "@action:button"
 msgid "Create Folder Playlist"
 msgstr "Стварање листе нумера по фасцикли"
@@ -1654,125 +1519,106 @@ msgid "Please enter a name for this playlist:"
 msgstr "Унесите име за ову листу нумера:"
 
 #: playlistcollection.cpp:890
-#, fuzzy, kde-format
-#| msgctxt "new playlist"
-#| msgid "&New"
+#, kde-format
 msgctxt "@action:inmenu, new playlist"
 msgid "&New"
 msgstr "&Нова"
 
 #: playlistcollection.cpp:893
-#, fuzzy, kde-format
-#| msgid "&Empty Playlist..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Empty Playlist…"
-msgstr "Празна &листа..."
+msgstr "Празна &листа…"
 
 #: playlistcollection.cpp:897
-#, fuzzy, kde-format
-#| msgid "Search Playlist"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Search Playlist…"
-msgstr "Листа по претрази"
+msgstr "Листа по &претрази…"
 
 #: playlistcollection.cpp:901
-#, fuzzy, kde-format
-#| msgid "Playlist From &Folder..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Playlist From &Folder…"
-msgstr "Листа по &фасцикли..."
+msgstr "Листа по &фасцикли…"
 
 #: playlistcollection.cpp:909
-#, fuzzy, kde-format
-#| msgid "&Guess Tag Information"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Guess Tag Information"
 msgstr "По&годи податке за ознаке"
 
 # >> @item:inmenu
 #: playlistcollection.cpp:914
-#, fuzzy, kde-format
-#| msgid "From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &File Name"
 msgstr "из имена &фајла"
 
 # >> @item:inmenu
 #: playlistcollection.cpp:918
-#, fuzzy, kde-format
-#| msgid "From &Internet"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "From &Internet"
 msgstr "са &Интернета"
 
 #: playlistcollection.cpp:923
-#, fuzzy, kde-format
-#| msgid "Guess Tag Information From &File Name"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Guess Tag Information From &File Name"
 msgstr "Погоди податке за ознаке из имена &фајла"
 
 #: playlistcollection.cpp:930
-#, fuzzy, kde-format
-#| msgid "Play First Track"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play First Track"
 msgstr "Пусти прву нумеру"
 
 #: playlistcollection.cpp:932
-#, fuzzy, kde-format
-#| msgid "Play Next Album"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Play Next Album"
 msgstr "Пусти следећи албум"
 
 #: playlistcollection.cpp:939
-#, fuzzy, kde-format
-#| msgid "Manage &Folders..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Manage &Folders…"
-msgstr "&Управљај фасциклама..."
+msgstr "&Управљај фасциклама…"
 
 # >> @title:window
 #: playlistcollection.cpp:941
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename…"
-msgstr "Преименовање"
+msgstr "&Преименуј…"
 
 #: playlistcollection.cpp:943
-#, fuzzy, kde-format
-#| msgctxt "verb, copy the playlist"
-#| msgid "Duplicate"
+#, kde-format
 msgctxt "@action:inmenu, verb, copy the playlist"
 msgid "D&uplicate…"
-msgstr "Удвостручи"
+msgstr "&Дуплирај…"
 
 #: playlistcollection.cpp:948
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Reload"
 msgstr "Учитај поново"
 
 #: playlistcollection.cpp:950
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Search…"
-msgstr "Уреди претрагу..."
+msgstr "Уреди претрагу…"
 
 #: playlistcollection.cpp:953
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Delete"
 msgstr "&Обриши"
 
 #: playlistcollection.cpp:955
-#, fuzzy, kde-format
-#| msgid "Refresh"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Refresh"
 msgstr "Освежи"
@@ -1781,18 +1627,16 @@ msgstr "Освежи"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Containing Folder"
-msgstr ""
+msgstr "Отвори обухватајућу фасциклу"
 
 #: playlistcollection.cpp:959
-#, fuzzy, kde-format
-#| msgid "&Rename File"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "&Rename File"
 msgstr "Пре&именуј фајл"
 
 #: playlistcollection.cpp:964
-#, fuzzy, kde-format
-#| msgid "Show &Play Queue"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Play Queue"
 msgstr "Прикажи &ред пуштања"
@@ -1809,32 +1653,28 @@ msgid "Playlist"
 msgstr "Листа нумера"
 
 #: playlistsplitter.cpp:158
-#, fuzzy, kde-format
-#| msgid "Show &Search Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show &Search Bar"
 msgstr "Прикажи траку &претраге"
 
 #: playlistsplitter.cpp:161
-#, fuzzy, kde-format
-#| msgid "Edit Track Search"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Edit Track Search"
 msgstr "Уреди претрагу нумера"
 
 #: scrobbleconfigdlg.cpp:38
-#, fuzzy, kde-format
-#| msgid "Configure scrobbling..."
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Scrobbling"
-msgstr "Подеси скробловање..."
+msgstr "Подешавање скробловања"
 
 #: scrobbleconfigdlg.cpp:42
-#, fuzzy, kde-format
-#| msgid "Test login..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Test Login…"
-msgstr "Пробна пријава..."
+msgstr "Пробна пријава…"
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
@@ -1858,21 +1698,19 @@ msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
 "encryption."
 msgstr ""
-"К‑новчаник није доступан, ваши последњи акредитиви за ЛастФМ биће "
-"складиштени без шифровања."
+"К‑новчаник није доступан, ваши акредитиви за ЛастФМ биће складиштени без "
+"шифровања."
 
 #: scrobbleconfigdlg.cpp:85
-#, fuzzy, kde-format
-#| msgid "KWallet is unavailable"
+#, kde-format
 msgctxt "@title:window"
 msgid "KWallet Unavailable"
-msgstr "К‑новчаник није доступан"
+msgstr "К‑новчаник недоступан"
 
 #: scrobbleconfigdlg.cpp:128
-#, fuzzy, kde-format
-#| msgid "Validating login..."
+#, kde-format
 msgid "Validating login…"
-msgstr "Оверавам пријаву..."
+msgstr "Оверавам пријаву…"
 
 #: scrobbleconfigdlg.cpp:138
 #, kde-format
@@ -1886,41 +1724,36 @@ msgstr "Пријава добра."
 
 # >> @item:inlistbox
 #: searchwidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "Normal Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Normal matching"
 msgstr "нормално поклапање"
 
 # >> @item:inlistbox
 #: searchwidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Case Sensitive"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Case sensitive"
 msgstr "разликовање величине слова"
 
 # >> @item:inlistbox
 #: searchwidget.cpp:75
-#, fuzzy, kde-format
-#| msgid "Pattern Matching"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Pattern matching"
 msgstr "поклапање обрасца"
 
 # >> @item:inlistbox
 #: searchwidget.cpp:169
-#, fuzzy, kde-format
-#| msgid "All Visible"
+#, kde-format
 msgctxt "@title:column"
 msgid "All Visible"
 msgstr "све видљиво"
 
 #: searchwidget.cpp:200
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgid "Search…"
-msgstr "Уреди претрагу..."
+msgstr "Тражи…"
 
 #: slider.cpp:127
 #, kde-format
@@ -1963,8 +1796,7 @@ msgid "Seeking is not supported in this file with your audio settings."
 msgstr "Премотавање није подржано за овај фајл при вашим аудио поставкама."
 
 #: statuslabel.cpp:85
-#, fuzzy, kde-format
-#| msgid "Jump to the currently playing item"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Jump to the currently playing item"
 msgstr "Скочи на тренутно пуштану ставку"
@@ -1979,8 +1811,7 @@ msgstr[2] "%1 ставки"
 msgstr[3] "1 ставка"
 
 #: systemtray.cpp:161
-#, fuzzy, kde-format
-#| msgid "Redisplay Popup"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Redisplay Popup"
 msgstr "Поново прикажи облачић"
@@ -2002,8 +1833,7 @@ msgstr "Желите ли да сачувате промене у:\n"
 
 # >> @title:window
 #: tageditor.cpp:590
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Changes"
 msgstr "Уписивање промена"
@@ -2082,8 +1912,7 @@ msgid "Enable"
 msgstr "Укључи"
 
 #: tagguesserconfigdlg.cpp:39
-#, fuzzy, kde-format
-#| msgid "Tag Guesser Configuration"
+#, kde-format
 msgctxt "@title:window"
 msgid "Tag Guesser Configuration"
 msgstr "Подешавање погађача ознака"
@@ -2265,15 +2094,13 @@ msgstr ""
 "Желите ли да га замените?"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "File Exists"
+#, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Фајл постоји"
 
 #: tagtransactionmanager.cpp:111
-#, fuzzy, kde-format
-#| msgid "Replace"
+#, kde-format
 msgctxt "@action:button"
 msgid "Replace"
 msgstr "Замени"
@@ -2284,8 +2111,7 @@ msgid "The following files were unable to be changed."
 msgstr "Следећи фајлови нису могли бити измењени."
 
 #: tagtransactionmanager.cpp:178
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgctxt "@title:window"
 msgid "Error"
 msgstr "Грешка"
@@ -2314,11 +2140,10 @@ msgstr ""
 
 # >> @title:window
 #: treeviewitemplaylist.cpp:58
-#, fuzzy, kde-format
-#| msgid "Changing Track Tags"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change Track Tags"
-msgstr "Мењање ознаке нумера"
+msgstr "Мењање ознака нумера"
 
 #: upcomingplaylist.cpp:31
 #, kde-format
@@ -2364,8 +2189,7 @@ msgid "Genres"
 msgstr "жанрови"
 
 #: volumepopupbutton.cpp:76
-#, fuzzy, kde-format
-#| msgid "Mute/Unmute"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute/Unmute"
 msgstr "Искључи/укључи звук"
@@ -2376,95 +2200,13 @@ msgid "%1%"
 msgstr "%1%"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
-#, fuzzy, kde-format
-#| msgid "Volume: %1% (muted)"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
 msgstr "Јачина: %1% (утишано)"
 
 #: volumepopupbutton.cpp:123
-#, fuzzy, kde-format
-#| msgid "Volume: %1%"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
 msgstr "Јачина: %1%"
-
-#~ msgid "&File Renamer..."
-#~ msgstr "Преимењивач &фајлова..."
-
-# >> @title:window
-#~ msgid "Docking in System Tray"
-#~ msgstr "Пристајање у системску касету"
-
-#~ msgid "&Search Playlist..."
-#~ msgstr "Листа по &претрази..."
-
-#~ msgid "&Rename..."
-#~ msgstr "&Преименуј..."
-
-#~ msgctxt "verb, copy the playlist"
-#~ msgid "D&uplicate..."
-#~ msgstr "У&двостручи..."
-
-# >> @item
-#, fuzzy
-#~| msgid "Artists"
-#~ msgid "<All Artists>"
-#~ msgstr "извођачи"
-
-#~ msgid "Remove Cover"
-#~ msgstr "Уклони омот"
-
-#~ msgid "Cover Manager"
-#~ msgstr "Менаџер омота"
-
-#~ msgid "Your album art failed to download."
-#~ msgstr "Омот албума се не може преузети."
-
-#~ msgid "Your album art has finished downloading."
-#~ msgstr "Довршено преузимање омота албума."
-
-#~ msgid "Are you sure you want to delete these covers?"
-#~ msgstr "Желите ли заиста да обришете ове омоте?"
-
-#~ msgid "&Delete Covers"
-#~ msgstr "&Обриши омоте"
-
-# >> @title:window
-#~ msgid "Select Cover Image File"
-#~ msgstr "Избор фајла слике омота"
-
-# >> @item
-#~ msgid "Images (*.png *.jpg)"
-#~ msgstr "слике (*.png *.jpg)"
-
-# >> @title:column
-#~ msgid "Cover"
-#~ msgstr "омот"
-
-#~ msgid "&View Cover"
-#~ msgstr "&Прикажи омот"
-
-#~ msgid "Get Cover From &File..."
-#~ msgstr "Добави омот из &фајла..."
-
-#~ msgid "Get Cover From &Internet..."
-#~ msgstr "Добави омот са &Интернета..."
-
-#~ msgid "&Delete Cover"
-#~ msgstr "&Обриши омот"
-
-#~ msgid "Show Cover &Manager"
-#~ msgstr "Прикажи &менаџер омота"
-
-#~ msgid "Searching for cover. Please Wait..."
-#~ msgstr "Тражим омот. Сачекајте..."
-
-#~ msgid "Downloading cover. Please Wait..."
-#~ msgstr "Преузимам омот. Сачекајте..."
-
-#~ msgid "Cover found"
-#~ msgstr "Омот нађен"
-
-#~ msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
-#~ msgstr "Омот добављен са <a href='https://last.fm/'>ЛастФМ‑а</a>."
