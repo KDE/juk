@@ -138,6 +138,10 @@
     <p xml:lang="sa">JuK इति एकः श्रव्यज्यूकबॉक्स-अनुप्रयोगः अस्ति, यः MP3, Ogg Vorbis, FLAC-श्रव्यसञ्चिकानां संग्रहाणां समर्थनं करोति । एतत् भवन्तं भवतः श्रव्यसञ्चिकानां "टैग्स्" सम्पादयितुं, भवतः संग्रहं प्लेलिस्ट् च प्रबन्धयितुं च शक्नोति । अस्य मुख्यं ध्यानं वस्तुतः सङ्गीतप्रबन्धने एव अस्ति ।</p>
     <p xml:lang="sk">JuK je aplikácia hudobného jukeboxu, podporujúca kolekcie MP3, Ogg Vorbis a FLAC audio súborov. Umožní vám upraviť tagy vašich audio súborov a spravovať vašu kolekciu a zoznamy skladieb. Jeho hlavné zameranie je správa hudby.</p>
     <p xml:lang="sl">JuK je predvajalnik glasbe, ki podpira zbirke zvočnih datotek MP3, Ogg Vorbis in FLAC. Omogoča urejanje "oznak" vaših zvočnih datotek ter upravljanje zbirk in seznamov predvajanj. Glavni poudarek programa je dejansko upravljanje glasbe.</p>
+    <p xml:lang="sr">Џук је програм за виртуелни џубокс. Подржава збирке МП3, ОГГ, ворбис и ФЛАЦ аудио фајлова. Даје вам да уређујете „ознаке“ аудио фајлова, и управљате збиркама и листама нумера. Тежиште му је, у ствари, на управљању музиком.</p>
+    <p xml:lang="sr-Latn">Juk je program za virtuelni džuboks. Podržava zbirke MP3, OGG, Vorbis i FLAC audio fajlova. Daje vam da uređujete „oznake“ audio fajlova, i upravljate zbirkama i listama numera. Težište mu je, u stvari, na upravljanju muzikom.</p>
+    <p xml:lang="sr-ijekavian">Џук је програм за виртуелни џубокс. Подржава збирке МП3, ОГГ, ворбис и ФЛАЦ аудио фајлова. Даје вам да уређујете „ознаке“ аудио фајлова, и управљате збиркама и листама нумера. Тежиште му је, у ствари, на управљању музиком.</p>
+    <p xml:lang="sr-ijekavianlatin">Juk je program za virtuelni džuboks. Podržava zbirke MP3, OGG, Vorbis i FLAC audio fajlova. Daje vam da uređujete „oznake“ audio fajlova, i upravljate zbirkama i listama numera. Težište mu je, u stvari, na upravljanju muzikom.</p>
     <p xml:lang="sv">Juk är ett Jukebox-program, som stöder samlingar av MP3, Ogg Vorbis och FLAC ljudfiler. Det låter dig redigera "taggarna" i ljudfilerna, och hantera samlingen och spellistor. Dess huvudfokus är just musikhantering.</p>
     <p xml:lang="tr">JuK; MP3, Ogg Vorbis ve FLAC ses dosyalarını destekleyen bir müzik kutusu uygulamasıdır. Ses dosyalarının “künyelerini” düzenlemenize ve koleksiyon ve çalma listelerini yönetmenize izin verir. Ana odak noktası müzik yönetimidir.</p>
     <p xml:lang="uk">JuK — програма для відтворення музики, у якій передбачено підтримку роботи зі звуковими файлами у форматах MP3, Ogg Vorbis та FLAC. Програма допоможе вам у редагуванні міток ваших звукових файлів, керуванні вашою збіркою та списками відтворення. Основним її призначенням, фактично, є керування музичними даними.</p>
@@ -326,8 +330,8 @@
       <li xml:lang="sl">Dinamični iskalni seznami predvajanja, ki se s spremembo polj v zbirki samodejno posodabljajo</li>
       <li xml:lang="sr">Динамичке листе нумера за претраге, које се аутоматски ажурирају како се поља у збирци мењају.</li>
       <li xml:lang="sr-Latn">Dinamičke liste numera za pretrage, koje se automatski ažuriraju kako se polja u zbirci menjaju.</li>
-      <li xml:lang="sr-ijekavian">Динамичке листе нумера за претраге, које се аутоматски ажурирају како се поља у збирци мењају.</li>
-      <li xml:lang="sr-ijekavianlatin">Dinamičke liste numera za pretrage, koje se automatski ažuriraju kako se polja u zbirci menjaju.</li>
+      <li xml:lang="sr-ijekavian">Динамичке листе нумера за претраге, које се аутоматски ажурирају како се поља у збирци мијењају.</li>
+      <li xml:lang="sr-ijekavianlatin">Dinamičke liste numera za pretrage, koje se automatski ažuriraju kako se polja u zbirci mijenjaju.</li>
       <li xml:lang="sv">Spellistor med dynamisk sökning som automatiskt uppdateras när fält i samlingen ändras</li>
       <li xml:lang="tr">Koleksiyondaki alanlar değiştiğinde kendiliğinden güncellenen Devingen Arama Çalma Listeleri</li>
       <li xml:lang="uk">Динамічні списки пошуку, які оновлюються автоматично зі зміною у полях даних збірки.</li>
@@ -372,8 +376,8 @@
       <li xml:lang="sl">Način drevesnega pogleda, v katerem so seznami predvajanja samodejno ustvarjeni za nabor albumov, izvajalcev in zvrsti</li>
       <li xml:lang="sr">Режим приказа стабла, где се листе нумера аутоматски генеришу по скуповима албума, извођача и жанрова.</li>
       <li xml:lang="sr-Latn">Režim prikaza stabla, gde se liste numera automatski generišu po skupovima albuma, izvođača i žanrova.</li>
-      <li xml:lang="sr-ijekavian">Режим приказа стабла, где се листе нумера аутоматски генеришу по скуповима албума, извођача и жанрова.</li>
-      <li xml:lang="sr-ijekavianlatin">Režim prikaza stabla, gde se liste numera automatski generišu po skupovima albuma, izvođača i žanrova.</li>
+      <li xml:lang="sr-ijekavian">Режим приказа стабла, гдје се листе нумера аутоматски генеришу по скуповима албума, извођача и жанрова.</li>
+      <li xml:lang="sr-ijekavianlatin">Režim prikaza stabla, gdje se liste numera automatski generišu po skupovima albuma, izvođača i žanrova.</li>
       <li xml:lang="sv">En trädvy där spellistor automatiskt skapas för uppsättningar av album, artister och genrer</li>
       <li xml:lang="tr">Çalma listeleri albüm, sanatçı ve türlerden kendiliğinden oluşturulan Ağaç Görünümü kipi</li>
       <li xml:lang="uk">Режим ієрархічного перегляду, у якому списки відтворення створюються автоматично за наборами альбомів, виконавців та жанрів.</li>
