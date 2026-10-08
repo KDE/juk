@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2026-10-05 12:49+0200\n"
+"PO-Revision-Date: 2026-10-07 11:45+0200\n"
 "Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
@@ -676,7 +676,7 @@ msgstr "&Lista u krug"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Resize Playlist Columns Manually"
-msgstr "&Ručno promeni veličinu kolona u listi numera"
+msgstr "Ručno promeni &veličinu kolona u listi numera"
 
 #: juk.cpp:303
 #, kde-format
@@ -1522,7 +1522,7 @@ msgstr "Unesite ime za ovu listu numera:"
 #, kde-format
 msgctxt "@action:inmenu, new playlist"
 msgid "&New"
-msgstr "&Nova"
+msgstr "No&va"
 
 #: playlistcollection.cpp:893
 #, kde-format
@@ -1584,7 +1584,7 @@ msgstr "Pusti sledeći album"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Manage &Folders…"
-msgstr "&Upravljaj fasciklama…"
+msgstr "Upravljaj &fasciklama…"
 
 # >> @title:window
 #: playlistcollection.cpp:941
