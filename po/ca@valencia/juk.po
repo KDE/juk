@@ -1721,32 +1721,32 @@ msgstr "Volum"
 #: slider.cpp:128
 #, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 #: slider.cpp:129
 #, kde-format
 msgid "80%"
-msgstr "80%"
+msgstr "80 %"
 
 #: slider.cpp:130
 #, kde-format
 msgid "60%"
-msgstr "60%"
+msgstr "60 %"
 
 #: slider.cpp:131
 #, kde-format
 msgid "40%"
-msgstr "40%"
+msgstr "40 %"
 
 #: slider.cpp:132
 #, kde-format
 msgid "20%"
-msgstr "20%"
+msgstr "20 %"
 
 #: slider.cpp:133
 #, kde-format
 msgid "0%"
-msgstr "0%"
+msgstr "0 %"
 
 #: slideraction.cpp:73
 #, kde-format
@@ -2148,7 +2148,7 @@ msgstr "Silencia o activa el so"
 #: volumepopupbutton.cpp:114
 #, kde-format
 msgid "%1%"
-msgstr "%1%"
+msgstr "%1 %"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, kde-format
