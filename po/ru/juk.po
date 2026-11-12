@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2026-09-22 11:11+0300\n"
-"Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
+"PO-Revision-Date: 2026-11-11 22:59+0200\n"
+"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -1728,32 +1728,32 @@ msgstr "Громкость"
 #: slider.cpp:128
 #, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 #: slider.cpp:129
 #, kde-format
 msgid "80%"
-msgstr "80%"
+msgstr "80 %"
 
 #: slider.cpp:130
 #, kde-format
 msgid "60%"
-msgstr "60%"
+msgstr "60 %"
 
 #: slider.cpp:131
 #, kde-format
 msgid "40%"
-msgstr "40%"
+msgstr "40 %"
 
 #: slider.cpp:132
 #, kde-format
 msgid "20%"
-msgstr "20%"
+msgstr "20 %"
 
 #: slider.cpp:133
 #, kde-format
 msgid "0%"
-msgstr "0%"
+msgstr "0 %"
 
 #: slideraction.cpp:73
 #, kde-format
@@ -2152,19 +2152,19 @@ msgstr "Включить/выключить звук"
 #: volumepopupbutton.cpp:114
 #, kde-format
 msgid "%1%"
-msgstr "%1%"
+msgstr "%1 %"
 
 #: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1% (muted)"
-msgstr "Громкость: %1% (звук выключен)"
+msgstr "Громкость: %1 % (звук выключен)"
 
 #: volumepopupbutton.cpp:123
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Volume: %1%"
-msgstr "Громкость: %1%"
+msgstr "Громкость: %1 %"
 
 #~ msgid "&File Renamer..."
 #~ msgstr "&Переименование файлов..."
